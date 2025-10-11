@@ -1,0 +1,194 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint:
+    name: Lint & Format
+    uses: ./.github/workflows/lint.yml
+    with:
+      node-version: '20'
+
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
+    with:
+      node-version: '20'
+      coverage: true
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all projects
+        run: npx nx build cli
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Security audit
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+
+  documentation-checks:
+    name: Documentation Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+
+      - name: Check for TypeDoc comments
+        run: |
+          echo "Checking for TypeDoc comments on functions..."
+          # Find all TypeScript files in changed files
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ $file == *.ts && $file != *.spec.ts ]]; then
+              # Check for functions without TypeDoc comments
+              if grep -P 'export (async )?function \w+' "$file"; then
+                if ! grep -B1 -P 'export (async )?function \w+' "$file" | grep -q '/\*\*'; then
+                  echo "❌ Missing TypeDoc comment in $file"
+                  exit 1
+                fi
+              fi
+            fi
+          done
+          echo "✅ All functions have TypeDoc comments"
+
+      - name: Check for inline comments
+        run: |
+          echo "Checking for inline comments..."
+          # Check for inline comments (//comment style)
+          if grep -r --include="*.ts" --exclude-dir=node_modules --exclude-dir=dist "^\s*//" .; then
+            echo "❌ Found inline comments. Please use TypeDoc comments above functions only."
+            exit 1
+          fi
+          echo "✅ No inline comments found"
+
+      - name: Check for README in new features
+        run: |
+          echo "Checking for READMEs in new feature directories..."
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            # Check if new prompt or agent directory in toolkit/
+            if [[ $file == toolkit/prompts/*/* || $file == toolkit/agents/*/* ]]; then
+              dir=$(dirname "$file")
+              if [ ! -f "$dir/README.md" ]; then
+                echo "❌ Missing README.md in $dir"
+                exit 1
+              fi
+              # Check README has usage examples
+              if ! grep -q "## Usage" "$dir/README.md"; then
+                echo "❌ README in $dir missing Usage section"
+                exit 1
+              fi
+              # Check README has clear instructions
+              if ! grep -q "## " "$dir/README.md"; then
+                echo "❌ README in $dir needs clear section headers"
+                exit 1
+              fi
+            fi
+          done
+          echo "✅ All new features have proper READMEs"
+
+  contribution-validation:
+    name: Validate Contributions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate prompt YAML files
+        run: |
+          echo "Validating prompt.yaml files..."
+          # Find all prompt.yaml files in toolkit/
+          find toolkit/prompts -name "prompt.yaml" 2>/dev/null | while read file; do
+            echo "Checking $file..."
+            # Check required fields exist
+            if ! grep -q "^id:" "$file"; then
+              echo "❌ Missing 'id' field in $file"
+              exit 1
+            fi
+            if ! grep -q "^version:" "$file"; then
+              echo "❌ Missing 'version' field in $file"
+              exit 1
+            fi
+            if ! grep -q "^author:" "$file"; then
+              echo "❌ Missing 'author' in metadata for $file"
+              exit 1
+            fi
+            if ! grep -q "^license:" "$file"; then
+              echo "❌ Missing 'license' in metadata for $file"
+              exit 1
+            fi
+            if ! grep -q "^examples:" "$file"; then
+              echo "❌ Missing 'examples' in $file"
+              exit 1
+            fi
+          done
+          echo "✅ All prompt files validated"
+
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD

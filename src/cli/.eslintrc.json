@@ -1,0 +1,52 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*", "**/__mocks__/**"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "excludedFiles": ["**/__tests__/**", "**/*.spec.ts", "**/*.test.ts"],
+      "parserOptions": {
+        "project": ["src/cli/tsconfig.*?.json"]
+      },
+      "rules": {}
+    },
+    {
+      "files": ["src/commands/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/require-await": "off"
+      }
+    },
+    {
+      "files": ["**/__tests__/**/*.ts", "**/*.spec.ts", "**/*.test.ts"],
+      "parserOptions": {
+        "project": ["src/cli/tsconfig.spec.json"]
+      },
+      "rules": {
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-return": "off"
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredFiles": ["{projectRoot}/esbuild.config.{js,ts,mjs,mts}"]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+id: code-review-ts
+name: TypeScript Code Review
+version: 1.2.0
+description: Comprehensive code review for TypeScript with best practices, type safety, and performance considerations
+category: code-review
+
+variables:
+  - name: code
+    description: The TypeScript code to review
+    required: true
+  - name: context
+    description: Additional context about the code (optional)
+    required: false
+
+template: |
+  Review the following TypeScript code:
+
+  {{code}}
+
+  {{#if context}}
+  Context: {{context}}
+  {{/if}}
+
+  Provide a comprehensive code review covering:
+
+  1. **Type Safety**
+     - Are types properly defined and used?
+     - Any use of `any` that should be avoided?
+     - Are generics used effectively?
+
+  2. **Code Quality**
+     - Readability and maintainability
+     - Naming conventions
+     - Code organization and structure
+
+  3. **Best Practices**
+     - Following TypeScript best practices
+     - Proper error handling
+     - Immutability where appropriate
+
+  4. **Performance**
+     - Potential performance issues
+     - Unnecessary re-renders or computations
+     - Memory leaks
+
+  5. **Security**
+     - Input validation
+     - Potential vulnerabilities
+
+  Provide specific, actionable feedback with code examples where helpful.
+
+examples:
+  - input:
+      code: |
+        function processData(data: any) {
+          return data.map((item) => item.value * 2);
+        }
+      context: "Processing user input data"
+    output: |
+      **Type Safety Issues:**
+      - Using `any` type loses type safety. Define proper interfaces:
+      ```typescript
+      interface DataItem {
+        value: number;
+      }
+
+      function processData(data: DataItem[]): number[] {
+        return data.map((item) => item.value * 2);
+      }
+      ```
+
+      **Additional Improvements:**
+      - Add input validation for data array
+      - Consider using readonly for immutability
+      - Add JSDoc comment explaining the function's purpose
+
+metadata:
+  author: codewizwit
+  license: MIT
+  tags:
+    - typescript
+    - code-review
+    - best-practices
+    - type-safety
+  lastUpdated: "2025-01-15"
