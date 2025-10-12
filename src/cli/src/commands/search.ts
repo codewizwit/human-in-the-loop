@@ -6,6 +6,7 @@ import {
   logNewLine,
 } from '../utils/logger';
 import chalk from 'chalk';
+import { searchTools } from '../utils/toolkit-scanner';
 
 /**
  * Searches for prompts and agents in the library based on a query
@@ -14,30 +15,47 @@ export async function searchCommand(query?: string): Promise<void> {
   logInfo('🔍 Searching for tools...');
   logNewLine();
 
-  if (!query) {
-    logWarning('Showing all available tools:');
-  } else {
-    logWarning(`Searching for: "${query}"`);
+  try {
+    const tools = await searchTools(query);
+
+    if (tools.length === 0) {
+      logWarning(
+        query
+          ? `No tools found matching "${query}"`
+          : 'No tools found in toolkit'
+      );
+      return;
+    }
+
+    if (!query) {
+      logWarning('Showing all available tools:');
+    } else {
+      logWarning(`Searching for: "${query}"`);
+    }
+
+    logNewLine();
+    logHeader(`Found ${tools.length} tool${tools.length === 1 ? '' : 's'}:`);
+    logNewLine();
+
+    tools.forEach((tool, index) => {
+      console.log(
+        chalk.green(`${index + 1}. `) + chalk.bold(`${tool.type}/${tool.id}`)
+      );
+      console.log(chalk.gray(`   ${tool.description}`));
+      console.log(chalk.gray(`   Version: ${tool.version}`));
+      if (tool.metadata?.tags && tool.metadata.tags.length > 0) {
+        console.log(
+          chalk.gray(`   Tags: ${tool.metadata.tags.join(', ')}`)
+        );
+      }
+      logNewLine();
+    });
+
+    logTip('Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool');
+  } catch (error) {
+    logWarning(
+      'Error scanning toolkit: ' +
+        (error instanceof Error ? error.message : 'Unknown error')
+    );
   }
-
-  logNewLine();
-  logHeader('Found 3 tools:');
-  logNewLine();
-
-  console.log(chalk.green('1. ') + chalk.bold('prompt/code-review-ts'));
-  console.log(chalk.gray('   TypeScript code review with best practices'));
-  console.log(chalk.gray('   Version: 1.2.0'));
-  logNewLine();
-
-  console.log(chalk.green('2. ') + chalk.bold('agent/test-generator'));
-  console.log(chalk.gray('   Generate comprehensive test suites'));
-  console.log(chalk.gray('   Version: 1.0.0'));
-  logNewLine();
-
-  console.log(chalk.green('3. ') + chalk.bold('prompt/api-docs-generator'));
-  console.log(chalk.gray('   Generate API documentation from code'));
-  console.log(chalk.gray('   Version: 2.1.0'));
-  logNewLine();
-
-  logTip('Use ' + chalk.bold('hitl install <tool>') + ' to install a tool');
 }

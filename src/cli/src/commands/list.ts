@@ -4,7 +4,10 @@ import {
   logListItem,
   logStep,
   logNewLine,
+  logWarning,
 } from '../utils/logger';
+import { getInstalledTools } from '../utils/registry';
+import chalk from 'chalk';
 
 /**
  * Lists all installed tools
@@ -13,17 +16,46 @@ export async function listCommand(): Promise<void> {
   logInfo('📋 Installed tools:');
   logNewLine();
 
-  logHeader('Prompts:');
-  logListItem('code-review-ts', 'v1.2.0');
-  logListItem('api-docs-generator', 'v2.1.0');
+  const installedTools = getInstalledTools();
 
-  logHeader('Agents:');
-  logListItem('test-generator', 'v1.0.0');
+  if (installedTools.length === 0) {
+    logWarning('No tools installed yet');
+    logNewLine();
+    logStep('Use ' + chalk.bold('hitl search') + ' to find tools');
+    logStep('Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool');
+    return;
+  }
 
-  logHeader('Context Packs:');
-  logListItem('angular', 'v3.0.0');
-  logListItem('nestjs', 'v2.5.0');
+  // Group tools by type
+  const toolsByType = installedTools.reduce(
+    (acc, tool) => {
+      if (!acc[tool.type]) {
+        acc[tool.type] = [];
+      }
+      acc[tool.type].push(tool);
+      return acc;
+    },
+    {} as Record<string, typeof installedTools>
+  );
 
-  logNewLine();
-  logStep('Total: 5 tools installed');
+  // Display tools grouped by type
+  const typeLabels: Record<string, string> = {
+    prompt: 'Prompts',
+    agent: 'Agents',
+    evaluator: 'Evaluators',
+    guardrail: 'Guardrails',
+    'context-pack': 'Context Packs',
+  };
+
+  for (const [type, tools] of Object.entries(toolsByType)) {
+    const label = typeLabels[type] || type;
+    logHeader(`${label}:`);
+    tools.forEach((tool) => {
+      logListItem(tool.id, `v${tool.version}`);
+      console.log(chalk.gray(`   Installed at: ${tool.installedPath}`));
+    });
+    logNewLine();
+  }
+
+  logStep(`Total: ${installedTools.length} tool${installedTools.length === 1 ? '' : 's'} installed`);
 }

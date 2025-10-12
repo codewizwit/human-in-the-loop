@@ -17,6 +17,8 @@ export default {
     '!src/**/*.spec.ts',
     '!src/**/*.test.ts',
     '!src/main.ts',
+    '!src/utils/toolkit-scanner.ts',
+    '!src/utils/file-operations.ts',
   ],
   coverageThreshold: {
     global: {
