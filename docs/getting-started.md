@@ -83,12 +83,26 @@ Install the prompt you want:
 hitl install prompt/code-review-ts
 ```
 
-The CLI will:
+The CLI will prompt you for an installation location (or use `--path` to specify):
 
-- Download the prompt and its dependencies
-- Install required context packs
-- Cache locally for offline use
-- Show usage examples
+```
+📦 Installing prompt/code-review-ts...
+
+  → Looking up tool...
+  → Copying tool files...
+  → Registering installation...
+
+✓ Successfully installed Code Review TypeScript (v1.2.0)
+  → Installed to: ~/.claude/tools/prompt/code-review-ts
+
+💡 Tip: Use hitl list to see all installed tools
+```
+
+**Non-interactive installation:**
+
+```bash
+hitl install prompt/code-review-ts --path ~/.claude/tools/prompt/code-review-ts
+```
 
 ### 3. Use the Prompt
 
@@ -121,22 +135,45 @@ hitl search "api documentation"
 
 ### `hitl install [tool]`
 
-Install a prompt or agent.
+Install a prompt or agent. Prompts you for installation location unless `--path` is provided.
 
 **Examples:**
 
 ```bash
+# Interactive install (prompts for path)
 hitl install prompt/code-review-ts
-hitl install agent/test-generator
-hitl install prompt/api-docs-generator
+
+# Non-interactive install with custom path
+hitl install prompt/code-review-ts --path ~/my-tools/prompts/code-review
+
+# Install to default location
+hitl install agent/test-generator --path ~/.claude/tools/agent/test-generator
 ```
+
+**Options:**
+
+- `--path, -p <path>` - Installation path (skips interactive prompt)
 
 ### `hitl list`
 
-Show all installed tools.
+Show all installed tools from your registry.
 
 ```bash
 hitl list
+```
+
+**Example output:**
+
+```
+📚 Installed Tools
+
+Prompts:
+  • code-review-ts v1.2.0
+   Installed at: ~/.claude/tools/prompt/code-review-ts
+
+Agents:
+  • test-generator v1.0.0
+   Installed at: ~/.claude/tools/agent/test-generator
 ```
 
 ### `hitl update [tool]`

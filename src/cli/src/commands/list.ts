@@ -22,21 +22,20 @@ export async function listCommand(): Promise<void> {
     logWarning('No tools installed yet');
     logNewLine();
     logStep('Use ' + chalk.bold('hitl search') + ' to find tools');
-    logStep('Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool');
+    logStep(
+      'Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool'
+    );
     return;
   }
 
   // Group tools by type
-  const toolsByType = installedTools.reduce(
-    (acc, tool) => {
-      if (!acc[tool.type]) {
-        acc[tool.type] = [];
-      }
-      acc[tool.type].push(tool);
-      return acc;
-    },
-    {} as Record<string, typeof installedTools>
-  );
+  const toolsByType = installedTools.reduce((acc, tool) => {
+    if (!acc[tool.type]) {
+      acc[tool.type] = [];
+    }
+    acc[tool.type].push(tool);
+    return acc;
+  }, {} as Record<string, typeof installedTools>);
 
   // Display tools grouped by type
   const typeLabels: Record<string, string> = {
@@ -57,5 +56,9 @@ export async function listCommand(): Promise<void> {
     logNewLine();
   }
 
-  logStep(`Total: ${installedTools.length} tool${installedTools.length === 1 ? '' : 's'} installed`);
+  logStep(
+    `Total: ${installedTools.length} tool${
+      installedTools.length === 1 ? '' : 's'
+    } installed`
+  );
 }

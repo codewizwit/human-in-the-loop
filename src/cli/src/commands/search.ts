@@ -44,14 +44,14 @@ export async function searchCommand(query?: string): Promise<void> {
       console.log(chalk.gray(`   ${tool.description}`));
       console.log(chalk.gray(`   Version: ${tool.version}`));
       if (tool.metadata?.tags && tool.metadata.tags.length > 0) {
-        console.log(
-          chalk.gray(`   Tags: ${tool.metadata.tags.join(', ')}`)
-        );
+        console.log(chalk.gray(`   Tags: ${tool.metadata.tags.join(', ')}`));
       }
       logNewLine();
     });
 
-    logTip('Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool');
+    logTip(
+      'Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool'
+    );
   } catch (error) {
     logWarning(
       'Error scanning toolkit: ' +

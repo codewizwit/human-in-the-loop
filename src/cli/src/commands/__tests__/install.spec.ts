@@ -12,9 +12,7 @@ jest.mock('../../utils/file-operations');
 jest.mock('../../utils/registry');
 jest.mock('inquirer');
 
-const mockToolkitScanner = toolkitScanner as jest.Mocked<
-  typeof toolkitScanner
->;
+const mockToolkitScanner = toolkitScanner as jest.Mocked<typeof toolkitScanner>;
 const mockFileOps = fileOps as jest.Mocked<typeof fileOps>;
 const mockRegistry = registry as jest.Mocked<typeof registry>;
 const mockInquirer = inquirer as jest.Mocked<typeof inquirer>;
@@ -40,7 +38,9 @@ describe('installCommand', () => {
     });
 
     mockRegistry.isToolInstalled.mockReturnValue(false);
-    mockFileOps.resolvePath.mockImplementation((p) => p.replace('~', '/home/user'));
+    mockFileOps.resolvePath.mockImplementation((p) =>
+      p.replace('~', '/home/user')
+    );
     mockFileOps.copyDirectory.mockResolvedValue(undefined);
     mockRegistry.registerInstallation.mockReturnValue(undefined);
 

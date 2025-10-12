@@ -40,16 +40,49 @@ Or use npx:
 npx hitl --version
 ```
 
-Search for prompts:
+Search for tools:
 
 ```bash
 hitl search "code review"
+```
+
+Output:
+
+```
+🔍 Searching for: "code review"
+
+Found 2 tools:
+
+1. prompt/code-review-ts
+   TypeScript code review with best practices
+   Version: 1.2.0
+   Tags: typescript, code-review
+
+2. prompt/code-review-security
+   Security-focused code review
+   Version: 2.0.0
+   Tags: security, code-review
+
+💡 Tip: Use hitl install <type>/<id> to install a tool
 ```
 
 Install a prompt:
 
 ```bash
 hitl install prompt/code-review-ts
+```
+
+The CLI prompts for installation location (or use `--path` for non-interactive):
+
+```
+📦 Installing prompt/code-review-ts...
+
+  → Looking up tool...
+  → Copying tool files...
+  → Registering installation...
+
+✓ Successfully installed Code Review TypeScript (v1.2.0)
+  → Installed to: ~/.claude/tools/prompt/code-review-ts
 ```
 
 ---
@@ -120,21 +153,26 @@ human-in-the-loop/
 ## CLI Commands
 
 ```bash
-# Search for prompts and agents
+# Search for tools (prompts, agents, etc.)
 hitl search [query]
 
-# Install a prompt or agent
-hitl install [tool]
+# Install a tool (interactive or with --path)
+hitl install <tool> [--path <path>]
+
+# List all installed tools
+hitl list
 
 # Validate local setup
 hitl doctor
 
 # Submit a new tool
-hitl contribute [type] [path]
+hitl contribute <type> <path>
 
 # View usage analytics
 hitl stats
 ```
+
+For complete CLI documentation, see [CLI Reference](./docs/cli-reference.md).
 
 ---
 

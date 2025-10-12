@@ -6,9 +6,7 @@ import * as toolkitScanner from '../../utils/toolkit-scanner';
 // Mock toolkit-scanner module
 jest.mock('../../utils/toolkit-scanner');
 
-const mockToolkitScanner = toolkitScanner as jest.Mocked<
-  typeof toolkitScanner
->;
+const mockToolkitScanner = toolkitScanner as jest.Mocked<typeof toolkitScanner>;
 
 describe('searchCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
@@ -153,9 +151,9 @@ describe('searchCommand', () => {
     it('should display no tools message with query', async () => {
       await searchCommand('nonexistent');
 
-      expect(consoleMock.contains('No tools found matching "nonexistent"')).toBe(
-        true
-      );
+      expect(
+        consoleMock.contains('No tools found matching "nonexistent"')
+      ).toBe(true);
     });
 
     it('should display no tools message without query', async () => {

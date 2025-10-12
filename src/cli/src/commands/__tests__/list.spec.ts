@@ -95,9 +95,9 @@ describe('listCommand', () => {
     it('should display installation paths', async () => {
       await listCommand();
 
-      expect(consoleMock.contains('~/.claude/tools/prompt/code-review-ts')).toBe(
-        true
-      );
+      expect(
+        consoleMock.contains('~/.claude/tools/prompt/code-review-ts')
+      ).toBe(true);
       expect(consoleMock.contains('~/.claude/tools/agent/test-generator')).toBe(
         true
       );
