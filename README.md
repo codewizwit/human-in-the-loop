@@ -106,14 +106,13 @@ human-in-the-loop/
 │       ├── angular/             # Angular-specific context
 │       ├── nestjs/              # NestJS-specific context
 │       └── ci-cd/               # CI/CD patterns and configs
-├── docs/
-│   ├── getting-started.md       # Installation and first steps
-│   ├── ai-best-practices.md     # Responsible AI usage guidelines
-│   ├── toolkit-usage.md         # Using prompts, agents, evaluators
-│   ├── contributing-guidelines.md # Detailed contribution workflow
-│   ├── governance-model.md      # Quality and review process
-│   └── architecture.md          # System design overview
-└── PLANNING.md                  # Full design proposal
+└── docs/
+    ├── getting-started.md       # Installation and first steps
+    ├── ai-best-practices.md     # Responsible AI usage guidelines
+    ├── toolkit-usage.md         # Using prompts, agents, evaluators
+    ├── contributing-guidelines.md # Detailed contribution workflow
+    ├── governance-model.md      # Quality and review process
+    └── architecture.md          # System design overview
 ```
 
 ---
@@ -160,8 +159,6 @@ All code must include TypeDoc comments above functions (no inline comments) and 
 - [Contributing Guidelines](./docs/contributing-guidelines.md) - Detailed contribution workflow
 - [Governance Model](./docs/governance-model.md) - Quality review and release process
 - [Architecture](./docs/architecture.md) - System design and technical overview
-
-For the full design proposal, see [PLANNING.md](./PLANNING.md).
 
 ---
 

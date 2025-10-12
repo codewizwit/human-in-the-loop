@@ -78,14 +78,13 @@ Technical details and governance:
 | [Architecture](./architecture.md)                       | System design, CLI architecture, governance layer            |
 | [ACCOUNTABILITY.md](../ACCOUNTABILITY.md)               | Developer-First AI Accountability Framework                  |
 | [CONTRIBUTING.md](../CONTRIBUTING.md)                   | Quick contribution overview                                  |
-| [PLANNING.md](../PLANNING.md)                           | Original design proposal                                     |
 
 ---
 
 ## 🤔 Need Help?
 
 - **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues)
-- **Discussions**: Ask questions in [GitHub Discussions](https://github.com/codewizwit/human-in-the-loop/discussions)
+- **Issues**: Ask questions in [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues)
 - **CLI Help**: Run `hitl --help` or `hitl [command] --help`
 
 ---

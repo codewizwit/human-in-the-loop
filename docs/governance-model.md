@@ -261,7 +261,7 @@ Organizations using the toolkit must:
 
 ### Security Incident Response
 
-1. **Report** via security@human-in-the-loop.dev
+1. **Report** via [GitHub Security Advisories](https://github.com/codewizwit/human-in-the-loop/security/advisories/new)
 2. **Triage** within 24 hours
 3. **Fix** critical issues within 48 hours
 4. **Disclose** after fix is deployed

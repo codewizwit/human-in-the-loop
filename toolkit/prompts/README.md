@@ -73,7 +73,7 @@ Comprehensive TypeScript code review covering type safety, best practices, perfo
 
 **Use when**: Reviewing TypeScript code for quality and best practices
 
-[See full documentation →](./code-review-ts/README.md)
+[See code-review-ts prompt](./code-review-ts/)
 
 ## Contributing a New Prompt
 

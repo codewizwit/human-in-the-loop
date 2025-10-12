@@ -23,8 +23,8 @@ We accept the following types of contributions:
 
 1. Check existing issues and PRs to avoid duplication
 2. For major changes, open an issue first to discuss your approach
-3. Read our [Best Practices](./docs/best-practices.md) guide
-4. Familiarize yourself with our [Governance](./docs/governance.md) model
+3. Read our [Best Practices](./docs/ai-best-practices.md) guide
+4. Familiarize yourself with our [Governance](./docs/governance-model.md) model
 
 ---
 
