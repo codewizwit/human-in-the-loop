@@ -5,6 +5,7 @@ Safety mechanisms that enforce responsible AI usage and prevent misuse.
 ## What are Guardrails?
 
 Guardrails provide:
+
 - Input validation and sanitization
 - Output filtering for sensitive data
 - Rate limiting and cost controls

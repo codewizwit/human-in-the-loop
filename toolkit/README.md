@@ -16,26 +16,31 @@ toolkit/
 ## What's Inside
 
 ### 📚 Prompts
+
 Production-ready Claude prompts organized by use case. Each prompt is versioned, documented, and includes usage examples.
 
 **Examples**: Code review prompts, documentation generators, test case creators
 
 ### 🤖 Agents
+
 AI agent configurations with defined capabilities, tools, and permissions. Agents use prompts and context packs to perform complex tasks.
 
 **Examples**: Test generation agents, refactoring assistants, code analyzers
 
 ### ✅ Evaluators
+
 Quality assurance tools that validate AI outputs against defined criteria like code quality, security, and documentation completeness.
 
 **Examples**: Code quality validators, security scanners, documentation checkers
 
 ### 🛡️ Guardrails
+
 Safety mechanisms that enforce responsible AI usage, including input validation, output filtering, and audit logging.
 
 **Examples**: Secret detection, rate limiting, permission enforcement
 
 ### 🎯 Context Packs
+
 Framework-specific knowledge bases that provide agents with deep technical context for better results.
 
 **Examples**: Angular patterns, NestJS best practices, CI/CD workflows

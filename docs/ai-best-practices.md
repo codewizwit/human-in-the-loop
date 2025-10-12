@@ -30,6 +30,7 @@ Always apply the [Developer-First AI Accountability Framework](../ACCOUNTABILITY
 ### Practical Guidelines
 
 **Do:**
+
 - Use AI to accelerate repetitive tasks
 - Review and understand all AI-generated code before accepting
 - Test AI outputs thoroughly
@@ -37,6 +38,7 @@ Always apply the [Developer-First AI Accountability Framework](../ACCOUNTABILITY
 - Preserve opportunities for learning and mentorship
 
 **Don't:**
+
 - Blindly accept AI suggestions without review
 - Use AI as a substitute for understanding code
 - Skip testing because "AI wrote it"
@@ -65,27 +67,33 @@ Always maintain human oversight:
 Effective prompts have these characteristics:
 
 **1. Clear Context**
+
 ```markdown
 You are reviewing TypeScript code for a React application that uses Redux for state management.
 ```
 
 **2. Specific Task**
+
 ```markdown
 Review the attached component for:
+
 - Performance issues
 - Accessibility violations
 - Redux best practices
 ```
 
 **3. Desired Output Format**
+
 ```markdown
 Provide feedback as:
+
 1. Critical issues (must fix)
 2. Suggested improvements
 3. Positive patterns to maintain
 ```
 
 **4. Constraints**
+
 ```markdown
 - Focus only on the component, not the entire app
 - Assume TypeScript strict mode
@@ -95,21 +103,27 @@ Provide feedback as:
 ### Prompt Templates
 
 **Code Review Prompt**
+
 ```markdown
 # Context
+
 [Describe the codebase, framework, patterns]
 
 # Code to Review
+
 [Paste code here]
 
 # Review Criteria
+
 - [ ] Security vulnerabilities
 - [ ] Performance issues
 - [ ] Code quality and maintainability
 - [ ] Best practices adherence
 
 # Output Format
+
 For each issue found:
+
 - Severity: Critical | High | Medium | Low
 - Location: [file:line]
 - Issue: [description]
@@ -117,24 +131,31 @@ For each issue found:
 ```
 
 **Test Generation Prompt**
+
 ```markdown
 # Context
+
 Function: [function name and purpose]
 Framework: [testing framework]
 Coverage goal: [unit/integration/e2e]
 
 # Requirements
+
 Generate tests that cover:
+
 1. Happy path
 2. Edge cases
 3. Error handling
 4. Boundary conditions
 
 # Code
+
 [Paste function here]
 
 # Output
+
 Provide complete, runnable test file with:
+
 - Descriptive test names
 - Arrange-Act-Assert structure
 - Meaningful assertions
@@ -148,17 +169,17 @@ Use variables for reusable prompts:
 # prompt.yaml
 variables:
   - name: framework
-    description: "Frontend framework (React, Angular, Vue)"
+    description: 'Frontend framework (React, Angular, Vue)'
     required: true
 
   - name: code
-    description: "Code to review"
+    description: 'Code to review'
     required: true
 
   - name: focus_areas
-    description: "Specific areas to focus on"
+    description: 'Specific areas to focus on'
     required: false
-    defaultValue: "general best practices"
+    defaultValue: 'general best practices'
 
 template: |
   Review this {{framework}} code with focus on {{focus_areas}}:
@@ -174,22 +195,24 @@ template: |
 
 Different tasks require different models:
 
-| Task | Recommended Model | Why |
-|------|------------------|-----|
-| Code review | Claude 3.5 Sonnet | Deep reasoning, understanding of context |
-| Simple completions | Claude 3 Haiku | Fast, cost-effective |
-| Complex refactoring | Claude 3 Opus | Maximum capability for hard problems |
-| Documentation | Claude 3.5 Sonnet | Clear explanations, good writing |
-| Test generation | Claude 3 Haiku/Sonnet | Consistent output, good at patterns |
+| Task                | Recommended Model     | Why                                      |
+| ------------------- | --------------------- | ---------------------------------------- |
+| Code review         | Claude 3.5 Sonnet     | Deep reasoning, understanding of context |
+| Simple completions  | Claude 3 Haiku        | Fast, cost-effective                     |
+| Complex refactoring | Claude 3 Opus         | Maximum capability for hard problems     |
+| Documentation       | Claude 3.5 Sonnet     | Clear explanations, good writing         |
+| Test generation     | Claude 3 Haiku/Sonnet | Consistent output, good at patterns      |
 
 ### Model Configuration
 
 **Temperature Settings:**
+
 - `0.0-0.3`: Deterministic tasks (code generation, refactoring)
 - `0.4-0.7`: Creative tasks (naming, documentation)
 - `0.8-1.0`: Brainstorming (avoid for production code)
 
 **Max Tokens:**
+
 - Set based on expected output length
 - Add buffer for explanations (20-30% extra)
 - Monitor truncation in responses
@@ -203,6 +226,7 @@ Different tasks require different models:
 Optimize context usage to stay within model limits:
 
 **1. Prioritize Relevant Context**
+
 ```
 Essential (always include):
 - Task description
@@ -240,16 +264,19 @@ Structure context from general to specific:
 
 ```markdown
 # Project Context (broad)
+
 - Tech stack
 - Architecture patterns
 - Coding standards
 
 # Module Context (medium)
+
 - Module purpose
 - Key files
 - Dependencies
 
 # Task Context (specific)
+
 - Exact problem
 - Relevant code
 - Expected outcome
@@ -271,12 +298,14 @@ Structure context from general to specific:
 ### Token Efficiency
 
 **Reduce Input Tokens:**
+
 - Remove unnecessary whitespace
 - Strip comments when not needed
 - Use abbreviated context for simple tasks
 - Cache frequently used context (if supported)
 
 **Reduce Output Tokens:**
+
 - Request concise responses
 - Limit explanation depth for routine tasks
 - Use structured output formats (JSON, lists)
@@ -284,6 +313,7 @@ Structure context from general to specific:
 ### Cost-Effective Workflows
 
 **1. Progressive Enhancement**
+
 ```
 Start simple → Add complexity only if needed
 
@@ -294,6 +324,7 @@ Example:
 ```
 
 **2. Batch Processing**
+
 ```
 Process multiple items in one request:
 - Review multiple files together
@@ -302,6 +333,7 @@ Process multiple items in one request:
 ```
 
 **3. Caching Strategy**
+
 ```
 Cache:
 - Project documentation
@@ -351,6 +383,7 @@ hitl evaluate --evaluator code-quality ./generated-code.ts
 **2. Testing Requirements**
 
 AI-generated code must:
+
 - Pass all existing tests
 - Include new tests for new functionality
 - Meet code coverage requirements
@@ -390,6 +423,7 @@ hitl install guardrail/security-check
 Developers stop thinking critically and accept AI suggestions blindly.
 
 **Solution:**
+
 - Always understand the code before accepting
 - Require explanation for complex changes
 - Maintain "AI-free zones" for critical systems
@@ -401,6 +435,7 @@ Developers stop thinking critically and accept AI suggestions blindly.
 AI provides incorrect solutions because it lacks necessary context.
 
 **Solution:**
+
 - Use context packs for framework-specific knowledge
 - Include relevant code and dependencies
 - Specify constraints and requirements explicitly
@@ -412,6 +447,7 @@ AI provides incorrect solutions because it lacks necessary context.
 AI generates code that doesn't match project conventions.
 
 **Solution:**
+
 - Include coding standards in prompts
 - Use project-specific prompt templates
 - Configure evaluators to enforce conventions
@@ -423,6 +459,7 @@ AI generates code that doesn't match project conventions.
 AI introduces security issues (SQL injection, XSS, etc.).
 
 **Solution:**
+
 - Always run security evaluators
 - Human review all authentication/authorization code
 - Never blindly accept AI suggestions for security-critical code
@@ -434,6 +471,7 @@ AI introduces security issues (SQL injection, XSS, etc.).
 AI generates code that "works" but is hard to maintain.
 
 **Solution:**
+
 - Evaluate for maintainability, not just correctness
 - Reject overly complex solutions
 - Require documentation for non-obvious logic

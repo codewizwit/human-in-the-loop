@@ -1,4 +1,10 @@
-import { logInfo, logWarning, logHeader, logTip, logNewLine } from '../utils/logger';
+import {
+  logInfo,
+  logWarning,
+  logHeader,
+  logTip,
+  logNewLine,
+} from '../utils/logger';
 import chalk from 'chalk';
 
 /**

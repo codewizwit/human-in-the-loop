@@ -5,6 +5,7 @@ Quality assurance tools that validate AI-generated outputs against defined crite
 ## What's an Evaluator?
 
 Evaluators check AI outputs for:
+
 - Code quality and standards
 - Security vulnerabilities
 - Documentation completeness

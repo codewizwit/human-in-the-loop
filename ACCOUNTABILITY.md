@@ -7,6 +7,7 @@ This framework guides how we build, evaluate, and deploy AI productivity tools i
 ## Core Principles
 
 AI tools should:
+
 - **Enhance** developer happiness and creativity, not replace judgment
 - **Support** learning and growth, not create dependency
 - **Strengthen** collaboration and trust, not erode human connection
@@ -21,6 +22,7 @@ Apply these four accountability lenses to every AI tool:
 ### 1. Developer Experience & Growth
 
 **Questions to ask:**
+
 - Does this tool enhance developer happiness and creativity?
 - Does it support learning by providing explainable suggestions, or just auto-fix without context?
 - Are we maintaining opportunities for craftsmanship and skill development?
@@ -28,6 +30,7 @@ Apply these four accountability lenses to every AI tool:
 - Can developers opt-out or adjust the level of AI assistance?
 
 **Red flags:**
+
 - Developers feel pressured to accept AI suggestions without understanding them
 - Tools make decisions that bypass learning opportunities
 - Increasing dependency on AI for basic tasks
@@ -36,6 +39,7 @@ Apply these four accountability lenses to every AI tool:
 ### 2. Responsibility & Equity
 
 **Questions to ask:**
+
 - Are the AI's suggestions biased toward certain styles, patterns, or contributors?
 - Do all team members benefit equally, regardless of experience level or role?
 - Have we built in ways to monitor for unintended impacts on quality or fairness?
@@ -43,6 +47,7 @@ Apply these four accountability lenses to every AI tool:
 - Who is accountable when AI suggestions introduce bugs or security issues?
 
 **Red flags:**
+
 - Junior developers are disadvantaged by tools optimized for senior workflows
 - Certain coding styles or frameworks receive better AI support than others
 - No clear ownership when AI-generated code causes problems
@@ -51,6 +56,7 @@ Apply these four accountability lenses to every AI tool:
 ### 3. Culture & Collaboration
 
 **Questions to ask:**
+
 - How does this tool change how team members interact?
 - Are we using AI to enhance collaboration and shared understanding, or replacing valuable discussion?
 - Are we balancing speed with depth in our work?
@@ -58,6 +64,7 @@ Apply these four accountability lenses to every AI tool:
 - Are we preserving space for mentorship, pair programming, and knowledge sharing?
 
 **Red flags:**
+
 - Code reviews become automated checklist exercises instead of conversations
 - Decreased pair programming or collaborative problem-solving
 - Team members stop asking questions because "AI already answered"
@@ -66,6 +73,7 @@ Apply these four accountability lenses to every AI tool:
 ### 4. Transparency & Trust
 
 **Questions to ask:**
+
 - Are AI-generated suggestions clearly labeled and explainable?
 - Can developers challenge, override, or contextualize AI feedback easily?
 - Are we transparent about when and how AI is used in workflows?
@@ -73,6 +81,7 @@ Apply these four accountability lenses to every AI tool:
 - Are limitations and failure modes clearly communicated?
 
 **Red flags:**
+
 - Developers can't tell what was AI-generated vs human-written
 - No way to understand why AI made a specific suggestion
 - Hidden AI assistance that affects performance evaluations
@@ -93,26 +102,31 @@ Augmented review can reduce review time, improve code quality, and help develope
 #### ✅ Developer-First Accountability Checklist
 
 **Developer Experience & Growth**
+
 - Does augmented review enhance developer happiness and creativity, or does it risk making reviews feel less meaningful?
 - Does it support learning by providing explainable suggestions, or just auto-fix code without context?
 - Are we maintaining opportunities for craftsmanship and mentorship within reviews?
 
 **Responsibility & Equity**
+
 - Are the AI's review suggestions biased toward certain styles, patterns, or contributors?
 - Do all team members benefit equally from its feedback, or are some roles or skill levels left behind?
 - Have we built in ways to monitor for unintended impacts on review quality or collaboration?
 
 **Culture & Collaboration**
+
 - How does augmented review change how reviewers and authors interact?
 - Are we using it to enhance collaboration and shared understanding, or replacing valuable discussion with automated feedback?
 - Are we balancing speed with depth in code quality conversations?
 
 **Transparency & Trust**
+
 - Are AI-generated suggestions clearly labeled and explainable?
 - Can developers challenge, override, or contextualize AI feedback easily?
 - Are we being transparent about when and how AI is used in the review process?
 
 #### 📈 Best Practices
+
 - Pair AI suggestions with human review for critical changes
 - Encourage teams to discuss AI feedback openly in PR conversations
 - Continuously collect developer feedback on how augmented review impacts their workflow and satisfaction
@@ -120,6 +134,7 @@ Augmented review can reduce review time, improve code quality, and help develope
 - Preserve human-to-human code review as primary mechanism
 
 #### 💡 Result
+
 Augmented review doesn't just make reviews faster — it becomes a tool that strengthens trust, improves collaboration, and enhances the developer experience while keeping responsibility and equity at the core.
 
 ---
@@ -135,26 +150,31 @@ AI can accelerate test writing and identify edge cases humans might miss. But po
 #### ✅ Developer-First Accountability Checklist
 
 **Developer Experience & Growth**
+
 - Does test generation help developers learn testing patterns, or bypass understanding?
 - Can developers easily understand and modify generated tests?
 - Are we maintaining the value of TDD and test-first thinking?
 
 **Responsibility & Equity**
+
 - Do generated tests work equally well across different frameworks and testing styles?
 - Are developers held accountable for tests they didn't write?
 - Do all team members have equal ability to review and improve AI-generated tests?
 
 **Culture & Collaboration**
+
 - Are we preserving conversations about test strategy and coverage?
 - Does this support or replace peer learning about testing best practices?
 - Are we maintaining shared ownership of test quality?
 
 **Transparency & Trust**
+
 - Are generated tests clearly marked and explainable?
 - Can developers see why certain test cases were generated?
 - Are limitations (what AI can't test well) clearly communicated?
 
 #### 📈 Best Practices
+
 - Treat AI-generated tests as starting points, not finished products
 - Require human review and approval for all generated tests
 - Use generated tests as learning tools to improve testing skills
@@ -162,6 +182,7 @@ AI can accelerate test writing and identify edge cases humans might miss. But po
 - Document when and why AI test generation is appropriate
 
 #### 💡 Result
+
 Test generation becomes a productivity multiplier that improves coverage and quality while preserving developer understanding, ownership, and testing craftsmanship.
 
 ---
@@ -177,26 +198,31 @@ Smart completion can dramatically speed up coding. But it can also create depend
 #### ✅ Developer-First Accountability Checklist
 
 **Developer Experience & Growth**
+
 - Does completion support flow state, or interrupt creative thinking?
 - Are developers learning from completions, or just accepting them blindly?
 - Can developers easily control completion aggressiveness?
 
 **Responsibility & Equity**
+
 - Are completions biased toward certain languages, frameworks, or patterns?
 - Do suggestions introduce security antipatterns or vulnerable code?
 - Are all developers getting equal quality suggestions?
 
 **Culture & Collaboration**
+
 - Are we maintaining code style consistency the team values?
 - Does this preserve opportunities for mentorship on coding patterns?
 - Are we losing valuable "why" discussions about implementation choices?
 
 **Transparency & Trust**
+
 - Can developers see what context the AI used for suggestions?
 - Are sources of completion patterns disclosed (to avoid licensing issues)?
 - Can teams audit and control what patterns AI learns from their codebase?
 
 #### 📈 Best Practices
+
 - Make completion suggestions opt-in and configurable
 - Require security review for auto-completed auth, crypto, or data handling code
 - Regularly review completion quality and bias with the team
@@ -204,6 +230,7 @@ Smart completion can dramatically speed up coding. But it can also create depend
 - Document when completion should be disabled (learning, critical systems)
 
 #### 💡 Result
+
 Code completion becomes an intelligent assistant that respects developer agency, maintains code quality, and enhances productivity without creating dependency or security risks.
 
 ---
@@ -271,6 +298,7 @@ Consider pausing or removing an AI tool if:
 ## Contributing to This Framework
 
 This framework should evolve based on real experience. If you encounter:
+
 - New accountability questions we haven't addressed
 - Better ways to measure impact
 - Improved practices for specific tools

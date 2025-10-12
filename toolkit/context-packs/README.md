@@ -16,6 +16,7 @@ context-packs/
 ## What's a Context Pack?
 
 A context pack contains:
+
 - Framework-specific best practices
 - Common patterns and anti-patterns
 - Code examples with TypeDoc comments
@@ -36,25 +37,31 @@ echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitlrc.json
 ## Available Packs
 
 ### Angular
+
 Component patterns, routing, state management, RxJS, testing with Jasmine/Jest
 
 [See documentation →](./angular/README.md)
 
 ### NestJS
+
 Module structure, dependency injection, middleware, guards, interceptors
 
 ### CI/CD
+
 Pipeline patterns, deployment strategies, environment configurations
 
 ### Prompts
+
 Prompt engineering techniques, templates, optimization strategies
 
 ### Agents
+
 Agent development, tool integration, evaluation methods
 
 ## Contributing
 
 To add a new context pack:
+
 1. Create directory under `context-packs/`
 2. Add comprehensive README.md
 3. Include code examples (TypeDoc comments only)

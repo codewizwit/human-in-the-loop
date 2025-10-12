@@ -20,8 +20,20 @@ export async function statsCommand(options: { tool?: string }): Promise<void> {
     console.log(chalk.white('Time Saved: ') + chalk.green('~15 hours'));
 
     logHeader('Most Used Tools:');
-    console.log(chalk.green('  1. ') + chalk.bold('code-review-ts') + chalk.gray(' (45 uses)'));
-    console.log(chalk.green('  2. ') + chalk.bold('test-generator') + chalk.gray(' (38 uses)'));
-    console.log(chalk.green('  3. ') + chalk.bold('api-docs-generator') + chalk.gray(' (25 uses)'));
+    console.log(
+      chalk.green('  1. ') +
+        chalk.bold('code-review-ts') +
+        chalk.gray(' (45 uses)')
+    );
+    console.log(
+      chalk.green('  2. ') +
+        chalk.bold('test-generator') +
+        chalk.gray(' (38 uses)')
+    );
+    console.log(
+      chalk.green('  3. ') +
+        chalk.bold('api-docs-generator') +
+        chalk.gray(' (25 uses)')
+    );
   }
 }

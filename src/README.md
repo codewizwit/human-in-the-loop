@@ -13,9 +13,11 @@ src/
 ## What's Inside
 
 ### ⚡ CLI (`/src/cli`)
+
 Developer-friendly command-line tool for discovering, installing, and managing AI productivity tools from the toolkit.
 
 **Commands:**
+
 - `hitl search` - Search for prompts and agents
 - `hitl install` - Install a tool to your project
 - `hitl list` - List all installed tools
@@ -24,9 +26,11 @@ Developer-friendly command-line tool for discovering, installing, and managing A
 - `hitl stats` - View usage analytics
 
 ### 🛡️ Governance (`/src/governance`)
+
 Validation and quality assurance tooling that ensures all contributions meet project standards for quality, documentation, and security.
 
 **Responsibilities:**
+
 - YAML and TypeScript validation
 - Documentation completeness checks
 - Secret detection and security scanning

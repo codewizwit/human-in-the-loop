@@ -39,6 +39,7 @@ hitl doctor
 ```
 
 This command checks for:
+
 - Node.js version (20+)
 - TypeScript installation
 - Required CLI dependencies
@@ -83,6 +84,7 @@ hitl install prompt/code-review-ts
 ```
 
 The CLI will:
+
 - Download the prompt and its dependencies
 - Install required context packs
 - Cache locally for offline use
@@ -110,6 +112,7 @@ The prompt is now available in your `.claude/` directory:
 Search for prompts and agents by keyword.
 
 **Examples:**
+
 ```bash
 hitl search "testing"
 hitl search "angular component"
@@ -121,6 +124,7 @@ hitl search "api documentation"
 Install a prompt or agent.
 
 **Examples:**
+
 ```bash
 hitl install prompt/code-review-ts
 hitl install agent/test-generator
@@ -185,6 +189,7 @@ Create a `.hitlrc.json` file in your project root:
 ```
 
 **Options:**
+
 - `defaultContextPacks`: Array of context packs to load by default
 - `autoUpdate`: Automatically update tools to latest versions
 - `telemetry`: Send anonymous usage data (helps improve the toolkit)
@@ -196,6 +201,7 @@ Create a `.hitlrc.json` file in your project root:
 Context packs provide framework-specific knowledge to AI agents.
 
 **Available Packs:**
+
 - `angular` - Angular framework patterns
 - `nestjs` - NestJS backend patterns
 - `ci-cd` - CI/CD and DevOps

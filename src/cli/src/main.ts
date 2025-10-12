@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { searchCommand } from './commands/search';
 import { installCommand } from './commands/install';
 import { doctorCommand } from './commands/doctor';
-import { contributeCommand} from './commands/contribute';
+import { contributeCommand } from './commands/contribute';
 import { statsCommand } from './commands/stats';
 import { listCommand } from './commands/list';
 

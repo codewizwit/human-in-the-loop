@@ -11,12 +11,14 @@ A developer-first toolkit for managing Claude prompts, agents, context packs, an
 AI productivity tools are transforming how we build software, but without centralized governance, we risk inconsistency, duplication, and quality drift. Human in the Loop solves this by creating a single source of truth for all AI tooling.
 
 **The problem:**
+
 - Prompts and agents scattered across repos, Slack threads, and local files
 - No standardization means teams reinvent the wheel with different patterns
 - Zero visibility into what works, what's adopted, or what needs improvement
 - Quality concerns with no review process for AI tools
 
 **The solution:**
+
 - Single repository where all AI productivity tools are discoverable, versioned, and governed
 - Standardized contribution workflow that ensures quality and consistency
 - Clear metrics on tool adoption and effectiveness
@@ -55,27 +57,35 @@ hitl install prompt/code-review-ts
 ## What's Inside
 
 ### 📚 Prompt Library (`/toolkit/prompts`)
+
 Production-ready prompts organized by use case, versioned and quality-assured. Each prompt includes metadata, usage examples, and expected outputs.
 
 ### 🤖 Agent Registry (`/toolkit/agents`)
+
 Catalog of AI agents with their configurations, capabilities, and integration guides. Includes performance benchmarks and cost estimates.
 
 ### 🎯 Context Packs (`/toolkit/context-packs`)
+
 Framework-specific knowledge bases that provide agents with deep technical context:
+
 - **Angular**: Component patterns, routing, state management, testing
 - **NestJS**: Module structure, dependency injection, middleware, guards
 - **CI/CD**: Pipeline patterns, deployment strategies, environment configs
 
 ### ✅ Evaluators (`/toolkit/evaluators`)
+
 Quality assurance tools that validate AI outputs against defined criteria like code quality, documentation completeness, security, and performance.
 
 ### 🛡️ Guardrails (`/toolkit/guardrails`)
+
 Safety mechanisms that enforce responsible AI usage, including input validation, output filtering, rate limiting, and audit logging.
 
 ### ⚡ CLI Tool (`/src/cli`)
+
 Developer-friendly command-line interface for discovering, installing, and managing AI tools.
 
 ### 🛡️ Governance (`/src/governance`)
+
 Contribution validation and quality assurance tooling that ensures all contributions meet project standards.
 
 ---
@@ -132,6 +142,7 @@ hitl stats
 ## Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
+
 - Submitting new prompts and agents
 - Quality standards and review process
 - Testing requirements

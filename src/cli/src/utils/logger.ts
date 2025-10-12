@@ -53,13 +53,21 @@ export function logHeader(message: string): void {
  * Logs a list item with green bullet
  */
 export function logListItem(message: string, details?: string): void {
-  console.log(chalk.green('  • ') + chalk.bold(message) + (details ? chalk.gray(` ${details}`) : ''));
+  console.log(
+    chalk.green('  • ') +
+      chalk.bold(message) +
+      (details ? chalk.gray(` ${details}`) : '')
+  );
 }
 
 /**
  * Logs a numbered item
  */
-export function logNumberedItem(number: number, title: string, description: string): void {
+export function logNumberedItem(
+  number: number,
+  title: string,
+  description: string
+): void {
   console.log(chalk.green(`${number}. `) + chalk.bold(title));
   console.log(chalk.gray(`   ${description}`));
   console.log(chalk.gray(`   Version: ${description}\n`));

@@ -51,6 +51,7 @@ git checkout -b fix/prompt-bug
 ```
 
 **Branch naming conventions:**
+
 - `feat/` - New features or tools
 - `fix/` - Bug fixes
 - `docs/` - Documentation updates
@@ -101,8 +102,8 @@ template: |
 examples:
   - input:
       code: "function test() { console.log('hello') }"
-      language: "TypeScript"
-    output: "The function works but could be improved..."
+      language: 'TypeScript'
+    output: 'The function works but could be improved...'
 ```
 
 3. Add TypeScript types in `libs/prompts/src/my-prompt/types.ts`:
@@ -203,6 +204,7 @@ git commit -m "feat(prompts): add my-awesome-prompt for code review"
 ```
 
 **Commit message format:**
+
 ```
 <type>(<scope>): <subject>
 
@@ -212,6 +214,7 @@ git commit -m "feat(prompts): add my-awesome-prompt for code review"
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation only
@@ -220,6 +223,7 @@ git commit -m "feat(prompts): add my-awesome-prompt for code review"
 - `chore`: Maintenance
 
 **Examples:**
+
 ```
 feat(prompts): add TypeScript code review prompt
 fix(cli): resolve installation path issue
@@ -233,6 +237,7 @@ git push origin feat/my-new-prompt
 ```
 
 Then create a Pull Request on GitHub with:
+
 - Clear title describing the change
 - Description of what was added/fixed
 - Link to related issues
@@ -245,22 +250,26 @@ Then create a Pull Request on GitHub with:
 All contributions must meet these standards:
 
 ### Code Quality
+
 - TypeScript strict mode enabled
 - All functions documented with TypeDoc comments (no inline comments)
 - No `any` types without justification
 - Proper error handling
 
 ### Documentation
+
 - Clear README for each tool
 - Usage examples with expected outputs
 - All configuration options documented
 
 ### Testing
+
 - Unit tests for logic
 - Integration tests for CLI commands
 - Test coverage > 80%
 
 ### Security
+
 - No hardcoded secrets or credentials
 - Input validation for all user data
 - Safe file system operations
@@ -275,6 +284,7 @@ All contributions must meet these standards:
 4. **Approval**: Governance team approves for merge
 
 **Review timeline:**
+
 - Simple fixes: 1-2 days
 - New prompts/agents: 3-5 days
 - Major features: 1-2 weeks

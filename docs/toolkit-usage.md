@@ -102,12 +102,12 @@ Agents are autonomous AI assistants configured with specific tools, capabilities
 
 ### Agent vs. Prompt
 
-| Aspect | Prompt | Agent |
-|--------|--------|-------|
-| Interaction | Single request/response | Multi-step conversation |
-| Tools | None | Can use tools (search, execute, etc.) |
-| Autonomy | Guided by user | Self-directed within scope |
-| Complexity | Simple tasks | Complex workflows |
+| Aspect      | Prompt                  | Agent                                 |
+| ----------- | ----------------------- | ------------------------------------- |
+| Interaction | Single request/response | Multi-step conversation               |
+| Tools       | None                    | Can use tools (search, execute, etc.) |
+| Autonomy    | Guided by user          | Self-directed within scope            |
+| Complexity  | Simple tasks            | Complex workflows                     |
 
 ### Finding Agents
 
@@ -155,9 +155,9 @@ contextPacks:
 
 # Permissions and constraints
 permissions:
-  - read: "**/*.ts"
-  - write: "**/*.spec.ts"
-  - deny: "**/node_modules/**"
+  - read: '**/*.ts'
+  - write: '**/*.spec.ts'
+  - deny: '**/node_modules/**'
 
 # Evaluation criteria for outputs
 evaluationCriteria:
@@ -214,21 +214,25 @@ Evaluators are automated quality checks that validate AI outputs against defined
 ### Types of Evaluators
 
 **Code Quality**
+
 - Checks code style, complexity, maintainability
 - Validates against project conventions
 - Identifies code smells
 
 **Security**
+
 - Scans for vulnerabilities
 - Checks for exposed secrets
 - Validates input sanitization
 
 **Documentation**
+
 - Ensures adequate comments
 - Checks documentation completeness
 - Validates examples
 
 **Performance**
+
 - Identifies performance bottlenecks
 - Checks for inefficient algorithms
 - Validates resource usage
@@ -324,16 +328,19 @@ Guardrails are safety mechanisms that prevent inappropriate AI usage, enforce po
 ### Types of Guardrails
 
 **Input Guardrails**
+
 - Block prompts containing secrets
 - Prevent prohibited content
 - Validate prompt structure
 
 **Output Guardrails**
+
 - Filter sensitive data from responses
 - Block unsafe code patterns
 - Enforce output format
 
 **Operational Guardrails**
+
 - Rate limiting
 - Cost controls
 - Audit logging
@@ -358,12 +365,7 @@ Create `.guardrailsrc.json`:
     "security-check": {
       "enabled": true,
       "blockSecrets": true,
-      "secretPatterns": [
-        "password",
-        "api[_-]?key",
-        "secret",
-        "token"
-      ]
+      "secretPatterns": ["password", "api[_-]?key", "secret", "token"]
     },
     "pii-protection": {
       "enabled": true,
@@ -507,6 +509,7 @@ hitl install context/testing
 **2. Configure**
 
 `.hitlrc.json`:
+
 ```json
 {
   "defaultContextPacks": ["angular", "testing"],
@@ -528,6 +531,7 @@ hitl agent test-generator --target src/app/button/button.component.ts
 **4. Automatic Validation**
 
 The workflow automatically:
+
 - ✅ Applies Angular and testing context
 - ✅ Runs security guardrail on generated code
 - ✅ Evaluates code quality

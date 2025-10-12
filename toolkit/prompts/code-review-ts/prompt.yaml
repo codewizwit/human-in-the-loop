@@ -55,7 +55,7 @@ examples:
         function processData(data: any) {
           return data.map((item) => item.value * 2);
         }
-      context: "Processing user input data"
+      context: 'Processing user input data'
     output: |
       **Type Safety Issues:**
       - Using `any` type loses type safety. Define proper interfaces:
@@ -82,4 +82,4 @@ metadata:
     - code-review
     - best-practices
     - type-safety
-  lastUpdated: "2025-01-15"
+  lastUpdated: '2025-01-15'

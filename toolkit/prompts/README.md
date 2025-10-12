@@ -16,6 +16,7 @@ prompts/
 ## What's a Prompt?
 
 A prompt is a reusable template for interacting with Claude. Each prompt defines:
+
 - **Variables**: Input parameters the prompt accepts
 - **Template**: The structured prompt text
 - **Examples**: Sample inputs and expected outputs
@@ -67,6 +68,7 @@ metadata:
 ## Available Prompts
 
 ### code-review-ts
+
 Comprehensive TypeScript code review covering type safety, best practices, performance, and security.
 
 **Use when**: Reviewing TypeScript code for quality and best practices
@@ -87,6 +89,7 @@ Comprehensive TypeScript code review covering type safety, best practices, perfo
 ### Prompt Requirements
 
 All prompts must have:
+
 - ✅ Unique ID and semantic version
 - ✅ Clear description and category
 - ✅ Documented variables with types

@@ -1,4 +1,10 @@
-import { logInfo, logHeader, logListItem, logStep, logNewLine } from '../utils/logger';
+import {
+  logInfo,
+  logHeader,
+  logListItem,
+  logStep,
+  logNewLine,
+} from '../utils/logger';
 
 /**
  * Lists all installed tools

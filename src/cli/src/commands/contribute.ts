@@ -1,20 +1,30 @@
-import { logInfo, logStep, logSuccess, logHeader, logNewLine, log } from '../utils/logger';
+import {
+  logInfo,
+  logStep,
+  logSuccess,
+  logHeader,
+  logNewLine,
+  log,
+} from '../utils/logger';
 
 /**
  * Submits a new tool for review and contribution
  */
-export async function contributeCommand(type: string, path: string): Promise<void> {
+export async function contributeCommand(
+  type: string,
+  path: string
+): Promise<void> {
   logInfo(`📤 Submitting ${type} for review...`);
   logNewLine();
 
   logStep(`Validating ${path}...`);
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   logStep('Running quality checks...');
-  await new Promise(resolve => setTimeout(resolve, 800));
+  await new Promise((resolve) => setTimeout(resolve, 800));
 
   logStep('Creating submission...');
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise((resolve) => setTimeout(resolve, 300));
 
   logNewLine();
   logSuccess('Submission created successfully!');

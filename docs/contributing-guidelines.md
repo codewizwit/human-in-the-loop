@@ -37,6 +37,7 @@ Detailed guide for contributing prompts, agents, evaluators, guardrails, and con
 Every contribution must include:
 
 1. **README.md** with:
+
    - Clear description
    - Usage examples
    - Installation instructions
@@ -46,6 +47,7 @@ Every contribution must include:
 2. **Definition file** (`prompt.yaml`, `agent.yaml`, etc.) following the schema
 
 3. **Metadata**:
+
    - Author name/GitHub handle
    - License (MIT recommended)
    - Version (semver format: X.Y.Z)
@@ -72,6 +74,7 @@ hitl evaluate --evaluator code-quality toolkit/[your-contribution]
 ### Step 4: Submit Pull Request
 
 1. **Push to your fork**
+
    ```bash
    git add .
    git commit -m "Add [type]: [name]"
@@ -87,6 +90,7 @@ hitl evaluate --evaluator code-quality toolkit/[your-contribution]
 ### Step 5: Review Process
 
 Your contribution will be reviewed for:
+
 - [ ] Quality and usefulness
 - [ ] Documentation completeness
 - [ ] Security concerns
@@ -98,12 +102,14 @@ Your contribution will be reviewed for:
 ## Quality Standards
 
 ### Code Quality
+
 - TypeScript strict mode compliance
 - No inline comments (TypeDoc only)
 - Properly formatted (Prettier)
 - Follows project conventions
 
 ### Documentation Quality
+
 - Clear, concise writing
 - Real-world examples
 - Prerequisites listed
@@ -111,6 +117,7 @@ Your contribution will be reviewed for:
 - Usage instructions step-by-step
 
 ### Security Requirements
+
 - No hardcoded secrets
 - No malicious code
 - Input validation where applicable
@@ -118,6 +125,7 @@ Your contribution will be reviewed for:
 
 ###Accountability Alignment
 All contributions must align with the [Developer-First AI Accountability Framework](../ACCOUNTABILITY.md):
+
 - Enhance developer experience
 - Support learning and growth
 - Maintain transparency
@@ -230,14 +238,15 @@ hitl install prompt/[prompt-name]
 
 ## Variables
 
-| Variable | Required | Description | Default |
-|----------|----------|-------------|---------|
-| code | Yes | Code to review | - |
-| focus_areas | No | Areas to focus on | "general best practices" |
+| Variable    | Required | Description       | Default                  |
+| ----------- | -------- | ----------------- | ------------------------ |
+| code        | Yes      | Code to review    | -                        |
+| focus_areas | No       | Areas to focus on | "general best practices" |
 
 ## Examples
 
 ### Example 1: [Scenario]
+
 [Show input and output]
 
 ## Limitations
@@ -273,6 +282,7 @@ See existing agents in `toolkit/agents/` for examples.
 ## Submitting Evaluators
 
 Evaluators must:
+
 - Have clear pass/fail criteria
 - Provide actionable feedback
 - Be deterministic (same input → same output)
@@ -284,6 +294,7 @@ Evaluators must:
 ## Submitting Guardrails
 
 Guardrails must:
+
 - Have clear trigger conditions
 - Define actions (block/warn/redact)
 - Include bypass mechanisms for authorized users
@@ -295,6 +306,7 @@ Guardrails must:
 ## Submitting Context Packs
 
 Context packs provide framework knowledge. Include:
+
 - Patterns and best practices
 - Anti-patterns to avoid
 - Code examples
@@ -308,21 +320,25 @@ Context packs provide framework knowledge. Include:
 Your contribution will be evaluated on:
 
 ### Usefulness (40%)
+
 - Solves a real problem
 - Fills a gap in the toolkit
 - Has clear use cases
 
 ### Quality (30%)
+
 - Well-documented
 - Properly tested
 - Follows standards
 
 ### Safety (20%)
+
 - No security issues
 - Appropriate guardrails
 - Safe defaults
 
 ### Accountability (10%)
+
 - Aligns with framework
 - Preserves human agency
 - Transparent operation

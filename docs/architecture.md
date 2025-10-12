@@ -68,26 +68,31 @@ CLI (Commander.js)
 ### Key Components
 
 **Command Handler**
+
 - Parses CLI arguments
 - Routes to appropriate command
 - Handles errors gracefully
 
 **Toolkit Index**
+
 - Searchable catalog of all tools
 - Metadata for discovery
 - Version management
 
 **Package Manager**
+
 - Downloads tools from registry
 - Installs to `.claude/` directory
 - Manages dependencies
 
 **Local Cache**
+
 - Stores downloaded tools
 - Enables offline usage
 - Tracks installed versions
 
 **Metrics Collector**
+
 - Anonymous usage telemetry
 - Tool popularity tracking
 - Performance metrics
@@ -132,21 +137,25 @@ Pull Request
 ### Validation Components
 
 **YAML Validators**
+
 - Schema validation for prompts, agents
 - Required field checks
 - Format validation
 
 **TypeScript Validators**
+
 - Strict mode compliance
 - Type correctness
 - Import resolution
 
 **Documentation Validators**
+
 - README completeness
 - Example presence
 - Clear instructions
 
 **Security Validators**
+
 - Secret detection (Trufflehog)
 - Dependency scanning
 - Permission validation
@@ -207,16 +216,19 @@ Return to User
 ### Core Technologies
 
 **Build System**: Nx Monorepo
+
 - Fast builds with caching
 - Task orchestration
 - Dependency graph
 
 **Language**: TypeScript (Strict Mode)
+
 - Type safety
 - Better tooling
 - Reduced runtime errors
 
 **Package Manager**: pnpm
+
 - Fast installation
 - Disk space efficient
 - Strict dependency management
@@ -224,11 +236,13 @@ Return to User
 ### CLI Framework
 
 **Commander.js**
+
 - Command parsing
 - Help generation
 - Error handling
 
 **Chalk**
+
 - Terminal colors
 - Better UX
 - Status indicators
@@ -236,11 +250,13 @@ Return to User
 ### Validation
 
 **Zod**
+
 - Runtime type checking
 - Schema validation
 - Type inference
 
 **YAML**
+
 - Human-readable config
 - Easy to edit
 - Wide tool support
@@ -265,11 +281,13 @@ Claude Desktop automatically discovers tools in `.claude/` directory.
 GitHub Actions workflows:
 
 **PR Validation** (`.github/workflows/pr-validation.yml`)
+
 - Runs on all pull requests
 - Validates quality, security, documentation
 - Blocks merge if checks fail
 
 **Auto-Labeling** (`.github/workflows/label-pr.yml`)
+
 - Labels PRs by type (prompt, agent, docs, etc.)
 - Helps with triage and organization
 
@@ -280,11 +298,13 @@ GitHub Actions workflows:
 ### Performance
 
 **CLI Performance**
+
 - Command execution: < 100ms (search, list)
 - Installation: < 5s (single tool)
 - Validation: < 30s (full check)
 
 **Build Performance**
+
 - Full build: < 60s
 - Incremental build: < 10s
 - Parallel execution where possible
@@ -292,11 +312,13 @@ GitHub Actions workflows:
 ### Storage
 
 **Local Cache**
+
 - Max size: 1GB (configurable)
 - LRU eviction policy
 - Compressed storage
 
 **Registry**
+
 - CDN-backed for fast downloads
 - Version-specific URLs
 - Immutable artifacts
@@ -308,12 +330,14 @@ GitHub Actions workflows:
 ### Threat Model
 
 **Threats:**
+
 1. Malicious prompt injection
 2. Secret leakage
 3. Unsafe code execution
 4. Supply chain attacks
 
 **Mitigations:**
+
 1. Guardrails validate all inputs/outputs
 2. Secret detection in governance layer
 3. No eval() or dynamic code execution
@@ -375,16 +399,19 @@ export interface EvaluationResult {
 ### Planned Enhancements
 
 **Remote Registry**
+
 - Centralized tool distribution
 - Version management
 - Usage analytics
 
 **Plugin System**
+
 - Third-party integrations
 - Custom tool types
 - Extended functionality
 
 **Web UI**
+
 - Browse toolkit visually
 - Test tools online
 - Community ratings

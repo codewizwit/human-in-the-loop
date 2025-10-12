@@ -18,21 +18,25 @@ governance/
 ## Key Responsibilities
 
 ### 🔍 Validation
+
 - YAML structure validation for prompts and agents
 - TypeScript type checking and compilation
 - Schema validation for tool metadata
 
 ### 📚 Documentation
+
 - Ensure READMEs exist in all feature directories
 - Verify usage examples and clear instructions
 - Check for proper TypeDoc comments
 
 ### 🛡️ Security
+
 - Secret detection in contributed code
 - Dependency vulnerability scanning
 - Permission and access control validation
 
 ### ✨ Quality
+
 - Code formatting checks
 - No inline comments enforcement
 - Consistent naming conventions

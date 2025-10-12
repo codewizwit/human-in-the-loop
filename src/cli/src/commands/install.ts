@@ -1,4 +1,10 @@
-import { logInfo, logStep, logSuccess, logTip, logNewLine } from '../utils/logger';
+import {
+  logInfo,
+  logStep,
+  logSuccess,
+  logTip,
+  logNewLine,
+} from '../utils/logger';
 import chalk from 'chalk';
 
 /**
@@ -9,13 +15,13 @@ export async function installCommand(tool: string): Promise<void> {
   logNewLine();
 
   logStep('Downloading tool...');
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   logStep('Installing dependencies...');
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   logStep('Caching for offline use...');
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise((resolve) => setTimeout(resolve, 300));
 
   logNewLine();
   logSuccess(`Successfully installed ${tool}`);

@@ -45,7 +45,9 @@ describe('installCommand', () => {
       await installCommand('prompt/code-review-ts');
 
       expect(
-        consoleMock.contains('Installed to: .claude/tools/prompt/code-review-ts')
+        consoleMock.contains(
+          'Installed to: .claude/tools/prompt/code-review-ts'
+        )
       ).toBe(true);
     });
 

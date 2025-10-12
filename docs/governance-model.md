@@ -11,23 +11,27 @@ Quality review process, versioning strategy, and metrics for the Human in the Lo
 All pull requests trigger automated validation:
 
 **1. Quality Checks**
+
 - TypeScript compilation
 - Type checking (strict mode)
 - Code formatting (Prettier)
 - Security audit (`pnpm audit`)
 
 **2. Documentation Checks**
+
 - TypeDoc comments present (no inline comments)
 - README exists in new feature directories
 - Usage examples included
 - Clear section headers
 
 **3. Contribution Validation**
+
 - YAML structure validation
 - Required metadata fields present (author, license, version, examples)
 - Schema compliance
 
 **4. Security**
+
 - Secret detection (Trufflehog)
 - No hardcoded credentials
 - Dependency vulnerabilities
@@ -37,18 +41,21 @@ All pull requests trigger automated validation:
 After automated checks pass, maintainers review for:
 
 **Quality & Usefulness**
+
 - Does it solve a real problem?
 - Is documentation clear and complete?
 - Are examples realistic?
 - Is it well-tested?
 
 **Safety & Accountability**
+
 - Aligns with [Accountability Framework](../ACCOUNTABILITY.md)?
 - Preserves human oversight?
 - Appropriate guardrails?
 - Transparent operation?
 
 **Technical Correctness**
+
 - Code quality
 - Best practices
 - Performance
@@ -76,6 +83,7 @@ All toolkit components follow [semver](https://semver.org/):
 - **PATCH**: Bug fixes (backwards-compatible)
 
 **Examples:**
+
 - `1.0.0` → `1.0.1`: Bug fix
 - `1.0.1` → `1.1.0`: New feature added
 - `1.1.0` → `2.0.0`: Breaking change
@@ -83,11 +91,13 @@ All toolkit components follow [semver](https://semver.org/):
 ### Version Constraints
 
 **For Prompts:**
+
 - Changing template structure → MAJOR
 - Adding optional variables → MINOR
 - Fixing typos/clarifications → PATCH
 
 **For Agents:**
+
 - Changing required permissions → MAJOR
 - Adding new tools → MINOR
 - Bug fixes → PATCH
@@ -130,16 +140,19 @@ When introducing breaking changes:
 Each tool is tracked for:
 
 **Usage Metrics:**
+
 - Install count
 - Active users
 - Retention rate
 
 **Quality Metrics:**
+
 - User ratings (1-5 stars)
 - Issue reports
 - Bug resolution time
 
 **Impact Metrics:**
+
 - Time saved
 - Errors prevented
 - Developer satisfaction
@@ -185,6 +198,7 @@ Contributors who submit tools commit to:
 ### Inactive Tools
 
 Tools become **deprecated** if:
+
 - No maintenance for 6+ months
 - Critical bugs unfixed for 3+ months
 - Incompatible with current toolkit version
@@ -197,17 +211,20 @@ Tools become **deprecated** if:
 ### Roles
 
 **Contributors**
+
 - Submit tools
 - Report issues
 - Suggest improvements
 
 **Maintainers**
+
 - Review contributions
 - Merge pull requests
 - Release new versions
 - Moderate discussions
 
 **Core Team**
+
 - Set project direction
 - Make final decisions
 - Maintain infrastructure
@@ -225,6 +242,7 @@ Tools become **deprecated** if:
 ### Audit Logs
 
 All AI interactions are logged:
+
 - Timestamp
 - User
 - Tool used
@@ -235,6 +253,7 @@ All AI interactions are logged:
 ### Compliance Requirements
 
 Organizations using the toolkit must:
+
 - Review audit logs regularly
 - Report security incidents
 - Follow data handling policies

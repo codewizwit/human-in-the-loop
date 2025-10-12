@@ -16,6 +16,7 @@ agents/
 ## What's an Agent?
 
 An agent is a configured AI assistant with:
+
 - **Tools**: Specific capabilities (file operations, bash, web access)
 - **Context Packs**: Framework knowledge it can access
 - **Permissions**: What it's allowed to do
