@@ -357,7 +357,7 @@ Your contribution will be evaluated on:
 
 ## Getting Help
 
-- **Questions**: Open a [Discussion](https://github.com/codewizwit/human-in-the-loop/discussions)
+- **Questions**: Open an [Issue](https://github.com/codewizwit/human-in-the-loop/issues)
 - **Issues**: Report in [Issues](https://github.com/codewizwit/human-in-the-loop/issues)
 - **Review Help**: Tag `@maintainers` in your PR
 

@@ -220,9 +220,9 @@ hitl install context/angular
 
 ## Next Steps
 
-- [Best Practices](./best-practices.md) - Learn prompt engineering and agent development patterns
-- [Contributing](./contributing.md) - Submit your own prompts and agents
-- [Governance](./governance.md) - Understand our quality standards and review process
+- [Best Practices](./ai-best-practices.md) - Learn prompt engineering and agent development patterns
+- [Contributing](../CONTRIBUTING.md) - Submit your own prompts and agents
+- [Governance](./governance-model.md) - Understand our quality standards and review process
 
 ---
 
