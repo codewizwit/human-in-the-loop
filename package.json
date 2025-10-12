@@ -9,7 +9,9 @@
     "test:all": "nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all",
     "lint:cli": "nx lint cli",
-    "lint:fix": "nx run-many --target=lint --all --fix"
+    "lint:fix": "nx run-many --target=lint --all --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md,yml,yaml}\""
   },
   "keywords": [],
   "author": "",
