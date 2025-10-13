@@ -28,7 +28,6 @@ export async function listCommand(): Promise<void> {
     return;
   }
 
-  // Group tools by type
   const toolsByType = installedTools.reduce((acc, tool) => {
     if (!acc[tool.type]) {
       acc[tool.type] = [];
@@ -37,7 +36,6 @@ export async function listCommand(): Promise<void> {
     return acc;
   }, {} as Record<string, typeof installedTools>);
 
-  // Display tools grouped by type
   const typeLabels: Record<string, string> = {
     prompt: 'Prompts',
     agent: 'Agents',

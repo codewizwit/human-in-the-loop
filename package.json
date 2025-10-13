@@ -12,6 +12,9 @@
     "lint:fix": "nx run-many --target=lint --all --fix",
     "format": "prettier --write \"**/*.{ts,js,json,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md,yml,yaml}\"",
+    "typecheck": "tsc -p tsconfig.base.json --noEmit",
+    "build": "nx build cli",
+    "ci:local": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm build && pnpm test",
     "check-links": "./scripts/check-links.sh"
   },
   "keywords": [],

@@ -16,6 +16,18 @@ Brief description of what this PR does and why.
 
 ## Checklist
 
+### Pre-Commit Validation
+
+Before submitting this PR, the following commands were run and passed:
+
+- [ ] `pnpm format` - Prettier formatting applied
+- [ ] `pnpm lint` - ESLint checks passed
+- [ ] `pnpm typecheck` - TypeScript compilation successful
+- [ ] `pnpm build` - Project builds without errors
+- [ ] `pnpm test` - All tests pass (if applicable)
+
+See [CLAUDE.MD PR-Ready Workflow](../CLAUDE.MD#-pr-ready-workflow) for details.
+
 ### Code Quality
 
 - [ ] All functions documented with TypeDoc comments (above functions only)

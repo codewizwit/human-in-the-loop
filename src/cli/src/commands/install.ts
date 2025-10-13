@@ -28,7 +28,6 @@ export async function installCommand(
   logNewLine();
 
   try {
-    // Parse tool identifier (e.g., "prompt/code-review-ts")
     const parts = toolIdentifier.split('/');
     if (parts.length !== 2) {
       logError('Invalid tool identifier. Use format: <type>/<id>');
@@ -38,7 +37,6 @@ export async function installCommand(
 
     const [, toolId] = parts;
 
-    // Find the tool in the toolkit
     logStep('Looking up tool...');
     const tool = getTool(toolId);
 
@@ -48,7 +46,6 @@ export async function installCommand(
       return;
     }
 
-    // Check if already installed
     if (isToolInstalled(tool.id)) {
       const installed = getInstalledTool(tool.id);
       logWarning(
@@ -70,7 +67,6 @@ export async function installCommand(
       }
     }
 
-    // Determine installation path
     let installPath: string;
 
     if (options?.path) {
@@ -88,11 +84,9 @@ export async function installCommand(
       installPath = resolvePath(userPath);
     }
 
-    // Copy tool files
     logStep('Copying tool files...');
     await copyDirectory(tool.path, installPath);
 
-    // Register installation
     logStep('Registering installation...');
     registerInstallation({
       id: tool.id,

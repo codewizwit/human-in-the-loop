@@ -68,12 +68,10 @@ export function saveRegistry(registry: Registry): void {
 export function registerInstallation(tool: InstalledTool): void {
   const registry = loadRegistry();
 
-  // Remove any existing installation of the same tool
   registry.installations = registry.installations.filter(
     (t) => t.id !== tool.id
   );
 
-  // Add the new installation
   registry.installations.push(tool);
 
   saveRegistry(registry);
