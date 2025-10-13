@@ -1,0 +1,224 @@
+[
+  {
+    "title": "Add System Design Review Prompt",
+    "body": "Create a markdown template under `prompts/architecture/system-design-review.md`.\n\n**Purpose**: Validates architectural decisions against best practices, scalability concerns, and maintainability.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with variables for system description, requirements, constraints\n- Covers scalability, security, performance, maintainability dimensions\n- Provides examples for microservices, monolith, and serverless architectures\n- Includes section on trade-offs and alternatives\n- README with usage examples",
+    "labels": ["prompt", "architecture", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add API Design Pattern Prompt",
+    "body": "Create a markdown template under `prompts/architecture/api-design.md`.\n\n**Purpose**: Provides guidance on REST/GraphQL API design following industry best practices.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with API type, endpoints, and business requirements\n- Covers RESTful principles, GraphQL schema design\n- Validates naming conventions, versioning strategy\n- Includes security considerations (auth, rate limiting)\n- README with before/after examples",
+    "labels": ["prompt", "architecture", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add E2E Strategy Generator Prompt",
+    "body": "Create a markdown template under `prompts/testing/generate-e2e-strategy.md`.\n\n**Purpose**: Generates comprehensive E2E testing strategy using Playwright or Cypress.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with framework choice, application type, critical flows\n- Identifies test scenarios based on user journeys\n- Provides selector strategies and page object patterns\n- Includes CI/CD integration recommendations\n- README with example test plans",
+    "labels": ["prompt", "testing", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Unit Test Generator Prompt",
+    "body": "Create a markdown template under `prompts/testing/generate-unit-tests.md`.\n\n**Purpose**: Auto-generates unit tests for TypeScript/Angular code with comprehensive coverage.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with code input, framework (Jest/Jasmine)\n- Generates tests for happy path, edge cases, error scenarios\n- Follows AAA pattern (Arrange, Act, Assert)\n- Includes mocking strategies for dependencies\n- README with before/after examples",
+    "labels": ["prompt", "testing", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Pipeline Optimization Prompt",
+    "body": "Create a markdown template under `prompts/ci-cd/pipeline-optimization.md`.\n\n**Purpose**: Analyzes and optimizes GitHub Actions workflows for speed and cost.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with workflow YAML input\n- Identifies bottlenecks, redundant steps, caching opportunities\n- Suggests parallelization strategies\n- Provides estimated time/cost savings\n- README with optimization examples",
+    "labels": ["prompt", "ci-cd", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add AWS Deployment Strategy Prompt",
+    "body": "Create a markdown template under `prompts/ci-cd/aws-deployment-strategy.md`.\n\n**Purpose**: Designs AWS deployment strategy aligned with application requirements.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with app type, scale requirements, budget\n- Recommends AWS services (ECS, Lambda, EC2, etc.)\n- Provides infrastructure-as-code templates\n- Includes monitoring and rollback strategies\n- README with architecture diagrams",
+    "labels": ["prompt", "ci-cd", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add CI/CD Context Pack",
+    "body": "Create complete CI/CD context pack under `context-packs/ci-cd/`.\n\n**Purpose**: Provides comprehensive CI/CD patterns, pipeline templates, and deployment strategies.\n\n**Acceptance Criteria**:\n- README.md with overview and usage\n- GitHub Actions best practices\n- AWS deployment patterns\n- Docker containerization strategies\n- Monitoring and alerting setups\n- Examples from real projects",
+    "labels": ["context-pack", "ci-cd", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add User Story Breakdown Prompt",
+    "body": "Create a markdown template under `prompts/planning/user-story-breakdown.md`.\n\n**Purpose**: Breaks down epics into actionable, testable user stories.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with epic description and acceptance criteria\n- Follows 'As a [role], I want [feature], so that [benefit]' format\n- Generates story points estimates\n- Includes acceptance criteria for each story\n- README with epic-to-stories examples",
+    "labels": ["prompt", "planning", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add API Documentation Generator",
+    "body": "Create a markdown template under `prompts/documentation/api-documentation.md`.\n\n**Purpose**: Auto-generates comprehensive API documentation from code.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with code input, API type\n- Generates endpoint descriptions, parameters, responses\n- Includes example requests/responses\n- Follows OpenAPI/Swagger format\n- README with generated doc examples",
+    "labels": ["prompt", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Responsible AI Audit Prompt",
+    "body": "Create a markdown template under `prompts/governance/responsible-ai-audit.md`.\n\n**Purpose**: Audits AI outputs for quality, bias, safety, and alignment with responsible AI principles.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with AI output, use case, risk level\n- Evaluates accuracy, fairness, transparency, accountability\n- Provides risk assessment and mitigation recommendations\n- Aligns with ACCOUNTABILITY.md framework\n- README with audit report examples",
+    "labels": ["prompt", "governance", "responsible-ai"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Bias Detection Prompt",
+    "body": "Create a markdown template under `prompts/governance/bias-detection.md`.\n\n**Purpose**: Analyzes AI outputs for potential bias across protected characteristics.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with content to analyze\n- Detects gender, racial, age, cultural bias\n- Provides specific examples and alternatives\n- Includes fairness metrics\n- README with bias analysis examples",
+    "labels": ["prompt", "governance", "responsible-ai"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Security Review Prompt",
+    "body": "Create a markdown template under `prompts/governance/security-review.md`.\n\n**Purpose**: Reviews AI-generated code for security vulnerabilities and best practices.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with code input, language, framework\n- Checks for OWASP Top 10 vulnerabilities\n- Validates input sanitization, authentication, authorization\n- Provides remediation guidance\n- README with vulnerability examples",
+    "labels": ["prompt", "governance", "security"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Code Quality Evaluator",
+    "body": "Create evaluator implementation at `toolkit/evaluators/code-quality-evaluator.yaml`.\n\n**Purpose**: Validates code quality metrics for AI-generated code.\n\n**Acceptance Criteria**:\n- YAML schema with evaluation rules\n- Checks complexity, maintainability, test coverage\n- Validates TypeDoc comments, naming conventions\n- Pass/fail thresholds configurable\n- README with usage and metrics",
+    "labels": ["evaluator", "governance"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Security Evaluator",
+    "body": "Create evaluator implementation at `toolkit/evaluators/security-evaluator.yaml`.\n\n**Purpose**: Validates security best practices in AI-generated code.\n\n**Acceptance Criteria**:\n- YAML schema with security rules\n- Checks for hardcoded secrets, SQL injection, XSS\n- Validates authentication and authorization\n- Integration with security scanning tools\n- README with security checklist",
+    "labels": ["evaluator", "governance", "security"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Angular Component Patterns",
+    "body": "Create context pack content at `context-packs/angular/component-patterns.md`.\n\n**Purpose**: Provides comprehensive Angular component patterns and best practices.\n\n**Acceptance Criteria**:\n- Smart vs presentational components\n- OnPush change detection strategy\n- Input/Output patterns\n- Lifecycle hooks usage\n- Code examples with TypeDoc comments",
+    "labels": ["context-pack", "angular"],
+    "priority": "high"
+  },
+  {
+    "title": "Add NestJS Module Structure Context",
+    "body": "Create context pack content at `context-packs/nestjs/module-structure.md`.\n\n**Purpose**: Documents NestJS module organization and dependency patterns.\n\n**Acceptance Criteria**:\n- Module organization best practices\n- Providers, controllers, services structure\n- Import/export patterns\n- Circular dependency avoidance\n- Code examples with TypeDoc comments",
+    "labels": ["context-pack", "nestjs"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Nx Monorepo Context Pack",
+    "body": "Create context pack at `context-packs/nx-monorepo/README.md`.\n\n**Purpose**: Comprehensive Nx monorepo patterns, workspace organization, and tooling.\n\n**Acceptance Criteria**:\n- Workspace organization strategies\n- Library boundaries and dependency management\n- Nx generators and executors\n- Caching and affected commands\n- Code examples and migration guides",
+    "labels": ["context-pack", "nx", "monorepo"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Code Review Empathy Prompt",
+    "body": "Create a markdown template under `prompts/culture/code-review-empathy.md`.\n\n**Purpose**: Helps reviewers provide empathetic, constructive code review feedback.\n\n**Acceptance Criteria**:\n- Includes prompt.yaml with review comment input\n- Rewrites harsh feedback with empathy\n- Balances critique with appreciation\n- Provides specific, actionable suggestions\n- README with before/after examples",
+    "labels": ["prompt", "culture", "documentation"],
+    "priority": "high"
+  },
+  {
+    "title": "Add Microservices Pattern Prompt",
+    "body": "Create a markdown template under `prompts/architecture/microservices-pattern.md`.\n\n**Purpose**: Guides microservices architecture design decisions.\n\n**Acceptance Criteria**:\n- Service boundary identification\n- Communication patterns (sync/async)\n- Data consistency strategies\n- Deployment and monitoring\n- README with architecture examples",
+    "labels": ["prompt", "architecture"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Technical Debt Audit Prompt",
+    "body": "Create a markdown template under `prompts/refactoring/technical-debt-audit.md`.\n\n**Purpose**: Identifies and prioritizes technical debt in codebase.\n\n**Acceptance Criteria**:\n- Analyzes code for debt indicators\n- Prioritizes by impact and effort\n- Provides refactoring recommendations\n- Estimates ROI of addressing debt\n- README with audit report examples",
+    "labels": ["prompt", "refactoring"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add BDD Scenarios Prompt",
+    "body": "Create a markdown template under `prompts/testing/bdd-scenarios.md`.\n\n**Purpose**: Generates BDD scenarios in Gherkin format.\n\n**Acceptance Criteria**:\n- Given-When-Then format\n- Covers happy path and edge cases\n- Aligned with user stories\n- Executable with Cucumber/SpecFlow\n- README with scenario examples",
+    "labels": ["prompt", "testing"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Test Coverage Analysis Prompt",
+    "body": "Create a markdown template under `prompts/testing/test-coverage-analysis.md`.\n\n**Purpose**: Analyzes test coverage and identifies gaps.\n\n**Acceptance Criteria**:\n- Identifies untested code paths\n- Prioritizes coverage improvements\n- Suggests test cases for gaps\n- Analyzes coverage trends\n- README with analysis examples",
+    "labels": ["prompt", "testing"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Technical Spike Template",
+    "body": "Create a markdown template under `prompts/planning/technical-spike-template.md`.\n\n**Purpose**: Plans technical spikes with clear objectives and outcomes.\n\n**Acceptance Criteria**:\n- Problem statement and goals\n- Research questions and approach\n- Success criteria and timeline\n- Findings documentation template\n- README with spike examples",
+    "labels": ["prompt", "planning"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add ADR Generator Prompt",
+    "body": "Create a markdown template under `prompts/documentation/architecture-decision-record.md`.\n\n**Purpose**: Generates Architecture Decision Records.\n\n**Acceptance Criteria**:\n- Follows ADR format (context, decision, consequences)\n- Documents alternatives considered\n- Includes rationale and trade-offs\n- Version-controlled and searchable\n- README with ADR examples",
+    "labels": ["prompt", "documentation"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Onboarding Guide Generator",
+    "body": "Create a markdown template under `prompts/documentation/onboarding-guide.md`.\n\n**Purpose**: Auto-generates onboarding documentation for new developers.\n\n**Acceptance Criteria**:\n- Repo structure overview\n- Setup instructions\n- Development workflow\n- Key contacts and resources\n- README with guide examples",
+    "labels": ["prompt", "documentation"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Angular State Management Context",
+    "body": "Create context pack content at `context-packs/angular/state-management.md`.\n\n**Purpose**: Documents NgRx, signals, and state management patterns.\n\n**Acceptance Criteria**:\n- NgRx patterns (actions, reducers, effects, selectors)\n- Signal-based state management\n- When to use each approach\n- Performance considerations\n- Code examples with TypeDoc comments",
+    "labels": ["context-pack", "angular"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Angular Testing Patterns",
+    "body": "Create context pack content at `context-packs/angular/testing-patterns.md`.\n\n**Purpose**: Angular testing best practices with Jasmine/Jest.\n\n**Acceptance Criteria**:\n- Component testing strategies\n- Service testing with mocks\n- Async testing patterns\n- Test fixture setup\n- Code examples with TypeDoc comments",
+    "labels": ["context-pack", "angular", "testing"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add NestJS DI Patterns Context",
+    "body": "Create context pack content at `context-packs/nestjs/di-patterns.md`.\n\n**Purpose**: NestJS dependency injection patterns and best practices.\n\n**Acceptance Criteria**:\n- Provider types and scopes\n- Custom providers\n- Injection tokens\n- Circular dependency resolution\n- Code examples with TypeDoc comments",
+    "labels": ["context-pack", "nestjs"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Constructive Feedback Prompt",
+    "body": "Create a markdown template under `prompts/culture/constructive-feedback.md`.\n\n**Purpose**: Generates constructive feedback for team members.\n\n**Acceptance Criteria**:\n- Specific, actionable, kind (SAK) framework\n- Situation-Behavior-Impact format\n- Balances positive and developmental feedback\n- Growth-oriented language\n- README with feedback examples",
+    "labels": ["prompt", "culture"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Learning Path Generator",
+    "body": "Create a markdown template under `prompts/mentorship/learning-path.md`.\n\n**Purpose**: Creates personalized learning paths based on skill gaps.\n\n**Acceptance Criteria**:\n- Current skill assessment\n- Goal-based learning objectives\n- Resource recommendations\n- Milestone tracking\n- README with learning path examples",
+    "labels": ["prompt", "mentorship"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Prompt Optimization Template",
+    "body": "Create a markdown template under `prompts/meta/prompt-optimization.md`.\n\n**Purpose**: Optimizes existing prompts for clarity and effectiveness.\n\n**Acceptance Criteria**:\n- Analyzes prompt structure\n- Suggests clarity improvements\n- Optimizes for token efficiency\n- Validates examples and outputs\n- README with optimization examples",
+    "labels": ["prompt", "meta"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add Context Pack Builder",
+    "body": "Create a markdown template under `prompts/meta/context-pack-builder.md`.\n\n**Purpose**: Guides creation of new context packs.\n\n**Acceptance Criteria**:\n- Structure and organization guide\n- Content requirements checklist\n- Example extraction strategies\n- Quality validation criteria\n- README with builder examples",
+    "labels": ["prompt", "meta"],
+    "priority": "medium"
+  },
+  {
+    "title": "Add 1-on-1 Prep Template",
+    "body": "Create a markdown template under `prompts/culture/1-on-1-prep.md`.\n\n**Purpose**: Prepares effective 1-on-1 meetings.\n\n**Acceptance Criteria**:\n- Agenda template\n- Discussion topics\n- Goal tracking\n- Action items\n- README with meeting examples",
+    "labels": ["prompt", "culture"],
+    "priority": "low"
+  },
+  {
+    "title": "Add Team Retrospective Template",
+    "body": "Create a markdown template under `prompts/culture/team-retrospective.md`.\n\n**Purpose**: Facilitates effective team retrospectives.\n\n**Acceptance Criteria**:\n- Retrospective format options\n- Discussion prompts\n- Action item tracking\n- Follow-up strategies\n- README with retro examples",
+    "labels": ["prompt", "culture"],
+    "priority": "low"
+  },
+  {
+    "title": "Add Blog Post Outline Template",
+    "body": "Create a markdown template under `prompts/community/blog-post-outline.md`.\n\n**Purpose**: Creates technical blog post outlines.\n\n**Acceptance Criteria**:\n- Structure guidance\n- Hook and conclusion\n- Code example integration\n- SEO optimization\n- README with blog examples",
+    "labels": ["prompt", "community"],
+    "priority": "low"
+  },
+  {
+    "title": "Add Conference Talk Template",
+    "body": "Create a markdown template under `prompts/community/conference-talk-outline.md`.\n\n**Purpose**: Prepares conference talk structure and content.\n\n**Acceptance Criteria**:\n- Talk structure template\n- Slide outline\n- Demo planning\n- Q&A preparation\n- README with talk examples",
+    "labels": ["prompt", "community"],
+    "priority": "low"
+  },
+  {
+    "title": "Add OSS Contribution Guide",
+    "body": "Create a markdown template under `prompts/community/open-source-contribution.md`.\n\n**Purpose**: Guides open-source contribution process.\n\n**Acceptance Criteria**:\n- Issue selection criteria\n- PR preparation checklist\n- Communication guidelines\n- Follow-up strategies\n- README with contribution examples",
+    "labels": ["prompt", "community"],
+    "priority": "low"
+  }
+]
