@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { scanToolkit, searchTools, getTool } from '../toolkit-scanner';
 import * as fs from 'fs';
 import * as path from 'path';

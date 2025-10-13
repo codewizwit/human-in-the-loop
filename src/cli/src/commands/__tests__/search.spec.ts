@@ -1,4 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { searchCommand } from '../search';
 import * as toolkitScanner from '../../utils/toolkit-scanner';

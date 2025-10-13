@@ -1,4 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { listCommand } from '../list';
 import * as registry from '../../utils/registry';

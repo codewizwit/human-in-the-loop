@@ -1,4 +1,11 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
 import {
   ensureDirectory,
   pathExists,
