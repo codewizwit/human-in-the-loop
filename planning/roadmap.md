@@ -194,7 +194,7 @@ This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are 
 - [Coverage Checklist](./coverage-checklist.md) - Detailed coverage by category
 - [GitHub Issues](./github-issues.json) - Importable issue definitions
 - [Auto-Commit Script](./scaffold-high-priority.sh) - Scaffold all high-priority items
-- [CLAUDE.md](../.claude/CLAUDE.md) - Project planning instructions
+- [CLAUDE.MD](../CLAUDE.MD) - Project planning instructions
 
 ---
 
