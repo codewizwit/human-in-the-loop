@@ -25,6 +25,7 @@ program
   .command('install')
   .description('Install a prompt or agent')
   .argument('<tool>', 'Tool identifier (e.g., prompt/code-review-ts)')
+  .option('-p, --path <path>', 'Installation path')
   .action(installCommand);
 
 program

@@ -3,28 +3,115 @@ import {
   logStep,
   logSuccess,
   logTip,
+  logWarning,
   logNewLine,
+  logError,
 } from '../utils/logger';
 import chalk from 'chalk';
+import { getTool } from '../utils/toolkit-scanner';
+import { copyDirectory, resolvePath } from '../utils/file-operations';
+import {
+  registerInstallation,
+  isToolInstalled,
+  getInstalledTool,
+} from '../utils/registry';
+import inquirer from 'inquirer';
 
 /**
  * Installs a prompt or agent from the library
  */
-export async function installCommand(tool: string): Promise<void> {
-  logInfo(`📦 Installing ${tool}...`);
+export async function installCommand(
+  toolIdentifier: string,
+  options?: { path?: string }
+): Promise<void> {
+  logInfo(`📦 Installing ${toolIdentifier}...`);
   logNewLine();
 
-  logStep('Downloading tool...');
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  try {
+    // Parse tool identifier (e.g., "prompt/code-review-ts")
+    const parts = toolIdentifier.split('/');
+    if (parts.length !== 2) {
+      logError('Invalid tool identifier. Use format: <type>/<id>');
+      logTip('Example: ' + chalk.bold('hitl install prompt/code-review-ts'));
+      return;
+    }
 
-  logStep('Installing dependencies...');
-  await new Promise((resolve) => setTimeout(resolve, 500));
+    const [, toolId] = parts;
 
-  logStep('Caching for offline use...');
-  await new Promise((resolve) => setTimeout(resolve, 300));
+    // Find the tool in the toolkit
+    logStep('Looking up tool...');
+    const tool = getTool(toolId);
 
-  logNewLine();
-  logSuccess(`Successfully installed ${tool}`);
-  logStep('Installed to: .claude/tools/' + tool);
-  logTip('Run ' + chalk.bold('hitl list') + ' to see all installed tools');
+    if (!tool) {
+      logError(`Tool "${toolIdentifier}" not found in toolkit`);
+      logTip('Use ' + chalk.bold('hitl search') + ' to see available tools');
+      return;
+    }
+
+    // Check if already installed
+    if (isToolInstalled(tool.id)) {
+      const installed = getInstalledTool(tool.id);
+      logWarning(
+        `Tool "${tool.id}" is already installed at: ${installed?.installedPath}`
+      );
+
+      const { proceed } = await inquirer.prompt<{ proceed: boolean }>([
+        {
+          type: 'confirm',
+          name: 'proceed',
+          message: 'Do you want to reinstall?',
+          default: false,
+        },
+      ]);
+
+      if (!proceed) {
+        logInfo('Installation cancelled');
+        return;
+      }
+    }
+
+    // Determine installation path
+    let installPath: string;
+
+    if (options?.path) {
+      installPath = resolvePath(options.path);
+    } else {
+      const { userPath } = await inquirer.prompt<{ userPath: string }>([
+        {
+          type: 'input',
+          name: 'userPath',
+          message: 'Where would you like to install this tool?',
+          default: `~/.claude/tools/${tool.type}/${tool.id}`,
+        },
+      ]);
+
+      installPath = resolvePath(userPath);
+    }
+
+    // Copy tool files
+    logStep('Copying tool files...');
+    await copyDirectory(tool.path, installPath);
+
+    // Register installation
+    logStep('Registering installation...');
+    registerInstallation({
+      id: tool.id,
+      name: tool.name,
+      version: tool.version,
+      type: tool.type,
+      installedPath: installPath,
+      installedAt: new Date().toISOString(),
+    });
+
+    logNewLine();
+    logSuccess(`Successfully installed ${tool.name} (v${tool.version})`);
+    logStep('Installed to: ' + chalk.cyan(installPath));
+    logNewLine();
+    logTip('Use ' + chalk.bold('hitl list') + ' to see all installed tools');
+  } catch (error) {
+    logError(
+      'Installation failed: ' +
+        (error instanceof Error ? error.message : 'Unknown error')
+    );
+  }
 }

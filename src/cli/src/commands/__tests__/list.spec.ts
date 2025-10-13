@@ -1,6 +1,19 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { listCommand } from '../list';
+import * as registry from '../../utils/registry';
+
+// Mock registry module
+jest.mock('../../utils/registry');
+
+const mockRegistry = registry as jest.Mocked<typeof registry>;
 
 describe('listCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
@@ -8,6 +21,7 @@ describe('listCommand', () => {
   beforeEach(() => {
     consoleMock = createConsoleMock();
     consoleMock.start();
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
@@ -15,115 +29,253 @@ describe('listCommand', () => {
     consoleMock.clear();
   });
 
-  describe('display installed tools', () => {
+  describe('with installed tools', () => {
+    beforeEach(() => {
+      mockRegistry.getInstalledTools.mockReturnValue([
+        {
+          id: 'code-review-ts',
+          name: 'Code Review TypeScript',
+          version: '1.2.0',
+          type: 'prompt',
+          installedPath: '~/.claude/tools/prompt/code-review-ts',
+          installedAt: '2024-01-01T00:00:00Z',
+        },
+        {
+          id: 'api-docs',
+          name: 'API Docs Generator',
+          version: '2.1.0',
+          type: 'prompt',
+          installedPath: '~/.claude/tools/prompt/api-docs',
+          installedAt: '2024-01-02T00:00:00Z',
+        },
+        {
+          id: 'test-generator',
+          name: 'Test Generator',
+          version: '1.0.0',
+          type: 'agent',
+          installedPath: '~/.claude/tools/agent/test-generator',
+          installedAt: '2024-01-03T00:00:00Z',
+        },
+        {
+          id: 'angular',
+          name: 'Angular Context Pack',
+          version: '3.0.0',
+          type: 'context-pack',
+          installedPath: '~/.claude/tools/context-pack/angular',
+          installedAt: '2024-01-04T00:00:00Z',
+        },
+      ]);
+    });
+
     it('should display installed tools header', async () => {
       await listCommand();
 
       expect(consoleMock.contains('📋 Installed tools:')).toBe(true);
     });
 
-    it('should show prompts section', async () => {
+    it('should show prompts section with tools', async () => {
       await listCommand();
 
       expect(consoleMock.contains('Prompts:')).toBe(true);
+      expect(consoleMock.contains('code-review-ts')).toBe(true);
+      expect(consoleMock.contains('v1.2.0')).toBe(true);
+      expect(consoleMock.contains('api-docs')).toBe(true);
+      expect(consoleMock.contains('v2.1.0')).toBe(true);
     });
 
-    it('should show agents section', async () => {
+    it('should show agents section with tools', async () => {
       await listCommand();
 
       expect(consoleMock.contains('Agents:')).toBe(true);
+      expect(consoleMock.contains('test-generator')).toBe(true);
+      expect(consoleMock.contains('v1.0.0')).toBe(true);
     });
 
-    it('should show context packs section', async () => {
+    it('should show context packs section with tools', async () => {
       await listCommand();
 
       expect(consoleMock.contains('Context Packs:')).toBe(true);
+      expect(consoleMock.contains('angular')).toBe(true);
+      expect(consoleMock.contains('v3.0.0')).toBe(true);
+    });
+
+    it('should display installation paths', async () => {
+      await listCommand();
+
+      expect(
+        consoleMock.contains('~/.claude/tools/prompt/code-review-ts')
+      ).toBe(true);
+      expect(consoleMock.contains('~/.claude/tools/agent/test-generator')).toBe(
+        true
+      );
     });
 
     it('should display total count', async () => {
       await listCommand();
 
-      expect(consoleMock.contains('Total: 5 tools installed')).toBe(true);
+      expect(consoleMock.contains('Total: 4 tools installed')).toBe(true);
+    });
+
+    it('should use plural for multiple tools', async () => {
+      await listCommand();
+
+      expect(consoleMock.contains('4 tools installed')).toBe(true);
     });
   });
 
-  describe('prompts listing', () => {
-    it('should list code-review-ts prompt with version', async () => {
-      await listCommand();
-
-      const output = consoleMock.getOutput();
-      expect(output).toContain('code-review-ts');
-      expect(output).toContain('v1.2.0');
+  describe('with single installed tool', () => {
+    beforeEach(() => {
+      mockRegistry.getInstalledTools.mockReturnValue([
+        {
+          id: 'single-tool',
+          name: 'Single Tool',
+          version: '1.0.0',
+          type: 'prompt',
+          installedPath: '~/.claude/tools/prompt/single-tool',
+          installedAt: '2024-01-01T00:00:00Z',
+        },
+      ]);
     });
 
-    it('should list api-docs-generator prompt with version', async () => {
+    it('should use singular for single tool', async () => {
       await listCommand();
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('api-docs-generator');
-      expect(output).toContain('v2.1.0');
+      expect(consoleMock.contains('Total: 1 tool installed')).toBe(true);
+    });
+
+    it('should display the tool', async () => {
+      await listCommand();
+
+      expect(consoleMock.contains('single-tool')).toBe(true);
+      expect(consoleMock.contains('v1.0.0')).toBe(true);
     });
   });
 
-  describe('agents listing', () => {
-    it('should list test-generator agent with version', async () => {
+  describe('with no installed tools', () => {
+    beforeEach(() => {
+      mockRegistry.getInstalledTools.mockReturnValue([]);
+    });
+
+    it('should display no tools message', async () => {
       await listCommand();
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('test-generator');
-      expect(output).toContain('v1.0.0');
+      expect(consoleMock.contains('No tools installed yet')).toBe(true);
+    });
+
+    it('should not display section headers', async () => {
+      await listCommand();
+
+      expect(consoleMock.contains('Prompts:')).toBe(false);
+      expect(consoleMock.contains('Agents:')).toBe(false);
+    });
+
+    it('should provide helpful tips', async () => {
+      await listCommand();
+
+      expect(consoleMock.contains('hitl search')).toBe(true);
+      expect(consoleMock.contains('hitl install')).toBe(true);
+    });
+
+    it('should not display total count', async () => {
+      await listCommand();
+
+      expect(consoleMock.contains('Total:')).toBe(false);
     });
   });
 
-  describe('context packs listing', () => {
-    it('should list angular context pack with version', async () => {
-      await listCommand();
-
-      const output = consoleMock.getOutput();
-      expect(output).toContain('angular');
-      expect(output).toContain('v3.0.0');
+  describe('with evaluators and guardrails', () => {
+    beforeEach(() => {
+      mockRegistry.getInstalledTools.mockReturnValue([
+        {
+          id: 'code-quality',
+          name: 'Code Quality Evaluator',
+          version: '1.0.0',
+          type: 'evaluator',
+          installedPath: '~/.claude/tools/evaluator/code-quality',
+          installedAt: '2024-01-01T00:00:00Z',
+        },
+        {
+          id: 'pii-detector',
+          name: 'PII Detector',
+          version: '2.0.0',
+          type: 'guardrail',
+          installedPath: '~/.claude/tools/guardrail/pii-detector',
+          installedAt: '2024-01-02T00:00:00Z',
+        },
+      ]);
     });
 
-    it('should list nestjs context pack with version', async () => {
+    it('should show evaluators section', async () => {
       await listCommand();
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('nestjs');
-      expect(output).toContain('v2.5.0');
+      expect(consoleMock.contains('Evaluators:')).toBe(true);
+      expect(consoleMock.contains('code-quality')).toBe(true);
+      expect(consoleMock.contains('v1.0.0')).toBe(true);
+    });
+
+    it('should show guardrails section', async () => {
+      await listCommand();
+
+      expect(consoleMock.contains('Guardrails:')).toBe(true);
+      expect(consoleMock.contains('pii-detector')).toBe(true);
+      expect(consoleMock.contains('v2.0.0')).toBe(true);
     });
   });
 
   describe('execution flow', () => {
+    beforeEach(() => {
+      mockRegistry.getInstalledTools.mockReturnValue([
+        {
+          id: 'tool1',
+          name: 'Tool 1',
+          version: '1.0.0',
+          type: 'prompt',
+          installedPath: '/path/to/tool1',
+          installedAt: '2024-01-01T00:00:00Z',
+        },
+        {
+          id: 'tool2',
+          name: 'Tool 2',
+          version: '1.0.0',
+          type: 'agent',
+          installedPath: '/path/to/tool2',
+          installedAt: '2024-01-02T00:00:00Z',
+        },
+      ]);
+    });
+
     it('should complete without errors', async () => {
       await expect(listCommand()).resolves.not.toThrow();
     });
 
-    it('should show sections in order', async () => {
+    it('should call getInstalledTools', async () => {
       await listCommand();
 
-      const lines = consoleMock.getLines();
-      const promptsIndex = lines.findIndex((l) => l.includes('Prompts:'));
-      const agentsIndex = lines.findIndex((l) => l.includes('Agents:'));
-      const contextsIndex = lines.findIndex((l) =>
-        l.includes('Context Packs:')
-      );
-      const totalIndex = lines.findIndex((l) => l.includes('Total:'));
-
-      expect(promptsIndex).toBeGreaterThan(-1);
-      expect(agentsIndex).toBeGreaterThan(promptsIndex);
-      expect(contextsIndex).toBeGreaterThan(agentsIndex);
-      expect(totalIndex).toBeGreaterThan(contextsIndex);
+      expect(mockRegistry.getInstalledTools).toHaveBeenCalled();
     });
   });
 
   describe('output formatting', () => {
+    beforeEach(() => {
+      mockRegistry.getInstalledTools.mockReturnValue([
+        {
+          id: 'tool1',
+          name: 'Tool 1',
+          version: '1.0.0',
+          type: 'prompt',
+          installedPath: '/path/to/tool1',
+          installedAt: '2024-01-01T00:00:00Z',
+        },
+      ]);
+    });
+
     it('should use proper spacing', async () => {
       await listCommand();
 
       const output = consoleMock.getOutput();
 
-      // Should have multiple lines for all sections
-      expect(output.split('\n').length).toBeGreaterThan(8);
+      // Should have multiple lines
+      expect(output.split('\n').length).toBeGreaterThan(3);
     });
 
     it('should highlight important information', async () => {
@@ -131,19 +283,6 @@ describe('listCommand', () => {
 
       // List icon should be present
       expect(consoleMock.contains('📋')).toBe(true);
-    });
-
-    it('should display all 5 tools', async () => {
-      await listCommand();
-
-      const output = consoleMock.getOutput();
-
-      // Count all tools mentioned
-      expect(output).toContain('code-review-ts');
-      expect(output).toContain('api-docs-generator');
-      expect(output).toContain('test-generator');
-      expect(output).toContain('angular');
-      expect(output).toContain('nestjs');
     });
   });
 });
