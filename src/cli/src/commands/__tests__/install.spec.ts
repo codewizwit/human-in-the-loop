@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { installCommand } from '../install';
 import * as toolkitScanner from '../../utils/toolkit-scanner';
@@ -6,7 +6,6 @@ import * as fileOps from '../../utils/file-operations';
 import * as registry from '../../utils/registry';
 import inquirer from 'inquirer';
 
-// Mock all dependencies
 jest.mock('../../utils/toolkit-scanner');
 jest.mock('../../utils/file-operations');
 jest.mock('../../utils/registry');
@@ -25,7 +24,6 @@ describe('installCommand', () => {
     consoleMock.start();
     jest.clearAllMocks();
 
-    // Default mocks
     mockToolkitScanner.getTool.mockReturnValue({
       id: 'code-review-ts',
       name: 'Code Review TypeScript',
@@ -44,7 +42,6 @@ describe('installCommand', () => {
     mockFileOps.copyDirectory.mockResolvedValue(undefined);
     mockRegistry.registerInstallation.mockReturnValue(undefined);
 
-    // Mock inquirer to provide path
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (mockInquirer.prompt as any).mockResolvedValue({
       userPath: '~/.claude/tools/prompt/code-review-ts',
