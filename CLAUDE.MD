@@ -209,8 +209,114 @@ Otherwise, use the GitHub URL provided in the push output to create PR manually.
 
 ---
 
-## 📋 General Guidelines
+## 📋 Code Quality Standards
 
-- Always run lint, build, test, and format before commit
-- No inline comments
-- Always use detailed TypeDocs on class level, CLI functions, or utility functions
+### TypeScript Requirements
+
+**Type Safety:**
+- Always use TypeScript strict mode
+- No `any` types unless absolutely necessary (document why)
+- Properly typed function parameters and return values
+- Use interfaces for object shapes
+- Use generics where appropriate
+
+**TypeDoc Comments:**
+- **Required** on all exported functions, classes, and interfaces
+- Place TypeDoc comments **above** the function/class declaration
+- Include description of purpose, parameters, and return values
+- Example:
+  ```typescript
+  /**
+   * Copies a directory recursively from source to destination
+   * @param source - The source directory path
+   * @param destination - The destination directory path
+   */
+  export async function copyDirectory(
+    source: string,
+    destination: string
+  ): Promise<void> {
+    // Implementation
+  }
+  ```
+
+**Comment Style:**
+- ❌ **NO inline comments** (`//` style) in production code
+- ✅ Use TypeDoc comments above functions
+- ✅ Code should be self-documenting through clear naming
+- Test files (*.spec.ts) may use inline comments for test descriptions
+
+### Code Organization
+
+**File Structure:**
+- One primary export per file when possible
+- Group related functionality together
+- Use barrel exports (index.ts) for public APIs
+- Keep files focused and under 300 lines
+
+**Naming Conventions:**
+- `camelCase` for variables and functions
+- `PascalCase` for classes and interfaces
+- `SCREAMING_SNAKE_CASE` for constants
+- Descriptive names that reveal intent
+
+### Before Every Commit
+
+**Pre-Commit Checklist:**
+```bash
+pnpm format          # ✅ All files formatted with Prettier
+pnpm lint            # ✅ ESLint rules pass
+pnpm typecheck       # ✅ TypeScript compilation succeeds
+pnpm build           # ✅ Build completes without errors
+pnpm test            # ✅ All tests pass (if applicable)
+```
+
+**Common Issues to Check:**
+- [ ] No `any` types without justification
+- [ ] All exported functions have TypeDoc comments
+- [ ] No inline (`//`) comments in source files
+- [ ] No hardcoded secrets or credentials
+- [ ] No `console.log` statements (use proper logger)
+- [ ] All imports are used
+- [ ] No unused variables
+- [ ] Error handling is present
+
+### Documentation Requirements
+
+**README Files:**
+- Required in every new feature directory (`toolkit/prompts/*`, `toolkit/agents/*`, etc.)
+- Must include:
+  - Overview/description
+  - Usage section with examples
+  - Clear section headers
+  - Installation instructions if applicable
+
+**Prompt/Agent YAML Files:**
+- Must include all required metadata fields:
+  - `id`, `name`, `version`, `description`, `category`
+  - `metadata.author`, `metadata.license`
+  - At least 2 usage examples
+- Follow semantic versioning (semver)
+
+### Validation Checks
+
+These automated checks run in CI and must pass:
+
+1. **TypeScript Compilation** - No type errors
+2. **Linting** - ESLint rules enforced
+3. **Formatting** - Prettier formatting applied
+4. **Documentation Links** - All markdown links valid
+5. **TypeDoc Comments** - All functions documented
+6. **No Inline Comments** - No `//` style comments in source
+7. **Prompt/Agent Validation** - YAML files have required fields
+8. **Security Scan** - No secrets in code
+
+### Quick Reference
+
+| Check | Command | Must Pass |
+|-------|---------|-----------|
+| Format | `pnpm format` | ✅ Always |
+| Lint | `pnpm lint` | ✅ Always |
+| TypeCheck | `pnpm typecheck` | ✅ Always |
+| Build | `pnpm build` | ✅ Always |
+| Test | `pnpm test` | ✅ If applicable |
+| Links | `pnpm check-links` | ✅ For docs changes |

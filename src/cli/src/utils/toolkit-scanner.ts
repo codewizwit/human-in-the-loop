@@ -104,7 +104,6 @@ function parseToolConfig(
     const content = fs.readFileSync(configFile, 'utf-8');
     const config = parse(content) as unknown;
 
-    // Type guard to check if config has required properties
     if (
       !config ||
       typeof config !== 'object' ||

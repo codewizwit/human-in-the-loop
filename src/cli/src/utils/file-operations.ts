@@ -8,7 +8,6 @@ export async function copyDirectory(
   source: string,
   destination: string
 ): Promise<void> {
-  // Create destination directory if it doesn't exist
   if (!fs.existsSync(destination)) {
     fs.mkdirSync(destination, { recursive: true });
   }
