@@ -40,7 +40,7 @@ export async function installCommand(
 
     // Find the tool in the toolkit
     logStep('Looking up tool...');
-    const tool = await getTool(toolId);
+    const tool = getTool(toolId);
 
     if (!tool) {
       logError(`Tool "${toolIdentifier}" not found in toolkit`);

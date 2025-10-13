@@ -11,12 +11,12 @@ import { searchTools } from '../utils/toolkit-scanner';
 /**
  * Searches for prompts and agents in the library based on a query
  */
-export async function searchCommand(query?: string): Promise<void> {
+export function searchCommand(query?: string): void {
   logInfo('🔍 Searching for tools...');
   logNewLine();
 
   try {
-    const tools = await searchTools(query);
+    const tools = searchTools(query);
 
     if (tools.length === 0) {
       logWarning(

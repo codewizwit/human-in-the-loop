@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { scanToolkit, searchTools, getTool } from '../toolkit-scanner';
 import * as fs from 'fs';
@@ -20,50 +21,50 @@ describe('toolkit-scanner', () => {
   });
 
   describe('scanToolkit', () => {
-    it('should return empty array when toolkit directory does not exist', async () => {
+    it('should return empty array when toolkit directory does not exist', () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      const tools = await scanToolkit('/mock/toolkit');
+      const tools = scanToolkit('/mock/toolkit');
 
       expect(tools).toEqual([]);
     });
 
-    it('should handle empty directories gracefully', async () => {
+    it('should handle empty directories gracefully', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue([] as any);
 
-      const tools = await scanToolkit('/mock/toolkit');
+      const tools = scanToolkit('/mock/toolkit');
 
       expect(tools).toEqual([]);
     });
   });
 
   describe('searchTools', () => {
-    it('should call scanToolkit and return results', async () => {
+    it('should call scanToolkit and return results', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue([] as any);
 
-      const tools = await searchTools();
+      const tools = searchTools();
 
       expect(tools).toEqual([]);
     });
 
-    it('should handle search with query', async () => {
+    it('should handle search with query', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue([] as any);
 
-      const tools = await searchTools('test');
+      const tools = searchTools('test');
 
       expect(tools).toEqual([]);
     });
   });
 
   describe('getTool', () => {
-    it('should return null when no tools found', async () => {
+    it('should return null when no tools found', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue([] as any);
 
-      const tool = await getTool('nonexistent');
+      const tool = getTool('nonexistent');
 
       expect(tool).toBeNull();
     });

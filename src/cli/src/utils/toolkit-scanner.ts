@@ -24,9 +24,9 @@ export interface Tool {
 /**
  * Scans the toolkit directory and returns all available tools
  */
-export async function scanToolkit(
+export function scanToolkit(
   toolkitPath: string = path.join(process.cwd(), 'toolkit')
-): Promise<Tool[]> {
+): Tool[] {
   const tools: Tool[] = [];
 
   const toolTypes: Array<{
@@ -102,21 +102,37 @@ function parseToolConfig(
 ): Tool | null {
   try {
     const content = fs.readFileSync(configFile, 'utf-8');
-    const config = parse(content);
+    const config = parse(content) as unknown;
 
-    if (!config.id || !config.name || !config.version) {
+    // Type guard to check if config has required properties
+    if (
+      !config ||
+      typeof config !== 'object' ||
+      !('id' in config) ||
+      !('name' in config) ||
+      !('version' in config)
+    ) {
       return null;
     }
 
+    const typedConfig = config as {
+      id: string;
+      name: string;
+      version: string;
+      description?: string;
+      category?: string;
+      metadata?: Tool['metadata'];
+    };
+
     return {
-      id: config.id,
-      name: config.name,
-      version: config.version,
-      description: config.description || '',
-      category: config.category || 'general',
+      id: typedConfig.id,
+      name: typedConfig.name,
+      version: typedConfig.version,
+      description: typedConfig.description || '',
+      category: typedConfig.category || 'general',
       type,
       path: toolDir,
-      metadata: config.metadata,
+      metadata: typedConfig.metadata,
     };
   } catch {
     return null;
@@ -126,11 +142,8 @@ function parseToolConfig(
 /**
  * Searches for tools matching a query
  */
-export async function searchTools(
-  query?: string,
-  toolkitPath?: string
-): Promise<Tool[]> {
-  const allTools = await scanToolkit(toolkitPath);
+export function searchTools(query?: string, toolkitPath?: string): Tool[] {
+  const allTools = scanToolkit(toolkitPath);
 
   if (!query) {
     return allTools;
@@ -151,10 +164,7 @@ export async function searchTools(
 /**
  * Gets a specific tool by its ID
  */
-export async function getTool(
-  toolId: string,
-  toolkitPath?: string
-): Promise<Tool | null> {
-  const allTools = await scanToolkit(toolkitPath);
+export function getTool(toolId: string, toolkitPath?: string): Tool | null {
+  const allTools = scanToolkit(toolkitPath);
   return allTools.find((tool) => tool.id === toolId) || null;
 }

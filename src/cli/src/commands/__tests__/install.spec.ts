@@ -26,7 +26,7 @@ describe('installCommand', () => {
     jest.clearAllMocks();
 
     // Default mocks
-    mockToolkitScanner.getTool.mockResolvedValue({
+    mockToolkitScanner.getTool.mockReturnValue({
       id: 'code-review-ts',
       name: 'Code Review TypeScript',
       version: '1.2.0',
@@ -45,6 +45,7 @@ describe('installCommand', () => {
     mockRegistry.registerInstallation.mockReturnValue(undefined);
 
     // Mock inquirer to provide path
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (mockInquirer.prompt as any).mockResolvedValue({
       userPath: '~/.claude/tools/prompt/code-review-ts',
     });
@@ -140,7 +141,7 @@ describe('installCommand', () => {
     });
 
     it('should handle tool not found', async () => {
-      mockToolkitScanner.getTool.mockResolvedValue(null);
+      mockToolkitScanner.getTool.mockReturnValue(null);
 
       await installCommand('prompt/nonexistent');
 
@@ -176,6 +177,7 @@ describe('installCommand', () => {
     });
 
     it('should warn about existing installation', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any).mockResolvedValue({
         proceed: false,
       });
@@ -188,6 +190,7 @@ describe('installCommand', () => {
     });
 
     it('should prompt for reinstall confirmation', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any).mockResolvedValue({
         proceed: false,
       });
@@ -206,6 +209,7 @@ describe('installCommand', () => {
     });
 
     it('should cancel if user declines reinstall', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any).mockResolvedValue({
         proceed: false,
       });
@@ -217,6 +221,7 @@ describe('installCommand', () => {
     });
 
     it('should proceed if user confirms reinstall', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any)
         .mockResolvedValueOnce({ proceed: true })
         .mockResolvedValueOnce({
@@ -240,7 +245,7 @@ describe('installCommand', () => {
     it('should call functions in correct order', async () => {
       const callOrder: string[] = [];
 
-      mockToolkitScanner.getTool.mockImplementation(async () => {
+      mockToolkitScanner.getTool.mockImplementation(() => {
         callOrder.push('getTool');
         return {
           id: 'code-review-ts',

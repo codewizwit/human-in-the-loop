@@ -17,7 +17,7 @@ describe('searchCommand', () => {
     jest.clearAllMocks();
 
     // Default mock: return some tools
-    mockToolkitScanner.searchTools.mockResolvedValue([
+    mockToolkitScanner.searchTools.mockReturnValue([
       {
         id: 'code-review-ts',
         name: 'Code Review TypeScript',
@@ -57,8 +57,8 @@ describe('searchCommand', () => {
   });
 
   describe('with query parameter', () => {
-    it('should display search query', async () => {
-      await searchCommand('code review');
+    it('should display search query', () => {
+      searchCommand('code review');
 
       expect(consoleMock.contains('Searching for: "code review"')).toBe(true);
       expect(mockToolkitScanner.searchTools).toHaveBeenCalledWith(
@@ -66,14 +66,14 @@ describe('searchCommand', () => {
       );
     });
 
-    it('should show search icon', async () => {
-      await searchCommand('testing');
+    it('should show search icon', () => {
+      searchCommand('testing');
 
       expect(consoleMock.contains('🔍')).toBe(true);
     });
 
-    it('should display search results', async () => {
-      await searchCommand('code');
+    it('should display search results', () => {
+      searchCommand('code');
 
       const output = consoleMock.getOutput();
 
@@ -85,15 +85,15 @@ describe('searchCommand', () => {
   });
 
   describe('without query parameter', () => {
-    it('should show all available tools message', async () => {
-      await searchCommand();
+    it('should show all available tools message', () => {
+      searchCommand();
 
       expect(consoleMock.contains('Showing all available tools')).toBe(true);
       expect(mockToolkitScanner.searchTools).toHaveBeenCalledWith(undefined);
     });
 
-    it('should display all results', async () => {
-      await searchCommand();
+    it('should display all results', () => {
+      searchCommand();
 
       const output = consoleMock.getOutput();
 
@@ -103,8 +103,8 @@ describe('searchCommand', () => {
   });
 
   describe('output format', () => {
-    it('should display tool name, description, and version', async () => {
-      await searchCommand('test');
+    it('should display tool name, description, and version', () => {
+      searchCommand('test');
 
       const output = consoleMock.getOutput();
 
@@ -118,22 +118,22 @@ describe('searchCommand', () => {
       expect(output).toContain('Version: 1.0.0');
     });
 
-    it('should show tags if available', async () => {
-      await searchCommand();
+    it('should show tags if available', () => {
+      searchCommand();
 
       const output = consoleMock.getOutput();
 
       expect(output).toContain('Tags: typescript, code-review');
     });
 
-    it('should show install tip at the end', async () => {
-      await searchCommand();
+    it('should show install tip at the end', () => {
+      searchCommand();
 
       expect(consoleMock.contains('hitl install <type>/<id>')).toBe(true);
     });
 
-    it('should number the results', async () => {
-      await searchCommand();
+    it('should number the results', () => {
+      searchCommand();
 
       const output = consoleMock.getOutput();
 
@@ -145,44 +145,44 @@ describe('searchCommand', () => {
 
   describe('empty results', () => {
     beforeEach(() => {
-      mockToolkitScanner.searchTools.mockResolvedValue([]);
+      mockToolkitScanner.searchTools.mockReturnValue([]);
     });
 
-    it('should display no tools message with query', async () => {
-      await searchCommand('nonexistent');
+    it('should display no tools message with query', () => {
+      searchCommand('nonexistent');
 
       expect(
         consoleMock.contains('No tools found matching "nonexistent"')
       ).toBe(true);
     });
 
-    it('should display no tools message without query', async () => {
-      await searchCommand();
+    it('should display no tools message without query', () => {
+      searchCommand();
 
       expect(consoleMock.contains('No tools found in toolkit')).toBe(true);
     });
 
-    it('should not show results section', async () => {
-      await searchCommand('nonexistent');
+    it('should not show results section', () => {
+      searchCommand('nonexistent');
 
       expect(consoleMock.contains('Found')).toBe(false);
     });
   });
 
   describe('error handling', () => {
-    it('should handle toolkit scanning errors', async () => {
-      mockToolkitScanner.searchTools.mockRejectedValue(
-        new Error('Failed to read toolkit')
-      );
+    it('should handle toolkit scanning errors', () => {
+      mockToolkitScanner.searchTools.mockImplementation(() => {
+        throw new Error('Failed to read toolkit');
+      });
 
-      await searchCommand();
+      searchCommand();
 
       expect(consoleMock.contains('Error scanning toolkit')).toBe(true);
       expect(consoleMock.contains('Failed to read toolkit')).toBe(true);
     });
 
-    it('should complete without throwing', async () => {
-      await expect(searchCommand('code review')).resolves.not.toThrow();
+    it('should complete without throwing', () => {
+      expect(() => searchCommand('code review')).not.toThrow();
     });
   });
 });
