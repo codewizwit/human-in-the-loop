@@ -2,7 +2,7 @@
 
 **Centralized repository and governance system for AI productivity tools**
 
-A developer-first toolkit for managing Claude prompts, agents, context packs, and evaluators with standardization, quality control, and visibility.
+A developer-first open sourced toolkit for managing AI prompts, agents, context packs, and evaluators with standardization, quality control, and visibility.
 
 ---
 
