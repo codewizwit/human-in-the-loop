@@ -1,0 +1,91 @@
+# Auto-labeler configuration
+# Labels PRs based on changed files
+
+# Documentation changes
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          [
+            'docs/**/*',
+            '*.md',
+            'README.md',
+            'CONTRIBUTING.md',
+            'ACCOUNTABILITY.md',
+            'PLANNING.md',
+            'CLAUDE.MD',
+          ]
+
+# CLI changes
+cli:
+  - changed-files:
+      - any-glob-to-any-file: ['src/cli/**/*']
+
+# Governance changes
+governance:
+  - changed-files:
+      - any-glob-to-any-file:
+          [
+            'src/governance/**/*',
+            'ACCOUNTABILITY.md',
+            'docs/governance-model.md',
+          ]
+
+# Prompt changes
+prompt:
+  - changed-files:
+      - any-glob-to-any-file: ['toolkit/prompts/**/*']
+
+# Agent changes
+agent:
+  - changed-files:
+      - any-glob-to-any-file: ['toolkit/agents/**/*']
+
+# Context pack changes
+context-pack:
+  - changed-files:
+      - any-glob-to-any-file: ['toolkit/context-packs/**/*']
+
+# Evaluator changes
+evaluator:
+  - changed-files:
+      - any-glob-to-any-file: ['toolkit/evaluators/**/*']
+
+# Guardrail changes
+guardrail:
+  - changed-files:
+      - any-glob-to-any-file: ['toolkit/guardrails/**/*']
+
+# Testing changes
+test:
+  - changed-files:
+      - any-glob-to-any-file:
+          ['**/*.spec.ts', '**/*.test.ts', '**/jest.config.ts']
+
+# CI/CD changes
+ci-cd:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/workflows/**/*', '.github/labeler.yml']
+
+# Configuration changes
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          [
+            '*.json',
+            '*.yml',
+            '*.yaml',
+            'nx.json',
+            'tsconfig*.json',
+            '.eslintrc.json',
+            '.prettierrc*',
+          ]
+
+# Dependencies
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ['package.json', 'pnpm-lock.yaml']
+
+# Planning and roadmap
+planning:
+  - changed-files:
+      - any-glob-to-any-file: ['planning/**/*', 'PLANNING.md']
