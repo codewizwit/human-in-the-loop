@@ -91,7 +91,8 @@ jobs:
             if [[ $file == *.ts && $file != *.spec.ts ]]; then
               # Check for functions without TypeDoc comments
               if grep -P 'export (async )?function \w+' "$file"; then
-                if ! grep -B1 -P 'export (async )?function \w+' "$file" | grep -q '/\*\*'; then
+                # Look back up to 10 lines to find /** comment (handles multi-line TypeDoc)
+                if ! grep -B10 -P 'export (async )?function \w+' "$file" | grep -q '/\*\*'; then
                   echo "❌ Missing TypeDoc comment in $file"
                   exit 1
                 fi
