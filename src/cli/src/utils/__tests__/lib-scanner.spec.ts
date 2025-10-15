@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { scanToolkit, searchTools, getTool } from '../toolkit-scanner';
+import { scanToolkit, searchTools, getTool } from '../lib-scanner';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -11,7 +11,7 @@ jest.mock('path');
 const mockFs = fs as jest.Mocked<typeof fs>;
 const mockPath = path as jest.Mocked<typeof path>;
 
-describe('toolkit-scanner', () => {
+describe('lib-scanner', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 

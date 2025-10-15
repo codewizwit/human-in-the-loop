@@ -115,8 +115,8 @@ jobs:
         run: |
           echo "Checking for READMEs in new feature directories..."
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            # Check if new prompt or agent directory in toolkit/
-            if [[ $file == toolkit/prompts/*/* || $file == toolkit/agents/*/* ]]; then
+            # Check if new prompt or agent directory in lib/
+            if [[ $file == lib/prompts/*/* || $file == lib/agents/*/* ]]; then
               dir=$(dirname "$file")
               if [ ! -f "$dir/README.md" ]; then
                 echo "❌ Missing README.md in $dir"
@@ -160,8 +160,8 @@ jobs:
       - name: Validate prompt YAML files
         run: |
           echo "Validating prompt.yaml files..."
-          # Find all prompt.yaml files in toolkit/
-          find toolkit/prompts -name "prompt.yaml" 2>/dev/null | while read file; do
+          # Find all prompt.yaml files in lib/
+          find lib/prompts -name "prompt.yaml" 2>/dev/null | while read file; do
             echo "Checking $file..."
             # Check required fields exist
             if ! grep -q "^id:" "$file"; then

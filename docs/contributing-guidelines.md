@@ -26,11 +26,11 @@ Detailed guide for contributing prompts, agents, evaluators, guardrails, and con
    git checkout -b feature/prompt-react-review
    ```
 3. **Place your contribution** in the appropriate toolkit directory:
-   - Prompts: `toolkit/prompts/[your-prompt]/`
-   - Agents: `toolkit/agents/[your-agent]/`
-   - Evaluators: `toolkit/evaluators/[your-evaluator]/`
-   - Guardrails: `toolkit/guardrails/[your-guardrail]/`
-   - Context Packs: `toolkit/context-packs/[your-pack]/`
+   - Prompts: `lib/prompts/[your-prompt]/`
+   - Agents: `lib/agents/[your-agent]/`
+   - Evaluators: `lib/evaluators/[your-evaluator]/`
+   - Guardrails: `lib/guardrails/[your-guardrail]/`
+   - Context Packs: `lib/context-packs/[your-pack]/`
 
 ### Step 2: Meet Quality Standards
 
@@ -64,11 +64,11 @@ Every contribution must include:
 pnpm nx run governance:validate
 
 # Test locally
-hitl install toolkit/[type]/[your-contribution]
+hitl install lib/[type]/[your-contribution]
 # Use the tool and verify it works as expected
 
 # Run evaluators if applicable
-hitl evaluate --evaluator code-quality toolkit/[your-contribution]
+hitl evaluate --evaluator code-quality lib/[your-contribution]
 ```
 
 ### Step 4: Submit Pull Request
@@ -138,7 +138,7 @@ All contributions must align with the [Developer-First AI Accountability Framewo
 ### Prompt Structure
 
 ```
-toolkit/prompts/[prompt-name]/
+lib/prompts/[prompt-name]/
 ├── prompt.yaml          # Prompt definition
 ├── README.md            # Documentation
 └── examples/            # Example usage
@@ -275,7 +275,7 @@ Agents are more complex than prompts. Requirements:
 - Evaluation criteria
 - Comprehensive testing
 
-See existing agents in `toolkit/agents/` for examples.
+See existing agents in `lib/agents/` for examples.
 
 ---
 

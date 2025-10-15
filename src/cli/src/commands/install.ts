@@ -8,7 +8,7 @@ import {
   logError,
 } from '../utils/logger';
 import chalk from 'chalk';
-import { getTool } from '../utils/toolkit-scanner';
+import { getTool } from '../utils/lib-scanner';
 import { copyDirectory, resolvePath } from '../utils/file-operations';
 import {
   registerInstallation,

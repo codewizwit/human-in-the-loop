@@ -8,12 +8,12 @@ import {
 } from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { installCommand } from '../install';
-import * as toolkitScanner from '../../utils/toolkit-scanner';
+import * as toolkitScanner from '../../utils/lib-scanner';
 import * as fileOps from '../../utils/file-operations';
 import * as registry from '../../utils/registry';
 import inquirer from 'inquirer';
 
-jest.mock('../../utils/toolkit-scanner');
+jest.mock('../../utils/lib-scanner');
 jest.mock('../../utils/file-operations');
 jest.mock('../../utils/registry');
 jest.mock('inquirer');
@@ -38,7 +38,7 @@ describe('installCommand', () => {
       description: 'TypeScript code review',
       category: 'code-quality',
       type: 'prompt',
-      path: '/toolkit/prompts/code-review-ts',
+      path: '/lib/prompts/code-review-ts',
       metadata: {},
     });
 
@@ -80,7 +80,7 @@ describe('installCommand', () => {
       await installCommand('prompt/code-review-ts');
 
       expect(mockFileOps.copyDirectory).toHaveBeenCalledWith(
-        '/toolkit/prompts/code-review-ts',
+        '/lib/prompts/code-review-ts',
         '/home/user/.claude/tools/prompt/code-review-ts'
       );
       expect(consoleMock.contains('Copying tool files...')).toBe(true);
@@ -121,7 +121,7 @@ describe('installCommand', () => {
 
       expect(mockInquirer.prompt).not.toHaveBeenCalled();
       expect(mockFileOps.copyDirectory).toHaveBeenCalledWith(
-        '/toolkit/prompts/code-review-ts',
+        '/lib/prompts/code-review-ts',
         '/custom/path'
       );
     });
@@ -258,7 +258,7 @@ describe('installCommand', () => {
           description: 'TypeScript code review',
           category: 'code-quality',
           type: 'prompt',
-          path: '/toolkit/prompts/code-review-ts',
+          path: '/lib/prompts/code-review-ts',
           metadata: {},
         };
       });

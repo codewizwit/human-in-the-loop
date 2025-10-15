@@ -33,27 +33,27 @@ governance:
 # Prompt changes
 prompt:
   - changed-files:
-      - any-glob-to-any-file: ['toolkit/prompts/**/*']
+      - any-glob-to-any-file: ['lib/prompts/**/*']
 
 # Agent changes
 agent:
   - changed-files:
-      - any-glob-to-any-file: ['toolkit/agents/**/*']
+      - any-glob-to-any-file: ['lib/agents/**/*']
 
 # Context pack changes
 context-pack:
   - changed-files:
-      - any-glob-to-any-file: ['toolkit/context-packs/**/*']
+      - any-glob-to-any-file: ['lib/context-packs/**/*']
 
 # Evaluator changes
 evaluator:
   - changed-files:
-      - any-glob-to-any-file: ['toolkit/evaluators/**/*']
+      - any-glob-to-any-file: ['lib/evaluators/**/*']
 
 # Guardrail changes
 guardrail:
   - changed-files:
-      - any-glob-to-any-file: ['toolkit/guardrails/**/*']
+      - any-glob-to-any-file: ['lib/guardrails/**/*']
 
 # Testing changes
 test:

@@ -73,13 +73,13 @@
   },
   {
     "title": "Add Code Quality Evaluator",
-    "body": "Create evaluator implementation at `toolkit/evaluators/code-quality-evaluator.yaml`.\n\n**Purpose**: Validates code quality metrics for AI-generated code.\n\n**Acceptance Criteria**:\n- YAML schema with evaluation rules\n- Checks complexity, maintainability, test coverage\n- Validates TypeDoc comments, naming conventions\n- Pass/fail thresholds configurable\n- README with usage and metrics",
+    "body": "Create evaluator implementation at `lib/evaluators/code-quality-evaluator.yaml`.\n\n**Purpose**: Validates code quality metrics for AI-generated code.\n\n**Acceptance Criteria**:\n- YAML schema with evaluation rules\n- Checks complexity, maintainability, test coverage\n- Validates TypeDoc comments, naming conventions\n- Pass/fail thresholds configurable\n- README with usage and metrics",
     "labels": ["evaluator", "governance"],
     "priority": "high"
   },
   {
     "title": "Add Security Evaluator",
-    "body": "Create evaluator implementation at `toolkit/evaluators/security-evaluator.yaml`.\n\n**Purpose**: Validates security best practices in AI-generated code.\n\n**Acceptance Criteria**:\n- YAML schema with security rules\n- Checks for hardcoded secrets, SQL injection, XSS\n- Validates authentication and authorization\n- Integration with security scanning tools\n- README with security checklist",
+    "body": "Create evaluator implementation at `lib/evaluators/security-evaluator.yaml`.\n\n**Purpose**: Validates security best practices in AI-generated code.\n\n**Acceptance Criteria**:\n- YAML schema with security rules\n- Checks for hardcoded secrets, SQL injection, XSS\n- Validates authentication and authorization\n- Integration with security scanning tools\n- README with security checklist",
     "labels": ["evaluator", "governance", "security"],
     "priority": "high"
   },

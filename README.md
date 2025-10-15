@@ -89,15 +89,15 @@ The CLI prompts for installation location (or use `--path` for non-interactive):
 
 ## What's Inside
 
-### 📚 Prompt Library (`/toolkit/prompts`)
+### 📚 Prompt Library (`/lib/prompts`)
 
 Production-ready prompts organized by use case, versioned and quality-assured. Each prompt includes metadata, usage examples, and expected outputs.
 
-### 🤖 Agent Registry (`/toolkit/agents`)
+### 🤖 Agent Registry (`/lib/agents`)
 
 Catalog of AI agents with their configurations, capabilities, and integration guides. Includes performance benchmarks and cost estimates.
 
-### 🎯 Context Packs (`/toolkit/context-packs`)
+### 🎯 Context Packs (`/lib/context-packs`)
 
 Framework-specific knowledge bases that provide agents with deep technical context:
 
@@ -105,11 +105,11 @@ Framework-specific knowledge bases that provide agents with deep technical conte
 - **NestJS**: Module structure, dependency injection, middleware, guards
 - **CI/CD**: Pipeline patterns, deployment strategies, environment configs
 
-### ✅ Evaluators (`/toolkit/evaluators`)
+### ✅ Evaluators (`/lib/evaluators`)
 
 Quality assurance tools that validate AI outputs against defined criteria like code quality, documentation completeness, security, and performance.
 
-### 🛡️ Guardrails (`/toolkit/guardrails`)
+### 🛡️ Guardrails (`/lib/guardrails`)
 
 Safety mechanisms that enforce responsible AI usage, including input validation, output filtering, rate limiting, and audit logging.
 
@@ -130,7 +130,7 @@ human-in-the-loop/
 ├── src/
 │   ├── cli/                     # TypeScript CLI tool
 │   └── governance/              # Contribution validation tooling
-├── toolkit/
+├── lib/
 │   ├── prompts/                 # Shared prompt library
 │   ├── agents/                  # Agent definitions and configs
 │   ├── evaluators/              # Quality evaluation tools

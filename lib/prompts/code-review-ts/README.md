@@ -358,7 +358,7 @@ done
 Found a TypeScript pattern we should review for? Submit an example:
 
 ```bash
-hitl contribute prompt toolkit/prompts/code-review-ts
+hitl contribute prompt lib/prompts/code-review-ts
 ```
 
 See [Contributing Guidelines](../../../docs/contributing-guidelines.md) for details.
