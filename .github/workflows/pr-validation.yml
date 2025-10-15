@@ -103,8 +103,9 @@ jobs:
       - name: Check for inline comments
         run: |
           echo "Checking for inline comments..."
-          # Check for inline comments (//comment style)
-          if grep -r --include="*.ts" --exclude-dir=node_modules --exclude-dir=dist "^\s*//" .; then
+          # Check for inline comments (//comment style) in production code only
+          # Exclude test files (*.spec.ts) which are allowed to have inline comments per CLAUDE.MD
+          if grep -r --include="*.ts" --exclude="*.spec.ts" --exclude-dir=node_modules --exclude-dir=dist "^\s*//" .; then
             echo "❌ Found inline comments. Please use TypeDoc comments above functions only."
             exit 1
           fi
