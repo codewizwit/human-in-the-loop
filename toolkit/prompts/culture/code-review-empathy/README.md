@@ -329,13 +329,13 @@ Found a harsh feedback pattern we should handle better? Submit an example:
 hitl contribute prompt toolkit/prompts/culture/code-review-empathy
 ```
 
-See [Contributing Guidelines](../../../docs/contributing-guidelines.md) for details.
+See [Contributing Guidelines](../../../../docs/contributing-guidelines.md) for details.
 
 ---
 
 ## License
 
-MIT License - see [LICENSE](../../../LICENSE) for details
+MIT License - see [LICENSE](../../../../LICENSE) for details
 
 ---
 
