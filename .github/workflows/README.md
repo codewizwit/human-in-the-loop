@@ -21,14 +21,17 @@ This directory contains the CI/CD workflows for the Human-in-the-Loop project. O
 **Purpose:** Validate code quality on every push to main and feature branches
 
 **Triggers:**
+
 - Push to `main`, `feature/**`, `bugfix/**`, `hotfix/**`
 
 **Jobs:**
+
 - **Lint** (calls `lint.yml`) - ESLint + Prettier formatting
 - **Test** (calls `test.yml`) - Unit tests with coverage
 - **Build** - Nx build of CLI package
 
 **When it runs:**
+
 - Every push to feature branches → Immediate feedback
 - Every push to main → Post-merge validation
 
@@ -39,9 +42,11 @@ This directory contains the CI/CD workflows for the Human-in-the-Loop project. O
 **Purpose:** Comprehensive quality gate before code can be merged
 
 **Triggers:**
+
 - Pull requests to `main`
 
 **Jobs:**
+
 - **Lint & Format** (calls `lint.yml`)
 - **Test** (calls `test.yml`)
 - **Build** - Type checking + build validation
@@ -58,6 +63,7 @@ This directory contains the CI/CD workflows for the Human-in-the-Loop project. O
   - Secrets scanning
 
 **When it runs:**
+
 - Only when a PR is opened/updated to main
 - More comprehensive than CI to ensure merge quality
 
@@ -68,15 +74,18 @@ This directory contains the CI/CD workflows for the Human-in-the-Loop project. O
 **Purpose:** Ensure all documentation links are valid
 
 **Triggers:**
+
 - Push to `main` only
 - Weekly schedule (Mondays at 9am UTC)
 
 **Jobs:**
+
 - Check all markdown links in docs/
 - Validate internal links between files
 - Check external links (weekly to catch link rot)
 
 **When it runs:**
+
 - After merge to main → Catch broken links from PRs
 - Weekly → Detect external link breakage
 
@@ -89,12 +98,15 @@ This directory contains the CI/CD workflows for the Human-in-the-Loop project. O
 **Purpose:** Automatically label PRs based on changed files
 
 **Triggers:**
+
 - Pull request opened/synchronized/reopened
 
 **Jobs:**
+
 - Apply labels using `.github/labeler.yml` config
 
 **Labels:**
+
 - `prompt`, `agent`, `context-pack`, `cli`, `docs`, `test`, etc.
 
 ---
@@ -104,17 +116,20 @@ This directory contains the CI/CD workflows for the Human-in-the-Loop project. O
 These workflows are called by other workflows, not triggered directly:
 
 #### `lint.yml` (workflow_call)
+
 - Runs ESLint
 - Checks Prettier formatting
 - Called by: `ci.yml`, `pr-validation.yml`
 
 #### `test.yml` (workflow_call)
+
 - Runs unit tests
 - Generates coverage reports
 - Uploads to Codecov
 - Called by: `ci.yml`, `pr-validation.yml`
 
 #### `setup-node.yml` (workflow_call)
+
 - Reusable Node.js setup
 - Configures pnpm, caching, dependencies
 
@@ -213,17 +228,20 @@ pr-validation.yml: Only on pull_request (not push)
 ### Guidelines
 
 1. **Choose the right trigger:**
+
    - Development feedback → Use `push` trigger in `ci.yml`
    - PR quality gate → Use `pull_request` trigger in `pr-validation.yml`
    - Post-merge validation → Use `push` to `main` only
    - Scheduled tasks → Use `schedule` cron
 
 2. **Avoid duplication:**
+
    - Check if another workflow already covers your use case
    - Don't add both `push` and `pull_request` for the same job
    - Use reusable workflows (`workflow_call`) to avoid code duplication
 
 3. **Name clearly:**
+
    - Use descriptive workflow names
    - Match filename to workflow purpose
 
@@ -239,6 +257,7 @@ pr-validation.yml: Only on pull_request (not push)
 ### Why didn't my workflow run?
 
 **Check the trigger conditions:**
+
 - Does your branch match the pattern? (`feature/**`, not `feat/**`)
 - Are you pushing to the right branch? (main vs feature)
 - Is it a draft PR? (some workflows skip drafts)
@@ -246,6 +265,7 @@ pr-validation.yml: Only on pull_request (not push)
 ### Why is my job running twice?
 
 **Check for duplicate triggers:**
+
 - Look for both `push` and `pull_request` on the same branches
 - Check if multiple workflows define the same job
 - Review this README's execution flow diagrams
@@ -253,6 +273,7 @@ pr-validation.yml: Only on pull_request (not push)
 ### How do I test workflow changes?
 
 **Best practices:**
+
 1. Create a feature branch: `feature/workflow-updates`
 2. Push changes → `ci.yml` runs
 3. Open PR → `pr-validation.yml` runs
@@ -263,14 +284,14 @@ pr-validation.yml: Only on pull_request (not push)
 
 ## Quick Reference
 
-| Workflow | Trigger | Main Purpose |
-|----------|---------|--------------|
-| `ci.yml` | `push` to main/feature/* | Fast feedback during development |
-| `pr-validation.yml` | `pull_request` to main | Comprehensive PR quality gate |
-| `check-links.yml` | `push` to main, weekly cron | Validate documentation links |
-| `label-pr.yml` | `pull_request` events | Auto-label PRs by file changes |
-| `lint.yml` | `workflow_call` | Reusable linting workflow |
-| `test.yml` | `workflow_call` | Reusable testing workflow |
+| Workflow            | Trigger                     | Main Purpose                     |
+| ------------------- | --------------------------- | -------------------------------- |
+| `ci.yml`            | `push` to main/feature/\*   | Fast feedback during development |
+| `pr-validation.yml` | `pull_request` to main      | Comprehensive PR quality gate    |
+| `check-links.yml`   | `push` to main, weekly cron | Validate documentation links     |
+| `label-pr.yml`      | `pull_request` events       | Auto-label PRs by file changes   |
+| `lint.yml`          | `workflow_call`             | Reusable linting workflow        |
+| `test.yml`          | `workflow_call`             | Reusable testing workflow        |
 
 ---
 
@@ -281,6 +302,7 @@ pr-validation.yml: Only on pull_request (not push)
 **Review Cadence:** Update when adding new workflows or changing trigger strategy
 
 **Changelog:**
+
 - 2025-10-15: Removed duplicate triggers (ci.yml + pr-validation.yml deduplication)
 - 2025-10-15: Created this README to document workflow strategy
 
