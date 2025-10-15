@@ -57,11 +57,11 @@ hitl use code-review-empathy \
 
 ### Input Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `feedback` | ✅ Yes | The original code review comment to rewrite |
-| `code_context` | ⬜ No | The code snippet being reviewed (helps AI provide better suggestions) |
-| `reviewer_intent` | ⬜ No | What you're trying to communicate (e.g., "performance concern", "security issue") |
+| Variable          | Required | Description                                                                       |
+| ----------------- | -------- | --------------------------------------------------------------------------------- |
+| `feedback`        | ✅ Yes   | The original code review comment to rewrite                                       |
+| `code_context`    | ⬜ No    | The code snippet being reviewed (helps AI provide better suggestions)             |
+| `reviewer_intent` | ⬜ No    | What you're trying to communicate (e.g., "performance concern", "security issue") |
 
 ### Output Structure
 
@@ -79,13 +79,15 @@ The prompt returns structured feedback:
 ### Example 1: Type Safety Issues
 
 #### Before (Harsh)
+
 ```
 This is terrible. You're using any types everywhere.
 Did you even read the TypeScript docs?
 ```
 
 #### After (Empathetic)
-```
+
+````
 Thanks for getting this function working! I can see the logic flow is solid.
 I noticed we're using `any` types here, which will make it harder to catch
 bugs at compile time. Would you be open to defining interfaces for the
@@ -100,10 +102,11 @@ interface DataItem {
 function processData(data: DataItem[]): number[] {
   return data.map((item) => item.value);
 }
-```
+````
 
 This way TypeScript can help us catch issues if the data shape changes.
 What do you think?
+
 ```
 
 **Key Improvements:**
@@ -122,30 +125,35 @@ What do you think?
 
 #### Before (Dismissive)
 ```
+
 Why would you do it this way? Just use the built-in method.
+
 ```
 
 #### After (Collaborative)
 ```
+
 Nice work calculating the average! I see you're using `reduce` here,
 which definitely works.
 
 I wanted to share an alternative approach that might be slightly more
 readable - we could separate the sum and division:
+
 ```typescript
 const sum = arr.reduce((acc, val) => acc + val, 0);
 const average = sum / arr.length;
 ```
 
 Or if we want to be more explicit about handling empty arrays:
+
 ```typescript
-const average = arr.length > 0
-  ? arr.reduce((acc, val) => acc + val, 0) / arr.length
-  : 0;
+const average =
+  arr.length > 0 ? arr.reduce((acc, val) => acc + val, 0) / arr.length : 0;
 ```
 
 Both approaches work - curious if you have a preference or if there's
 a reason you went with the single-line version?
+
 ```
 
 **Key Improvements:**
@@ -163,11 +171,14 @@ a reason you went with the single-line version?
 
 #### Before (Absolute)
 ```
+
 This will never scale. Completely wrong approach.
+
 ```
 
 #### After (Context-Aware)
 ```
+
 Great job getting the user updates working! I want to flag a potential
 performance concern for when this code runs with larger datasets.
 
@@ -176,10 +187,9 @@ fine for small batches but could become slow as we scale. Each `await`
 waits for the previous update to finish before starting the next one.
 
 Would you be open to batching these updates? Here's one approach:
+
 ```typescript
-await Promise.all(
-  users.map(user => db.updateUser(user.id, user.data))
-);
+await Promise.all(users.map((user) => db.updateUser(user.id, user.data)));
 ```
 
 This runs all updates in parallel, which should be much faster for large
@@ -188,7 +198,8 @@ want to add a try/catch or use `Promise.allSettled` if we need to handle
 partial failures.
 
 Happy to pair on this if you'd like to discuss the trade-offs!
-```
+
+````
 
 **Key Improvements:**
 - Recognized the code works currently
@@ -245,12 +256,14 @@ hitl use code-review-empathy
 hitl use code-review-empathy \
   --feedback "This code is inefficient" \
   --code_context "$(cat snippet.ts)"
-```
+````
 
 ### IDE Integration
+
 Configure as a custom command in VS Code, JetBrains, or your editor of choice.
 
 ### CI/CD Hooks
+
 Add as a pre-comment hook to automatically check review tone before posting:
 
 ```yaml
@@ -267,6 +280,7 @@ jobs:
 ```
 
 ### Git Hooks
+
 Use as a commit-msg or prepare-commit-msg hook for review comments.
 
 ---
@@ -274,6 +288,7 @@ Use as a commit-msg or prepare-commit-msg hook for review comments.
 ## Best Practices
 
 ### Do's ✅
+
 - Use this prompt before posting critical feedback
 - Provide code context when available for better suggestions
 - Specify reviewer intent to help AI understand your goals
@@ -281,6 +296,7 @@ Use as a commit-msg or prepare-commit-msg hook for review comments.
 - Share this tool with your team to establish empathy norms
 
 ### Don'ts ❌
+
 - Don't use as a replacement for learning empathetic communication
 - Don't skip context - it helps the AI provide specific improvements
 - Don't ignore the severity levels - they help prioritize feedback

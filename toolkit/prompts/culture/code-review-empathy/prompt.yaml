@@ -80,7 +80,7 @@ examples:
         function processData(data: any) {
           return data.map((item: any) => item.value);
         }
-      reviewer_intent: "Type safety is important for maintainability"
+      reviewer_intent: 'Type safety is important for maintainability'
     output: |
       **Rewritten Feedback:**
       Thanks for getting this function working! I can see the logic flow is solid. I noticed we're using `any` types here, which will make it harder to catch bugs at compile time. Would you be open to defining interfaces for the data structures?
@@ -112,7 +112,7 @@ examples:
       Type safety prevents runtime errors and makes refactoring safer. It's particularly important in shared codebases where multiple developers rely on consistent interfaces.
 
   - input:
-      feedback: "Why would you do it this way? Just use the built-in method."
+      feedback: 'Why would you do it this way? Just use the built-in method.'
       code_context: |
         const sum = arr.reduce((acc, val) => acc + val, 0) / arr.length;
       reviewer_intent: "There's a more concise approach available"
@@ -148,12 +148,12 @@ examples:
       Readability helps future maintainers (including our future selves) understand the code quickly. Edge case handling prevents potential division-by-zero errors.
 
   - input:
-      feedback: "This will never scale. Completely wrong approach."
+      feedback: 'This will never scale. Completely wrong approach.'
       code_context: |
         for (const user of users) {
           await db.updateUser(user.id, user.data);
         }
-      reviewer_intent: "Sequential database calls will be slow with large datasets"
+      reviewer_intent: 'Sequential database calls will be slow with large datasets'
     output: |
       **Rewritten Feedback:**
       Great job getting the user updates working! I want to flag a potential performance concern for when this code runs with larger datasets.

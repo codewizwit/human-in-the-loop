@@ -56,10 +56,10 @@ hitl use code-review-ts \
 
 ### Input Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `code` | ✅ Yes | The TypeScript code to review |
-| `context` | ⬜ No | Additional context about the code (e.g., "Processing user input data", "API endpoint handler") |
+| Variable  | Required | Description                                                                                    |
+| --------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `code`    | ✅ Yes   | The TypeScript code to review                                                                  |
+| `context` | ⬜ No    | Additional context about the code (e.g., "Processing user input data", "API endpoint handler") |
 
 ### Output Structure
 
@@ -72,6 +72,7 @@ The prompt returns structured feedback organized by category:
 5. **Security** - Input validation, vulnerabilities
 
 Each section provides:
+
 - Specific issues found
 - Code examples showing improvements
 - Actionable recommendations
@@ -83,6 +84,7 @@ Each section provides:
 ### Example 1: Type Safety Issues
 
 #### Input
+
 ```typescript
 function processData(data: any) {
   return data.map((item) => item.value * 2);
@@ -92,7 +94,8 @@ function processData(data: any) {
 **Context:** "Processing user input data"
 
 #### Output
-```
+
+````
 **Type Safety Issues:**
 - Using `any` type loses type safety. Define proper interfaces:
 ```typescript
@@ -103,13 +106,15 @@ interface DataItem {
 function processData(data: DataItem[]): number[] {
   return data.map((item) => item.value * 2);
 }
-```
+````
 
 **Additional Improvements:**
+
 - Add input validation for data array
 - Consider using readonly for immutability
 - Add TypeDoc comment explaining the function's purpose
-```
+
+````
 
 ---
 
@@ -121,12 +126,13 @@ async function fetchUser(id: string) {
   const response = await fetch(`/api/users/${id}`);
   return response.json();
 }
-```
+````
 
 **Context:** "API client method"
 
 #### Output (Expected)
-```
+
+````
 **Best Practices Issues:**
 - Missing error handling for failed requests
 - No type safety on return value
@@ -148,13 +154,15 @@ async function fetchUser(id: string): Promise<User> {
 
   return response.json() as Promise<User>;
 }
-```
+````
 
 **Additional Recommendations:**
+
 - Consider using a type guard to validate the response structure
 - Add retry logic for transient failures
 - Include request timeout handling
-```
+
+````
 
 ---
 
@@ -167,12 +175,13 @@ function filterAndMap(items: Item[]) {
   const mapped = filtered.map(item => item.name);
   return mapped;
 }
-```
+````
 
 **Context:** "Processing large datasets"
 
 #### Output (Expected)
-```
+
+````
 **Performance Improvements:**
 - Multiple array iterations can be combined for better performance:
 
@@ -182,9 +191,10 @@ function filterAndMap(items: Item[]): string[] {
     .filter(item => item.active)
     .map(item => item.name);
 }
-```
+````
 
 Or use a single reduce for maximum efficiency:
+
 ```typescript
 function filterAndMap(items: Item[]): string[] {
   return items.reduce<string[]>((acc, item) => {
@@ -197,10 +207,12 @@ function filterAndMap(items: Item[]): string[] {
 ```
 
 **Code Quality:**
+
 - Removed unnecessary intermediate variables
 - Added return type annotation
 - Chained operations for better readability
-```
+
+````
 
 ---
 
@@ -259,7 +271,7 @@ hitl use code-review-ts --code "$(cat src/myfile.ts)"
 hitl use code-review-ts \
   --code "$(cat src/api.ts)" \
   --context "Express API endpoint handler"
-```
+````
 
 ### IDE Integration
 
@@ -307,6 +319,7 @@ done
 ## Best Practices
 
 ### Do's ✅
+
 - Provide context when reviewing code to get more relevant feedback
 - Use for both self-review and peer review
 - Combine with automated linters (ESLint, Prettier)
@@ -314,6 +327,7 @@ done
 - Share common patterns with your team
 
 ### Don'ts ❌
+
 - Don't skip manual review - use this as a supplement, not replacement
 - Don't apply all suggestions without understanding them
 - Don't ignore your project's specific conventions
