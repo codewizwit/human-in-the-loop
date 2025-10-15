@@ -44,7 +44,7 @@ jobs:
         run: npx nx build cli
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: pnpm typecheck
 
   security:
     name: Security Checks
@@ -172,11 +172,11 @@ jobs:
               echo "❌ Missing 'version' field in $file"
               exit 1
             fi
-            if ! grep -q "^author:" "$file"; then
+            if ! grep -q "author:" "$file"; then
               echo "❌ Missing 'author' in metadata for $file"
               exit 1
             fi
-            if ! grep -q "^license:" "$file"; then
+            if ! grep -q "license:" "$file"; then
               echo "❌ Missing 'license' in metadata for $file"
               exit 1
             fi
