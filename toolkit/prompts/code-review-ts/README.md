@@ -44,7 +44,7 @@ hitl use prompt/code-review-ts
 
 ---
 
-## How to Use
+## Usage
 
 ### Basic Usage
 
