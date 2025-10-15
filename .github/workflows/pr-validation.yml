@@ -44,7 +44,7 @@ jobs:
         run: npx nx build cli
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: pnpm typecheck
 
   security:
     name: Security Checks
@@ -103,8 +103,9 @@ jobs:
       - name: Check for inline comments
         run: |
           echo "Checking for inline comments..."
-          # Check for inline comments (//comment style)
-          if grep -r --include="*.ts" --exclude-dir=node_modules --exclude-dir=dist "^\s*//" .; then
+          # Check for inline comments (//comment style) in production code only
+          # Exclude test files (*.spec.ts) which are allowed to have inline comments per CLAUDE.MD
+          if grep -r --include="*.ts" --exclude="*.spec.ts" --exclude-dir=node_modules --exclude-dir=dist "^\s*//" .; then
             echo "❌ Found inline comments. Please use TypeDoc comments above functions only."
             exit 1
           fi
@@ -171,11 +172,11 @@ jobs:
               echo "❌ Missing 'version' field in $file"
               exit 1
             fi
-            if ! grep -q "^author:" "$file"; then
+            if ! grep -q "author:" "$file"; then
               echo "❌ Missing 'author' in metadata for $file"
               exit 1
             fi
-            if ! grep -q "^license:" "$file"; then
+            if ! grep -q "license:" "$file"; then
               echo "❌ Missing 'license' in metadata for $file"
               exit 1
             fi
