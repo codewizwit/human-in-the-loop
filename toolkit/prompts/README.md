@@ -6,11 +6,13 @@ Production-ready Claude prompts for common software development tasks. Each prom
 
 ```
 prompts/
-├── code-review-ts/        # TypeScript code review
+├── code-review-ts/                    # TypeScript code review
 │   ├── prompt.yaml
 │   └── README.md
-├── api-docs-generator/    # API documentation generation
-└── test-case-generator/   # Test case creation
+└── culture/
+    └── code-review-empathy/           # Empathetic feedback transformation
+        ├── prompt.yaml
+        └── README.md
 ```
 
 ## What's a Prompt?
@@ -71,9 +73,19 @@ metadata:
 
 Comprehensive TypeScript code review covering type safety, best practices, performance, and security.
 
-**Use when**: Reviewing TypeScript code for quality and best practices
+**Version:** 1.2.0
+**Use when:** Reviewing TypeScript code for quality and best practices
 
 [See code-review-ts prompt](./code-review-ts/)
+
+### code-review-empathy
+
+Transform harsh or unclear code review feedback into empathetic, constructive communication.
+
+**Version:** 1.0.0
+**Use when:** Before posting PR comments, when giving feedback to team members
+
+[See code-review-empathy prompt](./culture/code-review-empathy/)
 
 ## Contributing a New Prompt
 
