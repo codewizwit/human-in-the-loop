@@ -18,7 +18,9 @@ import {
 import inquirer from 'inquirer';
 
 /**
- * Installs a prompt or agent from the library
+ * Installs a prompt or agent from the library to the specified location
+ * @param toolIdentifier - The tool identifier in format type/id (e.g., prompt/code-review-ts)
+ * @param options - Optional configuration including installation path
  */
 export async function installCommand(
   toolIdentifier: string,
