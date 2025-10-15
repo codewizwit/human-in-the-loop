@@ -7,9 +7,6 @@ on:
       - 'feature/**'
       - 'bugfix/**'
       - 'hotfix/**'
-  pull_request:
-    branches:
-      - main
 
 jobs:
   lint:

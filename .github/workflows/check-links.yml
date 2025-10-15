@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - main
-      - 'feature/**'
-      - 'bugfix/**'
-      - 'hotfix/**'
-  pull_request:
-    branches:
-      - main
   schedule:
     # Run weekly on Mondays at 9am UTC to catch external link breakage
     - cron: '0 9 * * 1'
