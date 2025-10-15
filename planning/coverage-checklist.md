@@ -49,13 +49,13 @@ This checklist tracks coverage of Alexandra Kelstrom's resume skills across the 
 
 - [x] **Covered**: `docs/governance-model.md` - Review process and quality metrics
 - [x] **Covered**: `ACCOUNTABILITY.md` - Core accountability framework
-- [x] **Covered**: `toolkit/guardrails/` - Safety mechanisms directory
-- [x] **Covered**: `toolkit/evaluators/` - Quality validation directory
+- [x] **Covered**: `lib/guardrails/` - Safety mechanisms directory
+- [x] **Covered**: `lib/evaluators/` - Quality validation directory
 - [ ] **Missing**: `prompts/governance/responsible-ai-audit.md` - AI output quality audit checklist
 - [ ] **Missing**: `prompts/governance/bias-detection.md` - Bias and fairness analysis
 - [ ] **Missing**: `prompts/governance/security-review.md` - AI-generated code security review
-- [ ] **Missing**: `toolkit/evaluators/code-quality-evaluator.yaml` - Code quality evaluator implementation
-- [ ] **Missing**: `toolkit/evaluators/security-evaluator.yaml` - Security evaluation rules
+- [ ] **Missing**: `lib/evaluators/code-quality-evaluator.yaml` - Code quality evaluator implementation
+- [ ] **Missing**: `lib/evaluators/security-evaluator.yaml` - Security evaluation rules
 
 **Rationale**: Alexandra's focus on Responsible AI and governance is a core differentiator. These tools operationalize responsible AI practices.
 
@@ -90,7 +90,7 @@ This checklist tracks coverage of Alexandra Kelstrom's resume skills across the 
 ## ✅ AI Productivity Layer (CLI, Context Packs, Registry)
 
 - [x] **Covered**: `src/cli/` - CLI implementation
-- [x] **Covered**: `toolkit/prompts/` - Prompt registry structure
+- [x] **Covered**: `lib/prompts/` - Prompt registry structure
 - [x] **Covered**: `docs/cli-reference.md` - CLI documentation
 - [ ] **Missing**: CLI implementation for `search`, `install`, `list`, `contribute` commands
 - [ ] **Missing**: `prompts/meta/prompt-optimization.md` - Optimize existing prompts

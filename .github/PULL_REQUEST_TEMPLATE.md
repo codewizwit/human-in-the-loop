@@ -26,7 +26,7 @@ Before submitting this PR, the following commands were run and passed:
 - [ ] `pnpm build` - Project builds without errors
 - [ ] `pnpm test` - All tests pass (if applicable)
 
-See [CLAUDE.MD PR-Ready Workflow](../CLAUDE.MD#-pr-ready-workflow) for details.
+See [CLAUDE.md PR-Ready Workflow](../CLAUDE.md#-pr-ready-workflow) for details.
 
 ### Code Quality
 

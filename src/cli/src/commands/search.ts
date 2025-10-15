@@ -6,7 +6,7 @@ import {
   logNewLine,
 } from '../utils/logger';
 import chalk from 'chalk';
-import { searchTools } from '../utils/toolkit-scanner';
+import { searchTools } from '../utils/lib-scanner';
 
 /**
  * Searches for prompts and agents in the library based on a query

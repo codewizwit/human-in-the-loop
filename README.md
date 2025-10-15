@@ -26,6 +26,25 @@ AI productivity tools are transforming how we build software, but without centra
 
 ---
 
+## Our Approach: Developer-First AI
+
+AI tools should **enhance** developers, not replace them. Every tool in this repository is evaluated through our [Developer-First AI Accountability Framework](./ACCOUNTABILITY.md) to ensure we're building technology that makes everyone better off - developers, teams, and organizations.
+
+### Core Principles
+
+We believe AI productivity tools should:
+
+- **✨ Enhance** developer happiness and creativity, not replace judgment
+- **📚 Support** learning and growth, not create dependency
+- **🤝 Strengthen** collaboration and trust, not erode human connection
+- **🔍 Maintain** transparency and control, not obscure decision-making
+
+Every prompt, agent, and workflow is designed with these principles in mind. When you use tools from this library, you're not just getting automation - you're getting carefully considered solutions that preserve what makes software development fulfilling while removing tedious friction.
+
+**Read the full framework:** [ACCOUNTABILITY.md](./ACCOUNTABILITY.md)
+
+---
+
 ## Quick Start
 
 Install the CLI:
@@ -89,15 +108,15 @@ The CLI prompts for installation location (or use `--path` for non-interactive):
 
 ## What's Inside
 
-### 📚 Prompt Library (`/toolkit/prompts`)
+### 📚 Prompt Library (`/lib/prompts`)
 
 Production-ready prompts organized by use case, versioned and quality-assured. Each prompt includes metadata, usage examples, and expected outputs.
 
-### 🤖 Agent Registry (`/toolkit/agents`)
+### 🤖 Agent Registry (`/lib/agents`)
 
 Catalog of AI agents with their configurations, capabilities, and integration guides. Includes performance benchmarks and cost estimates.
 
-### 🎯 Context Packs (`/toolkit/context-packs`)
+### 🎯 Context Packs (`/lib/context-packs`)
 
 Framework-specific knowledge bases that provide agents with deep technical context:
 
@@ -105,11 +124,11 @@ Framework-specific knowledge bases that provide agents with deep technical conte
 - **NestJS**: Module structure, dependency injection, middleware, guards
 - **CI/CD**: Pipeline patterns, deployment strategies, environment configs
 
-### ✅ Evaluators (`/toolkit/evaluators`)
+### ✅ Evaluators (`/lib/evaluators`)
 
 Quality assurance tools that validate AI outputs against defined criteria like code quality, documentation completeness, security, and performance.
 
-### 🛡️ Guardrails (`/toolkit/guardrails`)
+### 🛡️ Guardrails (`/lib/guardrails`)
 
 Safety mechanisms that enforce responsible AI usage, including input validation, output filtering, rate limiting, and audit logging.
 
@@ -121,6 +140,10 @@ Developer-friendly command-line interface for discovering, installing, and manag
 
 Contribution validation and quality assurance tooling that ensures all contributions meet project standards.
 
+### 🤝 Accountability Framework (`/ACCOUNTABILITY.md`)
+
+Developer-first principles and practices that guide how we build, evaluate, and deploy AI tools responsibly - ensuring they enhance developers instead of replacing them.
+
 ---
 
 ## Repository Structure
@@ -130,7 +153,7 @@ human-in-the-loop/
 ├── src/
 │   ├── cli/                     # TypeScript CLI tool
 │   └── governance/              # Contribution validation tooling
-├── toolkit/
+├── lib/
 │   ├── prompts/                 # Shared prompt library
 │   ├── agents/                  # Agent definitions and configs
 │   ├── evaluators/              # Quality evaluation tools
@@ -192,6 +215,7 @@ All code must include TypeDoc comments above functions (no inline comments) and 
 ## Documentation
 
 - [Getting Started](./docs/getting-started.md) - Installation, setup, and your first prompt
+- [Accountability Framework](./ACCOUNTABILITY.md) - Developer-first AI principles and responsible usage
 - [AI Best Practices](./docs/ai-best-practices.md) - Responsible AI usage and prompt engineering
 - [Toolkit Usage](./docs/toolkit-usage.md) - Using prompts, agents, evaluators, and guardrails
 - [Contributing Guidelines](./docs/contributing-guidelines.md) - Detailed contribution workflow

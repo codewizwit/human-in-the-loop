@@ -5,7 +5,7 @@ This directory contains all AI productivity tools, resources, and knowledge base
 ## Structure
 
 ```
-toolkit/
+lib/
 ├── prompts/           # Reusable Claude prompts
 ├── agents/            # AI agent configurations
 ├── evaluators/        # Quality validation tools

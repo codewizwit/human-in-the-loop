@@ -326,7 +326,7 @@ Use as a commit-msg or prepare-commit-msg hook for review comments.
 Found a harsh feedback pattern we should handle better? Submit an example:
 
 ```bash
-hitl contribute prompt toolkit/prompts/culture/code-review-empathy
+hitl contribute prompt lib/prompts/culture/code-review-empathy
 ```
 
 See [Contributing Guidelines](../../../../docs/contributing-guidelines.md) for details.

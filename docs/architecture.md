@@ -37,7 +37,7 @@ human-in-the-loop/
 │       ├── checks/           # Quality checks
 │       └── schemas/          # JSON schemas
 │
-├── toolkit/                  # AI productivity tools
+├── lib/                  # AI productivity tools
 │   ├── prompts/             # Reusable prompts
 │   ├── agents/              # AI agents
 │   ├── evaluators/          # Quality evaluators
@@ -167,7 +167,7 @@ Pull Request
 ### Prompt Structure
 
 ```
-toolkit/prompts/[prompt-name]/
+lib/prompts/[prompt-name]/
 ├── prompt.yaml              # Prompt definition
 ├── README.md                # Documentation
 ├── examples/                # Usage examples
@@ -179,7 +179,7 @@ toolkit/prompts/[prompt-name]/
 ### Agent Structure
 
 ```
-toolkit/agents/[agent-name]/
+lib/agents/[agent-name]/
 ├── agent.yaml               # Agent configuration
 ├── README.md                # Documentation
 ├── tools/                   # Agent-specific tools
@@ -363,7 +363,7 @@ Final Result
 
 ### Adding New Tool Types
 
-1. Define schema in `toolkit/[type]/schema.ts`
+1. Define schema in `lib/[type]/schema.ts`
 2. Create README template
 3. Add validation rules to governance layer
 4. Update CLI commands to support new type

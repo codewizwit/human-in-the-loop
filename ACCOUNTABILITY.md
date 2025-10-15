@@ -311,7 +311,7 @@ Please open an issue or PR to improve this framework.
 ## Resources
 
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - How to submit tools that follow this framework
-- [Toolkit README](./toolkit/README.md) - Browse AI tools built with these principles
+- [Toolkit README](./lib/README.md) - Browse AI tools built with these principles
 - [Best Practices](./docs/ai-best-practices.md) - Detailed guidance for tool usage
 
 ---

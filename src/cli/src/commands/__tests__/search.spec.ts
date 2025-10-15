@@ -8,10 +8,10 @@ import {
 } from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { searchCommand } from '../search';
-import * as toolkitScanner from '../../utils/toolkit-scanner';
+import * as toolkitScanner from '../../utils/lib-scanner';
 
-// Mock toolkit-scanner module
-jest.mock('../../utils/toolkit-scanner');
+// Mock lib-scanner module
+jest.mock('../../utils/lib-scanner');
 
 const mockToolkitScanner = toolkitScanner as jest.Mocked<typeof toolkitScanner>;
 
@@ -32,7 +32,7 @@ describe('searchCommand', () => {
         description: 'TypeScript code review with best practices',
         category: 'code-quality',
         type: 'prompt',
-        path: '/toolkit/prompts/code-review-ts',
+        path: '/lib/prompts/code-review-ts',
         metadata: { tags: ['typescript', 'code-review'] },
       },
       {
@@ -42,7 +42,7 @@ describe('searchCommand', () => {
         description: 'Generate comprehensive test suites',
         category: 'testing',
         type: 'agent',
-        path: '/toolkit/agents/test-generator',
+        path: '/lib/agents/test-generator',
         metadata: { tags: ['testing', 'automation'] },
       },
       {
@@ -52,7 +52,7 @@ describe('searchCommand', () => {
         description: 'Generate API documentation from code',
         category: 'documentation',
         type: 'prompt',
-        path: '/toolkit/prompts/api-docs-generator',
+        path: '/lib/prompts/api-docs-generator',
         metadata: { tags: ['docs', 'api'] },
       },
     ]);

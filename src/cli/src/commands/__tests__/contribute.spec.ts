@@ -17,7 +17,7 @@ describe('contributeCommand', () => {
 
   describe('submission process', () => {
     it('should display submission message with type', async () => {
-      await contributeCommand('prompt', 'toolkit/prompts/my-prompt');
+      await contributeCommand('prompt', 'lib/prompts/my-prompt');
 
       expect(consoleMock.contains('📤 Submitting prompt for review')).toBe(
         true
@@ -25,11 +25,9 @@ describe('contributeCommand', () => {
     });
 
     it('should show validation step', async () => {
-      await contributeCommand('agent', 'toolkit/agents/my-agent');
+      await contributeCommand('agent', 'lib/agents/my-agent');
 
-      expect(consoleMock.contains('Validating toolkit/agents/my-agent')).toBe(
-        true
-      );
+      expect(consoleMock.contains('Validating lib/agents/my-agent')).toBe(true);
     });
 
     it('should show quality checks step', async () => {
@@ -83,25 +81,25 @@ describe('contributeCommand', () => {
 
   describe('with different tool types', () => {
     it('should handle prompt submission', async () => {
-      await contributeCommand('prompt', 'toolkit/prompts/test');
+      await contributeCommand('prompt', 'lib/prompts/test');
 
       expect(consoleMock.contains('Submitting prompt')).toBe(true);
     });
 
     it('should handle agent submission', async () => {
-      await contributeCommand('agent', 'toolkit/agents/test');
+      await contributeCommand('agent', 'lib/agents/test');
 
       expect(consoleMock.contains('Submitting agent')).toBe(true);
     });
 
     it('should handle evaluator submission', async () => {
-      await contributeCommand('evaluator', 'toolkit/evaluators/test');
+      await contributeCommand('evaluator', 'lib/evaluators/test');
 
       expect(consoleMock.contains('Submitting evaluator')).toBe(true);
     });
 
     it('should handle guardrail submission', async () => {
-      await contributeCommand('guardrail', 'toolkit/guardrails/test');
+      await contributeCommand('guardrail', 'lib/guardrails/test');
 
       expect(consoleMock.contains('Submitting guardrail')).toBe(true);
     });

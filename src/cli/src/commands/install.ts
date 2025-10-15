@@ -8,7 +8,7 @@ import {
   logError,
 } from '../utils/logger';
 import chalk from 'chalk';
-import { getTool } from '../utils/toolkit-scanner';
+import { getTool } from '../utils/lib-scanner';
 import { copyDirectory, resolvePath } from '../utils/file-operations';
 import {
   registerInstallation,
@@ -18,7 +18,9 @@ import {
 import inquirer from 'inquirer';
 
 /**
- * Installs a prompt or agent from the library
+ * Installs a prompt or agent from the library to the specified location
+ * @param toolIdentifier - The tool identifier in format type/id (e.g., prompt/code-review-ts)
+ * @param options - Optional configuration including installation path
  */
 export async function installCommand(
   toolIdentifier: string,
