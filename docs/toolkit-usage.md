@@ -58,22 +58,59 @@ Prompts are installed to your `.claude/` directory:
         └── examples/        # Example outputs
 ```
 
-**Using in Claude Desktop/CLI:**
+**Using in Claude Code/Desktop:**
 
-1. Reference the prompt file in your conversation
-2. Provide required variables
-3. Review and apply the output
+Instead of manually pasting code, use these developer-friendly approaches:
 
-**Example:**
-
+**1. File Reference (Recommended for Claude Code)**
 ```
-User: Use the prompt at .claude/prompts/code-review-ts/prompt.yaml
+User: Use .claude/prompts/code-review-ts/prompt.yaml
 
-Variables:
-- code: [paste code here]
-- focus_areas: security, performance
+Review the file: src/components/UserProfile.tsx
+Focus on: security, performance
+```
 
-Claude: [Provides structured code review...]
+**2. Command Substitution (For CLI workflows)**
+```bash
+# Read file content automatically
+hit review --prompt code-review-ts --code "$(cat src/UserProfile.tsx)"
+
+# Or review git changes
+hit review --prompt code-review-ts --code "$(git diff HEAD~1)"
+```
+
+**3. Pipe from stdin**
+```bash
+# Pipe file content directly
+cat src/UserProfile.tsx | hit review --prompt code-review-ts
+```
+
+**4. Directory/glob patterns**
+```bash
+# Review multiple files
+hit review --prompt code-review-ts src/components/*.tsx
+
+# Review all changed files
+git diff --name-only | xargs -I {} hit review --prompt code-review-ts {}
+```
+
+**5. Git integration**
+```bash
+# Review current branch changes
+hit review --prompt code-review-ts --git-diff main...HEAD
+
+# Review uncommitted changes
+hit review --prompt code-review-ts --git-diff
+```
+
+**Manual paste (not recommended):**
+```
+User: Use .claude/prompts/code-review-ts/prompt.yaml
+
+code: |
+  [paste code here if absolutely necessary]
+
+focus_areas: security, performance
 ```
 
 ### Customizing Prompts

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { searchCommand } from './commands/search';
 import { installCommand } from './commands/install';
 import { doctorCommand } from './commands/doctor';
@@ -10,10 +12,15 @@ import { listCommand } from './commands/list';
 
 const program = new Command();
 
+// Read version from package.json
+// In the built output: dist/src/cli/package.json and this file is at dist/src/cli/src/cli/src/main.js
+const packageJsonPath = join(__dirname, '../../../package.json');
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+
 program
   .name('hit')
   .description('🌭 Human in the Loop - AI Productivity Toolkit')
-  .version('1.0.0');
+  .version(packageJson.version);
 
 program
   .command('search')

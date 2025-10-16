@@ -22,13 +22,52 @@ export interface Tool {
 }
 
 /**
+ * Checks if a directory is a valid Human-in-the-Loop lib directory
+ * by verifying it has the expected subdirectories
+ * @param libPath - Path to check
+ * @returns True if it looks like a valid lib directory
+ */
+function isValidLibDirectory(libPath: string): boolean {
+  if (!fs.existsSync(libPath)) {
+    return false;
+  }
+
+  // Check for at least one expected subdirectory
+  const expectedDirs = ['prompts', 'agents', 'evaluators', 'guardrails', 'context-packs'];
+  return expectedDirs.some(dir => fs.existsSync(path.join(libPath, dir)));
+}
+
+/**
+ * Gets the default lib directory path
+ * Looks for lib in: 1) current directory, 2) package installation directory
+ * @returns Path to the lib directory
+ */
+function getDefaultLibPath(): string {
+  // First, try current working directory (for development/custom lib)
+  const cwdLib = path.join(process.cwd(), 'lib');
+  if (isValidLibDirectory(cwdLib)) {
+    return cwdLib;
+  }
+
+  // Then, try package installation directory (for global installs)
+  // When installed globally, __dirname is at .../cli/src/cli/src/utils
+  // and lib is at .../cli/lib
+  const packageLib = path.join(__dirname, '../../../../lib');
+  if (isValidLibDirectory(packageLib)) {
+    return packageLib;
+  }
+
+  // Default to current working directory (will show "no tools found")
+  return cwdLib;
+}
+
+/**
  * Scans the lib directory and returns all available tools
- * @param toolkitPath - The root path to the lib directory containing prompts, agents, etc. Defaults to 'lib' in current working directory
+ * @param toolkitPath - The root path to the lib directory containing prompts, agents, etc. Defaults to auto-detected lib directory
  * @returns Array of Tool objects found in the lib directory and its subdirectories
  */
-export function scanToolkit(
-  toolkitPath: string = path.join(process.cwd(), 'lib')
-): Tool[] {
+export function scanToolkit(toolkitPath?: string): Tool[] {
+  const libPath = toolkitPath || getDefaultLibPath();
   const tools: Tool[] = [];
 
   const toolTypes: Array<{
@@ -43,7 +82,7 @@ export function scanToolkit(
   ];
 
   for (const { type, dir } of toolTypes) {
-    const typePath = path.join(toolkitPath, dir);
+    const typePath = path.join(libPath, dir);
 
     if (!fs.existsSync(typePath)) {
       continue;

@@ -63,7 +63,20 @@ hit search "security"
 
 ### `hit install <tool>`
 
-Install a tool from the library.
+Install a tool from the library to your local system.
+
+**What does installing mean?**
+
+Installing copies a prompt, agent, or tool from the library to a location where your AI tools can access it. When you install:
+
+1. **Files are copied** - All prompt/agent files (YAML configs, READMEs, etc.) are copied to your chosen location
+2. **Registration** - The installation is tracked in `~/.hit/registry.json` for easy management
+3. **Ready to use** - AI tools like Claude Code can now access and use the prompt
+
+**Common install locations:**
+- `~/.claude/prompts/` - For Claude Code slash commands
+- `~/.claude/tools/` - For general AI tool integration
+- Custom paths for your specific workflow
 
 ```bash
 # Interactive install (prompts for path)

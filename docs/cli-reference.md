@@ -78,7 +78,20 @@ Found 3 tools:
 
 ### `hit install <tool>`
 
-Install a prompt, agent, or other tool from the toolkit.
+Install a prompt, agent, or other tool from the toolkit to your local system.
+
+**What does installing mean?**
+
+Installing copies a tool from the library to a location where your AI applications can access it. The installation process:
+
+1. **Copies Files** - All tool files (YAML configs, READMEs, examples) are copied to your chosen directory
+2. **Registers Installation** - The tool is tracked in `~/.hit/registry.json` for version management
+3. **Makes Available** - AI tools like Claude Code can now discover and use the installed prompts/agents
+
+**Common install locations:**
+- `~/.claude/prompts/` - For Claude Code slash commands and prompts
+- `~/.claude/tools/` - For general AI tool integration and agents
+- Custom paths for your specific AI workflow or team setup
 
 **Usage:**
 
