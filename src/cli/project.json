@@ -15,7 +15,16 @@
         "bundle": false,
         "main": "src/cli/src/main.ts",
         "tsConfig": "src/cli/tsconfig.app.json",
-        "assets": ["src/cli/src/assets", "src/cli/README.md", "LICENSE"],
+        "assets": [
+          "src/cli/src/assets",
+          "src/cli/README.md",
+          "LICENSE",
+          {
+            "input": "lib",
+            "glob": "**/*",
+            "output": "lib"
+          }
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
