@@ -28,10 +28,10 @@ A context pack contains:
 
 ```bash
 # Install a context pack
-hitl install context/angular
+hit install context/angular
 
 # Configure as default
-echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitlrc.json
+echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitrc.json
 ```
 
 ## Available Packs

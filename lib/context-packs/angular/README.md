@@ -20,10 +20,10 @@ This context pack provides AI agents with deep understanding of:
 Install this context pack to enable Angular-aware AI assistance:
 
 ```bash
-hitl install context/angular
+hit install context/angular
 ```
 
-Configure as default in `.hitlrc.json`:
+Configure as default in `.hitrc.json`:
 
 ```json
 {

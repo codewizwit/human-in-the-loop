@@ -85,7 +85,7 @@ Technical details and governance:
 
 - **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues)
 - **Issues**: Ask questions in [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues)
-- **CLI Help**: Run `hitl --help` or `hitl [command] --help`
+- **CLI Help**: Run `hit --help` or `hit [command] --help`
 
 ---
 

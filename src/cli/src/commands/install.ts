@@ -33,7 +33,7 @@ export async function installCommand(
     const parts = toolIdentifier.split('/');
     if (parts.length !== 2) {
       logError('Invalid tool identifier. Use format: <type>/<id>');
-      logTip('Example: ' + chalk.bold('hitl install prompt/code-review-ts'));
+      logTip('Example: ' + chalk.bold('hit install prompt/code-review-ts'));
       return;
     }
 
@@ -44,7 +44,7 @@ export async function installCommand(
 
     if (!tool) {
       logError(`Tool "${toolIdentifier}" not found in toolkit`);
-      logTip('Use ' + chalk.bold('hitl search') + ' to see available tools');
+      logTip('Use ' + chalk.bold('hit search') + ' to see available tools');
       return;
     }
 
@@ -103,7 +103,7 @@ export async function installCommand(
     logSuccess(`Successfully installed ${tool.name} (v${tool.version})`);
     logStep('Installed to: ' + chalk.cyan(installPath));
     logNewLine();
-    logTip('Use ' + chalk.bold('hitl list') + ' to see all installed tools');
+    logTip('Use ' + chalk.bold('hit list') + ' to see all installed tools');
   } catch (error) {
     logError(
       'Installation failed: ' +

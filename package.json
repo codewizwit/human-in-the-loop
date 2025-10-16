@@ -15,6 +15,8 @@
     "typecheck": "tsc -p tsconfig.base.json --noEmit",
     "build": "nx build cli",
     "ci:local": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm build && pnpm test",
+    "ci:full": "pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm check-links",
+    "validate": "pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm check-links",
     "check-links": "./scripts/check-links.sh"
   },
   "keywords": [],

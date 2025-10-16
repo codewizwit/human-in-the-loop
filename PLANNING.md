@@ -185,19 +185,19 @@ Developer-friendly command-line tool for discovering, installing, and managing A
 
 ```bash
 # Search for prompts and agents
-hitl search "code review"
+hit search "code review"
 
 # Install a prompt or agent
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 
 # Validate local setup
-hitl doctor
+hit doctor
 
 # Submit a new tool
-hitl contribute prompt ./my-prompt.yaml
+hit contribute prompt ./my-prompt.yaml
 
 # View usage analytics
-hitl stats
+hit stats
 ```
 
 **Features:**
@@ -272,7 +272,7 @@ Next.js-powered documentation portal with the following pages:
 
    ```bash
    # Run validation checks
-   hitl validate ./libs/prompts/my-prompt.yaml
+   hit validate ./libs/prompts/my-prompt.yaml
 
    # Test with evaluators
    npm run test:prompts
@@ -352,13 +352,13 @@ Every contribution must pass:
 
 ```bash
 # Install the code review agent
-hitl install agent/code-review-ts
+hit install agent/code-review-ts
 
 # Configure for your project
-hitl config agent/code-review-ts --context angular,nestjs
+hit config agent/code-review-ts --context angular,nestjs
 
 # Run review on PR
-hitl review --pr 123
+hit review --pr 123
 ```
 
 **Impact**:
@@ -376,10 +376,10 @@ hitl review --pr 123
 
 ```bash
 # Install the docs generator
-hitl install agent/api-docs-generator
+hit install agent/api-docs-generator
 
 # Generate docs for a controller
-hitl generate docs ./src/users/users.controller.ts
+hit generate docs ./src/users/users.controller.ts
 
 # Output: Markdown file with full API documentation
 ```
@@ -399,10 +399,10 @@ hitl generate docs ./src/users/users.controller.ts
 
 ```bash
 # Install test generation agent
-hitl install agent/test-generator
+hit install agent/test-generator
 
 # Generate tests for a service
-hitl test generate ./src/auth/auth.service.ts --framework jest
+hit test generate ./src/auth/auth.service.ts --framework jest
 
 # Output: Full test suite with edge cases covered
 ```
@@ -422,10 +422,10 @@ hitl test generate ./src/auth/auth.service.ts --framework jest
 
 ```bash
 # Install onboarding assistant
-hitl install agent/onboarding-assistant
+hit install agent/onboarding-assistant
 
 # Get project overview
-hitl onboard --project ./
+hit onboard --project ./
 
 # Interactive walkthrough of codebase
 ```

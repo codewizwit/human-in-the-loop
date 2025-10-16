@@ -21,9 +21,9 @@ export async function listCommand(): Promise<void> {
   if (installedTools.length === 0) {
     logWarning('No tools installed yet');
     logNewLine();
-    logStep('Use ' + chalk.bold('hitl search') + ' to find tools');
+    logStep('Use ' + chalk.bold('hit search') + ' to find tools');
     logStep(
-      'Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool'
+      'Use ' + chalk.bold('hit install <type>/<id>') + ' to install a tool'
     );
     return;
   }

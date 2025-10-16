@@ -1,0 +1,51 @@
+{
+  "name": "@human-in-the-loop/cli",
+  "version": "1.0.0",
+  "description": "CLI tool for managing AI prompts, agents, and productivity tools with governance and quality standards",
+  "main": "./main.js",
+  "type": "commonjs",
+  "bin": {
+    "hit": "./main.js"
+  },
+  "scripts": {
+    "start": "node ./main.js"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "prompts",
+    "agents",
+    "productivity",
+    "governance",
+    "typescript",
+    "developer-tools",
+    "code-review",
+    "automation"
+  ],
+  "author": "codewizwit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codewizwit/human-in-the-loop.git",
+    "directory": "src/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/codewizwit/human-in-the-loop/issues"
+  },
+  "homepage": "https://github.com/codewizwit/human-in-the-loop#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "main.js",
+    "src/**/*.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "chalk": "5.6.2",
+    "commander": "14.0.1",
+    "inquirer": "12.9.6",
+    "yaml": "2.8.1"
+  }
+}

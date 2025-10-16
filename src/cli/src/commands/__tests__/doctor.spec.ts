@@ -130,10 +130,10 @@ describe('doctorCommand', () => {
   });
 
   describe('configuration checks', () => {
-    it('should check for .hitlrc.json', async () => {
+    it('should check for .hitrc.json', async () => {
       await doctorCommand();
 
-      expect(consoleMock.contains('.hitlrc.json found')).toBe(true);
+      expect(consoleMock.contains('.hitrc.json found')).toBe(true);
     });
 
     it('should check for .claude directory', async () => {
@@ -148,7 +148,7 @@ describe('doctorCommand', () => {
       const output = consoleMock.getOutput();
       const lines = output.split('\n');
       const configSection = lines.filter(
-        (l) => l.includes('.hitlrc.json') || l.includes('.claude directory')
+        (l) => l.includes('.hitrc.json') || l.includes('.claude directory')
       );
 
       expect(configSection.length).toBe(2);

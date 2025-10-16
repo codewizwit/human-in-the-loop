@@ -11,7 +11,7 @@ import { listCommand } from './commands/list';
 const program = new Command();
 
 program
-  .name('hitl')
+  .name('hit')
   .description('🌭 Human in the Loop - AI Productivity Toolkit')
   .version('1.0.0');
 

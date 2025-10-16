@@ -31,7 +31,7 @@ export interface Registry {
  */
 export function getRegistryPath(): string {
   const homeDir = getHomeDirectory();
-  return path.join(homeDir, '.hitl', 'registry.json');
+  return path.join(homeDir, '.hit', 'registry.json');
 }
 
 /**

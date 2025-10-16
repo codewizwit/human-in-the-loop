@@ -152,7 +152,7 @@ describe('installCommand', () => {
       expect(consoleMock.contains('Tool "prompt/nonexistent" not found')).toBe(
         true
       );
-      expect(consoleMock.contains('hitl search')).toBe(true);
+      expect(consoleMock.contains('hit search')).toBe(true);
     });
 
     it('should handle installation failure', async () => {

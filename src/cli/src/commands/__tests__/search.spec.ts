@@ -136,7 +136,7 @@ describe('searchCommand', () => {
     it('should show install tip at the end', () => {
       searchCommand();
 
-      expect(consoleMock.contains('hitl install <type>/<id>')).toBe(true);
+      expect(consoleMock.contains('hit install <type>/<id>')).toBe(true);
     });
 
     it('should number the results', () => {

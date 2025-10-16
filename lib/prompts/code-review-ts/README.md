@@ -33,13 +33,13 @@ The TypeScript Code Review prompt provides comprehensive technical feedback on T
 ## Installation
 
 ```bash
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 ```
 
 Or use directly via CLI:
 
 ```bash
-hitl use prompt/code-review-ts
+hit use prompt/code-review-ts
 ```
 
 ---
@@ -49,7 +49,7 @@ hitl use prompt/code-review-ts
 ### Basic Usage
 
 ```bash
-hitl use code-review-ts \
+hit use code-review-ts \
   --code "Your TypeScript code here" \
   --context "Optional context about the code"
 ```
@@ -262,13 +262,13 @@ The prompt systematically reviews code against these criteria:
 ### CLI Usage
 ```bash
 # Interactive mode
-hitl use code-review-ts
+hit use code-review-ts
 
 # Non-interactive with code from file
-hitl use code-review-ts --code "$(cat src/myfile.ts)"
+hit use code-review-ts --code "$(cat src/myfile.ts)"
 
 # With context
-hitl use code-review-ts \
+hit use code-review-ts \
   --code "$(cat src/api.ts)" \
   --context "Express API endpoint handler"
 ````
@@ -297,7 +297,7 @@ jobs:
       - name: Review TypeScript Files
         run: |
           for file in $(git diff --name-only origin/main | grep '\.ts$'); do
-            hitl use code-review-ts --code "$(cat $file)" --context "PR #${{ github.event.pull_request.number }}"
+            hit use code-review-ts --code "$(cat $file)" --context "PR #${{ github.event.pull_request.number }}"
           done
 ```
 
@@ -310,7 +310,7 @@ Use as a pre-commit hook:
 # .git/hooks/pre-commit
 
 for file in $(git diff --cached --name-only | grep '\.ts$'); do
-  hitl use code-review-ts --code "$(cat $file)"
+  hit use code-review-ts --code "$(cat $file)"
 done
 ```
 
@@ -358,7 +358,7 @@ done
 Found a TypeScript pattern we should review for? Submit an example:
 
 ```bash
-hitl contribute prompt lib/prompts/code-review-ts
+hit contribute prompt lib/prompts/code-review-ts
 ```
 
 See [Contributing Guidelines](../../../docs/contributing-guidelines.md) for details.

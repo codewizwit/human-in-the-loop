@@ -19,7 +19,7 @@ export async function doctorCommand(): Promise<void> {
   console.log(chalk.green('  ✓ zod'));
 
   logHeader('Configuration:');
-  console.log(chalk.green('  ✓ .hitlrc.json found'));
+  console.log(chalk.green('  ✓ .hitrc.json found'));
   console.log(chalk.green('  ✓ .claude directory exists'));
 
   logNewLine();
