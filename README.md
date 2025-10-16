@@ -1,6 +1,6 @@
 # 🌭 Human in the Loop
 
-**Centralized repository and governance system for responsible AI tools**
+**Open sourced repository with governance layer and CLI for responsible AI tools**
 
 A developer-friendly toolkit for exploring governance of AI prompts, agents, context packs, and evaluators with standardization, quality control, and visibility.
 
