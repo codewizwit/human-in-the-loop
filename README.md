@@ -26,7 +26,7 @@ AI productivity tools are transforming how we build software, but without centra
 
 ---
 
-## Our Approach: Developer-First AI
+## Developer-First AI 
 
 AI tools should **enhance** developers, not replace them. Every tool in this repository is evaluated through our [Developer-First AI Accountability Framework](./ACCOUNTABILITY.md) to ensure we're building technology that makes everyone better off - developers, teams, and organizations.
 
