@@ -26,13 +26,13 @@ An agent is a configured AI assistant with:
 
 ```bash
 # Search for agents
-hitl search "test generator"
+hit search "test generator"
 
 # Install an agent
-hitl install agent/test-generator
+hit install agent/test-generator
 
 # Use with context
-hitl config agent/test-generator --context angular,nestjs
+hit config agent/test-generator --context angular,nestjs
 ```
 
 ## Agent Definition

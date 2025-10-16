@@ -22,10 +22,12 @@ export interface Tool {
 }
 
 /**
- * Scans the toolkit directory and returns all available tools
+ * Scans the lib directory and returns all available tools
+ * @param toolkitPath - The root path to the lib directory containing prompts, agents, etc. Defaults to 'lib' in current working directory
+ * @returns Array of Tool objects found in the lib directory and its subdirectories
  */
 export function scanToolkit(
-  toolkitPath: string = path.join(process.cwd(), 'toolkit')
+  toolkitPath: string = path.join(process.cwd(), 'lib')
 ): Tool[] {
   const tools: Tool[] = [];
 
@@ -47,30 +49,48 @@ export function scanToolkit(
       continue;
     }
 
-    const entries = fs.readdirSync(typePath, { withFileTypes: true });
-
-    for (const entry of entries) {
-      if (!entry.isDirectory()) {
-        continue;
-      }
-
-      const toolDir = path.join(typePath, entry.name);
-      const configFile = findConfigFile(toolDir);
-
-      if (configFile) {
-        const tool = parseToolConfig(toolDir, configFile, type);
-        if (tool) {
-          tools.push(tool);
-        }
-      }
-    }
+    scanDirectory(typePath, type, tools);
   }
 
   return tools;
 }
 
 /**
- * Finds the configuration file in a tool directory
+ * Recursively scans a directory for tools and adds them to the tools array
+ * @param dirPath - The directory path to scan
+ * @param type - The type of tool to register (prompt, agent, evaluator, guardrail, context-pack)
+ * @param tools - The array to accumulate found tools into (modified in place)
+ */
+function scanDirectory(
+  dirPath: string,
+  type: Tool['type'],
+  tools: Tool[]
+): void {
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+
+    const fullPath = path.join(dirPath, entry.name);
+    const configFile = findConfigFile(fullPath);
+
+    if (configFile) {
+      const tool = parseToolConfig(fullPath, configFile, type);
+      if (tool) {
+        tools.push(tool);
+      }
+    } else {
+      scanDirectory(fullPath, type, tools);
+    }
+  }
+}
+
+/**
+ * Finds the configuration file in a tool directory by checking for known config file names
+ * @param toolDir - The directory path to search for configuration files
+ * @returns The full path to the configuration file if found, null otherwise
  */
 function findConfigFile(toolDir: string): string | null {
   const possibleFiles = [
@@ -93,7 +113,11 @@ function findConfigFile(toolDir: string): string | null {
 }
 
 /**
- * Parses a tool configuration file
+ * Parses a tool configuration file and creates a Tool object
+ * @param toolDir - The directory containing the tool
+ * @param configFile - The full path to the configuration YAML file
+ * @param type - The type of tool being parsed (prompt, agent, evaluator, guardrail, context-pack)
+ * @returns A Tool object if parsing succeeds and required fields are present, null otherwise
  */
 function parseToolConfig(
   toolDir: string,
@@ -139,7 +163,10 @@ function parseToolConfig(
 }
 
 /**
- * Searches for tools matching a query
+ * Searches for tools matching a query string across multiple fields
+ * @param query - Optional search query to filter tools by id, name, description, category, or tags. If omitted, returns all tools
+ * @param toolkitPath - Optional path to the lib directory. Defaults to 'lib' in current working directory
+ * @returns Array of Tool objects matching the query, or all tools if no query provided
  */
 export function searchTools(query?: string, toolkitPath?: string): Tool[] {
   const allTools = scanToolkit(toolkitPath);
@@ -161,7 +188,10 @@ export function searchTools(query?: string, toolkitPath?: string): Tool[] {
 }
 
 /**
- * Gets a specific tool by its ID
+ * Gets a specific tool by its unique identifier
+ * @param toolId - The unique ID of the tool to retrieve (e.g., 'code-review-ts', 'api-design')
+ * @param toolkitPath - Optional path to the lib directory. Defaults to 'lib' in current working directory
+ * @returns The Tool object if found, null otherwise
  */
 export function getTool(toolId: string, toolkitPath?: string): Tool | null {
   const allTools = scanToolkit(toolkitPath);

@@ -27,22 +27,22 @@ Search the toolkit:
 
 ```bash
 # Search by keyword
-hitl search "code review"
-hitl search "documentation"
-hitl search "testing"
+hit search "code review"
+hit search "documentation"
+hit search "testing"
 
 # List all prompts
-hitl list --type prompt
+hit list --type prompt
 ```
 
 ### Installing Prompts
 
 ```bash
 # Install specific prompt
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 
 # Install with specific version
-hitl install prompt/code-review-ts@1.2.0
+hit install prompt/code-review-ts@1.2.0
 ```
 
 ### Using Prompts
@@ -113,21 +113,21 @@ Agents are autonomous AI assistants configured with specific tools, capabilities
 
 ```bash
 # Search agents
-hitl search "test generation"
-hitl search "refactoring"
+hit search "test generation"
+hit search "refactoring"
 
 # List all agents
-hitl list --type agent
+hit list --type agent
 ```
 
 ### Installing Agents
 
 ```bash
 # Install agent
-hitl install agent/test-generator
+hit install agent/test-generator
 
 # View agent capabilities
-hitl info agent/test-generator
+hit info agent/test-generator
 ```
 
 ### Agent Structure
@@ -172,7 +172,7 @@ Agents run autonomously within defined constraints:
 
 ```bash
 # Start agent
-hitl agent test-generator --target src/components/Button.tsx
+hit agent test-generator --target src/components/Button.tsx
 
 # The agent will:
 # 1. Read the target file
@@ -188,10 +188,10 @@ Track agent activity:
 
 ```bash
 # View agent logs
-hitl agent logs test-generator
+hit agent logs test-generator
 
 # View agent metrics
-hitl agent stats test-generator
+hit agent stats test-generator
 ```
 
 ### Agent Safety
@@ -241,10 +241,10 @@ Evaluators are automated quality checks that validate AI outputs against defined
 
 ```bash
 # Install evaluator
-hitl install evaluator/code-quality
+hit install evaluator/code-quality
 
 # Install multiple evaluators
-hitl install evaluator/code-quality evaluator/security
+hit install evaluator/code-quality evaluator/security
 ```
 
 ### Running Evaluators
@@ -253,13 +253,13 @@ hitl install evaluator/code-quality evaluator/security
 
 ```bash
 # Evaluate single file
-hitl evaluate --evaluator code-quality ./generated.ts
+hit evaluate --evaluator code-quality ./generated.ts
 
 # Evaluate directory
-hitl evaluate --evaluator code-quality ./src/
+hit evaluate --evaluator code-quality ./src/
 
 # Run multiple evaluators
-hitl evaluate --evaluator code-quality,security ./src/
+hit evaluate --evaluator code-quality,security ./src/
 ```
 
 **Example Output:**
@@ -308,7 +308,7 @@ Create `.evaluatorrc.json`:
 Run evaluators automatically:
 
 ```bash
-# Enable auto-evaluation in .hitlrc.json
+# Enable auto-evaluation in .hitrc.json
 {
   "autoEvaluate": true,
   "evaluators": ["code-quality", "security"]
@@ -349,10 +349,10 @@ Guardrails are safety mechanisms that prevent inappropriate AI usage, enforce po
 
 ```bash
 # Install security guardrail
-hitl install guardrail/security-check
+hit install guardrail/security-check
 
 # Install PII protection guardrail
-hitl install guardrail/pii-protection
+hit install guardrail/pii-protection
 ```
 
 ### Configuring Guardrails
@@ -419,7 +419,7 @@ Context packs provide framework-specific knowledge, patterns, and best practices
 
 ```bash
 # List available context packs
-hitl list --type context
+hit list --type context
 
 # Output:
 # - context/angular        # Angular patterns and best practices
@@ -433,17 +433,17 @@ hitl list --type context
 
 ```bash
 # Install single context pack
-hitl install context/angular
+hit install context/angular
 
 # Install multiple packs
-hitl install context/angular context/nestjs context/testing
+hit install context/angular context/nestjs context/testing
 ```
 
 ### Using Context Packs
 
 **Automatically (Recommended):**
 
-Configure in `.hitlrc.json`:
+Configure in `.hitrc.json`:
 
 ```json
 {
@@ -497,18 +497,18 @@ Combining prompts, agents, evaluators, guardrails, and context packs:
 
 ```bash
 # Install required tools
-hitl install prompt/test-generation
-hitl install agent/test-generator
-hitl install evaluator/code-quality
-hitl install evaluator/test-coverage
-hitl install guardrail/security-check
-hitl install context/angular
-hitl install context/testing
+hit install prompt/test-generation
+hit install agent/test-generator
+hit install evaluator/code-quality
+hit install evaluator/test-coverage
+hit install guardrail/security-check
+hit install context/angular
+hit install context/testing
 ```
 
 **2. Configure**
 
-`.hitlrc.json`:
+`.hitrc.json`:
 
 ```json
 {
@@ -525,7 +525,7 @@ hitl install context/testing
 
 ```bash
 # Use agent to generate tests
-hitl agent test-generator --target src/app/button/button.component.ts
+hit agent test-generator --target src/app/button/button.component.ts
 ```
 
 **4. Automatic Validation**
@@ -542,10 +542,10 @@ The workflow automatically:
 
 ```bash
 # Review results
-hitl agent logs test-generator --last
+hit agent logs test-generator --last
 
 # If evaluators failed, regenerate with feedback
-hitl agent test-generator --target src/app/button/button.component.ts --feedback "Increase test coverage to 90%"
+hit agent test-generator --target src/app/button/button.component.ts --feedback "Increase test coverage to 90%"
 ```
 
 ### Best Practice: Layered Safety

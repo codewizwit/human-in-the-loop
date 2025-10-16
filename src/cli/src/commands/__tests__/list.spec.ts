@@ -172,8 +172,8 @@ describe('listCommand', () => {
     it('should provide helpful tips', async () => {
       await listCommand();
 
-      expect(consoleMock.contains('hitl search')).toBe(true);
-      expect(consoleMock.contains('hitl install')).toBe(true);
+      expect(consoleMock.contains('hit search')).toBe(true);
+      expect(consoleMock.contains('hit install')).toBe(true);
     });
 
     it('should not display total count', async () => {

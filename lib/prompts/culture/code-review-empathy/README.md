@@ -33,13 +33,13 @@ The Code Review Empathy Guide helps reviewers provide feedback that is both tech
 ## Installation
 
 ```bash
-hitl install prompt/code-review-empathy
+hit install prompt/code-review-empathy
 ```
 
 Or use directly via CLI:
 
 ```bash
-hitl use prompt/code-review-empathy
+hit use prompt/code-review-empathy
 ```
 
 ---
@@ -49,7 +49,7 @@ hitl use prompt/code-review-empathy
 ### Basic Usage
 
 ```bash
-hitl use code-review-empathy \
+hit use code-review-empathy \
   --feedback "Your original review comment" \
   --code_context "Optional code snippet" \
   --reviewer_intent "What you're trying to communicate"
@@ -250,10 +250,10 @@ This prompt applies research-backed communication strategies:
 ### CLI Usage
 ```bash
 # Interactive mode
-hitl use code-review-empathy
+hit use code-review-empathy
 
 # Non-interactive with variables
-hitl use code-review-empathy \
+hit use code-review-empathy \
   --feedback "This code is inefficient" \
   --code_context "$(cat snippet.ts)"
 ````
@@ -276,7 +276,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: hitl use code-review-empathy --feedback "${{ github.event.comment.body }}"
+      - run: hit use code-review-empathy --feedback "${{ github.event.comment.body }}"
 ```
 
 ### Git Hooks
@@ -326,7 +326,7 @@ Use as a commit-msg or prepare-commit-msg hook for review comments.
 Found a harsh feedback pattern we should handle better? Submit an example:
 
 ```bash
-hitl contribute prompt lib/prompts/culture/code-review-empathy
+hit contribute prompt lib/prompts/culture/code-review-empathy
 ```
 
 See [Contributing Guidelines](../../../../docs/contributing-guidelines.md) for details.

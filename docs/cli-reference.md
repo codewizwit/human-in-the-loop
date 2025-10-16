@@ -1,13 +1,13 @@
 # CLI Reference
 
-Complete reference for the Human in the Loop CLI (`hitl`).
+Complete reference for the Human in the Loop CLI (`hit`).
 
 ---
 
 ## Global Options
 
 ```bash
-hitl [command] [options]
+hit [command] [options]
 ```
 
 **Common Options:**
@@ -19,14 +19,14 @@ hitl [command] [options]
 
 ## Commands
 
-### `hitl search [query]`
+### `hit search [query]`
 
 Search the toolkit for available prompts, agents, and other tools.
 
 **Usage:**
 
 ```bash
-hitl search [query]
+hit search [query]
 ```
 
 **Arguments:**
@@ -37,16 +37,16 @@ hitl search [query]
 
 ```bash
 # Show all available tools
-hitl search
+hit search
 
 # Search by keyword
-hitl search "code review"
-hitl search testing
-hitl search "angular component"
+hit search "code review"
+hit search testing
+hit search "angular component"
 
 # Search by category
-hitl search documentation
-hitl search security
+hit search documentation
+hit search security
 ```
 
 **Output:**
@@ -71,19 +71,19 @@ Found 3 tools:
    Version: 1.5.0
    Tags: testing, quality
 
-💡 Tip: Use hitl install <type>/<id> to install a tool
+💡 Tip: Use hit install <type>/<id> to install a tool
 ```
 
 ---
 
-### `hitl install <tool>`
+### `hit install <tool>`
 
 Install a prompt, agent, or other tool from the toolkit.
 
 **Usage:**
 
 ```bash
-hitl install <tool> [options]
+hit install <tool> [options]
 ```
 
 **Arguments:**
@@ -100,13 +100,13 @@ hitl install <tool> [options]
 
 ```bash
 # Interactive install (prompts for path)
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 
 # Non-interactive with custom path
-hitl install prompt/code-review-ts --path ~/my-tools/prompts
+hit install prompt/code-review-ts --path ~/my-tools/prompts
 
 # Install to specific location
-hitl install agent/test-generator -p ~/.claude/tools/agent/test-generator
+hit install agent/test-generator -p ~/.claude/tools/agent/test-generator
 ```
 
 **Interactive Flow:**
@@ -126,7 +126,7 @@ When `--path` is not provided, the CLI prompts for installation location:
 ✓ Successfully installed Code Review TypeScript (v1.2.0)
   → Installed to: ~/.claude/tools/prompt/code-review-ts
 
-💡 Tip: Use hitl list to see all installed tools
+💡 Tip: Use hit list to see all installed tools
 ```
 
 **Reinstall Flow:**
@@ -141,14 +141,14 @@ If a tool is already installed, the CLI prompts for confirmation:
 
 ---
 
-### `hitl list`
+### `hit list`
 
 Display all installed tools from your local registry.
 
 **Usage:**
 
 ```bash
-hitl list
+hit list
 ```
 
 **Output:**
@@ -171,7 +171,7 @@ Context Packs:
   • angular v3.0.0
    Installed at: ~/.claude/tools/context-pack/angular
 
-💡 Tip: Use hitl search to find more tools
+💡 Tip: Use hit search to find more tools
 ```
 
 **Empty State:**
@@ -179,19 +179,19 @@ Context Packs:
 ```
 ⚠ No tools installed yet
 
-Use hitl search to discover available tools, then hitl install to add them.
+Use hit search to discover available tools, then hit install to add them.
 ```
 
 ---
 
-### `hitl doctor`
+### `hit doctor`
 
 Validate your environment and diagnose issues.
 
 **Usage:**
 
 ```bash
-hitl doctor
+hit doctor
 ```
 
 **Checks:**
@@ -218,14 +218,14 @@ All checks passed! Your environment is ready.
 
 ---
 
-### `hitl stats`
+### `hit stats`
 
 View usage statistics and analytics.
 
 **Usage:**
 
 ```bash
-hitl stats [options]
+hit stats [options]
 ```
 
 **Options:**
@@ -236,22 +236,22 @@ hitl stats [options]
 
 ```bash
 # Global stats
-hitl stats
+hit stats
 
 # Tool-specific stats
-hitl stats --tool prompt/code-review-ts
+hit stats --tool prompt/code-review-ts
 ```
 
 ---
 
-### `hitl contribute <type> <path>`
+### `hit contribute <type> <path>`
 
 Submit a new tool for review and inclusion in the toolkit.
 
 **Usage:**
 
 ```bash
-hitl contribute <type> <path>
+hit contribute <type> <path>
 ```
 
 **Arguments:**
@@ -263,13 +263,13 @@ hitl contribute <type> <path>
 
 ```bash
 # Contribute a prompt
-hitl contribute prompt ./my-prompt.yaml
+hit contribute prompt ./my-prompt.yaml
 
 # Contribute an agent
-hitl contribute agent ./my-agent/
+hit contribute agent ./my-agent/
 
 # Contribute with full directory
-hitl contribute prompt ./code-reviewer/
+hit contribute prompt ./code-reviewer/
 ```
 
 **Requirements:**
@@ -287,8 +287,8 @@ See [Contributing Guide](../CONTRIBUTING.md) for detailed requirements.
 
 The CLI looks for configuration in these locations (in order):
 
-1. `.hitlrc.json` in current directory
-2. `.hitlrc.json` in home directory
+1. `.hitrc.json` in current directory
+2. `.hitrc.json` in home directory
 3. Default configuration
 
 **Configuration File:**
@@ -296,7 +296,7 @@ The CLI looks for configuration in these locations (in order):
 ```json
 {
   "toolkitPath": "./toolkit",
-  "registryPath": "~/.hitl/registry.json",
+  "registryPath": "~/.hit/registry.json",
   "defaultInstallPath": "~/.claude/tools",
   "autoUpdate": false,
   "telemetry": true
@@ -306,7 +306,7 @@ The CLI looks for configuration in these locations (in order):
 **Options:**
 
 - `toolkitPath` - Path to toolkit directory (default: `./toolkit`)
-- `registryPath` - Path to installation registry (default: `~/.hitl/registry.json`)
+- `registryPath` - Path to installation registry (default: `~/.hit/registry.json`)
 - `defaultInstallPath` - Default installation directory (default: `~/.claude/tools`)
 - `autoUpdate` - Automatically check for updates (default: `false`)
 - `telemetry` - Send anonymous usage data (default: `true`)
@@ -315,7 +315,7 @@ The CLI looks for configuration in these locations (in order):
 
 ## Registry
 
-The CLI maintains an installation registry at `~/.hitl/registry.json` to track installed tools.
+The CLI maintains an installation registry at `~/.hit/registry.json` to track installed tools.
 
 **Registry Format:**
 
@@ -337,10 +337,10 @@ The CLI maintains an installation registry at `~/.hitl/registry.json` to track i
 
 **Registry Operations:**
 
-- Automatically updated on `hitl install`
-- Read by `hitl list`
+- Automatically updated on `hit install`
+- Read by `hit list`
 - Used for reinstall detection
-- Cleared on `hitl uninstall` (not yet implemented)
+- Cleared on `hit uninstall` (not yet implemented)
 
 ---
 
@@ -371,7 +371,7 @@ The CLI maintains an installation registry at `~/.hitl/registry.json` to track i
 ✗ Tool "prompt/nonexistent" not found in toolkit
 ```
 
-**Solution:** Run `hitl search` to see available tools, or check the toolkit directory exists.
+**Solution:** Run `hit search` to see available tools, or check the toolkit directory exists.
 
 ### Installation Failed
 
@@ -387,7 +387,7 @@ The CLI maintains an installation registry at `~/.hitl/registry.json` to track i
 ✗ Failed to read registry: Invalid JSON
 ```
 
-**Solution:** Delete `~/.hitl/registry.json` and reinstall your tools. The registry will be recreated automatically.
+**Solution:** Delete `~/.hit/registry.json` and reinstall your tools. The registry will be recreated automatically.
 
 ---
 

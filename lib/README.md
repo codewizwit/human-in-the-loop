@@ -52,8 +52,8 @@ Browse subdirectories to find specific tooling. Each subdirectory contains its o
 Install tools using the CLI:
 
 ```bash
-hitl search "code review"
-hitl install prompt/code-review-ts
+hit search "code review"
+hit install prompt/code-review-ts
 ```
 
 ## Contributing

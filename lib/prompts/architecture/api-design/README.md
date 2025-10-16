@@ -10,7 +10,7 @@ This prompt provides comprehensive API design recommendations covering REST and 
 
 ```bash
 # Install via CLI (once available)
-hitl install prompt/api-design
+hit install prompt/api-design
 
 # Or copy directly
 cp -r lib/prompts/architecture/api-design ~/.claude/prompts/
@@ -371,7 +371,7 @@ Response:
 ### 1. CLI Integration
 
 ```bash
-hitl run prompt/api-design \
+hit run prompt/api-design \
   --api_type "REST" \
   --endpoints "User CRUD, Product search, Order checkout" \
   --business_requirements "High-traffic e-commerce platform"
@@ -387,7 +387,7 @@ Integrate into PR validation to review API design changes:
 
 ```yaml
 - name: Validate API Design
-  run: hitl validate api-design --changed-files="${{ github.event.pull_request.changed_files }}"
+  run: hit validate api-design --changed-files="${{ github.event.pull_request.changed_files }}"
 ```
 
 ### 4. Pre-Commit Hook
@@ -396,7 +396,7 @@ Review API designs before committing:
 
 ```bash
 # .git/hooks/pre-commit
-hitl check api-design --staged
+hit check api-design --staged
 ```
 
 ## Tips for Best Results

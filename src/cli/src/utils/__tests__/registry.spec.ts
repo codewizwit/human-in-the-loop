@@ -20,7 +20,7 @@ const mockFileOps = fileOps as jest.Mocked<typeof fileOps>;
 
 describe('registry', () => {
   const mockHomeDir = '/home/user';
-  const mockRegistryPath = '/home/user/.hitl/registry.json';
+  const mockRegistryPath = '/home/user/.hit/registry.json';
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -90,7 +90,7 @@ describe('registry', () => {
       saveRegistry(registry);
 
       expect(mockFileOps.ensureDirectory).toHaveBeenCalledWith(
-        '/home/user/.hitl'
+        '/home/user/.hit'
       );
       expect(mockFileOps.writeJsonFile).toHaveBeenCalledWith(
         mockRegistryPath,

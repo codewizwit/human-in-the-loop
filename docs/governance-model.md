@@ -162,7 +162,7 @@ Each tool is tracked for:
 View metrics:
 
 ```bash
-hitl stats --toolkit-health
+hit stats --toolkit-health
 
 # Output:
 # Total Tools: 127

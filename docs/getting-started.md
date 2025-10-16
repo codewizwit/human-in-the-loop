@@ -17,7 +17,7 @@ npm install -g @human-in-the-loop/cli
 Verify installation:
 
 ```bash
-hitl --version
+hit --version
 ```
 
 ### Using npx
@@ -25,7 +25,7 @@ hitl --version
 You can also use npx without installing:
 
 ```bash
-npx hitl --version
+npx hit --version
 ```
 
 ---
@@ -35,7 +35,7 @@ npx hitl --version
 Run the doctor command to validate your environment and install required dependencies:
 
 ```bash
-hitl doctor
+hit doctor
 ```
 
 This command checks for:
@@ -54,7 +54,7 @@ This command checks for:
 Search the library for available prompts:
 
 ```bash
-hitl search "code review"
+hit search "code review"
 ```
 
 You'll see results like:
@@ -80,7 +80,7 @@ Found 3 prompts:
 Install the prompt you want:
 
 ```bash
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 ```
 
 The CLI will prompt you for an installation location (or use `--path` to specify):
@@ -95,13 +95,13 @@ The CLI will prompt you for an installation location (or use `--path` to specify
 ✓ Successfully installed Code Review TypeScript (v1.2.0)
   → Installed to: ~/.claude/tools/prompt/code-review-ts
 
-💡 Tip: Use hitl list to see all installed tools
+💡 Tip: Use hit list to see all installed tools
 ```
 
 **Non-interactive installation:**
 
 ```bash
-hitl install prompt/code-review-ts --path ~/.claude/tools/prompt/code-review-ts
+hit install prompt/code-review-ts --path ~/.claude/tools/prompt/code-review-ts
 ```
 
 ### 3. Use the Prompt
@@ -121,19 +121,19 @@ The prompt is now available in your `.claude/` directory:
 
 ## Available Commands
 
-### `hitl search [query]`
+### `hit search [query]`
 
 Search for prompts and agents by keyword.
 
 **Examples:**
 
 ```bash
-hitl search "testing"
-hitl search "angular component"
-hitl search "api documentation"
+hit search "testing"
+hit search "angular component"
+hit search "api documentation"
 ```
 
-### `hitl install [tool]`
+### `hit install [tool]`
 
 Install a prompt or agent. Prompts you for installation location unless `--path` is provided.
 
@@ -141,25 +141,25 @@ Install a prompt or agent. Prompts you for installation location unless `--path`
 
 ```bash
 # Interactive install (prompts for path)
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 
 # Non-interactive install with custom path
-hitl install prompt/code-review-ts --path ~/my-tools/prompts/code-review
+hit install prompt/code-review-ts --path ~/my-tools/prompts/code-review
 
 # Install to default location
-hitl install agent/test-generator --path ~/.claude/tools/agent/test-generator
+hit install agent/test-generator --path ~/.claude/tools/agent/test-generator
 ```
 
 **Options:**
 
 - `--path, -p <path>` - Installation path (skips interactive prompt)
 
-### `hitl list`
+### `hit list`
 
 Show all installed tools from your registry.
 
 ```bash
-hitl list
+hit list
 ```
 
 **Example output:**
@@ -176,46 +176,46 @@ Agents:
    Installed at: ~/.claude/tools/agent/test-generator
 ```
 
-### `hitl update [tool]`
+### `hit update [tool]`
 
 Update an installed tool to the latest version.
 
 ```bash
-hitl update prompt/code-review-ts
-hitl update --all
+hit update prompt/code-review-ts
+hit update --all
 ```
 
-### `hitl doctor`
+### `hit doctor`
 
 Validate your local setup and diagnose issues.
 
 ```bash
-hitl doctor
+hit doctor
 ```
 
-### `hitl contribute [type] [path]`
+### `hit contribute [type] [path]`
 
 Submit a new tool for review.
 
 ```bash
-hitl contribute prompt ./my-prompt.yaml
-hitl contribute agent ./my-agent/
+hit contribute prompt ./my-prompt.yaml
+hit contribute agent ./my-agent/
 ```
 
-### `hitl stats`
+### `hit stats`
 
 View usage analytics and metrics.
 
 ```bash
-hitl stats
-hitl stats --tool prompt/code-review-ts
+hit stats
+hit stats --tool prompt/code-review-ts
 ```
 
 ---
 
 ## Configuration
 
-Create a `.hitlrc.json` file in your project root:
+Create a `.hitrc.json` file in your project root:
 
 ```json
 {
@@ -248,10 +248,10 @@ Context packs provide framework-specific knowledge to AI agents.
 **Install a context pack:**
 
 ```bash
-hitl install context/angular
+hit install context/angular
 ```
 
-**Configure default context packs** in `.hitlrc.json` to automatically load them with every prompt.
+**Configure default context packs** in `.hitrc.json` to automatically load them with every prompt.
 
 ---
 

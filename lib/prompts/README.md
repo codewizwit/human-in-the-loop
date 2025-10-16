@@ -30,13 +30,13 @@ A prompt is a reusable template for interacting with Claude. Each prompt defines
 
 ```bash
 # Search for prompts
-hitl search "code review"
+hit search "code review"
 
 # Install a prompt
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 
 # List installed prompts
-hitl list
+hit list
 ```
 
 ### Direct Use

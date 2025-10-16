@@ -56,13 +56,13 @@ npm install -g @human-in-the-loop/cli
 Or use npx:
 
 ```bash
-npx hitl --version
+npx hit --version
 ```
 
 Search for tools:
 
 ```bash
-hitl search "code review"
+hit search "code review"
 ```
 
 Output:
@@ -82,13 +82,13 @@ Found 2 tools:
    Version: 2.0.0
    Tags: security, code-review
 
-💡 Tip: Use hitl install <type>/<id> to install a tool
+💡 Tip: Use hit install <type>/<id> to install a tool
 ```
 
 Install a prompt:
 
 ```bash
-hitl install prompt/code-review-ts
+hit install prompt/code-review-ts
 ```
 
 The CLI prompts for installation location (or use `--path` for non-interactive):
@@ -177,22 +177,22 @@ human-in-the-loop/
 
 ```bash
 # Search for tools (prompts, agents, etc.)
-hitl search [query]
+hit search [query]
 
 # Install a tool (interactive or with --path)
-hitl install <tool> [--path <path>]
+hit install <tool> [--path <path>]
 
 # List all installed tools
-hitl list
+hit list
 
 # Validate local setup
-hitl doctor
+hit doctor
 
 # Submit a new tool
-hitl contribute <type> <path>
+hit contribute <type> <path>
 
 # View usage analytics
-hitl stats
+hit stats
 ```
 
 For complete CLI documentation, see [CLI Reference](./docs/cli-reference.md).

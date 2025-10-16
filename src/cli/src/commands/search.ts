@@ -50,7 +50,7 @@ export function searchCommand(query?: string): void {
     });
 
     logTip(
-      'Use ' + chalk.bold('hitl install <type>/<id>') + ' to install a tool'
+      'Use ' + chalk.bold('hit install <type>/<id>') + ' to install a tool'
     );
   } catch (error) {
     logWarning(

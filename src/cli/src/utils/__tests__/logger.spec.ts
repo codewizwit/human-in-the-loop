@@ -120,7 +120,7 @@ describe('logger', () => {
       logStep('Downloading...');
       logSuccess('Downloaded');
       logNewLine();
-      logTip('Run hitl --help for more info');
+      logTip('Run hit --help for more info');
 
       const output = consoleMock.getOutput();
 
@@ -128,7 +128,7 @@ describe('logger', () => {
       expect(output).toContain('Installation');
       expect(output).toContain('Downloading...');
       expect(output).toContain('Downloaded');
-      expect(output).toContain('Run hitl --help');
+      expect(output).toContain('Run hit --help');
     });
   });
 });

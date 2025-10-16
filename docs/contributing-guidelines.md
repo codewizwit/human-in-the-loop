@@ -64,11 +64,11 @@ Every contribution must include:
 pnpm nx run governance:validate
 
 # Test locally
-hitl install lib/[type]/[your-contribution]
+hit install lib/[type]/[your-contribution]
 # Use the tool and verify it works as expected
 
 # Run evaluators if applicable
-hitl evaluate --evaluator code-quality lib/[your-contribution]
+hit evaluate --evaluator code-quality lib/[your-contribution]
 ```
 
 ### Step 4: Submit Pull Request
@@ -219,7 +219,7 @@ metadata:
 ## Installation
 
 \`\`\`bash
-hitl install prompt/[prompt-name]
+hit install prompt/[prompt-name]
 \`\`\`
 
 ## Usage
@@ -348,7 +348,7 @@ Your contribution will be evaluated on:
 ## After Your Contribution is Merged
 
 1. **Celebrate!** 🎉
-2. **Monitor usage** via `hitl stats --tool [your-contribution]`
+2. **Monitor usage** via `hit stats --tool [your-contribution]`
 3. **Respond to issues** reported by users
 4. **Update** as needed (bug fixes, improvements)
 5. **Maintain** for at least 6 months after submission

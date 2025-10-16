@@ -249,7 +249,7 @@ Context packs provide framework-specific knowledge without consuming your contex
 
 ```bash
 # Install Angular context pack
-hitl install context/angular
+hit install context/angular
 
 # Now your prompts understand:
 # - Angular component patterns
@@ -351,7 +351,7 @@ Don't cache:
 Track token usage per prompt type:
 
 ```bash
-hitl stats --cost-breakdown
+hit stats --cost-breakdown
 
 # Output:
 # Prompt Type          | Calls | Avg Tokens | Total Cost
@@ -374,10 +374,10 @@ Use automated evaluators to catch issues:
 
 ```bash
 # Install code quality evaluator
-hitl install evaluator/code-quality
+hit install evaluator/code-quality
 
 # Run on AI-generated code
-hitl evaluate --evaluator code-quality ./generated-code.ts
+hit evaluate --evaluator code-quality ./generated-code.ts
 ```
 
 **2. Testing Requirements**
@@ -405,7 +405,7 @@ Implement guardrails to prevent issues:
 
 ```bash
 # Install security guardrail
-hitl install guardrail/security-check
+hit install guardrail/security-check
 
 # This guardrail will:
 # - Block prompts containing secrets

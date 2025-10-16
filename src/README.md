@@ -18,12 +18,12 @@ Developer-friendly command-line tool for discovering, installing, and managing A
 
 **Commands:**
 
-- `hitl search` - Search for prompts and agents
-- `hitl install` - Install a tool to your project
-- `hitl list` - List all installed tools
-- `hitl doctor` - Validate local setup
-- `hitl contribute` - Submit a new tool
-- `hitl stats` - View usage analytics
+- `hit search` - Search for prompts and agents
+- `hit install` - Install a tool to your project
+- `hit list` - List all installed tools
+- `hit doctor` - Validate local setup
+- `hit contribute` - Submit a new tool
+- `hit stats` - View usage analytics
 
 ### 🛡️ Governance (`/src/governance`)
 
