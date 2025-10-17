@@ -40,6 +40,7 @@ jobs:
         if: steps.version.outputs.changed == 'true'
         with:
           node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
 
       - name: Install and test
@@ -54,6 +55,8 @@ jobs:
       - name: Publish to npm
         if: steps.version.outputs.changed == 'true'
         run: cd dist/src/cli && npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create release
         if: steps.version.outputs.changed == 'true'
