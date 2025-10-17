@@ -1,0 +1,201 @@
+name: Publish to NPM
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/cli/package.json'
+
+jobs:
+  check-version:
+    name: Check Version Change
+    runs-on: ubuntu-latest
+    outputs:
+      version-changed: ${{ steps.version-check.outputs.changed }}
+      new-version: ${{ steps.version-check.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check if version changed
+        id: version-check
+        run: |
+          # Get current version
+          CURRENT_VERSION=$(cat src/cli/package.json | grep '"version"' | head -1 | awk -F'"' '{print $4}')
+
+          # Get previous version
+          git checkout HEAD~1
+          PREVIOUS_VERSION=$(cat src/cli/package.json | grep '"version"' | head -1 | awk -F'"' '{print $4}')
+          git checkout -
+
+          echo "Previous version: $PREVIOUS_VERSION"
+          echo "Current version: $CURRENT_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+            echo "✅ Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "⚠️  Version not changed"
+          fi
+
+  test:
+    name: Run All Tests
+    needs: check-version
+    if: needs.check-version.outputs.version-changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linting
+        run: pnpm lint
+
+      - name: Run type checking
+        run: pnpm typecheck
+
+      - name: Build CLI
+        run: pnpm build
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Run CLI regression tests (no GitHub integration)
+        run: |
+          CLI="node dist/src/cli/main.js"
+
+          echo "Testing version command..."
+          $CLI --version
+
+          echo "Testing help command..."
+          $CLI --help
+
+          echo "Testing search command..."
+          $CLI search code | grep -q "Found"
+
+          echo "Testing doctor command..."
+          $CLI doctor | grep -q "All checks passed"
+
+          echo "✅ All CLI regression tests passed"
+
+  publish:
+    name: Publish to NPM
+    needs: [check-version, test]
+    if: needs.check-version.outputs.version-changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build CLI
+        run: pnpm build
+
+      - name: Publish to npm
+        run: cd dist/src/cli && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git tag
+        run: |
+          VERSION="${{ needs.check-version.outputs.new-version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: Generate release notes
+        id: release-notes
+        run: |
+          VERSION="${{ needs.check-version.outputs.new-version }}"
+
+          # Get commits since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" --no-merges -10)
+          else
+            COMMITS=$(git log $LAST_TAG..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+
+          # Create release notes
+          cat > release-notes.md <<EOF
+          ## 🎉 Release v$VERSION
+
+          ### Changes
+
+          $COMMITS
+
+          ### Installation
+
+          \`\`\`bash
+          npm install -g @human-in-the-loop/cli@$VERSION
+          \`\`\`
+
+          Or use npx:
+
+          \`\`\`bash
+          npx @human-in-the-loop/cli@$VERSION --version
+          \`\`\`
+
+          ### npm Package
+
+          https://www.npmjs.com/package/@human-in-the-loop/cli/v/$VERSION
+
+          ---
+
+          🤖 Auto-published via GitHub Actions
+          EOF
+
+          echo "notes-file=release-notes.md" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.check-version.outputs.new-version }}
+          name: v${{ needs.check-version.outputs.new-version }}
+          body_path: ${{ steps.release-notes.outputs.notes-file }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify success
+        run: |
+          VERSION="${{ needs.check-version.outputs.new-version }}"
+          echo "✅ Successfully published @human-in-the-loop/cli@$VERSION to npm"
+          echo "🏷️  Created GitHub release: https://github.com/${{ github.repository }}/releases/tag/v$VERSION"
