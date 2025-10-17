@@ -26,15 +26,33 @@ All pull requests trigger automated validation:
 
 **3. Contribution Validation**
 
-- YAML structure validation
-- Required metadata fields present (author, license, version, examples)
-- Schema compliance
+All validation scripts located in `src/governance/checks/`:
+
+- `validate-prompts.sh` - YAML structure and required metadata
+- `check-docs.sh` - README presence and completeness
+- `check-inline-comments.sh` - TypeDoc-only enforcement
+- `check-links.sh` - Documentation link validation
 
 **4. Security**
 
 - Secret detection (Trufflehog)
 - No hardcoded credentials
 - Dependency vulnerabilities
+
+### Running Checks Locally
+
+Before submitting a PR, run all governance checks:
+
+```bash
+# Run all checks
+pnpm validate
+
+# Or run individual checks
+./src/governance/checks/validate-prompts.sh
+./src/governance/checks/check-docs.sh
+./src/governance/checks/check-inline-comments.sh
+./src/governance/checks/check-links.sh
+```
 
 ### Human Review
 

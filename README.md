@@ -118,23 +118,23 @@ Production-ready prompts organized by use case, versioned and quality-assured. E
 
 ### 🤖 Agent Registry (`/lib/agents`)
 
-Catalog of AI agents with their configurations, capabilities, and integration guides. Includes performance benchmarks and cost estimates.
+Catalog of AI agents with their configurations, capabilities, and integration guides. *(Coming soon - framework in place)*
 
 ### 🎯 Context Packs (`/lib/context-packs`)
 
 Framework-specific knowledge bases that provide agents with deep technical context:
 
-- **Angular**: Component patterns, routing, state management, testing
-- **NestJS**: Module structure, dependency injection, middleware, guards
-- **CI/CD**: Pipeline patterns, deployment strategies, environment configs
+- **Angular**: Component patterns, routing, state management, testing ✅
+- **NestJS**: Module structure, dependency injection, middleware *(coming soon)*
+- **CI/CD**: Pipeline patterns, deployment strategies *(coming soon)*
 
 ### ✅ Evaluators (`/lib/evaluators`)
 
-Quality assurance tools that validate AI outputs against defined criteria like code quality, documentation completeness, security, and performance.
+Quality assurance tools that validate AI outputs against defined criteria. *(Coming soon - framework in place)*
 
 ### 🛡️ Guardrails (`/lib/guardrails`)
 
-Safety mechanisms that enforce responsible AI usage, including input validation, output filtering, rate limiting, and audit logging.
+Safety mechanisms that enforce responsible AI usage. *(Coming soon - framework in place)*
 
 ### ⚡ CLI Tool (`/src/cli`)
 
@@ -156,7 +156,8 @@ Developer-first principles and practices that guide how we build, evaluate, and 
 human-in-the-loop/
 ├── src/
 │   ├── cli/                     # TypeScript CLI tool
-│   └── governance/              # Contribution validation tooling
+│   └── governance/              # Quality validation and checks
+│       └── checks/              # Validation scripts
 ├── lib/
 │   ├── prompts/                 # Shared prompt library
 │   ├── agents/                  # Agent definitions and configs
@@ -164,8 +165,12 @@ human-in-the-loop/
 │   ├── guardrails/              # Safety and governance rules
 │   └── context-packs/           # Framework-specific context
 │       ├── angular/             # Angular-specific context
-│       ├── nestjs/              # NestJS-specific context
-│       └── ci-cd/               # CI/CD patterns and configs
+│       ├── nestjs/              # NestJS-specific context (coming soon)
+│       └── ci-cd/               # CI/CD patterns (coming soon)
+├── scripts/
+│   ├── build/                   # Build-time automation
+│   └── setup/                   # One-time setup scripts
+├── planning/                    # Project planning and roadmap
 └── docs/
     ├── getting-started.md       # Installation and first steps
     ├── ai-best-practices.md     # Responsible AI usage guidelines
@@ -234,8 +239,10 @@ All code must include TypeDoc comments above functions (no inline comments) and 
 - **Language**: TypeScript (strict mode)
 - **Package Manager**: pnpm
 - **CLI Framework**: Commander.js
-- **Validation**: Zod
-- **Testing**: Vitest
+- **Prompts**: Inquirer.js
+- **Styling**: Chalk
+- **YAML Parsing**: yaml
+- **Testing**: Jest
 
 ---
 

@@ -102,15 +102,7 @@ jobs:
           echo "✅ All functions have TypeDoc comments"
 
       - name: Check for inline comments
-        run: |
-          echo "Checking for inline comments..."
-          # Check for inline comments (//comment style) in production code only
-          # Exclude test files (*.spec.ts) which are allowed to have inline comments per CLAUDE.MD
-          if grep -r --include="*.ts" --exclude="*.spec.ts" --exclude-dir=node_modules --exclude-dir=dist "^\s*//" .; then
-            echo "❌ Found inline comments. Please use TypeDoc comments above functions only."
-            exit 1
-          fi
-          echo "✅ No inline comments found"
+        run: ./src/governance/checks/check-inline-comments.sh
 
       - name: Check for README in new features
         run: |
@@ -159,34 +151,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Validate prompt YAML files
-        run: |
-          echo "Validating prompt.yaml files..."
-          # Find all prompt.yaml files in lib/
-          find lib/prompts -name "prompt.yaml" 2>/dev/null | while read file; do
-            echo "Checking $file..."
-            # Check required fields exist
-            if ! grep -q "^id:" "$file"; then
-              echo "❌ Missing 'id' field in $file"
-              exit 1
-            fi
-            if ! grep -q "^version:" "$file"; then
-              echo "❌ Missing 'version' field in $file"
-              exit 1
-            fi
-            if ! grep -q "author:" "$file"; then
-              echo "❌ Missing 'author' in metadata for $file"
-              exit 1
-            fi
-            if ! grep -q "license:" "$file"; then
-              echo "❌ Missing 'license' in metadata for $file"
-              exit 1
-            fi
-            if ! grep -q "^examples:" "$file"; then
-              echo "❌ Missing 'examples' in $file"
-              exit 1
-            fi
-          done
-          echo "✅ All prompt files validated"
+        run: ./src/governance/checks/validate-prompts.sh
 
       - name: Check for secrets
         uses: trufflesecurity/trufflehog@main
