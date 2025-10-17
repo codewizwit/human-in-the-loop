@@ -16,7 +16,7 @@ metadata:
     - ngrx
   frameworks:
     - angular
-  lastUpdated: "2025-10-16"
+  lastUpdated: '2025-10-16'
 
 contents:
   - patterns/components
