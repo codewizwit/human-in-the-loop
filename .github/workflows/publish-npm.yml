@@ -53,9 +53,7 @@ jobs:
 
       - name: Publish to npm
         if: steps.version.outputs.changed == 'true'
-        run: cd dist/src/cli && npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: cd dist/src/cli && npm publish --provenance --access public
 
       - name: Create release
         if: steps.version.outputs.changed == 'true'
