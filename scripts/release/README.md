@@ -7,6 +7,7 @@ This repository uses **automated releases** on every merge to main.
 ## 📋 How It Works
 
 1. **Create a PR with conventional commits:**
+
    - `feat:` New feature (bumps **minor** version: 1.1.0 → 1.2.0)
    - `fix:` Bug fix (bumps **patch** version: 1.1.0 → 1.1.1)
    - `BREAKING CHANGE:` Breaking change (bumps **major** version: 1.1.0 → 2.0.0)
@@ -62,6 +63,7 @@ npm unlink -g @human-in-the-loop/cli
 **Triggers:** Push to `main` branch
 
 **Steps:**
+
 1. Check if commit is already a release (skip if yes)
 2. Install dependencies
 3. Run linting, type checking, tests, and build
@@ -77,6 +79,7 @@ npm unlink -g @human-in-the-loop/cli
 ## 📦 Release Artifacts
 
 Each release creates:
+
 - **Git tag** (e.g., `v1.2.0`)
 - **GitHub Release** with changelog
 - **npm Package** at https://www.npmjs.com/package/@human-in-the-loop/cli
@@ -98,6 +101,7 @@ Each release creates:
 ### Release didn't trigger after merge
 
 Check:
+
 - Does the latest commit have a conventional commit type (`feat:`, `fix:`, etc.)?
 - Is it a `chore:` or `docs:` commit? (these don't trigger version bumps)
 - View workflow logs: [Actions](https://github.com/codewizwit/human-in-the-loop/actions)
@@ -112,6 +116,7 @@ Check:
 ### Publish failed
 
 Check the [workflow logs](https://github.com/codewizwit/human-in-the-loop/actions) for:
+
 - Test failures
 - Build errors
 - npm authentication issues
