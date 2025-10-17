@@ -103,17 +103,6 @@ chmod +x planning/scaffold-high-priority.sh
 
 ---
 
-## Milestones Overview
-
-| Milestone | Focus                       | Timeline   | Items                          |
-| --------- | --------------------------- | ---------- | ------------------------------ |
-| M1        | Core Architecture & Testing | Q1 2025    | 6 high-priority templates      |
-| M2        | Governance & Quality        | Q1-Q2 2025 | 5 governance/evaluator items   |
-| M3        | Context Packs               | Q2 2025    | 4 framework context packs      |
-| M4        | Culture & Mentorship        | Q2-Q3 2025 | 4 culture/mentorship templates |
-| M5        | Planning & Documentation    | Q3 2025    | 4 planning/docs generators     |
-
----
 
 ## Related Documentation
 
