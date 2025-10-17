@@ -15,7 +15,9 @@ const program = new Command();
 // Read version from package.json
 // In the built output: dist/src/cli/package.json and this file is at dist/src/cli/src/cli/src/main.js
 const packageJsonPath = join(__dirname, '../../../package.json');
-const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
+  version: string;
+};
 
 program
   .name('hit')
