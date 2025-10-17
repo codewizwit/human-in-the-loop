@@ -14,7 +14,7 @@ find . -name "*.md" \
   -not -path "./.git/*" \
   -not -path "./.claude/*" \
   -type f \
-  -print0 | xargs -0 -n1 markdown-link-check --quiet
+  -print0 | xargs -0 -n1 pnpm exec markdown-link-check --quiet
 
 echo ""
 echo "✅ All documentation links are valid!"
