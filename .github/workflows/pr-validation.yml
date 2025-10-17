@@ -159,3 +159,47 @@ jobs:
           path: ./
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
+
+  cli-regression:
+    name: CLI Regression Tests
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build CLI
+        run: pnpm build
+
+      - name: Test CLI commands (no GitHub integration)
+        run: |
+          CLI="node dist/src/cli/main.js"
+
+          echo "Testing version command..."
+          $CLI --version
+
+          echo "Testing help command..."
+          $CLI --help
+
+          echo "Testing search command..."
+          $CLI search code | grep -q "Found"
+
+          echo "Testing doctor command..."
+          $CLI doctor | grep -q "All checks passed"
+
+          echo "✅ All CLI commands working"

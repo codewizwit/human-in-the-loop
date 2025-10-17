@@ -197,12 +197,14 @@ hit list
 # Validate local setup
 hit doctor
 
-# Submit a new tool
+# Validate and submit a new tool (creates GitHub issue)
 hit contribute <type> <path>
 
 # View usage analytics
 hit stats
 ```
+
+**New in v1.0.11:** The `contribute` command now automatically validates your contribution and creates a GitHub issue with detailed feedback!
 
 For complete CLI documentation, see [CLI Reference](./docs/cli-reference.md).
 
