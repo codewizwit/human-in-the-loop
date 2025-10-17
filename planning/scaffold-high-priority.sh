@@ -14,8 +14,8 @@ echo "📐 Scaffolding Architecture Templates..."
 
 git checkout main
 git checkout -b feature/system-design-review
-mkdir -p toolkit/prompts/architecture
-cat > toolkit/prompts/architecture/system-design-review.md << 'EOF'
+mkdir -p lib/prompts/architecture
+cat > lib/prompts/architecture/system-design-review.md << 'EOF'
 # System Design Review Prompt
 
 ## Overview
@@ -44,7 +44,7 @@ gh pr create --base main --title "Add System Design Review Prompt" --body "Adds 
 
 git checkout main
 git checkout -b feature/api-design
-cat > toolkit/prompts/architecture/api-design.md << 'EOF'
+cat > lib/prompts/architecture/api-design.md << 'EOF'
 # API Design Pattern Prompt
 
 ## Overview
@@ -76,8 +76,8 @@ echo "🧪 Scaffolding Testing Templates..."
 
 git checkout main
 git checkout -b feature/e2e-strategy
-mkdir -p toolkit/prompts/testing
-cat > toolkit/prompts/testing/generate-e2e-strategy.md << 'EOF'
+mkdir -p lib/prompts/testing
+cat > lib/prompts/testing/generate-e2e-strategy.md << 'EOF'
 # E2E Strategy Generator
 
 ## Overview
@@ -106,7 +106,7 @@ gh pr create --base main --title "Add E2E Strategy Generator Prompt" --body "Add
 
 git checkout main
 git checkout -b feature/unit-test-generator
-cat > toolkit/prompts/testing/generate-unit-tests.md << 'EOF'
+cat > lib/prompts/testing/generate-unit-tests.md << 'EOF'
 # Unit Test Generator
 
 ## Overview
@@ -138,8 +138,8 @@ echo "⚙️  Scaffolding CI/CD Templates..."
 
 git checkout main
 git checkout -b feature/pipeline-optimization
-mkdir -p toolkit/prompts/ci-cd
-cat > toolkit/prompts/ci-cd/pipeline-optimization.md << 'EOF'
+mkdir -p lib/prompts/ci-cd
+cat > lib/prompts/ci-cd/pipeline-optimization.md << 'EOF'
 # Pipeline Optimization Prompt
 
 ## Overview
@@ -168,7 +168,7 @@ gh pr create --base main --title "Add Pipeline Optimization Prompt" --body "Adds
 
 git checkout main
 git checkout -b feature/aws-deployment
-cat > toolkit/prompts/ci-cd/aws-deployment-strategy.md << 'EOF'
+cat > lib/prompts/ci-cd/aws-deployment-strategy.md << 'EOF'
 # AWS Deployment Strategy
 
 ## Overview
@@ -197,8 +197,8 @@ gh pr create --base main --title "Add AWS Deployment Strategy Prompt" --body "Ad
 
 git checkout main
 git checkout -b feature/ci-cd-context-pack
-mkdir -p toolkit/context-packs/ci-cd
-cat > toolkit/context-packs/ci-cd/README.md << 'EOF'
+mkdir -p lib/context-packs/ci-cd
+cat > lib/context-packs/ci-cd/README.md << 'EOF'
 # CI/CD Context Pack
 
 ## Overview
@@ -224,8 +224,8 @@ echo "📋 Scaffolding Planning Templates..."
 
 git checkout main
 git checkout -b feature/user-story-breakdown
-mkdir -p toolkit/prompts/planning
-cat > toolkit/prompts/planning/user-story-breakdown.md << 'EOF'
+mkdir -p lib/prompts/planning
+cat > lib/prompts/planning/user-story-breakdown.md << 'EOF'
 # User Story Breakdown
 
 ## Overview
@@ -257,8 +257,8 @@ echo "📝 Scaffolding Documentation Templates..."
 
 git checkout main
 git checkout -b feature/api-documentation
-mkdir -p toolkit/prompts/documentation
-cat > toolkit/prompts/documentation/api-documentation.md << 'EOF'
+mkdir -p lib/prompts/documentation
+cat > lib/prompts/documentation/api-documentation.md << 'EOF'
 # API Documentation Generator
 
 ## Overview
@@ -290,8 +290,8 @@ echo "🛡️  Scaffolding Governance Templates..."
 
 git checkout main
 git checkout -b feature/responsible-ai-audit
-mkdir -p toolkit/prompts/governance
-cat > toolkit/prompts/governance/responsible-ai-audit.md << 'EOF'
+mkdir -p lib/prompts/governance
+cat > lib/prompts/governance/responsible-ai-audit.md << 'EOF'
 # Responsible AI Audit Prompt
 
 ## Overview
@@ -320,7 +320,7 @@ gh pr create --base main --title "Add Responsible AI Audit Prompt" --body "Adds 
 
 git checkout main
 git checkout -b feature/bias-detection
-cat > toolkit/prompts/governance/bias-detection.md << 'EOF'
+cat > lib/prompts/governance/bias-detection.md << 'EOF'
 # Bias Detection Prompt
 
 ## Overview
@@ -349,7 +349,7 @@ gh pr create --base main --title "Add Bias Detection Prompt" --body "Adds initia
 
 git checkout main
 git checkout -b feature/security-review
-cat > toolkit/prompts/governance/security-review.md << 'EOF'
+cat > lib/prompts/governance/security-review.md << 'EOF'
 # Security Review Prompt
 
 ## Overview
@@ -381,7 +381,7 @@ echo "✅ Scaffolding Evaluators..."
 
 git checkout main
 git checkout -b feature/code-quality-evaluator
-cat > toolkit/evaluators/code-quality-evaluator.yaml << 'EOF'
+cat > lib/evaluators/code-quality-evaluator.yaml << 'EOF'
 id: code-quality-evaluator
 name: Code Quality Evaluator
 version: 1.0.0
@@ -413,7 +413,7 @@ gh pr create --base main --title "Add Code Quality Evaluator" --body "Adds initi
 
 git checkout main
 git checkout -b feature/security-evaluator
-cat > toolkit/evaluators/security-evaluator.yaml << 'EOF'
+cat > lib/evaluators/security-evaluator.yaml << 'EOF'
 id: security-evaluator
 name: Security Evaluator
 version: 1.0.0
@@ -447,7 +447,7 @@ echo "📦 Scaffolding Context Packs..."
 
 git checkout main
 git checkout -b feature/angular-component-patterns
-cat > toolkit/context-packs/angular/component-patterns.md << 'EOF'
+cat > lib/context-packs/angular/component-patterns.md << 'EOF'
 # Angular Component Patterns
 
 ## Overview
@@ -475,8 +475,8 @@ gh pr create --base main --title "Add Angular Component Patterns" --body "Adds i
 
 git checkout main
 git checkout -b feature/nestjs-module-structure
-mkdir -p toolkit/context-packs/nestjs
-cat > toolkit/context-packs/nestjs/module-structure.md << 'EOF'
+mkdir -p lib/context-packs/nestjs
+cat > lib/context-packs/nestjs/module-structure.md << 'EOF'
 # NestJS Module Structure
 
 ## Overview
@@ -504,8 +504,8 @@ gh pr create --base main --title "Add NestJS Module Structure Context" --body "A
 
 git checkout main
 git checkout -b feature/nx-monorepo-context
-mkdir -p toolkit/context-packs/nx-monorepo
-cat > toolkit/context-packs/nx-monorepo/README.md << 'EOF'
+mkdir -p lib/context-packs/nx-monorepo
+cat > lib/context-packs/nx-monorepo/README.md << 'EOF'
 # Nx Monorepo Context Pack
 
 ## Overview
@@ -536,8 +536,8 @@ echo "💬 Scaffolding Culture Templates..."
 
 git checkout main
 git checkout -b feature/code-review-empathy
-mkdir -p toolkit/prompts/culture
-cat > toolkit/prompts/culture/code-review-empathy.md << 'EOF'
+mkdir -p lib/prompts/culture
+cat > lib/prompts/culture/code-review-empathy.md << 'EOF'
 # Code Review Empathy Prompt
 
 ## Overview
