@@ -74,6 +74,7 @@ Installing copies a prompt, agent, or tool from the library to a location where 
 3. **Ready to use** - AI tools like Claude Code can now access and use the prompt
 
 **Common install locations:**
+
 - `~/.claude/prompts/` - For Claude Code slash commands
 - `~/.claude/tools/` - For general AI tool integration
 - Custom paths for your specific workflow
