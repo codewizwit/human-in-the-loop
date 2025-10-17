@@ -47,12 +47,11 @@ jobs:
         if: steps.should_release.outputs.skip == 'false'
         run: pnpm install --frozen-lockfile
 
-      - name: Run tests and build
+      - name: Run tests (pre-release)
         if: steps.should_release.outputs.skip == 'false'
         run: |
           pnpm lint
           pnpm typecheck
-          pnpm build
           pnpm test
 
       - name: Configure git
@@ -72,6 +71,10 @@ jobs:
           NEW_VERSION=$(cat src/cli/package.json | grep '"version"' | head -1 | awk -F'"' '{print $4}')
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "📦 Version bumped to: $NEW_VERSION"
+
+      - name: Build with new version
+        if: steps.should_release.outputs.skip == 'false'
+        run: pnpm build
 
       - name: Push version bump and tags
         if: steps.should_release.outputs.skip == 'false'
