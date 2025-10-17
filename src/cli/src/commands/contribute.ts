@@ -48,7 +48,6 @@ function validateYAML(yamlPath: string, type: string): ValidationResult {
     const content = readFileSync(yamlPath, 'utf-8');
     const data = parse(content) as Record<string, unknown>;
 
-    // Required fields for all types
     const requiredFields = ['id', 'name', 'version', 'description', 'category'];
     const requiredMetadata = ['author', 'license'];
 
@@ -72,7 +71,6 @@ function validateYAML(yamlPath: string, type: string): ValidationResult {
       }
     }
 
-    // Type-specific validation
     if (type === 'prompt' && !data.template) {
       result.errors.push('Prompts must have a template field');
       result.pass = false;
@@ -228,14 +226,12 @@ export async function contributeCommand(
   logInfo(`📤 Submitting ${type} for review...`);
   logNewLine();
 
-  // Validate path exists
   logStep(`Validating ${path}...`);
   if (!validatePath(path)) {
     logError(`Path does not exist: ${path}`);
     process.exit(1);
   }
 
-  // Detect tool type
   const detectedType = detectToolType(path);
   if (detectedType && detectedType !== type) {
     logInfo(
@@ -246,7 +242,6 @@ export async function contributeCommand(
   const toolDir = dirname(path);
   const toolName = basename(toolDir);
 
-  // Run validations
   logStep('Running quality checks...');
 
   const yamlValidation = validateYAML(path, type);
@@ -254,7 +249,6 @@ export async function contributeCommand(
 
   logNewLine();
 
-  // Display validation results
   if (yamlValidation.pass) {
     logSuccess('✅ YAML validation passed');
   } else {
