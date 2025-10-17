@@ -17,6 +17,19 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Check if should skip release
         id: should_release
         run: |
@@ -27,25 +40,19 @@ jobs:
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "ℹ️  Skipping - already a release commit"
           else
-            echo "skip=false" >> $GITHUB_OUTPUT
-            echo "✅ Proceeding with release check"
+            # Use Nx affected to check if CLI project is affected
+            AFFECTED=$(npx nx show projects --affected --base=HEAD~1 --head=HEAD)
+
+            if echo "$AFFECTED" | grep -q "cli"; then
+              echo "skip=false" >> $GITHUB_OUTPUT
+              echo "✅ CLI project is affected, proceeding with release"
+              echo "Affected projects: $AFFECTED"
+            else
+              echo "skip=true" >> $GITHUB_OUTPUT
+              echo "ℹ️  CLI project not affected, skipping release"
+              echo "Affected projects: $AFFECTED"
+            fi
           fi
-
-      - uses: pnpm/action-setup@v3
-        if: steps.should_release.outputs.skip == 'false'
-        with:
-          version: 9
-
-      - uses: actions/setup-node@v4
-        if: steps.should_release.outputs.skip == 'false'
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        if: steps.should_release.outputs.skip == 'false'
-        run: pnpm install --frozen-lockfile
 
       - name: Run tests (pre-release)
         if: steps.should_release.outputs.skip == 'false'
