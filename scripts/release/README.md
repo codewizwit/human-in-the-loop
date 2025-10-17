@@ -11,11 +11,16 @@ This repository uses **automated releases** on every merge to main.
    - `feat:` New feature (bumps **minor** version: 1.1.0 → 1.2.0)
    - `fix:` Bug fix (bumps **patch** version: 1.1.0 → 1.1.1)
    - `BREAKING CHANGE:` Breaking change (bumps **major** version: 1.1.0 → 2.0.0)
-   - `chore:`, `docs:`, `refactor:`, etc. (no version bump)
+   - `chore:`, `docs:`, `refactor:`, etc. (patch bump: 1.1.0 → 1.1.1)
 
 2. **Merge PR to main**
 
-3. **GitHub Actions automatically:**
+3. **Nx checks if CLI project is affected:**
+   - Uses `nx show projects --affected` to detect changes
+   - Only proceeds if `cli` project is in the affected list
+   - Skips release if only docs/workflows/other projects changed
+
+4. **GitHub Actions automatically (if CLI affected):**
    - ✅ Analyzes commits since last release
    - ✅ Bumps version using standard-version
    - ✅ Updates `CHANGELOG.md`
@@ -30,7 +35,8 @@ This repository uses **automated releases** on every merge to main.
 
 - **Use conventional commit format** in PR titles for clear versioning
 - **Version bumps are automatic** based on commit types
-- **Every merge to main triggers a release** (unless it's already a release commit)
+- **Releases only trigger when CLI is affected** - docs/workflow changes won't create new releases
+- **Nx determines affected projects** using the dependency graph
 - **Check the workflow status** after merge: [Actions](https://github.com/codewizwit/human-in-the-loop/actions/workflows/publish-npm.yml)
 
 ---
@@ -100,11 +106,12 @@ Each release creates:
 
 ### Release didn't trigger after merge
 
-Check:
+This is expected if the CLI project wasn't affected! Check:
 
-- Does the latest commit have a conventional commit type (`feat:`, `fix:`, etc.)?
-- Is it a `chore:` or `docs:` commit? (these don't trigger version bumps)
-- View workflow logs: [Actions](https://github.com/codewizwit/human-in-the-loop/actions)
+- Did your changes touch `src/cli/**` files?
+- View workflow logs to see affected projects: [Actions](https://github.com/codewizwit/human-in-the-loop/actions)
+- Run `nx show projects --affected` locally to see what's affected
+- Workflow skips release if only docs, workflows, or other projects changed
 
 ### Version didn't bump as expected
 
