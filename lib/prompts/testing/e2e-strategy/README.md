@@ -132,9 +132,10 @@ test('User can login and create project', async ({ page }) => {
 
 This prompt works well with:
 
-- [Unit Test Generator](../unit-test-generator/) - For component-level tests
+- Unit Test Generator - For component-level tests (coming soon)
 - [API Design](../../architecture/api-design/) - For API testing strategy
-- [Pipeline Optimization](../../ci-cd/pipeline-optimization/) - For CI/CD improvements
+- Pipeline Optimization - For CI/CD improvements (coming soon)
+- AWS Deployment Strategy - For infrastructure deployment (coming soon)
 
 ## Framework-Specific Tips
 
