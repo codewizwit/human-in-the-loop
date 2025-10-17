@@ -2,6 +2,8 @@
 
 > Command-line tool for managing AI prompts, agents, and productivity tools with built-in governance and quality standards.
 
+[![npm version](https://badge.fury.io/js/@human-in-the-loop%2Fcli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
+[![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Quick Start
