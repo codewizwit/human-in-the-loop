@@ -260,7 +260,23 @@ hit stats --tool prompt/code-review-ts
 
 ### `hit contribute <type> <path>`
 
-Submit a new tool for review and inclusion in the toolkit.
+Validate a contribution and automatically create a GitHub issue for review.
+
+**What it does:**
+
+1. **Validates** your tool against quality standards:
+   - YAML structure and required metadata fields
+   - README.md presence and "## Usage" section
+   - Examples provided (warns if missing)
+   - Type-specific requirements (e.g., prompts need `template` field)
+
+2. **Auto-detects** tool type from directory path (verifies it matches specified type)
+
+3. **Creates GitHub issue** automatically with:
+   - All validation results (pass/fail for each check)
+   - List of errors that need fixing
+   - Review checklist for maintainers
+   - Next steps based on validation status
 
 **Usage:**
 
@@ -271,29 +287,113 @@ hit contribute <type> <path>
 **Arguments:**
 
 - `type` (required) - Tool type: `prompt`, `agent`, `evaluator`, `guardrail`, or `context-pack`
-- `path` (required) - Path to tool directory or YAML file
+- `path` (required) - Path to tool YAML file (e.g., `prompt.yaml`)
 
 **Examples:**
 
 ```bash
 # Contribute a prompt
-hit contribute prompt ./my-prompt.yaml
+hit contribute prompt lib/prompts/my-prompt/prompt.yaml
 
 # Contribute an agent
-hit contribute agent ./my-agent/
+hit contribute agent lib/agents/my-agent/agent.yaml
 
-# Contribute with full directory
-hit contribute prompt ./code-reviewer/
+# Contribute a context pack
+hit contribute context-pack lib/context-packs/react/config.yaml
+```
+
+**Validation Checks:**
+
+✅ **YAML Structure:**
+- Required fields: `id`, `name`, `version`, `description`, `category`
+- Required metadata: `author`, `license`
+- Type-specific fields (e.g., prompts need `template`)
+- Examples array (warns if empty)
+
+✅ **Documentation:**
+- README.md exists in tool directory
+- README contains "## Usage" section
+- Sufficient content (warns if too short)
+
+**Success Output:**
+
+```
+📤 Submitting prompt for review...
+
+  → Validating lib/prompts/my-prompt/prompt.yaml...
+  → Running quality checks...
+
+✓ ✅ YAML validation passed
+✓ ✅ Documentation validation passed
+
+  → Creating GitHub issue...
+
+✓ Contribution issue created successfully!
+  → https://github.com/codewizwit/human-in-the-loop/issues/123
+
+Next steps:
+  1. Create a pull request with your changes
+  2. Link the PR to the issue above
+  3. Wait for peer review (typically 3-5 days)
+  4. Address any feedback
+  5. Approval and merge
+```
+
+**Validation Failure Output:**
+
+```
+📤 Submitting prompt for review...
+
+  → Validating lib/prompts/my-prompt/prompt.yaml...
+  → Running quality checks...
+
+✗ ❌ YAML validation failed
+  - Missing required field: version
+  - Missing metadata section
+  - Prompts must have a template field
+
+✗ ❌ Documentation validation failed
+  - Missing README.md file
+
+⚠️  Warnings:
+  - No examples provided (recommended: at least 2)
+
+  → Creating GitHub issue...
+
+✓ Contribution issue created successfully!
+  → https://github.com/codewizwit/human-in-the-loop/issues/124
+
+Next steps:
+  1. Fix the validation errors listed above
+  2. Run validation again: hit contribute <type> <path>
+  3. Create PR once all checks pass
 ```
 
 **Requirements:**
 
-- Valid YAML configuration file
-- Required metadata fields (id, name, version, description)
-- Proper directory structure
-- README.md with usage instructions
+Before running `hit contribute`, ensure your tool has:
 
-See [Contributing Guide](../CONTRIBUTING.md) for detailed requirements.
+- ✅ Valid YAML file with all required fields
+- ✅ README.md in the same directory as the YAML
+- ✅ "## Usage" section in README
+- ✅ At least 2 usage examples
+- ✅ Proper metadata (author, license)
+- ✅ Semantic version number
+
+**GitHub Issue:**
+
+The created issue includes:
+- 📊 Validation status (all passed / issues found)
+- 📝 Detailed error messages and warnings
+- ✅ Review checklist for maintainers
+- 📋 Contextual next steps
+
+**Prerequisites:**
+
+- `gh` CLI installed and authenticated (`gh auth login`)
+- Repository access to create issues
+
+See [Contributing Guide](../CONTRIBUTING.md) for detailed contribution requirements.
 
 ---
 
