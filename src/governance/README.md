@@ -113,17 +113,23 @@ pnpm validate
 ### Run individual checks
 
 ```bash
-# Check documentation
 ./src/governance/checks/check-docs.sh
-
-# Validate prompts
 ./src/governance/checks/validate-prompts.sh
-
-# Check links
 ./src/governance/checks/check-links.sh
-
-# Check inline comments
 ./src/governance/checks/check-inline-comments.sh
+```
+
+### Release validation
+
+```bash
+# Validate before npm publish
+pnpm publish:prepare
+
+# Test package contents
+pnpm publish:dry-run
+
+# CLI regression tests
+pnpm test:regression
 ```
 
 ## CI/CD Integration
