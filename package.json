@@ -13,7 +13,7 @@
     "format": "prettier --write \"**/*.{ts,js,json,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md,yml,yaml}\"",
     "typecheck": "tsc -p tsconfig.base.json --noEmit",
-    "build": "nx build cli",
+    "build": "nx build cli && ./scripts/add-shebang.sh",
     "ci:local": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm build && pnpm test",
     "ci:full": "pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm check-links",
     "validate": "pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm check-links",
