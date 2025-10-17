@@ -32,32 +32,37 @@ function isValidLibDirectory(libPath: string): boolean {
     return false;
   }
 
-  // Check for at least one expected subdirectory
-  const expectedDirs = ['prompts', 'agents', 'evaluators', 'guardrails', 'context-packs'];
-  return expectedDirs.some(dir => fs.existsSync(path.join(libPath, dir)));
+  const expectedDirs = [
+    'prompts',
+    'agents',
+    'evaluators',
+    'guardrails',
+    'context-packs',
+  ];
+  return expectedDirs.some((dir) => fs.existsSync(path.join(libPath, dir)));
 }
 
 /**
- * Gets the default lib directory path
- * Looks for lib in: 1) current directory, 2) package installation directory
- * @returns Path to the lib directory
+ * Gets the default lib directory path by searching multiple locations
+ * First attempts to find lib in the current working directory (for local development).
+ * If not found, searches the package installation directory (for global npm installs).
+ * When installed globally via npm, the directory structure is:
+ * - __dirname: .../cli/src/cli/src/utils
+ * - lib location: .../cli/lib
+ * Falls back to current working directory if neither location contains a valid lib.
+ * @returns Path to the lib directory, or current working directory lib path as fallback
  */
 function getDefaultLibPath(): string {
-  // First, try current working directory (for development/custom lib)
   const cwdLib = path.join(process.cwd(), 'lib');
   if (isValidLibDirectory(cwdLib)) {
     return cwdLib;
   }
 
-  // Then, try package installation directory (for global installs)
-  // When installed globally, __dirname is at .../cli/src/cli/src/utils
-  // and lib is at .../cli/lib
   const packageLib = path.join(__dirname, '../../../../lib');
   if (isValidLibDirectory(packageLib)) {
     return packageLib;
   }
 
-  // Default to current working directory (will show "no tools found")
   return cwdLib;
 }
 
