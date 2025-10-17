@@ -118,23 +118,23 @@ Production-ready prompts organized by use case, versioned and quality-assured. E
 
 ### 🤖 Agent Registry (`/lib/agents`)
 
-Catalog of AI agents with their configurations, capabilities, and integration guides. *(Coming soon - framework in place)*
+Catalog of AI agents with their configurations, capabilities, and integration guides. _(Coming soon - framework in place)_
 
 ### 🎯 Context Packs (`/lib/context-packs`)
 
 Framework-specific knowledge bases that provide agents with deep technical context:
 
 - **Angular**: Component patterns, routing, state management, testing ✅
-- **NestJS**: Module structure, dependency injection, middleware *(coming soon)*
-- **CI/CD**: Pipeline patterns, deployment strategies *(coming soon)*
+- **NestJS**: Module structure, dependency injection, middleware _(coming soon)_
+- **CI/CD**: Pipeline patterns, deployment strategies _(coming soon)_
 
 ### ✅ Evaluators (`/lib/evaluators`)
 
-Quality assurance tools that validate AI outputs against defined criteria. *(Coming soon - framework in place)*
+Quality assurance tools that validate AI outputs against defined criteria. _(Coming soon - framework in place)_
 
 ### 🛡️ Guardrails (`/lib/guardrails`)
 
-Safety mechanisms that enforce responsible AI usage. *(Coming soon - framework in place)*
+Safety mechanisms that enforce responsible AI usage. _(Coming soon - framework in place)_
 
 ### ⚡ CLI Tool (`/src/cli`)
 
