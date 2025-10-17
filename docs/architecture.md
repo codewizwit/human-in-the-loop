@@ -33,9 +33,7 @@ human-in-the-loop/
 │   │   ├── utils/            # Utility functions
 │   │   └── main.ts           # Entry point
 │   └── governance/           # Governance tooling
-│       ├── validators/       # Validation scripts
-│       ├── checks/           # Quality checks
-│       └── schemas/          # JSON schemas
+│       └── checks/           # Quality and validation scripts
 │
 ├── lib/                  # AI productivity tools
 │   ├── prompts/             # Reusable prompts
@@ -136,29 +134,37 @@ Pull Request
 
 ### Validation Components
 
-**YAML Validators**
+Located in `src/governance/checks/`:
 
-- Schema validation for prompts, agents
-- Required field checks
-- Format validation
+**validate-prompts.sh**
 
-**TypeScript Validators**
+- YAML structure validation
+- Required metadata fields
+- Schema compliance for prompts
 
-- Strict mode compliance
-- Type correctness
-- Import resolution
-
-**Documentation Validators**
+**check-docs.sh**
 
 - README completeness
-- Example presence
-- Clear instructions
+- Usage section presence
+- Proper section headers
 
-**Security Validators**
+**check-inline-comments.sh**
+
+- TypeDoc-only enforcement
+- No inline // comments in production code
+- Test file exemptions
+
+**check-links.sh**
+
+- Markdown link validation
+- Broken link detection
+- Relative path checking
+
+**Security Validators** (GitHub Actions)
 
 - Secret detection (Trufflehog)
 - Dependency scanning
-- Permission validation
+- Security audit
 
 ---
 
@@ -365,9 +371,10 @@ Final Result
 
 1. Define schema in `lib/[type]/schema.ts`
 2. Create README template
-3. Add validation rules to governance layer
-4. Update CLI commands to support new type
-5. Document in contributing guidelines
+3. Add validation script to `src/governance/checks/`
+4. Update CI workflows to run new validation
+5. Update CLI commands to support new type
+6. Document in contributing guidelines
 
 ### Custom Evaluators
 
