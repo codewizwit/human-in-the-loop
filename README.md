@@ -212,14 +212,30 @@ For complete CLI documentation, see [CLI Reference](./docs/cli-reference.md).
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
+We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-- Submitting new prompts and agents
-- Quality standards and review process
-- Testing requirements
-- Documentation expectations
+### Quick Contribution Workflow
 
-All code must include TypeDoc comments above functions (no inline comments) and follow our TypeScript strict mode standards.
+```bash
+# 1. Make changes with conventional commits
+pnpm commit
+# Interactive prompt enforces: feat:, fix:, docs:, etc.
+
+# 2. Submit contribution (validates and creates GitHub issue)
+hit contribute <type> <path>
+
+# 3. Create PR once validation passes
+```
+
+**Conventional Commits:**
+
+- `feat:` - New features (minor version bump)
+- `fix:` - Bug fixes (patch version bump)
+- `docs:` - Documentation changes
+- `refactor:` - Code refactoring
+- `test:` - Test updates
+
+All code must include TypeDoc comments above functions (no inline comments) and follow TypeScript strict mode.
 
 ---
 
