@@ -33,8 +33,14 @@ function isValidLibDirectory(libPath: string): boolean {
   }
 
   // Check for at least one expected subdirectory
-  const expectedDirs = ['prompts', 'agents', 'evaluators', 'guardrails', 'context-packs'];
-  return expectedDirs.some(dir => fs.existsSync(path.join(libPath, dir)));
+  const expectedDirs = [
+    'prompts',
+    'agents',
+    'evaluators',
+    'guardrails',
+    'context-packs',
+  ];
+  return expectedDirs.some((dir) => fs.existsSync(path.join(libPath, dir)));
 }
 
 /**
