@@ -2,21 +2,57 @@
 
 How to publish new versions of `@human-in-the-loop/cli` to npm.
 
+## Setup (One-time)
+
+Configure npm trusted publisher for secure OIDC authentication:
+
+1. Go to https://www.npmjs.com/package/@human-in-the-loop/cli/access
+2. Click "Publishing access" → "Configure trusted publisher"
+3. Add GitHub Actions:
+   - **Provider**: GitHub
+   - **Repository**: `codewizwit/human-in-the-loop`
+   - **Workflow**: `publish-npm.yml`
+   - **Environment**: (leave blank)
+
+No npm tokens needed! Workflow authenticates via OIDC.
+
 ## Quick Start
 
 ```bash
-# 1. Validate release
-pnpm publish:prepare
+# 1. Make your changes with conventional commits
+pnpm commit  # Interactive commit helper (enforces conventional format)
 
-# 2. Bump version in src/cli/package.json
-# Use semver: MAJOR.MINOR.PATCH (e.g., 1.0.12)
+# 2. When ready to release
+pnpm release  # Auto-bumps version based on commits + creates changelog
 
-# 3. Commit and push
-git add src/cli/package.json
-git commit -m "chore: bump to 1.0.12"
-git push origin main
+# 3. Push to trigger automated publish
+git push --follow-tags origin main  # CI auto-publishes
+```
 
-# 4. CI auto-publishes and creates GitHub release
+## Version Bumping (Automatic)
+
+Version is determined by commit messages (conventional commits):
+
+- `fix:` → **patch** (1.0.10 → 1.0.11)
+- `feat:` → **minor** (1.0.10 → 1.1.0)
+- `feat!:` or `BREAKING CHANGE:` → **major** (1.0.10 → 2.0.0)
+
+Example:
+
+```bash
+pnpm commit
+# Select: feat
+# Enter: add hit contribute command
+# Creates: "feat: add hit contribute command"
+
+pnpm release
+# Auto-bumps to 1.1.0 (minor)
+# Creates CHANGELOG.md
+# Commits version bump
+# Creates git tag v1.1.0
+
+git push --follow-tags origin main
+# Workflow publishes v1.1.0 to npm
 ```
 
 ## What Happens
