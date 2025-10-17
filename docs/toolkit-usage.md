@@ -63,6 +63,7 @@ Prompts are installed to your `.claude/` directory:
 Instead of manually pasting code, use these developer-friendly approaches:
 
 **1. File Reference (Recommended for Claude Code)**
+
 ```
 User: Use .claude/prompts/code-review-ts/prompt.yaml
 
@@ -71,6 +72,7 @@ Focus on: security, performance
 ```
 
 **2. Command Substitution (For CLI workflows)**
+
 ```bash
 # Read file content automatically
 hit review --prompt code-review-ts --code "$(cat src/UserProfile.tsx)"
@@ -80,12 +82,14 @@ hit review --prompt code-review-ts --code "$(git diff HEAD~1)"
 ```
 
 **3. Pipe from stdin**
+
 ```bash
 # Pipe file content directly
 cat src/UserProfile.tsx | hit review --prompt code-review-ts
 ```
 
 **4. Directory/glob patterns**
+
 ```bash
 # Review multiple files
 hit review --prompt code-review-ts src/components/*.tsx
@@ -95,6 +99,7 @@ git diff --name-only | xargs -I {} hit review --prompt code-review-ts {}
 ```
 
 **5. Git integration**
+
 ```bash
 # Review current branch changes
 hit review --prompt code-review-ts --git-diff main...HEAD
@@ -104,6 +109,7 @@ hit review --prompt code-review-ts --git-diff
 ```
 
 **Manual paste (not recommended):**
+
 ```
 User: Use .claude/prompts/code-review-ts/prompt.yaml
 
