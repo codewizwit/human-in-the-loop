@@ -74,6 +74,7 @@ Installing copies a prompt, agent, or tool from the library to a location where 
 3. **Ready to use** - AI tools like Claude Code can now access and use the prompt
 
 **Common install locations:**
+
 - `~/.claude/prompts/` - For Claude Code slash commands
 - `~/.claude/tools/` - For general AI tool integration
 - Custom paths for your specific workflow
@@ -242,7 +243,6 @@ See [CONTRIBUTING.md](https://github.com/codewizwit/human-in-the-loop/blob/main/
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/codewizwit/human-in-the-loop/discussions)
 - **CLI Help**: `hit --help` or `hit [command] --help`
 
 ## License
@@ -251,9 +251,9 @@ MIT © [codewizwit](https://github.com/codewizwit)
 
 ## Related Packages
 
-- [@human-in-the-loop/prompts](https://www.npmjs.com/package/@human-in-the-loop/prompts) - Prompt library
-- [@human-in-the-loop/agents](https://www.npmjs.com/package/@human-in-the-loop/agents) - Agent definitions
-- [@human-in-the-loop/evaluators](https://www.npmjs.com/package/@human-in-the-loop/evaluators) - Quality evaluators
+- `@human-in-the-loop/prompts` - Prompt library (coming soon)
+- `@human-in-the-loop/agents` - Agent definitions (coming soon)
+- `@human-in-the-loop/evaluators` - Quality evaluators (coming soon)
 
 ---
 
