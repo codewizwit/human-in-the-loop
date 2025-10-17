@@ -265,6 +265,7 @@ Validate a contribution and automatically create a GitHub issue for review.
 **What it does:**
 
 1. **Validates** your tool against quality standards:
+
    - YAML structure and required metadata fields
    - README.md presence and "## Usage" section
    - Examples provided (warns if missing)
@@ -305,12 +306,14 @@ hit contribute context-pack lib/context-packs/react/config.yaml
 **Validation Checks:**
 
 ✅ **YAML Structure:**
+
 - Required fields: `id`, `name`, `version`, `description`, `category`
 - Required metadata: `author`, `license`
 - Type-specific fields (e.g., prompts need `template`)
 - Examples array (warns if empty)
 
 ✅ **Documentation:**
+
 - README.md exists in tool directory
 - README contains "## Usage" section
 - Sufficient content (warns if too short)
@@ -383,6 +386,7 @@ Before running `hit contribute`, ensure your tool has:
 **GitHub Issue:**
 
 The created issue includes:
+
 - 📊 Validation status (all passed / issues found)
 - 📝 Detailed error messages and warnings
 - ✅ Review checklist for maintainers
