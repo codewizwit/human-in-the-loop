@@ -10,7 +10,6 @@ import { createConsoleMock } from '../../test-utils';
 import { listCommand } from '../list';
 import * as registry from '../../utils/registry';
 
-// Mock registry module
 jest.mock('../../utils/registry');
 
 const mockRegistry = registry as jest.Mocked<typeof registry>;
@@ -274,14 +273,12 @@ describe('listCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      // Should have multiple lines
       expect(output.split('\n').length).toBeGreaterThan(3);
     });
 
     it('should highlight important information', async () => {
       await listCommand();
 
-      // List icon should be present
       expect(consoleMock.contains('📋')).toBe(true);
     });
   });

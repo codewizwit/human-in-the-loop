@@ -1,11 +1,59 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { doctorCommand } from '../doctor';
 
+jest.mock('child_process', () => {
+  return {
+    execSync: jest.fn(),
+  };
+});
+
+jest.mock('fs', () => {
+  return {
+    existsSync: jest.fn(),
+  };
+});
+
 describe('doctorCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
+  let execSync: jest.Mock;
+  let existsSync: jest.Mock;
+  let output: string;
 
-  beforeEach(() => {
+  /**
+   * Helper to run command and capture output
+   */
+  const runCommand = async (): Promise<string> => {
+    await doctorCommand();
+    return consoleMock.getOutput();
+  };
+
+  /**
+   * Helper to assert output contains text
+   */
+  const expectOutput = (text: string | string[]): void => {
+    const texts = Array.isArray(text) ? text : [text];
+    texts.forEach((t) => expect(output).toContain(t));
+  };
+
+  beforeEach(async () => {
+    const childProcess = await import('child_process');
+    const fs = await import('fs');
+
+    execSync = childProcess.execSync as jest.Mock;
+    existsSync = fs.existsSync as jest.Mock;
+
+    jest.clearAllMocks();
+    execSync.mockReturnValue('1.0.0');
+    existsSync.mockReturnValue(true);
+
     consoleMock = createConsoleMock();
     consoleMock.start();
   });
@@ -16,144 +64,130 @@ describe('doctorCommand', () => {
   });
 
   describe('diagnostic checks', () => {
-    it('should display diagnostic message', async () => {
-      await doctorCommand();
+    beforeEach(async () => {
+      output = await runCommand();
+    });
 
+    it('should display diagnostic message', () => {
       expect(consoleMock.contains('🔍 Running diagnostic checks')).toBe(true);
     });
 
-    it('should show environment section', async () => {
-      await doctorCommand();
-
+    it('should show environment section', () => {
       expect(consoleMock.contains('Environment:')).toBe(true);
     });
 
-    it('should show dependencies section', async () => {
-      await doctorCommand();
-
-      expect(consoleMock.contains('Dependencies:')).toBe(true);
+    it('should show version control section', () => {
+      expect(consoleMock.contains('Version Control:')).toBe(true);
     });
 
-    it('should show configuration section', async () => {
-      await doctorCommand();
-
-      expect(consoleMock.contains('Configuration:')).toBe(true);
-    });
-
-    it('should display success message', async () => {
-      await doctorCommand();
-
-      expect(
-        consoleMock.contains('All checks passed! Your environment is ready.')
-      ).toBe(true);
+    it('should show installation paths section', () => {
+      expect(consoleMock.contains('Installation Paths:')).toBe(true);
     });
   });
 
   describe('environment checks', () => {
-    it('should check Node.js version', async () => {
-      await doctorCommand();
+    describe('when tools are installed', () => {
+      it('should display Node.js version', async () => {
+        execSync.mockReturnValue('v20.10.0');
+        output = await runCommand();
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('Node.js');
-      expect(output).toContain('v20.11.0');
+        expectOutput(['Node.js', '20.10.0']);
+      });
+
+      it('should display npm version', async () => {
+        execSync.mockReturnValue('10.2.0');
+        output = await runCommand();
+
+        expectOutput('npm');
+      });
+
+      it('should display pnpm version', async () => {
+        execSync.mockReturnValue('9.0.0');
+        output = await runCommand();
+
+        expectOutput('pnpm');
+      });
     });
 
-    it('should check TypeScript version', async () => {
-      await doctorCommand();
+    describe('when tools are missing', () => {
+      beforeEach(() => {
+        execSync.mockImplementation(() => {
+          throw new Error('Command not found');
+        });
+        existsSync.mockReturnValue(false);
+      });
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('TypeScript');
-      expect(output).toContain('v5.9.3');
-    });
+      it('should handle missing commands gracefully', async () => {
+        output = await runCommand();
 
-    it('should check pnpm version', async () => {
-      await doctorCommand();
-
-      const output = consoleMock.getOutput();
-      expect(output).toContain('pnpm');
-      expect(output).toContain('v10.18.2');
-    });
-
-    it('should show checkmarks for all environment checks', async () => {
-      await doctorCommand();
-
-      const output = consoleMock.getOutput();
-      const lines = output.split('\n');
-      const envSection = lines.filter(
-        (l) =>
-          l.includes('Node.js') ||
-          l.includes('TypeScript') ||
-          l.includes('pnpm')
-      );
-
-      expect(envSection.length).toBe(3);
-      envSection.forEach((line) => {
-        expect(line).toContain('✓');
+        expectOutput(['Node.js', 'npm', 'pnpm']);
       });
     });
   });
 
-  describe('dependency checks', () => {
-    it('should check commander dependency', async () => {
-      await doctorCommand();
+  describe('version control checks', () => {
+    describe('when tools are installed', () => {
+      it('should display git version', async () => {
+        execSync.mockReturnValue('git version 2.42.0');
+        output = await runCommand();
 
-      expect(consoleMock.contains('commander')).toBe(true);
+        expectOutput('git');
+      });
+
+      it('should display GitHub CLI version', async () => {
+        execSync.mockReturnValue('gh version 2.40.0');
+        output = await runCommand();
+
+        expectOutput('GitHub CLI');
+      });
     });
 
-    it('should check chalk dependency', async () => {
-      await doctorCommand();
+    describe('when tools are missing', () => {
+      beforeEach(() => {
+        execSync.mockImplementation((cmd: unknown) => {
+          if (String(cmd).includes('git') || String(cmd).includes('gh')) {
+            throw new Error('Command not found');
+          }
+          return '1.0.0';
+        });
+      });
 
-      expect(consoleMock.contains('chalk')).toBe(true);
-    });
+      it('should handle missing version control tools gracefully', async () => {
+        output = await runCommand();
 
-    it('should check zod dependency', async () => {
-      await doctorCommand();
-
-      expect(consoleMock.contains('zod')).toBe(true);
-    });
-
-    it('should show checkmarks for all dependencies', async () => {
-      await doctorCommand();
-
-      const output = consoleMock.getOutput();
-      const lines = output.split('\n');
-      const depSection = lines.filter(
-        (l) =>
-          l.includes('commander') || l.includes('chalk') || l.includes('zod')
-      );
-
-      expect(depSection.length).toBe(3);
-      depSection.forEach((line) => {
-        expect(line).toContain('✓');
+        expectOutput(['git', 'GitHub CLI']);
       });
     });
   });
 
-  describe('configuration checks', () => {
-    it('should check for .hitrc.json', async () => {
-      await doctorCommand();
+  describe('installation path checks', () => {
+    describe('when directories exist', () => {
+      beforeEach(async () => {
+        output = await runCommand();
+      });
 
-      expect(consoleMock.contains('.hitrc.json found')).toBe(true);
+      it('should check for .claude directory', () => {
+        expectOutput('.claude directory');
+      });
+
+      it('should check for tools directory', () => {
+        expectOutput('tools directory');
+      });
+
+      it('should check for registry.json', () => {
+        expectOutput('registry.json');
+      });
     });
 
-    it('should check for .claude directory', async () => {
-      await doctorCommand();
+    describe('when directories are missing', () => {
+      beforeEach(() => {
+        existsSync.mockReturnValue(false);
+      });
 
-      expect(consoleMock.contains('.claude directory exists')).toBe(true);
-    });
+      it('should show creation message for missing directories', async () => {
+        output = await runCommand();
 
-    it('should show checkmarks for configuration', async () => {
-      await doctorCommand();
-
-      const output = consoleMock.getOutput();
-      const lines = output.split('\n');
-      const configSection = lines.filter(
-        (l) => l.includes('.hitrc.json') || l.includes('.claude directory')
-      );
-
-      expect(configSection.length).toBe(2);
-      configSection.forEach((line) => {
-        expect(line).toContain('✓');
+        expectOutput(['.claude directory', 'will be created']);
       });
     });
   });
@@ -163,39 +197,73 @@ describe('doctorCommand', () => {
       await expect(doctorCommand()).resolves.not.toThrow();
     });
 
-    it('should show sections in order', async () => {
+    it('should show sections in correct order', async () => {
       await doctorCommand();
 
       const lines = consoleMock.getLines();
-      const envIndex = lines.findIndex((l) => l.includes('Environment:'));
-      const depsIndex = lines.findIndex((l) => l.includes('Dependencies:'));
-      const configIndex = lines.findIndex((l) => l.includes('Configuration:'));
-      const successIndex = lines.findIndex((l) =>
-        l.includes('All checks passed')
-      );
+      const indices = {
+        env: lines.findIndex((l) => l.includes('Environment:')),
+        versionControl: lines.findIndex((l) => l.includes('Version Control:')),
+        paths: lines.findIndex((l) => l.includes('Installation Paths:')),
+      };
 
-      expect(envIndex).toBeGreaterThan(-1);
-      expect(depsIndex).toBeGreaterThan(envIndex);
-      expect(configIndex).toBeGreaterThan(depsIndex);
-      expect(successIndex).toBeGreaterThan(configIndex);
+      expect(indices.env).toBeGreaterThan(-1);
+      expect(indices.versionControl).toBeGreaterThan(indices.env);
+      expect(indices.paths).toBeGreaterThan(indices.versionControl);
     });
   });
 
   describe('output formatting', () => {
-    it('should use proper spacing', async () => {
-      await doctorCommand();
+    beforeEach(async () => {
+      output = await runCommand();
+    });
 
-      const output = consoleMock.getOutput();
-
-      // Should have multiple lines for all checks
+    it('should use proper spacing', () => {
       expect(output.split('\n').length).toBeGreaterThan(10);
     });
 
-    it('should highlight important information', async () => {
-      await doctorCommand();
-
-      // Diagnostic icon should be present
+    it('should highlight important information with icons', () => {
       expect(consoleMock.contains('🔍')).toBe(true);
+    });
+  });
+
+  describe('status messages', () => {
+    it('should show success when all checks pass', async () => {
+      output = await runCommand();
+
+      expectOutput('All checks passed');
+    });
+
+    it('should show warning when optional tools are missing', async () => {
+      execSync.mockImplementation((cmd: unknown) => {
+        const cmdStr = String(cmd);
+        if (
+          cmdStr.includes('pnpm') ||
+          cmdStr.includes('git') ||
+          cmdStr.includes('gh')
+        ) {
+          throw new Error('Command not found');
+        }
+        return '1.0.0';
+      });
+
+      output = await runCommand();
+
+      expectOutput('some optional tools are missing');
+    });
+
+    it('should show error when critical tools are missing', async () => {
+      execSync.mockImplementation((cmd: unknown) => {
+        const cmdStr = String(cmd);
+        if (cmdStr.includes('node') || cmdStr.includes('npm')) {
+          throw new Error('Command not found');
+        }
+        return '1.0.0';
+      });
+
+      output = await runCommand();
+
+      expectOutput('critical checks failed');
     });
   });
 });

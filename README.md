@@ -272,7 +272,7 @@ MIT License - see [LICENSE](./LICENSE) for details
 
 ## About
 
-**Human-in-the-Loop by codewizwit**
+**Human-in-the-Loop with &hearts; by codewizwit**
 Build with care. Ship with purpose.
 
 For issues and feature requests, please use [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues).

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   describe,
   it,
@@ -15,9 +16,7 @@ jest.mock('fs');
 jest.mock('child_process');
 
 const mockFs = fs as jest.Mocked<typeof fs> & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readFileSync: jest.Mock;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   existsSync: jest.Mock;
 };
 const mockChildProcess = childProcess as jest.Mocked<typeof childProcess>;

@@ -16,7 +16,6 @@ import {
 } from '../file-operations';
 import * as fs from 'fs';
 
-// Mock fs module
 jest.mock('fs');
 
 const mockFs = fs as jest.Mocked<typeof fs>;

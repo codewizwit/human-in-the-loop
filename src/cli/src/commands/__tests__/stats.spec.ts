@@ -1,173 +1,302 @@
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
 import { createConsoleMock } from '../../test-utils';
 import { statsCommand } from '../stats';
+import * as registry from '../../utils/registry';
 
 describe('statsCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
+  let mockGetInstalledTools: jest.SpiedFunction<
+    typeof registry.getInstalledTools
+  >;
+  let output: string;
+
+  /**
+   * Helper to run command and capture output
+   */
+  const runCommand = async (
+    options: { tool?: string } = {}
+  ): Promise<string> => {
+    await statsCommand(options);
+    return consoleMock.getOutput();
+  };
+
+  /**
+   * Helper to assert output contains text
+   */
+  const expectOutput = (text: string | string[]): void => {
+    const texts = Array.isArray(text) ? text : [text];
+    texts.forEach((t) => expect(output).toContain(t));
+  };
 
   beforeEach(() => {
     consoleMock = createConsoleMock();
     consoleMock.start();
+    mockGetInstalledTools = jest.spyOn(registry, 'getInstalledTools');
   });
 
   afterEach(() => {
     consoleMock.stop();
     consoleMock.clear();
+    mockGetInstalledTools.mockRestore();
   });
 
   describe('overall stats (no tool specified)', () => {
     it('should display overall stats header', async () => {
-      await statsCommand({});
+      mockGetInstalledTools.mockReturnValue([]);
+      output = await runCommand();
 
       expect(consoleMock.contains('📊 Overall Stats:')).toBe(true);
     });
 
-    it('should show tools installed count', async () => {
-      await statsCommand({});
+    describe('when tools exist', () => {
+      beforeEach(() => {
+        mockGetInstalledTools.mockReturnValue([
+          {
+            id: 'test-tool',
+            name: 'Test Tool',
+            type: 'prompt',
+            version: '1.0.0',
+            installedAt: new Date().toISOString(),
+            installedPath: '/path/to/tool',
+          },
+        ]);
+      });
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('Tools Installed:');
-      expect(output).toContain('5');
+      it('should show tools installed count', async () => {
+        output = await runCommand();
+
+        expectOutput('Tools Installed:');
+      });
+
+      it('should show tools by type', async () => {
+        output = await runCommand();
+
+        expectOutput('By Type:');
+      });
+
+      it('should show recently installed section', async () => {
+        output = await runCommand();
+
+        expectOutput('Recently Installed:');
+      });
+
+      it('should show usage tracking note', async () => {
+        output = await runCommand();
+
+        expectOutput(['Usage tracking', 'not yet implemented']);
+      });
     });
 
-    it('should show total uses count', async () => {
-      await statsCommand({});
+    describe('when no tools installed', () => {
+      beforeEach(() => {
+        mockGetInstalledTools.mockReturnValue([]);
+      });
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('Total Uses:');
-      expect(output).toContain('127');
-    });
+      it('should show no tools message', async () => {
+        output = await runCommand();
 
-    it('should show time saved', async () => {
-      await statsCommand({});
+        expectOutput('No tools installed yet');
+      });
 
-      const output = consoleMock.getOutput();
-      expect(output).toContain('Time Saved:');
-      expect(output).toContain('~15 hours');
-    });
+      it('should show help commands', async () => {
+        output = await runCommand();
 
-    it('should display most used tools header', async () => {
-      await statsCommand({});
-
-      expect(consoleMock.contains('Most Used Tools:')).toBe(true);
-    });
-
-    it('should list top 3 most used tools', async () => {
-      await statsCommand({});
-
-      const output = consoleMock.getOutput();
-
-      // First place
-      expect(output).toContain('1.');
-      expect(output).toContain('code-review-ts');
-      expect(output).toContain('(45 uses)');
-
-      // Second place
-      expect(output).toContain('2.');
-      expect(output).toContain('test-generator');
-      expect(output).toContain('(38 uses)');
-
-      // Third place
-      expect(output).toContain('3.');
-      expect(output).toContain('api-docs-generator');
-      expect(output).toContain('(25 uses)');
+        expectOutput(['hit search', 'hit install']);
+      });
     });
   });
 
   describe('specific tool stats (with tool option)', () => {
-    it('should display tool-specific stats header', async () => {
-      await statsCommand({ tool: 'code-review-ts' });
+    describe('when tool exists', () => {
+      beforeEach(() => {
+        mockGetInstalledTools.mockReturnValue([
+          {
+            id: 'test-tool',
+            name: 'Test Tool',
+            type: 'prompt',
+            version: '1.0.0',
+            installedAt: new Date().toISOString(),
+            installedPath: '/path/to/tool',
+          },
+        ]);
+      });
 
-      expect(consoleMock.contains('📊 Stats for code-review-ts:')).toBe(true);
+      it('should display tool-specific stats header', async () => {
+        output = await runCommand({ tool: 'test-tool' });
+
+        expectOutput('Stats for');
+      });
+
+      it('should show installation info section', async () => {
+        output = await runCommand({ tool: 'test-tool' });
+
+        expectOutput('Installation Info:');
+      });
+
+      it('should show ID, type, version details', async () => {
+        output = await runCommand({ tool: 'test-tool' });
+
+        expectOutput(['ID:', 'Type:', 'Version:']);
+      });
     });
 
-    it('should show usage section', async () => {
-      await statsCommand({ tool: 'test-generator' });
+    describe('when tool not found', () => {
+      beforeEach(() => {
+        mockGetInstalledTools.mockReturnValue([]);
+      });
 
-      expect(consoleMock.contains('Usage:')).toBe(true);
-    });
+      it('should show warning message', async () => {
+        output = await runCommand({ tool: 'nonexistent-tool' });
 
-    it('should show total uses for the tool', async () => {
-      await statsCommand({ tool: 'my-tool' });
+        expectOutput('not found');
+      });
 
-      expect(consoleMock.contains('Total uses: 45')).toBe(true);
-    });
+      it('should suggest using list command', async () => {
+        output = await runCommand({ tool: 'nonexistent-tool' });
 
-    it('should show last used time', async () => {
-      await statsCommand({ tool: 'my-tool' });
-
-      expect(consoleMock.contains('Last used: 2 hours ago')).toBe(true);
-    });
-
-    it('should show average rating', async () => {
-      await statsCommand({ tool: 'my-tool' });
-
-      expect(consoleMock.contains('Average rating: 4.8/5.0')).toBe(true);
-    });
-
-    it('should handle different tool names', async () => {
-      await statsCommand({ tool: 'agent/test-generator' });
-
-      expect(consoleMock.contains('Stats for agent/test-generator')).toBe(true);
+        expectOutput('hit list');
+      });
     });
   });
 
   describe('execution flow', () => {
+    beforeEach(() => {
+      mockGetInstalledTools.mockReturnValue([]);
+    });
+
     it('should complete without errors for overall stats', async () => {
       await expect(statsCommand({})).resolves.not.toThrow();
     });
 
     it('should complete without errors for specific tool', async () => {
-      await expect(
-        statsCommand({ tool: 'code-review-ts' })
-      ).resolves.not.toThrow();
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'test-tool',
+          name: 'Test Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+
+      await expect(statsCommand({ tool: 'test-tool' })).resolves.not.toThrow();
+    });
+
+    it('should handle undefined options', async () => {
+      await expect(statsCommand({})).resolves.not.toThrow();
     });
   });
 
   describe('output formatting', () => {
-    it('should use proper spacing for overall stats', async () => {
-      await statsCommand({});
-
-      const output = consoleMock.getOutput();
-
-      // Should have multiple lines for all stats
-      expect(output.split('\n').length).toBeGreaterThan(6);
+    beforeEach(() => {
+      mockGetInstalledTools.mockReturnValue([]);
     });
 
-    it('should use proper spacing for tool stats', async () => {
-      await statsCommand({ tool: 'my-tool' });
+    it('should use proper spacing for overall stats', async () => {
+      output = await runCommand();
 
-      const output = consoleMock.getOutput();
-
-      // Should have multiple lines
-      expect(output.split('\n').length).toBeGreaterThan(4);
+      expect(output.split('\n').length).toBeGreaterThan(1);
     });
 
     it('should highlight important information', async () => {
-      await statsCommand({});
+      await runCommand();
 
-      // Stats icon should be present
       expect(consoleMock.contains('📊')).toBe(true);
     });
   });
 
   describe('conditional logic', () => {
+    beforeEach(() => {
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'test-tool',
+          name: 'Test Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+    });
+
     it('should not show overall stats when tool is specified', async () => {
-      await statsCommand({ tool: 'code-review-ts' });
+      await runCommand({ tool: 'test-tool' });
 
       expect(consoleMock.contains('Overall Stats:')).toBe(false);
-      expect(consoleMock.contains('Most Used Tools:')).toBe(false);
     });
 
     it('should not show tool-specific stats when no tool is specified', async () => {
-      await statsCommand({});
+      output = await runCommand();
 
-      expect(consoleMock.contains('Usage:')).toBe(false);
-      expect(consoleMock.contains('Total uses:')).toBe(false);
+      expect(output.includes('Installation Info:')).toBe(false);
+    });
+  });
+
+  describe('data accuracy', () => {
+    it('should display correct tool count', async () => {
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'tool-1',
+          name: 'Tool 1',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/1',
+        },
+        {
+          id: 'tool-2',
+          name: 'Tool 2',
+          type: 'agent',
+          version: '2.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/2',
+        },
+      ]);
+
+      output = await runCommand();
+
+      expectOutput('2');
     });
 
-    it('should handle undefined options', async () => {
-      await expect(statsCommand({})).resolves.not.toThrow();
+    it('should group tools by type correctly', async () => {
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'tool-1',
+          name: 'Tool 1',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/1',
+        },
+        {
+          id: 'tool-2',
+          name: 'Tool 2',
+          type: 'prompt',
+          version: '2.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/2',
+        },
+        {
+          id: 'tool-3',
+          name: 'Tool 3',
+          type: 'agent',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/3',
+        },
+      ]);
+
+      output = await runCommand();
+
+      expectOutput(['By Type:', 'prompt:', 'agent:']);
     });
   });
 });

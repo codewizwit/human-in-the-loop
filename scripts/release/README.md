@@ -1,6 +1,6 @@
 # Release Process
 
-This repository uses **automated releases** on every merge to main.
+This repository uses **manual releases** triggered through GitHub Actions.
 
 ---
 
@@ -11,20 +11,26 @@ This repository uses **automated releases** on every merge to main.
    - `feat:` New feature (bumps **minor** version: 1.1.0 → 1.2.0)
    - `fix:` Bug fix (bumps **patch** version: 1.1.0 → 1.1.1)
    - `BREAKING CHANGE:` Breaking change (bumps **major** version: 1.1.0 → 2.0.0)
-   - `chore:`, `docs:`, `refactor:`, etc. (patch bump: 1.1.0 → 1.1.1)
+   - `chore:`, `docs:`, `refactor:`, etc. (no version bump)
 
 2. **Merge PR to main**
 
-3. **Nx checks if CLI project is affected:**
-   - Uses `nx show projects --affected` to detect changes
-   - Only proceeds if `cli` project is in the affected list
-   - Skips release if only docs/workflows/other projects changed
+3. **Manually trigger release from GitHub UI:**
 
-4. **GitHub Actions automatically (if CLI affected):**
-   - ✅ Analyzes commits since last release
+   - Go to **Actions** → **Release and Publish**
+   - Click **Run workflow**
+   - Choose version bump type:
+     - **Empty** - Auto-detect from conventional commits (recommended)
+     - **patch** - Force patch bump (1.1.0 → 1.1.1)
+     - **minor** - Force minor bump (1.1.0 → 1.2.0)
+     - **major** - Force major bump (1.1.0 → 2.0.0)
+   - Click **Run workflow**
+
+4. **GitHub Actions automatically:**
+   - ✅ Runs tests and type checking
    - ✅ Bumps version using standard-version
    - ✅ Updates `CHANGELOG.md`
-   - ✅ Runs tests and builds
+   - ✅ Builds the package
    - ✅ Publishes to npm with provenance
    - ✅ Creates GitHub release with changelog
    - ✅ Pushes version commit + tag back to main
@@ -33,11 +39,11 @@ This repository uses **automated releases** on every merge to main.
 
 ## 💡 Tips
 
-- **Use conventional commit format** in PR titles for clear versioning
-- **Version bumps are automatic** based on commit types
-- **Releases only trigger when CLI is affected** - docs/workflow changes won't create new releases
-- **Nx determines affected projects** using the dependency graph
-- **Check the workflow status** after merge: [Actions](https://github.com/codewizwit/human-in-the-loop/actions/workflows/publish-npm.yml)
+- **Use conventional commit format** for automatic version detection
+- **Test before releasing** - CI runs automatically on PRs
+- **Manual control** - Only release when you're ready, not on every merge
+- **Flexibility** - Override conventional commits with manual version type if needed
+- **Check the workflow status**: [Actions](https://github.com/codewizwit/human-in-the-loop/actions/workflows/publish-npm.yml)
 
 ---
 
@@ -104,29 +110,34 @@ Each release creates:
 
 ## 🛠️ Troubleshooting
 
-### Release didn't trigger after merge
+### How do I trigger a release?
 
-This is expected if the CLI project wasn't affected! Check:
+Releases are now **manual**:
 
-- Did your changes touch `src/cli/**` files?
-- View workflow logs to see affected projects: [Actions](https://github.com/codewizwit/human-in-the-loop/actions)
-- Run `nx show projects --affected` locally to see what's affected
-- Workflow skips release if only docs, workflows, or other projects changed
+1. Go to [Actions](https://github.com/codewizwit/human-in-the-loop/actions/workflows/publish-npm.yml)
+2. Click "Run workflow"
+3. Select version bump type (or leave empty for auto-detection)
+4. Click "Run workflow"
 
 ### Version didn't bump as expected
 
-- `feat:` bumps **minor** version
-- `fix:` bumps **patch** version
-- `BREAKING CHANGE:` in commit body bumps **major** version
-- Other types (`chore:`, `docs:`, etc.) create no version bump
+When using **auto-detection** (empty version type):
+
+- `feat:` commits bump **minor** version (1.1.0 → 1.2.0)
+- `fix:` commits bump **patch** version (1.1.0 → 1.1.1)
+- `BREAKING CHANGE:` in commit body bumps **major** version (1.1.0 → 2.0.0)
+- Other types (`chore:`, `docs:`, `refactor:`) are ignored
+
+**Solution:** Use manual version type if auto-detection isn't working as expected.
 
 ### Publish failed
 
 Check the [workflow logs](https://github.com/codewizwit/human-in-the-loop/actions) for:
 
-- Test failures
-- Build errors
-- npm authentication issues
+- Test failures (fix code and re-run workflow)
+- Build errors (fix build and re-run workflow)
+- npm authentication issues (check NPM_TOKEN secret)
+- Permission errors (check GitHub repo settings)
 
 ---
 

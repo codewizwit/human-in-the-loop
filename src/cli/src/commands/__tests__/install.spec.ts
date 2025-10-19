@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   describe,
   it,
@@ -49,7 +50,6 @@ describe('installCommand', () => {
     mockFileOps.copyDirectory.mockResolvedValue(undefined);
     mockRegistry.registerInstallation.mockReturnValue(undefined);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (mockInquirer.prompt as any).mockResolvedValue({
       userPath: '~/.claude/tools/prompt/code-review-ts',
     });
@@ -108,8 +108,6 @@ describe('installCommand', () => {
       expect(consoleMock.contains('Successfully installed')).toBe(true);
       expect(consoleMock.contains('Code Review TypeScript')).toBe(true);
       expect(consoleMock.contains('v1.2.0')).toBe(true);
-      // Note: Lines 108-110 (installation path and tip) are covered by this test
-      // but may not show in coverage due to chalk ANSI codes in console output
     });
   });
 
@@ -181,7 +179,6 @@ describe('installCommand', () => {
     });
 
     it('should warn about existing installation', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any).mockResolvedValue({
         proceed: false,
       });
@@ -194,7 +191,6 @@ describe('installCommand', () => {
     });
 
     it('should prompt for reinstall confirmation', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any).mockResolvedValue({
         proceed: false,
       });
@@ -213,7 +209,6 @@ describe('installCommand', () => {
     });
 
     it('should cancel if user declines reinstall', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any).mockResolvedValue({
         proceed: false,
       });
@@ -225,7 +220,6 @@ describe('installCommand', () => {
     });
 
     it('should proceed if user confirms reinstall', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mockInquirer.prompt as any)
         .mockResolvedValueOnce({ proceed: true })
         .mockResolvedValueOnce({
