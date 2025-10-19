@@ -31,10 +31,24 @@ describe('statsCommand', () => {
     });
 
     it('should show tools installed count when tools exist', async () => {
+      const mockGetInstalledTools = jest.spyOn(registry, 'getInstalledTools');
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'test-tool',
+          name: 'Test Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+
       await statsCommand({});
 
       const output = consoleMock.getOutput();
       expect(output).toContain('Tools Installed:');
+
+      mockGetInstalledTools.mockRestore();
     });
 
     it('should show no tools message when no tools installed', async () => {
@@ -71,11 +85,25 @@ describe('statsCommand', () => {
     });
 
     it('should show usage tracking note', async () => {
+      const mockGetInstalledTools = jest.spyOn(registry, 'getInstalledTools');
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'test-tool',
+          name: 'Test Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+
       await statsCommand({});
 
       const output = consoleMock.getOutput();
       expect(output).toContain('Usage tracking');
       expect(output).toContain('not yet implemented');
+
+      mockGetInstalledTools.mockRestore();
     });
   });
 

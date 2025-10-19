@@ -211,15 +211,18 @@ hit doctor
 **What it checks:**
 
 **Environment:**
+
 - Node.js installation and version
 - npm installation and version
 - pnpm installation (optional but recommended)
 
 **Version Control:**
+
 - Git installation and version
 - GitHub CLI (`gh`) installation - required for `hit contribute` command
 
 **Installation Paths:**
+
 - `.claude` directory exists or can be created
 - `tools` directory within `.claude`
 - `registry.json` file
