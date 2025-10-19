@@ -16,6 +16,7 @@ This repository uses **automated releases** on every merge to main.
 2. **Merge PR to main**
 
 3. **Nx checks if CLI project is affected:**
+
    - Uses `nx show projects --affected` to detect changes
    - Only proceeds if `cli` project is in the affected list
    - Skips release if only docs/workflows/other projects changed
