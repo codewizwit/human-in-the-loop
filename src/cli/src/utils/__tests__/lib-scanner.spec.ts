@@ -4,7 +4,6 @@ import { scanToolkit, searchTools, getTool } from '../lib-scanner';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// Mock fs and path modules
 jest.mock('fs');
 jest.mock('path');
 
@@ -15,7 +14,6 @@ describe('lib-scanner', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Setup path mocks to return expected values
     mockPath.join.mockImplementation((...args: string[]) => args.join('/'));
     mockPath.resolve.mockImplementation((...args: string[]) => args.join('/'));
   });

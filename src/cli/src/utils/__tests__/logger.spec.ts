@@ -124,7 +124,6 @@ describe('logger', () => {
 
       const output = consoleMock.getOutput();
 
-      // Verify all components are present
       expect(output).toContain('Installation');
       expect(output).toContain('Downloading...');
       expect(output).toContain('Downloaded');

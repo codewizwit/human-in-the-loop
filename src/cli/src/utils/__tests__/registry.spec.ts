@@ -13,7 +13,6 @@ import {
 } from '../registry';
 import * as fileOps from '../file-operations';
 
-// Mock file-operations module
 jest.mock('../file-operations');
 
 const mockFileOps = fileOps as jest.Mocked<typeof fileOps>;

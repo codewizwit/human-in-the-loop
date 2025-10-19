@@ -10,7 +10,6 @@ import { createConsoleMock } from '../../test-utils';
 import { searchCommand } from '../search';
 import * as toolkitScanner from '../../utils/lib-scanner';
 
-// Mock lib-scanner module
 jest.mock('../../utils/lib-scanner');
 
 const mockToolkitScanner = toolkitScanner as jest.Mocked<typeof toolkitScanner>;
@@ -23,7 +22,6 @@ describe('searchCommand', () => {
     consoleMock.start();
     jest.clearAllMocks();
 
-    // Default mock: return some tools
     mockToolkitScanner.searchTools.mockReturnValue([
       {
         id: 'code-review-ts',
@@ -84,7 +82,6 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      // Should show tools
       expect(output).toContain('prompt/code-review-ts');
       expect(output).toContain('agent/test-generator');
       expect(output).toContain('prompt/api-docs-generator');
@@ -115,13 +112,8 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      // Tool name
       expect(output).toContain('agent/test-generator');
-
-      // Description
       expect(output).toContain('Generate comprehensive test suites');
-
-      // Version
       expect(output).toContain('Version: 1.0.0');
     });
 
