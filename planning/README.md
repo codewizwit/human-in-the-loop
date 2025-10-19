@@ -97,6 +97,7 @@ chmod +x planning/scaffold-high-priority.sh
    ```
 
 4. **Scaffold High-Priority Items** (when ready)
+
    ```bash
    ./planning/scaffold-high-priority.sh
    ```
