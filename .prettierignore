@@ -6,3 +6,6 @@
 
 # Project instructions - preserve original formatting
 CLAUDE.md
+
+# Planning docs - formatting inconsistency with CI (investigate separately)
+planning/README.md
