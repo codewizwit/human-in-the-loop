@@ -208,33 +208,61 @@ Validate your environment and diagnose issues.
 hit doctor
 ```
 
-**Checks:**
+**What it checks:**
 
-- Node.js version (requires 20+)
-- pnpm installation
-- Toolkit directory structure
-- Registry file integrity
-- File system permissions
+**Environment:**
+- Node.js installation and version
+- npm installation and version
+- pnpm installation (optional but recommended)
 
-**Output:**
+**Version Control:**
+- Git installation and version
+- GitHub CLI (`gh`) installation - required for `hit contribute` command
+
+**Installation Paths:**
+- `.claude` directory exists or can be created
+- `tools` directory within `.claude`
+- `registry.json` file
+
+**Output Example:**
 
 ```
-🏥 Running diagnostics...
+🔍 Running diagnostic checks...
 
-✓ Node.js version: v20.10.0
-✓ pnpm installed
-✓ Toolkit directory found
-✓ Registry accessible
-✓ File permissions OK
+Environment:
+  ✓ Node.js v20.10.0
+  ✓ npm 10.2.3
+  ✓ pnpm 9.0.0
+
+Version Control:
+  ✓ git 2.42.0
+  ✓ GitHub CLI gh version 2.40.0
+
+Installation Paths:
+  ✓ .claude directory /Users/you/.claude
+  ✓ tools directory /Users/you/.claude/tools
+  ✓ registry.json found
 
 All checks passed! Your environment is ready.
 ```
+
+**Status Messages:**
+
+- ✓ Green checkmark - Component found and working
+- ⚠ Yellow warning - Optional component missing (won't prevent CLI usage)
+- ✗ Red X - Critical component missing (may cause errors)
+
+**Exit Status:**
+
+- Shows success if all critical checks pass
+- Shows warning if optional tools are missing
+- Shows error if critical dependencies are missing
 
 ---
 
 ### `hit stats`
 
-View usage statistics and analytics.
+View installation statistics and analytics for installed tools.
 
 **Usage:**
 
@@ -244,17 +272,81 @@ hit stats [options]
 
 **Options:**
 
-- `--tool <tool>` - Show stats for specific tool
+- `--tool <id>` - Show stats for a specific installed tool
 
 **Examples:**
 
 ```bash
-# Global stats
+# Overall stats for all installed tools
 hit stats
 
-# Tool-specific stats
-hit stats --tool prompt/code-review-ts
+# Stats for a specific tool
+hit stats --tool code-review-ts
 ```
+
+**Overall Stats Output:**
+
+Shows summary of all installed tools:
+
+```
+📊 Overall Stats:
+
+Tools Installed: 5
+
+By Type:
+  prompt: 3
+  agent: 1
+  context-pack: 1
+
+Recently Installed:
+  1. code-review-ts (2 days ago)
+  2. api-design (1 week ago)
+  3. angular (2 weeks ago)
+
+Note: Usage tracking (time saved, uses, etc.) is not yet implemented.
+Currently showing installation data only. Use --tool=<id> for details.
+```
+
+**Tool-Specific Stats Output:**
+
+Shows detailed information about a single installed tool:
+
+```
+📊 Stats for Code Review TypeScript:
+
+Installation Info:
+  ID: code-review-ts
+  Type: prompt
+  Version: 1.2.0
+  Installed: 1/15/2024
+  Path: ~/.claude/tools/prompt/code-review-ts
+
+Note: Usage tracking is not yet implemented. This shows installation data only.
+```
+
+**When No Tools Installed:**
+
+```
+📊 Overall Stats:
+
+⚠ No tools installed yet
+
+Use hit search to find tools
+Use hit install <type>/<id> to install a tool
+```
+
+**When Tool Not Found:**
+
+```
+⚠ Tool "nonexistent" not found in installed tools
+Use hit list to see installed tools
+```
+
+**Current Limitations:**
+
+- ⚠ Usage tracking (number of uses, time saved, etc.) is not yet implemented
+- Currently shows only installation metadata
+- Future versions will include usage analytics and metrics
 
 ---
 
