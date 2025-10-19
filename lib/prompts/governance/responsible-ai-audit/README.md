@@ -4,7 +4,7 @@ Comprehensive audit framework for evaluating AI outputs against responsible AI p
 
 ## Overview
 
-This prompt provides a structured methodology for auditing AI-generated outputs using the four-lens Developer-First AI Accountability Framework:
+This prompt provides a structured methodology for auditing AI Tooling using the four-lens Developer-First AI Accountability Framework:
 
 1. **Developer Experience & Growth** - Does it enhance or undermine learning and autonomy?
 2. **Responsibility & Equity** - Are benefits distributed fairly across all team members?
