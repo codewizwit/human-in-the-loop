@@ -6,7 +6,7 @@
 
 **Open sourced repository with governance layer and CLI for responsible AI tools**
 
-A developer-friendly toolkit for exploring standardization of AI prompts, agents, context packs, and evaluators with standardization, quality control, and visibility.
+A developer-friendly toolkit for exploring standardization of AI prompts, agents, context packs, and evaluators with CI/DS validation, quality control, and visibility.
 
 ---
 
