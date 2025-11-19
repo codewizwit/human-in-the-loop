@@ -1,0 +1,16 @@
+{
+  "id": "angular-legacy",
+  "name": "Angular Legacy",
+  "version": "1.0.0",
+  "type": "skill",
+  "description": "Legacy Angular patterns (pre-16) with NgModules, lifecycle hooks, RxJS observables, and traditional change detection",
+  "category": "framework",
+  "tags": ["angular", "typescript", "frontend", "rxjs", "ngrx", "legacy"],
+  "platforms": ["claude-code", "github-copilot"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT",
+    "frameworks": ["angular"]
+  },
+  "maxAngularVersion": "15.x"
+}

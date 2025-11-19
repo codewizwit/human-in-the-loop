@@ -1,0 +1,23 @@
+{
+  "id": "angular-modern",
+  "name": "Angular Modern",
+  "version": "1.0.0",
+  "type": "skill",
+  "description": "Modern Angular development with signals, computed, effect, standalone components, and latest patterns (Angular 16+)",
+  "category": "framework",
+  "tags": [
+    "angular",
+    "signals",
+    "standalone",
+    "modern",
+    "typescript",
+    "frontend"
+  ],
+  "platforms": ["claude-code", "github-copilot"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT",
+    "frameworks": ["angular"]
+  },
+  "minAngularVersion": "16.0.0"
+}

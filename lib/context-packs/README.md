@@ -1,16 +1,16 @@
 # Context Packs
 
-Framework-specific knowledge bases that provide AI agents with deep technical context for better, more accurate results.
+Cross-cutting patterns and domain knowledge for specialized use cases.
+
+> **Note:** Framework-specific expertise (Angular, NestJS, Nx) is now in [lib/skills](../skills/) with native Claude Code and GitHub Copilot formats.
 
 ## Structure
 
 ```
 context-packs/
-├── angular/       # Angular framework patterns
-├── nestjs/        # NestJS backend patterns
-├── ci-cd/         # CI/CD and DevOps
-├── prompts/       # Prompt engineering techniques
-└── agents/        # Agent development guides
+├── security/      # Security patterns (planned)
+├── testing/       # Testing strategies (planned)
+└── deployment/    # Deployment workflows (planned)
 ```
 
 ## What's a Context Pack?
@@ -36,27 +36,12 @@ echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitrc.json
 
 ## Available Packs
 
-### Angular
+_(Context packs are for cross-cutting patterns. Framework-specific expertise moved to [lib/skills](../skills/))_
 
-Component patterns, routing, state management, RxJS, testing with Jasmine/Jest
-
-[See documentation →](./angular/README.md)
-
-### NestJS
-
-Module structure, dependency injection, middleware, guards, interceptors
-
-### CI/CD
-
-Pipeline patterns, deployment strategies, environment configurations
-
-### Prompts
-
-Prompt engineering techniques, templates, optimization strategies
-
-### Agents
-
-Agent development, tool integration, evaluation methods
+Coming soon:
+- Security patterns
+- Testing strategies
+- Deployment workflows
 
 ## Contributing
 

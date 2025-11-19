@@ -11,7 +11,13 @@ export interface Tool {
   version: string;
   description: string;
   category: string;
-  type: 'prompt' | 'agent' | 'evaluator' | 'guardrail' | 'context-pack';
+  type:
+    | 'prompt'
+    | 'agent'
+    | 'evaluator'
+    | 'guardrail'
+    | 'context-pack'
+    | 'skill';
   path: string;
   metadata?: {
     author?: string;
@@ -38,6 +44,7 @@ function isValidLibDirectory(libPath: string): boolean {
     'evaluators',
     'guardrails',
     'context-packs',
+    'skills',
   ];
   return expectedDirs.some((dir) => fs.existsSync(path.join(libPath, dir)));
 }
@@ -84,6 +91,7 @@ export function scanToolkit(toolkitPath?: string): Tool[] {
     { type: 'evaluator', dir: 'evaluators' },
     { type: 'guardrail', dir: 'guardrails' },
     { type: 'context-pack', dir: 'context-packs' },
+    { type: 'skill', dir: 'skills' },
   ];
 
   for (const { type, dir } of toolTypes) {
@@ -102,7 +110,7 @@ export function scanToolkit(toolkitPath?: string): Tool[] {
 /**
  * Recursively scans a directory for tools and adds them to the tools array
  * @param dirPath - The directory path to scan
- * @param type - The type of tool to register (prompt, agent, evaluator, guardrail, context-pack)
+ * @param type - The type of tool to register (prompt, agent, evaluator, guardrail, context-pack, skill)
  * @param tools - The array to accumulate found tools into (modified in place)
  */
 function scanDirectory(
@@ -144,6 +152,7 @@ function findConfigFile(toolDir: string): string | null {
     'agent.yml',
     'config.yaml',
     'config.yml',
+    'metadata.json',
   ];
 
   for (const file of possibleFiles) {
@@ -159,8 +168,8 @@ function findConfigFile(toolDir: string): string | null {
 /**
  * Parses a tool configuration file and creates a Tool object
  * @param toolDir - The directory containing the tool
- * @param configFile - The full path to the configuration YAML file
- * @param type - The type of tool being parsed (prompt, agent, evaluator, guardrail, context-pack)
+ * @param configFile - The full path to the configuration YAML or JSON file
+ * @param type - The type of tool being parsed (prompt, agent, evaluator, guardrail, context-pack, skill)
  * @returns A Tool object if parsing succeeds and required fields are present, null otherwise
  */
 function parseToolConfig(
@@ -170,7 +179,13 @@ function parseToolConfig(
 ): Tool | null {
   try {
     const content = fs.readFileSync(configFile, 'utf-8');
-    const config = parse(content) as unknown;
+
+    let config: unknown;
+    if (configFile.endsWith('.json')) {
+      config = JSON.parse(content);
+    } else {
+      config = parse(content);
+    }
 
     if (
       !config ||
