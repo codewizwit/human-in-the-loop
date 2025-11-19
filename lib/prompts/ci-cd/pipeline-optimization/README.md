@@ -123,7 +123,7 @@ current_metrics: |
 
 **After (Key Optimizations):**
 
-`````markdown
+````markdown
 ## Projected Improvements
 
 - ⚡ Duration: 12 min → 4.5 min (62% faster)
@@ -174,7 +174,7 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
 ```
-`````
+````
 
 ## Before/After Comparison
 
@@ -235,7 +235,7 @@ current_metrics: |
 
 **After (Key Findings):**
 
-`````markdown
+````markdown
 ## Critical Issues
 
 - 🔴 Docker images built 6 times (15 min wasted)
@@ -257,7 +257,7 @@ current_metrics: |
     cache-from: type=gha
     cache-to: type=gha,mode=max
 ```
-`````
+````
 
 **Savings**: 12-15 min per run (80% faster Docker builds)
 
@@ -326,7 +326,7 @@ current_metrics: |
 
 **After (Key Findings):**
 
-`````markdown
+````markdown
 ## Critical Issues
 
 - 🔴 Builds ALL projects regardless of changes (43 min wasted on average)
@@ -347,7 +347,7 @@ current_metrics: |
 - name: Lint affected
   run: npx nx affected:lint --base=origin/main
 ```
-`````
+````
 
 **Savings**: 40-43 min (only build what changed)
 
