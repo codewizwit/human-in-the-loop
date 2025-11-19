@@ -12,7 +12,7 @@ A developer-friendly toolkit for exploring standardization of AI prompts, agents
 
 ## Why This Exists
 
-AI productivity tools are transforming how we build software, but without standardization and quality gates, we risk inconsistency, duplication, and quality drift. Human in the Loop solves this by creating a single source of truth for all AI tooling.
+AI productivity tools are transforming how we build software, but without standardization and quality gates, we risk inconsistency, duplication, and quality drift. Human in the Loop solves this by creating a central source of truth for quality AI engineering.
 
 **The problem:**
 
