@@ -108,14 +108,13 @@ export async function installCommand(
     logSuccess(`Successfully installed ${tool.name} (v${tool.version})`);
     logStep('Installed to: ' + chalk.cyan(installPath));
 
-    if (options?.claudeCommand) {
-      if (tool.type !== 'prompt') {
-        logNewLine();
-        logWarning(
-          'Claude Code slash commands can only be created for prompts'
-        );
-        logStep('Skipping slash command creation');
-      } else if (!isClaudeAvailable()) {
+    // Default to creating Claude Code slash command for prompts
+    // unless explicitly disabled with --no-claude-command
+    const shouldCreateCommand =
+      options?.claudeCommand !== false && tool.type === 'prompt';
+
+    if (shouldCreateCommand) {
+      if (!isClaudeAvailable()) {
         logNewLine();
         logWarning(
           'Claude Code integration not available (unable to access .claude directory)'
