@@ -1,88 +1,30 @@
 ---
 id: security-review
 name: Security Review
-version: 1.1.0
-description: Reviews code for security vulnerabilities including OWASP Top 10,
-  authentication flaws, injection attacks, insecure dependencies, and compliance
-  violations. Provides severity ratings, exploit scenarios, and remediation
-  guidance with secure code examples.
+version: 2.0.0
+description: Analyzes your workspace for security vulnerabilities using automated code scanning. Covers OWASP Top 10, authentication flaws, injection attacks, insecure dependencies, and compliance violations. Uses Read, Grep, and Glob tools to discover and analyze code. Provides severity ratings, exploit scenarios, and remediation guidance with secure code examples.
 category: governance
 variables:
-  - name: code
-    description: The code to review for security vulnerabilities
-    required: true
-  - name: language
-    description: Programming language (javascript, typescript, python, java, go, etc.)
-    required: true
-  - name: framework
-    description: Framework or runtime environment (express, react, django, spring, etc.)
+  - name: scope
+    description: Optional file pattern to analyze (e.g., "src/**/*.ts", "**/*.py"). If not provided, analyzes all source code.
     required: false
-  - name: context
-    description:
-      Additional context about the application (authentication method,
-      data sensitivity, compliance requirements)
-    required: false
-  - name: review_focus
-    description:
-      Specific security concerns to emphasize (auth, data protection, api
-      security, etc.)
+  - name: focus
+    description: Optional security focus areas (auth, api-security, data-protection, injection, etc.)
     required: false
 examples:
-  - input:
-      code: >
-        const express = require('express');
-
-        const mysql = require('mysql');
-
-        const app = express();
-
-
-        app.use(express.json());
-
-
-        const db = mysql.createConnection({
-          host: 'localhost',
-          user: 'root',
-          password: 'admin123',
-          database: 'userdb'
-        });
-
-
-        app.post('/login', (req, res) => {
-          const { username, password } = req.body;
-
-          const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
-
-          db.query(query, (err, results) => {
-            if (err) {
-              return res.status(500).json({ error: err.message });
-            }
-
-            if (results.length > 0) {
-              res.json({ success: true, user: results[0] });
-            } else {
-              res.status(401).json({ success: false });
-            }
-          });
-        });
-
-
-        app.get('/user/:id', (req, res) => {
-          const userId = req.params.id;
-          const query = `SELECT * FROM users WHERE id = ${userId}`;
-
-          db.query(query, (err, results) => {
-            if (err) throw err;
-            res.json(results[0]);
-          });
-        });
-
-
-        app.listen(3000);
-      language: javascript
-      framework: express
-      context: User authentication API with MySQL database
-      review_focus: Authentication security and injection vulnerabilities
+  - description: Full workspace security review
+    input:
+      user_message: "Please review this codebase for security vulnerabilities"
+  - description: Focused API security review
+    input:
+      scope: "src/api/**/*.ts"
+      focus: "api-security, authentication, injection"
+      user_message: "Review the API routes for security issues"
+  - description: Authentication system review
+    input:
+      scope: "src/auth/**/*"
+      focus: "authentication, session-management, password-storage"
+      user_message: "Analyze the authentication system for security flaws"
     output: |
       # Security Review Report
 
@@ -770,11 +712,21 @@ assesses risk, and provides actionable remediation guidance with secure code exa
 </context>
 
 <instructions>
-Conduct a comprehensive security analysis of the provided code covering:
+Conduct a comprehensive security analysis of the codebase in the current workspace.
 
-## Security Review Framework
+## Analysis Approach
 
-Analyze the code across these critical security dimensions:
+1. **Discovery Phase**:
+   - Use the Glob tool to find all source code files in the workspace
+   - Identify the primary language(s) and frameworks in use
+   - Map out the project structure (backend, frontend, config files, etc.)
+
+2. **Code Analysis Phase**:
+   - Use the Read tool to examine security-critical files (authentication, database, API endpoints, etc.)
+   - Use the Grep tool to search for security anti-patterns across the codebase
+   - Analyze configuration files, environment variables, and dependency manifests
+
+3. **Security Review Framework** - Analyze the code across these critical security dimensions:
 
 ### 1. OWASP Top 10 (2021)
 
@@ -1091,39 +1043,28 @@ Provide language/framework-specific guidance:
 - Use 💡 for security improvement suggestions
   </instructions>
 
-<code_to_review language="{{language}}">
-
-```{{language}}
-{{code}}
-```
-
-</code_to_review>
-
-{{#if framework}}
-<framework>
-{{framework}}
-</framework>
+{{#if scope}}
+<analysis_scope>
+Focus security analysis on files matching: {{scope}}
+</analysis_scope>
 {{/if}}
 
-{{#if context}}
-<application_context>
-{{context}}
-</application_context>
-{{/if}}
-
-{{#if review_focus}}
-<review_focus>
-{{review_focus}}
-</review_focus>
+{{#if focus}}
+<security_focus>
+Emphasize these security areas: {{focus}}
+</security_focus>
 {{/if}}
 
 <constraints>
-- Focus security analysis only on the provided code
-- Provide specific line references for all findings
+- Use Read, Grep, and Glob tools to analyze code in the workspace
+- Start with project discovery (identify languages, frameworks, structure)
+- Prioritize security-critical files (auth, database, API, config)
+- Provide specific file paths and line references for all findings
 - Include CVSS scores and CWE IDs where applicable
 - Provide secure code examples for all critical and high severity findings
 - Prioritize findings by severity and business impact
 - Reference OWASP, CWE, and framework-specific documentation
+- If analysis scope is too large, focus on highest-risk areas first
 </constraints>
 
 <output_format>
