@@ -60,28 +60,33 @@ Claude will automatically analyze your workspace—no copy-pasting code required
 ### 📚 12 Production-Ready Prompts
 
 **Code Quality**
+
 - 🔍 `code-review-ts` - TypeScript review with constructive feedback
 - 🔒 `security-review` - OWASP Top 10, auth flaws, injection detection
 - 🏗️ `api-design` - REST/GraphQL best practices
 - 🎯 `system-design-review` - Architecture & scalability analysis
 
 **Testing & CI/CD**
+
 - 🧪 `unit-test-generator` - Generate Jest/Vitest tests with edge cases
 - 🎬 `e2e-strategy` - Playwright/Cypress test planning
 - ⚡ `pipeline-optimization` - GitHub Actions cost & speed optimization
 
 **Planning & Culture**
+
 - 📋 `user-story-breakdown` - Epic → INVEST stories with acceptance criteria
 - 💬 `1-on-1-prep` - Structured pre-reads for better meetings
 - 💙 `code-review-empathy` - Transform harsh feedback into helpful coaching
 
 **Governance**
+
 - 🛡️ `responsible-ai-audit` - Developer-first AI accountability checks
 - ⚖️ `bias-detection` - Identify bias in AI outputs
 
 ### 🎓 Skills for Claude Code
 
 **Framework Expertise**
+
 - ⚡ **Angular Modern** - Signals, standalone, control flow (16+)
 - 🏛️ **Angular Legacy** - NgModules, RxJS, lifecycle hooks (pre-16)
 
@@ -97,6 +102,7 @@ Claude will automatically analyze your workspace—no copy-pasting code required
 ## 💡 How It Works
 
 ### Old way (copy-paste hell)
+
 ```
 1. Find a prompt somewhere
 2. Copy code from your IDE
@@ -106,6 +112,7 @@ Claude will automatically analyze your workspace—no copy-pasting code required
 ```
 
 ### New way (automated workspace analysis)
+
 ```bash
 hit install prompt/security-review
 # Creates /security-review in Claude Code
@@ -219,6 +226,7 @@ gh pr create
 ```
 
 **Standards:**
+
 - ✅ TypeDoc comments above functions (no inline `//` comments)
 - ✅ TypeScript strict mode
 - ✅ All tests passing
@@ -278,12 +286,14 @@ human-in-the-loop/
 ## 🎉 What's New
 
 **v2.0.0** - XML Template Migration & Claude Code Integration
+
 - 🔌 Automatic `/slash-command` creation in Claude Code
 - 🤖 Tool-based workspace analysis (no more copy-paste!)
 - 📝 Markdown format with YAML frontmatter
 - ✨ Pure XML structure for prompts
 
 **v1.2.0** - Update Command
+
 - ⬆️ `hit update --all` batch updates
 - 🔄 Semantic versioning with automatic backups
 - 📊 Version change summaries
@@ -300,7 +310,7 @@ MIT License - see [LICENSE](./LICENSE)
 
 **Human-in-the-Loop** by [codewizwit](https://github.com/codewizwit)
 
-*Build with care. Ship with purpose.*
+_Build with care. Ship with purpose._
 
 🐛 Found a bug? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
 💡 Have an idea? [Start a discussion](https://github.com/codewizwit/human-in-the-loop/discussions)

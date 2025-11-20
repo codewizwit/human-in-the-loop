@@ -68,16 +68,16 @@ Technical details and governance:
 
 ## 📖 All Documentation
 
-| Document                                                | Description                                                  |
-| ------------------------------------------------------- | ------------------------------------------------------------ |
-| [Getting Started](./getting-started.md)                 | Installation, CLI setup, and first steps                     |
-| [AI Best Practices](./ai-best-practices.md)             | Responsible AI usage, prompt engineering, cost optimization  |
-| [Toolkit Usage](./toolkit-usage.md)                     | Using prompts, agents, evaluators, guardrails, context packs |
-| [Contributing Guidelines](./contributing-guidelines.md) | Detailed contribution workflow and quality standards         |
-| [Governance Model](./governance-model.md)               | Review process, versioning, release strategy, metrics        |
-| [Architecture](./architecture.md)                       | System design, CLI architecture, governance layer            |
-| [RESPONSIBLE-AI-PLAYBOOK.md](../RESPONSIBLE-AI-PLAYBOOK.md)               | Developer-First Responsible AI Playbook                  |
-| [CONTRIBUTING.md](../CONTRIBUTING.md)                   | Quick contribution overview                                  |
+| Document                                                    | Description                                                  |
+| ----------------------------------------------------------- | ------------------------------------------------------------ |
+| [Getting Started](./getting-started.md)                     | Installation, CLI setup, and first steps                     |
+| [AI Best Practices](./ai-best-practices.md)                 | Responsible AI usage, prompt engineering, cost optimization  |
+| [Toolkit Usage](./toolkit-usage.md)                         | Using prompts, agents, evaluators, guardrails, context packs |
+| [Contributing Guidelines](./contributing-guidelines.md)     | Detailed contribution workflow and quality standards         |
+| [Governance Model](./governance-model.md)                   | Review process, versioning, release strategy, metrics        |
+| [Architecture](./architecture.md)                           | System design, CLI architecture, governance layer            |
+| [RESPONSIBLE-AI-PLAYBOOK.md](../RESPONSIBLE-AI-PLAYBOOK.md) | Developer-First Responsible AI Playbook                      |
+| [CONTRIBUTING.md](../CONTRIBUTING.md)                       | Quick contribution overview                                  |
 
 ---
 
