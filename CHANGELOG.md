@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.7...v2.0.0) (2025-11-20)
+
+### Features
+
+- **XML Template Migration** - Migrate prompts to markdown with XML structure for Claude Code integration
+- **Claude Code Integration** - Automatic `/slash-command` creation in Claude Code
+- **Tool-Based Workspace Analysis** - Prompts use Read/Grep/Glob tools instead of copy-paste
+- **Responsible AI Playbook** - Rebrand from Accountability Framework to Responsible AI Playbook
+- **Documentation Refactor** - Developer-friendly README with codewizwit branding and emojis
+- **Skills Architecture** - Add Angular Modern and Angular Legacy skills for Claude Code
+
+### Breaking Changes
+
+- Prompt format changed from plain markdown to markdown with YAML frontmatter and XML structure
+- ACCOUNTABILITY.md renamed to RESPONSIBLE-AI-PLAYBOOK.md
+- All references to "Accountability Framework" updated to "Responsible AI Playbook"
+
 ### [1.1.7](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.6...v1.1.7) (2025-10-19)
 
 ### [1.1.6](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.5...v1.1.6) (2025-10-17)
