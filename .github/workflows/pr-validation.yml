@@ -31,6 +31,18 @@ jobs:
       - name: Check Documentation Links
         uses: ./.github/actions/check-links
 
+      - name: Update Repository Tree
+        uses: ./.github/actions/update-tree
+
+      - name: Check for uncommitted changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "❌ Repository tree is out of date. Run 'pnpm tree' and commit changes."
+            git diff README.md
+            exit 1
+          fi
+          echo "✅ Repository tree is up to date"
+
       - name: Security audit
         run: pnpm audit --audit-level=high
         continue-on-error: true

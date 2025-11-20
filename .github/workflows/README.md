@@ -15,11 +15,11 @@ Reusable steps that can be called from any workflow:
 - **`test/`** - Run test suite with optional coverage
 - **`build/`** - Build CLI and run type checking
 - **`check-links/`** - Validate documentation links
+- **`update-tree/`** - Regenerate repository structure tree in README.md
 
 ### Workflows
 
 - **`pr-validation.yml`** - Single comprehensive PR validation job
-- **`check-links.yml`** - Documentation link validation (main + weekly)
 - **`publish-npm.yml`** - Release and publish to npm
 - **`label-pr.yml`** - Auto-label PRs based on changed files
 
@@ -42,13 +42,15 @@ Reusable steps that can be called from any workflow:
 3. **Test** - Unit tests with coverage
 4. **Build** - Type checking + build validation
 5. **Check Links** - Validate documentation links
-6. **Security Audit** - `pnpm audit` for vulnerabilities
-7. **Secrets Scan** - TruffleHog for exposed secrets
-8. **TypeDoc Comments** - Ensure all exported functions have TypeDoc
-9. **Inline Comments** - No `//` comments in source files
-10. **README Validation** - All new features have proper READMEs
-11. **YAML Validation** - Prompt YAML schema validation
-12. **Upload Coverage** - Send coverage to Codecov
+6. **Update Tree** - Regenerate repository structure in README.md
+7. **Tree Check** - Ensure tree is up to date (fails if `pnpm tree` needed)
+8. **Security Audit** - `pnpm audit` for vulnerabilities
+9. **Secrets Scan** - TruffleHog for exposed secrets
+10. **TypeDoc Comments** - Ensure all exported functions have TypeDoc
+11. **Inline Comments** - No `//` comments in source files
+12. **README Validation** - All new features have proper READMEs
+13. **YAML Validation** - Prompt YAML schema validation
+14. **Upload Coverage** - Send coverage to Codecov
 
 **Benefits:**
 
@@ -56,23 +58,6 @@ Reusable steps that can be called from any workflow:
 - ✅ Clear validation order (fails fast on lint/test)
 - ✅ Composite actions = easy to maintain
 - ✅ No duplication = runs once per PR
-
----
-
-### 🔗 Check Documentation Links (`check-links.yml`)
-
-**Purpose:** Ensure all documentation links are valid
-
-**Triggers:**
-
-- Push to `main`
-- Weekly schedule (Mondays at 9am UTC)
-- Can be called by other workflows (`workflow_call`)
-
-**When it runs:**
-
-- After merge to main → Catch broken links from PRs
-- Weekly → Detect external link breakage
 
 ---
 
@@ -223,19 +208,6 @@ label-pr.yml triggers
 
 ---
 
-### On Push to Main
-
-```
-PR merged to main
-  ↓
-check-links.yml triggers
-  └── Validate all documentation links
-```
-
-**Result:** Ensure main branch has valid docs
-
----
-
 ## Quick Reference
 
 | Workflow            | Trigger             | Main Purpose                  | Type                |
@@ -245,13 +217,14 @@ check-links.yml triggers
 | `publish-npm.yml`   | `workflow_dispatch` | Release and publish to npm    | Workflow            |
 | `label-pr.yml`      | `pull_request`      | Auto-label PRs                | Workflow            |
 
-| Composite Action   | Purpose                       | Used In                                |
-| ------------------ | ----------------------------- | -------------------------------------- |
-| `setup-node-pnpm/` | Setup Node.js, pnpm, deps     | All workflows                          |
-| `lint/`            | ESLint + Prettier checks      | `pr-validation.yml`                    |
-| `test/`            | Run tests with coverage       | `pr-validation.yml`                    |
-| `build/`           | Build + typecheck             | `pr-validation.yml`                    |
-| `check-links/`     | Documentation link validation | `pr-validation.yml`, `check-links.yml` |
+| Composite Action   | Purpose                       | Used In                 |
+| ------------------ | ----------------------------- | ----------------------- |
+| `setup-node-pnpm/` | Setup Node.js, pnpm, deps     | All workflows           |
+| `lint/`            | ESLint + Prettier checks      | `pr-validation.yml`     |
+| `test/`            | Run tests with coverage       | `pr-validation.yml`     |
+| `build/`           | Build + typecheck             | `pr-validation.yml`     |
+| `check-links/`     | Documentation link validation | `pr-validation.yml`     |
+| `update-tree/`     | Regenerate repo tree in README| `pr-validation.yml`     |
 
 ---
 
