@@ -169,19 +169,22 @@ Use variables for reusable prompts:
 <!-- prompt.md -->
 
 ---
+
 variables:
-  - name: framework
-    description: 'Frontend framework (React, Angular, Vue)'
-    required: true
 
-  - name: code
-    description: 'Code to review'
-    required: true
+- name: framework
+  description: 'Frontend framework (React, Angular, Vue)'
+  required: true
 
-  - name: focus_areas
-    description: 'Specific areas to focus on'
-    required: false
-    defaultValue: 'general best practices'
+- name: code
+  description: 'Code to review'
+  required: true
+
+- name: focus_areas
+  description: 'Specific areas to focus on'
+  required: false
+  defaultValue: 'general best practices'
+
 ---
 
 Review this {{framework}} code with focus on {{focus_areas}}:

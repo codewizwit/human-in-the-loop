@@ -7,10 +7,10 @@ category: architecture
 examples:
   - description: Full system architecture review
     input:
-      user_message: "Review the system architecture and provide recommendations"
+      user_message: 'Review the system architecture and provide recommendations'
   - description: Focus on scalability
     input:
-      user_message: "Review architecture focusing on scalability and performance concerns"
+      user_message: 'Review architecture focusing on scalability and performance concerns'
       system_description: >
         E-commerce platform for selling custom merchandise. Users can browse
         products,
@@ -606,12 +606,14 @@ Conduct a comprehensive architectural review of the system by analyzing the work
 ## Analysis Approach
 
 1. **Discovery Phase**:
-   - Use Glob to find architecture documentation (docs/architecture/**, README.md, ADRs)
+
+   - Use Glob to find architecture documentation (docs/architecture/\*\*, README.md, ADRs)
    - Read package.json and configuration files to understand tech stack
    - Find infrastructure-as-code files (Terraform, CloudFormation, docker-compose)
    - Locate service definitions and API contracts
 
 2. **Architecture Analysis Phase**:
+
    - Use Read to examine system documentation
    - Identify architecture patterns (microservices, monolith, event-driven, etc.)
    - Analyze service boundaries and dependencies
@@ -619,21 +621,10 @@ Conduct a comprehensive architectural review of the system by analyzing the work
    - Examine deployment and scaling approaches
 
 3. **Review Framework** - Analyze these architectural dimensions:
+
 </instructions>
 
-{{#if scope}}
-<review_scope>
-Focus architecture review on: {{scope}}
-</review_scope>
-{{/if}}
-
-{{#if focus}}
-<architecture_focus>
-Emphasize these areas: {{focus}}
-</architecture_focus>
-{{/if}}
-
-
+<constraints>
 ## Review Framework
 
 Evaluate the proposed architecture across these critical dimensions:

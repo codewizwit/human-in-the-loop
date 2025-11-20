@@ -7,13 +7,13 @@ category: governance
 examples:
   - description: Full workspace security review
     input:
-      user_message: "Please review this codebase for security vulnerabilities"
+      user_message: 'Please review this codebase for security vulnerabilities'
   - description: Focused API security review
     input:
-      user_message: "Review the API routes for security issues, especially API security, authentication, and injection vulnerabilities"
+      user_message: 'Review the API routes for security issues, especially API security, authentication, and injection vulnerabilities'
   - description: Authentication system review
     input:
-      user_message: "Analyze the authentication system for security flaws, focusing on session management and password storage"
+      user_message: 'Analyze the authentication system for security flaws, focusing on session management and password storage'
     output: |
       # Security Review Report
 
@@ -706,11 +706,13 @@ Conduct a comprehensive security analysis of the codebase in the current workspa
 ## Analysis Approach
 
 1. **Discovery Phase**:
+
    - Use the Glob tool to find all source code files in the workspace
    - Identify the primary language(s) and frameworks in use
    - Map out the project structure (backend, frontend, config files, etc.)
 
 2. **Code Analysis Phase**:
+
    - Use the Read tool to examine security-critical files (authentication, database, API endpoints, etc.)
    - Use the Grep tool to search for security anti-patterns across the codebase
    - Analyze configuration files, environment variables, and dependency manifests
@@ -1030,19 +1032,8 @@ Provide language/framework-specific guidance:
 - Use ⚠️ for potential security concerns requiring investigation
 - Use ✅ for security best practices correctly implemented
 - Use 💡 for security improvement suggestions
-  </instructions>
 
-{{#if scope}}
-<analysis_scope>
-Focus security analysis on files matching: {{scope}}
-</analysis_scope>
-{{/if}}
-
-{{#if focus}}
-<security_focus>
-Emphasize these security areas: {{focus}}
-</security_focus>
-{{/if}}
+</instructions>
 
 <constraints>
 - Use Read, Grep, and Glob tools to analyze code in the workspace

@@ -7,13 +7,13 @@ category: ci-cd
 examples:
   - description: Optimize GitHub Actions workflow for speed and cost
     input:
-      user_message: "Analyze our CI/CD pipeline and suggest optimizations to reduce duration and cost"
+      user_message: 'Analyze our CI/CD pipeline and suggest optimizations to reduce duration and cost'
   - description: Focus on specific optimization goals
     input:
-      user_message: "Review the pipeline configuration with focus on developer experience - we need faster feedback loops"
+      user_message: 'Review the pipeline configuration with focus on developer experience - we need faster feedback loops'
   - description: Full pipeline analysis with current metrics
     input:
-      user_message: "Our pipeline takes 12 minutes on average, costs $50/month for 1000 runs, and has 85% success rate. The main bottleneck is npm install taking 3-4 minutes each run. Please analyze and optimize."
+      user_message: 'Our pipeline takes 12 minutes on average, costs $50/month for 1000 runs, and has 85% success rate. The main bottleneck is npm install taking 3-4 minutes each run. Please analyze and optimize.'
 metadata:
   author: codewizwit
   license: MIT
@@ -47,6 +47,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 ## Analysis Approach
 
 1. **Discovery Phase**:
+
    - Use the Glob tool to find CI/CD pipeline configuration files in the workspace:
      - GitHub Actions: `.github/workflows/*.yml`, `.github/workflows/*.yaml`
      - GitLab CI: `.gitlab-ci.yml`
@@ -57,6 +58,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
    - Map out the pipeline structure (jobs, stages, dependencies)
 
 2. **User Context Gathering**:
+
    - Check the user's message for specific optimization goals (speed, cost, reliability, developer-experience)
    - If the user mentions current metrics (duration, cost, success rate), note them for analysis
    - If the user hasn't provided optimization goals or current metrics, use the AskUserQuestion tool to gather:
@@ -69,6 +71,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
    - Analyze across these critical dimensions:
 
 ### 1. Execution Speed
+
 - **Job Parallelization**: Are independent jobs running in parallel?
 - **Step Dependencies**: Can steps within jobs be reordered or parallelized?
 - **Redundant Steps**: Are there duplicate or unnecessary operations?
@@ -77,6 +80,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 - **Runner Selection**: Are appropriate runner sizes/types being used?
 
 ### 2. Caching Strategy
+
 - **Dependency Caching**: Are dependencies (npm, pip, maven, etc.) cached effectively?
 - **Build Artifact Caching**: Are build outputs cached between jobs?
 - **Docker Layer Caching**: Are Docker images using layer caching?
@@ -85,6 +89,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 - **Cache Size**: Are caches appropriately sized?
 
 ### 3. Cost Optimization
+
 - **Runner Minutes**: Can self-hosted runners reduce costs?
 - **Matrix Strategy**: Are matrix builds necessary or can they be reduced?
 - **Scheduled Jobs**: Can frequency be reduced without impacting quality?
@@ -93,6 +98,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 - **Concurrent Job Limits**: Are there unnecessary waiting times?
 
 ### 4. Reliability & Stability
+
 - **Flaky Tests**: Are there retry mechanisms for flaky steps?
 - **Timeout Configuration**: Are appropriate timeouts set?
 - **Error Handling**: Are failures handled gracefully?
@@ -101,6 +107,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 - **Notification Strategy**: Are failures reported promptly?
 
 ### 5. Developer Experience
+
 - **Feedback Loop**: How quickly do developers get results?
 - **Log Clarity**: Are logs clear and actionable?
 - **PR Checks**: Are essential checks fast (<5 min for critical feedback)?
@@ -109,6 +116,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 - **Debugging**: Can failures be easily debugged?
 
 ### 6. Security & Compliance
+
 - **Secrets Management**: Are secrets properly managed?
 - **Least Privilege**: Do jobs have minimal permissions?
 - **Dependency Scanning**: Are vulnerabilities checked?
@@ -150,17 +158,20 @@ Provide your analysis in this structure:
 **Overall Assessment**: 🟢 Optimized / 🟡 Needs Improvement / 🔴 Critical Issues
 
 **Current State**:
+
 - Average duration: [X minutes]
 - Monthly cost: $[X] (if known)
 - Success rate: [X%] (if known)
 - Main bottleneck: [description]
 
 **Projected Improvements**:
+
 - ⚡ Duration: [X minutes] → [Y minutes] ([Z%] faster)
 - 💰 Cost: $[X]/month → $[Y]/month ([Z%] savings)
 - 📈 Success rate: [X%] → [Y%]
 
 **Top 3 Quick Wins**:
+
 1. [Optimization with biggest impact/effort ratio]
 2. [Second priority optimization]
 3. [Third priority optimization]
@@ -176,11 +187,14 @@ For each dimension, provide:
 **Assessment**: 🟢 Optimized / 🟡 Needs Improvement / 🔴 Critical Issues
 
 **Current Issues**:
+
 - 🔴/🟡/🟢 [Issue description with specific file path and line numbers]
 - Impact: [time/cost/reliability impact]
 
 **Recommendations**:
+
 1. **[Optimization name]**:
+
    ```yaml
    # Before
    [current code with file path]
@@ -188,6 +202,7 @@ For each dimension, provide:
    # After (optimized)
    [optimized code]
    ```
+
    - Expected savings: [X min / $Y / Z% improvement]
    - Effort required: [Low/Medium/High]
    - Priority: [P0/P1/P2]
@@ -199,19 +214,19 @@ For each dimension, provide:
 #### High Impact (Implement First)
 
 | Optimization | Time Saved | Cost Saved | Effort | Priority |
-|--------------|------------|------------|--------|----------|
+| ------------ | ---------- | ---------- | ------ | -------- |
 | [Name]       | X min      | $Y/month   | Low    | P0       |
 
 #### Medium Impact
 
 | Optimization | Time Saved | Cost Saved | Effort | Priority |
-|--------------|------------|------------|--------|----------|
+| ------------ | ---------- | ---------- | ------ | -------- |
 | [Name]       | X min      | $Y/month   | Medium | P1       |
 
 #### Low Impact (Nice to Have)
 
 | Optimization | Time Saved | Cost Saved | Effort | Priority |
-|--------------|------------|------------|--------|----------|
+| ------------ | ---------- | ---------- | ------ | -------- |
 | [Name]       | X min      | $Y/month   | High   | P2       |
 
 ---
@@ -233,14 +248,14 @@ For each dimension, provide:
 
 ### Before/After Comparison
 
-| Metric              | Before  | After   | Improvement      |
-|---------------------|---------|---------|------------------|
-| Total Duration (PR) | X min   | Y min   | Z% faster ⚡     |
-| Total Duration (Deploy) | X min | Y min | Z% faster ⚡     |
-| Monthly Cost        | $X      | $Y      | $Z saved (W%) 💰 |
-| Jobs in Parallel    | X       | Y       | +Z jobs          |
-| Cache Hit Rate      | X%      | Y%      | +Z%              |
-| Success Rate        | X%      | Y%      | +Z% 🎯           |
+| Metric                  | Before | After | Improvement      |
+| ----------------------- | ------ | ----- | ---------------- |
+| Total Duration (PR)     | X min  | Y min | Z% faster ⚡     |
+| Total Duration (Deploy) | X min  | Y min | Z% faster ⚡     |
+| Monthly Cost            | $X     | $Y    | $Z saved (W%) 💰 |
+| Jobs in Parallel        | X      | Y     | +Z jobs          |
+| Cache Hit Rate          | X%     | Y%    | +Z%              |
+| Success Rate            | X%     | Y%    | +Z% 🎯           |
 
 **Annual Savings**: $[X]/year 💰
 
@@ -249,6 +264,7 @@ For each dimension, provide:
 ### Implementation Roadmap
 
 #### Phase 1: Quick Wins (Day 1 - 30 minutes)
+
 - [x] [Optimization 1] → Expected: X min saved per run
 - [x] [Optimization 2] → Expected: $Y/month saved
 - [x] [Optimization 3] → Expected: Z% improvement
@@ -256,12 +272,14 @@ For each dimension, provide:
 **Total Phase 1 Impact**: [X min → Y min (Z% improvement)]
 
 #### Phase 2: Medium Effort (Week 1 - 1 hour)
+
 - [ ] [Optimization 4]
 - [ ] [Optimization 5]
 
 **Total Phase 2 Impact**: [Further W% improvement]
 
 #### Phase 3: Long-term (Month 1+)
+
 - [ ] [Optimization 6]
 - [ ] [Optimization 7]
 
@@ -270,6 +288,7 @@ For each dimension, provide:
 ### Monitoring & Validation
 
 **Metrics to Track**:
+
 - Pipeline duration (p50, p95, p99)
 - Success/failure rate over time
 - Cost per pipeline run
@@ -277,6 +296,7 @@ For each dimension, provide:
 - Time to feedback for developers
 
 **Validation Checklist**:
+
 - [ ] Pipeline runs successfully on main branch
 - [ ] All tests pass with optimizations enabled
 - [ ] Deployment succeeds
@@ -290,14 +310,17 @@ For each dimension, provide:
 
 **[Detected Platform]**:
 ✅ **Already Following**:
+
 - [Best practice 1]
 - [Best practice 2]
 
 🚀 **Additional Recommendations**:
+
 1. [Recommendation 1] ✅ Implemented / ⚠️ Recommended
 2. [Recommendation 2]
 
 **Advanced Optimizations** (Future):
+
 - [Future optimization 1]
 - [Future optimization 2]
 
@@ -306,12 +329,14 @@ For each dimension, provide:
 ### Summary
 
 The optimized pipeline delivers:
+
 - ⚡ **[Z%] faster feedback** for developers ([X min] → [Y min])
 - 💰 **$[X]/year cost savings**
 - 🎯 **[Z%] improvement in reliability**
 - 🚀 **Better developer experience** with sub-5-minute PR checks
 
 **Next Steps**:
+
 1. Implement Phase 1 optimizations (30 minutes)
 2. Test on a feature branch
 3. Monitor metrics for 1 week
@@ -321,6 +346,7 @@ The optimized pipeline delivers:
 </output_format>
 
 <special_markers>
+
 - Use ⚡ for speed improvements
 - Use 💰 for cost savings
 - Use 🔒 for security improvements
@@ -330,5 +356,5 @@ The optimized pipeline delivers:
 - Use 🔴 for critical problems requiring immediate attention
 - Use 🟡 for medium priority issues
 - Use 🟢 for optimized areas
-</special_markers>
-</instructions>
+  </special_markers>
+  </instructions>

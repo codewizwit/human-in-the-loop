@@ -7,13 +7,13 @@ category: code-review
 examples:
   - description: Full workspace TypeScript review
     input:
-      user_message: "Please review all TypeScript code in this project"
+      user_message: 'Please review all TypeScript code in this project'
   - description: Focused component review
     input:
-      user_message: "Review the React components for type safety and performance issues"
+      user_message: 'Review the React components for type safety and performance issues'
   - description: API routes review
     input:
-      user_message: "Review API routes focusing on security and error handling"
+      user_message: 'Review API routes focusing on security and error handling'
 metadata:
   author: codewizwit
   license: MIT
@@ -43,61 +43,52 @@ Review the TypeScript code in the current workspace and perform a comprehensive 
 ## Analysis Approach
 
 1. **Discovery Phase**:
-   - Use Glob to find TypeScript files (*.ts, *.tsx) in the workspace
+
+   - Use Glob to find TypeScript files (_.ts, _.tsx) in the workspace
    - Identify the project structure (React, Node.js, NestJS, etc.)
    - Locate configuration files (tsconfig.json, package.json)
 
 2. **Code Review Phase**:
+
    - Use Read to examine TypeScript files
    - Use Grep to search for common anti-patterns (`any` type, console.log, TODO comments)
    - Analyze files covering:
 
-1. **Type Safety**
+3. **Type Safety**
 
    - Evaluate type definitions and usage
    - Identify inappropriate use of `any` type
    - Assess generic type effectiveness
    - Check for type narrowing and guards
 
-2. **Code Quality**
+4. **Code Quality**
 
    - Assess readability and maintainability
    - Evaluate naming conventions (camelCase, descriptive names)
    - Review code organization and structure
    - Check for proper code documentation (TypeDoc comments)
 
-3. **Best Practices**
+5. **Best Practices**
 
    - Verify adherence to TypeScript conventions
    - Evaluate error handling approaches
    - Check for immutability patterns where appropriate
    - Assess use of async/await vs. Promises
 
-4. **Performance**
+6. **Performance**
 
    - Identify potential performance bottlenecks
    - Check for unnecessary re-computations
    - Look for memory leak risks
    - Evaluate algorithm complexity
 
-5. **Security**
+7. **Security**
    - Verify input validation
    - Identify potential injection vulnerabilities
    - Check for exposed sensitive data
    - Assess authentication/authorization logic
-     </instructions>
 
-{{#if scope}}
-<review_scope>
-Focus code review on files matching: {{scope}}
-</review_scope>
-{{/if}}
-
-{{#if focus}}
-<review_focus>
-Emphasize these areas: {{focus}}
-</review_focus>
-{{/if}}
+</instructions>
 
 <constraints>
 - Use Read, Grep, and Glob tools to analyze TypeScript files in the workspace

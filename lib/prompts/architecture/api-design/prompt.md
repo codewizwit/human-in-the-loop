@@ -7,10 +7,10 @@ category: architecture
 examples:
   - description: Review entire API design
     input:
-      user_message: "Review the API design and suggest improvements"
+      user_message: 'Review the API design and suggest improvements'
   - description: Focus on API security
     input:
-      user_message: "Review API endpoints for security best practices, especially authentication"
+      user_message: 'Review API endpoints for security best practices, especially authentication'
     output: >
       **Endpoint Design:**
 
@@ -376,12 +376,14 @@ Analyze the API implementation in the workspace and provide comprehensive design
 ## Analysis Approach
 
 1. **Discovery Phase**:
+
    - Use Glob to find API files (routes, controllers, resolvers, schemas)
    - Read package.json to identify API framework (Express, NestJS, Fastify, Apollo, etc.)
    - Identify API type (REST, GraphQL, or both)
    - Locate API documentation (OpenAPI/Swagger, GraphQL schema)
 
 2. **API Analysis Phase**:
+
    - Use Read to examine route definitions and endpoint handlers
    - Use Grep to find authentication/authorization patterns
    - Analyze request/response structures
@@ -571,19 +573,8 @@ Analyze the API implementation in the workspace and provide comprehensive design
 - Error code reference
 - Authentication guide
 - Rate limit information
-  </instructions>
 
-{{#if scope}}
-<api_scope>
-Focus API analysis on files matching: {{scope}}
-</api_scope>
-{{/if}}
-
-{{#if focus}}
-<design_focus>
-Emphasize these design areas: {{focus}}
-</design_focus>
-{{/if}}
+</instructions>
 
 <constraints>
 - Follow RESTful or GraphQL best practices

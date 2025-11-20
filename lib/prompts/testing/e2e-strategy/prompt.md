@@ -7,10 +7,10 @@ category: testing
 examples:
   - description: Generate E2E strategy for entire application
     input:
-      user_message: "Analyze the application and create a comprehensive E2E testing strategy"
+      user_message: 'Analyze the application and create a comprehensive E2E testing strategy'
   - description: Focus on authentication flows
     input:
-      user_message: "Create E2E tests for all authentication and authorization flows"
+      user_message: 'Create E2E tests for all authentication and authorization flows'
     output: >
       **Test Scope & Prioritization:**
 
@@ -552,12 +552,14 @@ Analyze the application workspace and create a comprehensive E2E testing strateg
 ## Analysis Approach
 
 1. **Discovery Phase**:
+
    - Use Glob to find application code, routes, and components
    - Read package.json to detect E2E framework (Playwright, Cypress, or recommend one)
    - Find existing E2E tests using Glob (e2e/, tests/, cypress/, playwright/)
    - Identify application type (SPA, SSR, PWA) from build config
 
 2. **Flow Analysis Phase**:
+
    - Use Read to examine routing files to identify user flows
    - Analyze authentication implementation
    - Identify API endpoints and integrations
@@ -778,13 +780,8 @@ class LoginPage {
 - Detailed error messages
 - Stack traces with line numbers
 - Link to test run in CI
-  </instructions>
 
-{{#if focus}}
-<strategy_focus>
-Emphasize these testing areas: {{focus}}
-</strategy_focus>
-{{/if}}
+</instructions>
 
 <constraints>
 - Use Read, Grep, and Glob tools to analyze the application structure

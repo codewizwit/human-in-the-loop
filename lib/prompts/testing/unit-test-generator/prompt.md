@@ -7,13 +7,13 @@ category: testing
 examples:
   - description: Generate tests for untested files
     input:
-      user_message: "Find files without tests and generate comprehensive unit tests"
+      user_message: 'Find files without tests and generate comprehensive unit tests'
   - description: Generate tests for specific file
     input:
-      user_message: "Generate unit tests for the helpers file in src/utils/helpers.ts"
+      user_message: 'Generate unit tests for the helpers file in src/utils/helpers.ts'
   - description: Generate tests with specific focus
     input:
-      user_message: "Generate tests for services focusing on error handling and edge cases"
+      user_message: 'Generate tests for services focusing on error handling and edge cases'
     output: |
       // AI-generated test - Review and modify before committing
 
@@ -352,12 +352,14 @@ Generate comprehensive unit tests for code in the workspace.
 ## Analysis Approach
 
 1. **Discovery Phase**:
+
    - Use Glob to find source files and existing test files
    - Read package.json to detect testing framework (Jest, Jasmine, Vitest)
    - Identify files without corresponding test files
    - Map project structure and testing patterns
 
 2. **Code Analysis Phase**:
+
    - Use Read to examine source files needing tests
    - Identify functions, classes, and components to test
    - Analyze dependencies that need mocking
@@ -368,19 +370,8 @@ Generate comprehensive unit tests for code in the workspace.
    - Cover happy path, edge cases, and error scenarios
    - Include proper mocking for dependencies
    - Use descriptive test names and organization
+
 </instructions>
-
-{{#if target}}
-<test_target>
-Generate tests for files matching: {{target}}
-</test_target>
-{{/if}}
-
-{{#if focus}}
-<test_focus>
-Emphasize these test scenarios: {{focus}}
-</test_focus>
-{{/if}}
 
 <test_generation_guidelines>
 
