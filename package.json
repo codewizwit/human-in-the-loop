@@ -18,6 +18,7 @@
     "ci:full": "pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm check-links",
     "validate": "pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm check-links",
     "check-links": "./src/governance/checks/check-links.sh",
+    "tree": "npx tree-node-cli -L 3 --dirs-first -I \"node_modules|dist|.git|.nx|tmp|coverage\"",
     "test:regression": "./scripts/test-cli-regression.sh",
     "publish:prepare": "./scripts/publish/prepare-release.sh",
     "publish:dry-run": "cd dist/src/cli && npm publish --dry-run",

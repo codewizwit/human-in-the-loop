@@ -157,32 +157,48 @@ Developer-first principles and practices that guide how we build, evaluate, and 
 
 ## Repository Structure
 
+> Generated with `npx tree-node-cli -L 3 --dirs-first -I "node_modules|dist|.git|.nx|tmp|coverage"`
+
 ```
 human-in-the-loop/
-├── src/
-│   ├── cli/                     # TypeScript CLI tool
-│   └── governance/              # Quality validation and checks
-│       └── checks/              # Validation scripts
-├── lib/
-│   ├── prompts/                 # Shared prompt library
+├── docs/                        # Documentation
+│   ├── ai-best-practices.md     # Responsible AI usage guidelines
+│   ├── architecture.md          # System design overview
+│   ├── cli-reference.md         # Complete CLI command reference
+│   ├── contributing-guidelines.md # Detailed contribution workflow
+│   ├── getting-started.md       # Installation and first steps
+│   ├── governance-model.md      # Quality and review process
+│   ├── publishing.md            # NPM publishing workflow
+│   ├── toolkit-usage.md         # Using prompts, agents, evaluators
+│   └── xml-template-migration.md # XML structure migration guide
+├── lib/                         # Reusable AI tools library
 │   ├── agents/                  # Agent definitions and configs
-│   ├── skills/                  # Framework-specific expertise
-│   │   ├── angular-modern/      # Angular 16+ (signals, standalone)
-│   │   └── angular-legacy/      # Pre-16 Angular (NgModules, RxJS)
+│   ├── context-packs/           # Cross-cutting patterns
 │   ├── evaluators/              # Quality evaluation tools
 │   ├── guardrails/              # Safety and governance rules
-│   └── context-packs/           # Cross-cutting patterns
-├── scripts/
-│   ├── build/                   # Build-time automation
-│   └── setup/                   # One-time setup scripts
+│   ├── prompts/                 # Production-ready prompts
+│   │   ├── architecture/        # System & API design
+│   │   ├── ci-cd/               # Pipeline optimization
+│   │   ├── code-review-ts/      # TypeScript code review
+│   │   ├── culture/             # Team & communication
+│   │   ├── governance/          # Security, bias, AI audits
+│   │   ├── planning/            # User stories, epics
+│   │   └── testing/             # E2E, unit test generation
+│   └── skills/                  # Framework-specific expertise
+│       ├── angular-legacy/      # Pre-16 Angular (NgModules, RxJS)
+│       └── angular-modern/      # Angular 16+ (signals, standalone)
 ├── planning/                    # Project planning and roadmap
-└── docs/
-    ├── getting-started.md       # Installation and first steps
-    ├── ai-best-practices.md     # Responsible AI usage guidelines
-    ├── toolkit-usage.md         # Using prompts, agents, evaluators
-    ├── contributing-guidelines.md # Detailed contribution workflow
-    ├── governance-model.md      # Quality and review process
-    └── architecture.md          # System design overview
+├── scripts/                     # Automation scripts
+│   ├── build/                   # Build-time automation
+│   ├── publish/                 # NPM publishing helpers
+│   ├── release/                 # Release workflow
+│   └── setup/                   # One-time setup scripts
+├── src/                         # Source code
+│   ├── cli/                     # TypeScript CLI tool
+│   └── governance/              # Quality validation and checks
+├── ACCOUNTABILITY.md            # Developer-First AI Framework
+├── CONTRIBUTING.md              # Contribution guidelines
+└── README.md                    # This file
 ```
 
 ---
@@ -199,6 +215,15 @@ hit install <tool> [--path <path>]
 # List all installed tools
 hit list
 
+# Check for updates
+hit update --check
+
+# Update a specific tool
+hit update <tool>
+
+# Update all installed tools
+hit update --all
+
 # Validate local setup
 hit doctor
 
@@ -209,7 +234,7 @@ hit contribute <type> <path>
 hit stats
 ```
 
-**New in v1.0.11:** The `contribute` command now automatically validates your contribution and creates a GitHub issue with detailed feedback!
+**New in v1.2.0:** The `update` command keeps your installed tools up to date with semantic versioning, automatic backups, and batch updates!
 
 For complete CLI documentation, see [CLI Reference](./docs/cli-reference.md).
 
