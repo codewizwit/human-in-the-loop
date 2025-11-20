@@ -198,6 +198,84 @@ Use hit search to discover available tools, then hit install to add them.
 
 ---
 
+### `hit update`
+
+Update the CLI to the latest version from npm. This command updates the entire CLI package, including all bundled tools (prompts, agents, skills, context packs, etc.).
+
+**Usage:**
+
+```bash
+hit update
+```
+
+**What it does:**
+
+1. Checks the npm registry for the latest version of `@human-in-the-loop/cli`
+2. Compares it with your currently installed version
+3. If a newer version exists, installs it globally via npm
+4. All bundled tools are automatically updated with the CLI
+
+**Output Example (Already Up-to-Date):**
+
+```
+🔍 Checking for updates...
+
+  → Current version: v1.1.7
+  → Latest version:  v1.1.7
+
+✓ You are already running the latest version!
+```
+
+**Output Example (Update Available):**
+
+```
+🔍 Checking for updates...
+
+  → Current version: v1.1.7
+  → Latest version:  v1.2.0
+
+⬆️  Updating CLI to latest version...
+
+  → Running: npm install -g @human-in-the-loop/cli@latest
+
+✓ Successfully updated CLI from v1.1.7 to v1.2.0
+  → All bundled tools (prompts, agents, skills) have been updated!
+```
+
+**Output Example (Update Failed):**
+
+```
+🔍 Checking for updates...
+
+  → Current version: v1.1.7
+  → Latest version:  v1.2.0
+
+⬆️  Updating CLI to latest version...
+
+  → Running: npm install -g @human-in-the-loop/cli@latest
+
+✗ Update failed. Please try manually:
+  → npm install -g @human-in-the-loop/cli@latest
+```
+
+**Notes:**
+
+- Requires internet connection to check npm registry
+- Updates the entire CLI package (not individual tools)
+- Uses global npm installation (`-g` flag)
+- No arguments or options required
+- Automatically updates all bundled tools with the CLI
+
+**Manual Alternative:**
+
+If `hit update` fails, you can manually update with:
+
+```bash
+npm install -g @human-in-the-loop/cli@latest
+```
+
+---
+
 ### `hit doctor`
 
 Validate your environment and diagnose issues.
