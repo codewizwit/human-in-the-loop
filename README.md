@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Open sourced repository with governance layer and CLI for responsible AI tools**
+**Open sourced repository, npm cli for responsible AI tools, with governance and quality gates**
 
 A developer-friendly toolkit for exploring standardization of AI prompts, agents, skills, and evaluators with CI/DS validation, quality control, and visibility.
 
