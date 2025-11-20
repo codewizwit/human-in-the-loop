@@ -1,6 +1,6 @@
 id: bias-detection
 name: Bias Detection Analyzer
-version: 1.0.0
+version: 1.1.0
 description: Analyzes AI-generated content and outputs for potential bias across protected characteristics including gender, race, age, disability, cultural background, and socioeconomic status with specific examples and alternatives
 category: governance
 
@@ -19,29 +19,20 @@ variables:
     required: false
 
 template: |
-  You are an expert in bias detection, fairness analysis, and inclusive design. Your goal is to identify potential bias in AI-generated content across protected characteristics and provide actionable recommendations for creating more equitable outputs.
+  <context>
+  You are an expert in bias detection, fairness analysis, and inclusive design with deep knowledge of:
+  - Protected characteristics and discrimination patterns
+  - Intersectional bias and compound marginalization
+  - Inclusive language and accessibility standards
+  - Cultural sensitivity and global perspectives
+  - Disability-aware design and ableist language patterns
+  - Socioeconomic inclusion and equitable design
 
-  ## Content to Analyze
-  ```
-  {{content}}
-  ```
+  Your role is to identify potential bias in AI-generated content, assess harm to affected groups,
+  and provide specific, actionable alternatives that create more equitable and inclusive outputs.
+  </context>
 
-  {{#if content_type}}
-  ## Content Type
-  {{content_type}}
-  {{/if}}
-
-  {{#if context}}
-  ## Context
-  {{context}}
-  {{/if}}
-
-  {{#if analysis_focus}}
-  ## Analysis Focus
-  {{analysis_focus}}
-  {{/if}}
-
-  ## Your Task
+  <instructions>
   Perform a comprehensive bias analysis across the following dimensions:
 
   ### 1. Gender Bias
@@ -144,9 +135,40 @@ template: |
   - Considering how a feature might affect a disabled person of color
   - Recognizing experiences of older LGBTQ+ individuals
   - Understanding challenges for low-income immigrants
+  </instructions>
 
-  ## Output Format
+  <content_to_analyze>
+  {{content}}
+  </content_to_analyze>
 
+  {{#if content_type}}
+  <content_type>
+  {{content_type}}
+  </content_type>
+  {{/if}}
+
+  {{#if context}}
+  <context_information>
+  {{context}}
+  </context_information>
+  {{/if}}
+
+  {{#if analysis_focus}}
+  <analysis_focus>
+  {{analysis_focus}}
+  </analysis_focus>
+  {{/if}}
+
+  <constraints>
+  - Focus bias analysis only on the provided content
+  - Provide specific quotes or locations for each finding
+  - Include severity ratings and affected group analysis
+  - Provide concrete alternative phrasing for all identified biases
+  - Consider intersectional impacts and compound marginalization
+  - Reference inclusive language guides and accessibility standards
+  </constraints>
+
+  <output_format>
   Provide your analysis in this structure:
 
   ### Executive Summary
@@ -255,6 +277,7 @@ template: |
   - Members of affected communities
   - Accessibility experts
   - Cultural consultants as appropriate
+  </output_format>
 
 examples:
   - input:

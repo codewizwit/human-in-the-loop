@@ -6,7 +6,7 @@
 
 **Open sourced repository with governance layer and CLI for responsible AI tools**
 
-A developer-friendly toolkit for exploring standardization of AI prompts, agents, context packs, and evaluators with CI/DS validation, quality control, and visibility.
+A developer-friendly toolkit for exploring standardization of AI prompts, agents, skills, and evaluators with CI/DS validation, quality control, and visibility.
 
 ---
 
@@ -120,13 +120,18 @@ Production-ready prompts organized by use case, versioned and quality-assured. E
 
 Catalog of AI agents with their configurations, capabilities, and integration guides. _(Coming soon - framework in place)_
 
+### 🎓 Skills (`/lib/skills`)
+
+Framework-specific expertise for Claude Code and GitHub Copilot:
+
+- **Angular Modern**: Signals, standalone components, control flow (Angular 16+) ✅
+- **Angular Legacy**: NgModules, lifecycle hooks, RxJS (pre-16) ✅
+- **NestJS**: Module structure, dependency injection, middleware _(coming soon)_
+- **Nx Monorepo**: Workspace organization, computation caching _(coming soon)_
+
 ### 🎯 Context Packs (`/lib/context-packs`)
 
-Framework-specific knowledge bases that provide agents with deep technical context:
-
-- **Angular**: Component patterns, routing, state management, testing ✅
-- **NestJS**: Module structure, dependency injection, middleware _(coming soon)_
-- **CI/CD**: Pipeline patterns, deployment strategies _(coming soon)_
+Cross-cutting patterns and domain knowledge for specialized use cases.
 
 ### ✅ Evaluators (`/lib/evaluators`)
 
@@ -161,12 +166,12 @@ human-in-the-loop/
 ├── lib/
 │   ├── prompts/                 # Shared prompt library
 │   ├── agents/                  # Agent definitions and configs
+│   ├── skills/                  # Framework-specific expertise
+│   │   ├── angular-modern/      # Angular 16+ (signals, standalone)
+│   │   └── angular-legacy/      # Pre-16 Angular (NgModules, RxJS)
 │   ├── evaluators/              # Quality evaluation tools
 │   ├── guardrails/              # Safety and governance rules
-│   └── context-packs/           # Framework-specific context
-│       ├── angular/             # Angular-specific context
-│       ├── nestjs/              # NestJS-specific context (coming soon)
-│       └── ci-cd/               # CI/CD patterns (coming soon)
+│   └── context-packs/           # Cross-cutting patterns
 ├── scripts/
 │   ├── build/                   # Build-time automation
 │   └── setup/                   # One-time setup scripts

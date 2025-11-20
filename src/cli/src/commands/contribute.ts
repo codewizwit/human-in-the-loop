@@ -39,6 +39,62 @@ function detectToolType(path: string): string | null {
 }
 
 /**
+ * Validates XML structure within template field
+ */
+function validateTemplateXML(template: string): ValidationResult {
+  const result: ValidationResult = { pass: true, errors: [], warnings: [] };
+
+  const tagPattern = /<(\w+)>/g;
+  const closePattern = /<\/(\w+)>/g;
+
+  const openTags = [...template.matchAll(tagPattern)].map((m) => m[1]);
+  const closeTags = [...template.matchAll(closePattern)].map((m) => m[1]);
+
+  const tagCounts: Record<string, number> = {};
+  openTags.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+  closeTags.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) - 1;
+  });
+
+  const unmatchedTags = Object.entries(tagCounts).filter(
+    ([, count]) => count !== 0
+  );
+  if (unmatchedTags.length > 0) {
+    unmatchedTags.forEach(([tag, count]) => {
+      if (count > 0) {
+        result.errors.push(`Unclosed XML tag: <${tag}>`);
+      } else {
+        result.errors.push(`Extra closing tag: </${tag}>`);
+      }
+    });
+    result.pass = false;
+  }
+
+  const recommendedTags = ['context', 'instructions', 'output_format'];
+  const hasRecommended = recommendedTags.some((tag) =>
+    template.includes(`<${tag}>`)
+  );
+
+  if (!hasRecommended) {
+    result.warnings.push(
+      'Template missing recommended XML structure tags (context, instructions, output_format). See docs/xml-template-migration.md'
+    );
+  }
+
+  const hasUserInput =
+    template.includes('{{') && openTags.some((tag) => tag !== 'thinking');
+  if (hasUserInput && !openTags.some((tag) => tag.includes('input'))) {
+    result.warnings.push(
+      'Template contains variables but no input-related XML tags. Consider wrapping user input in descriptive tags (e.g., <code_to_review>, <user_input>)'
+    );
+  }
+
+  return result;
+}
+
+/**
  * Validates YAML file structure and required fields
  */
 function validateYAML(yamlPath: string, type: string): ValidationResult {
@@ -74,6 +130,15 @@ function validateYAML(yamlPath: string, type: string): ValidationResult {
     if (type === 'prompt' && !data.template) {
       result.errors.push('Prompts must have a template field');
       result.pass = false;
+    }
+
+    if (type === 'prompt' && data.template) {
+      const xmlValidation = validateTemplateXML(data.template as string);
+      result.errors.push(...xmlValidation.errors);
+      result.warnings.push(...xmlValidation.warnings);
+      if (!xmlValidation.pass) {
+        result.pass = false;
+      }
     }
 
     if (

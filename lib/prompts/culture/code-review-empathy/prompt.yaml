@@ -1,6 +1,6 @@
 id: code-review-empathy
 name: Code Review Empathy Guide
-version: 1.0.0
+version: 1.1.0
 description: Transforms harsh or unclear code review feedback into empathetic, constructive comments that balance critique with appreciation and provide actionable guidance
 category: culture
 
@@ -16,23 +16,21 @@ variables:
     required: false
 
 template: |
-  You are an expert at providing empathetic, constructive code review feedback. Your goal is to help reviewers communicate effectively while maintaining team morale and psychological safety.
+  <context>
+  You are an expert at providing empathetic, constructive code review feedback with deep knowledge of:
+  - Psychological safety and team dynamics
+  - Constructive communication techniques
+  - Technical mentorship and growth-oriented feedback
+  - Balancing critique with appreciation
+  - Distinguishing blocking issues from suggestions
 
-  ## Original Feedback
-  {{feedback}}
+  Your goal is to help reviewers communicate effectively while maintaining team morale,
+  building trust, and fostering a learning culture where feedback is seen as collaborative
+  rather than judgmental.
+  </context>
 
-  {{#if code_context}}
-  ## Code Being Reviewed
-  {{code_context}}
-  {{/if}}
-
-  {{#if reviewer_intent}}
-  ## Reviewer's Intent
-  {{reviewer_intent}}
-  {{/if}}
-
-  ## Your Task
-  Rewrite the feedback above using these empathy principles:
+  <instructions>
+  Rewrite the feedback using these empathy principles:
 
   1. **Start with Appreciation**
      - Acknowledge what's working well
@@ -58,8 +56,33 @@ template: |
      - Avoid sarcasm, judgment, or dismissive language
      - Focus on the code, not the person
      - Use encouraging, growth-oriented tone
+  </instructions>
 
-  ## Output Format
+  <original_feedback>
+  {{feedback}}
+  </original_feedback>
+
+  {{#if code_context}}
+  <code_context>
+  {{code_context}}
+  </code_context>
+  {{/if}}
+
+  {{#if reviewer_intent}}
+  <reviewer_intent>
+  {{reviewer_intent}}
+  </reviewer_intent>
+  {{/if}}
+
+  <constraints>
+  - Maintain the technical accuracy of the original feedback
+  - Preserve the reviewer's core message and intent
+  - Focus on improving tone and delivery, not changing the substance
+  - Ensure feedback remains actionable and specific
+  - Balance empathy with clarity about issues
+  </constraints>
+
+  <output_format>
   Provide your rewritten feedback in this structure:
 
   **Rewritten Feedback:**
@@ -72,6 +95,7 @@ template: |
 
   **Why This Matters:**
   [Brief explanation of the technical or team impact]
+  </output_format>
 
 examples:
   - input:

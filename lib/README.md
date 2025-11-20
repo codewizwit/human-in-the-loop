@@ -8,9 +8,10 @@ This directory contains all AI productivity tools, resources, and knowledge base
 lib/
 ├── prompts/           # Reusable Claude prompts
 ├── agents/            # AI agent configurations
+├── skills/            # Framework-specific expertise
 ├── evaluators/        # Quality validation tools
 ├── guardrails/        # Safety and governance mechanisms
-└── context-packs/     # Framework-specific knowledge bases
+└── context-packs/     # Cross-cutting patterns
 ```
 
 ## What's Inside
@@ -39,11 +40,17 @@ Safety mechanisms that enforce responsible AI usage, including input validation,
 
 **Examples**: Secret detection, rate limiting, permission enforcement
 
+### 🎓 Skills
+
+Framework-specific expertise for Claude Code and GitHub Copilot. Each skill includes platform-native formats for automatic activation.
+
+**Examples**: Angular Modern (signals, standalone), Angular Legacy (NgModules, RxJS)
+
 ### 🎯 Context Packs
 
-Framework-specific knowledge bases that provide agents with deep technical context for better results.
+Cross-cutting patterns and domain knowledge for specialized use cases.
 
-**Examples**: Angular patterns, NestJS best practices, CI/CD workflows
+**Examples**: Security patterns, testing strategies, deployment workflows
 
 ## Usage
 
