@@ -53,7 +53,7 @@ Prompts are installed to your `.claude/` directory:
 .claude/
 └── prompts/
     └── code-review-ts/
-        ├── prompt.yaml      # Prompt definition
+        ├── prompt.md        # Prompt definition (Markdown with frontmatter)
         ├── README.md        # Usage instructions
         └── examples/        # Example outputs
 ```
@@ -65,7 +65,7 @@ Instead of manually pasting code, use these developer-friendly approaches:
 **1. File Reference (Recommended for Claude Code)**
 
 ```
-User: Use .claude/prompts/code-review-ts/prompt.yaml
+User: Use .claude/prompts/code-review-ts/prompt.md
 
 Review the file: src/components/UserProfile.tsx
 Focus on: security, performance
@@ -111,7 +111,7 @@ hit review --prompt code-review-ts --git-diff
 **Manual paste (not recommended):**
 
 ```
-User: Use .claude/prompts/code-review-ts/prompt.yaml
+User: Use .claude/prompts/code-review-ts/prompt.md
 
 code: |
   [paste code here if absolutely necessary]
@@ -125,7 +125,7 @@ Create a custom variant:
 
 ```bash
 # Copy existing prompt
-cp .claude/prompts/code-review-ts/prompt.yaml ./my-review.yaml
+cp .claude/prompts/code-review-ts/prompt.md ./my-review.md
 
 # Edit to customize
 # Then use your custom prompt

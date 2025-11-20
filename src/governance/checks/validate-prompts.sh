@@ -1,14 +1,14 @@
 #!/bin/bash
-# Validate prompt YAML files have required fields
+# Validate prompt markdown files have required frontmatter fields
 # Ensures prompts meet quality standards for metadata and structure
 
 set -e
 
-echo "🔍 Validating prompt YAML files..."
+echo "🔍 Validating prompt markdown files..."
 echo ""
 
-# Find all prompt.yaml files in lib/
-prompt_files=$(find lib/prompts -name "prompt.yaml" 2>/dev/null || echo "")
+# Find all prompt.md files in lib/
+prompt_files=$(find lib/prompts -name "prompt.md" 2>/dev/null || echo "")
 
 if [ -z "$prompt_files" ]; then
   echo "⚠️  No prompt files found"
@@ -63,9 +63,10 @@ while IFS= read -r file; do
     has_errors=true
   fi
 
-  # Check for template
-  if ! grep -q "^template:" "$file"; then
-    echo "  ❌ Missing 'template' field"
+  # For markdown files, content is after frontmatter (no template field needed)
+  # Check that file has content after frontmatter closing ---
+  if ! grep -A 1 "^---$" "$file" | tail -n +2 | grep -q "."; then
+    echo "  ❌ Missing prompt content after frontmatter"
     has_errors=true
   fi
 

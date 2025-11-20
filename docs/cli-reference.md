@@ -194,7 +194,7 @@ hit install prompt/security-review
 
 **How it works:**
 
-1. Extracts the prompt template from `prompt.yaml`
+1. Extracts the prompt template from `prompt.md`
 2. Creates `~/.claude/commands/{prompt-id}.md`
 3. Includes variable documentation as comments
 4. Makes the prompt available as a slash command in Claude Code
@@ -531,13 +531,13 @@ hit contribute <type> <path>
 **Arguments:**
 
 - `type` (required) - Tool type: `prompt`, `agent`, `evaluator`, `guardrail`, or `context-pack`
-- `path` (required) - Path to tool YAML file (e.g., `prompt.yaml`)
+- `path` (required) - Path to tool definition file (e.g., `prompt.md`)
 
 **Examples:**
 
 ```bash
 # Contribute a prompt
-hit contribute prompt lib/prompts/my-prompt/prompt.yaml
+hit contribute prompt lib/prompts/my-prompt/prompt.md
 
 # Contribute an agent
 hit contribute agent lib/agents/my-agent/agent.yaml
@@ -566,7 +566,7 @@ hit contribute context-pack lib/context-packs/react/config.yaml
 ```
 📤 Submitting prompt for review...
 
-  → Validating lib/prompts/my-prompt/prompt.yaml...
+  → Validating lib/prompts/my-prompt/prompt.md...
   → Running quality checks...
 
 ✓ ✅ YAML validation passed
@@ -590,7 +590,7 @@ Next steps:
 ```
 📤 Submitting prompt for review...
 
-  → Validating lib/prompts/my-prompt/prompt.yaml...
+  → Validating lib/prompts/my-prompt/prompt.md...
   → Running quality checks...
 
 ✗ ❌ YAML validation failed

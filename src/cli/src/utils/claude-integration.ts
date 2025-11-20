@@ -19,8 +19,34 @@ interface PromptYaml {
 }
 
 /**
+ * Extracts frontmatter and content from markdown
+ * @param content - Markdown content with frontmatter
+ * @returns Object with frontmatter data and content body
+ */
+function parseFrontmatter(content: string): {
+  data: unknown;
+  content: string;
+} | null {
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+  const match = content.match(frontmatterRegex);
+
+  if (!match) {
+    return null;
+  }
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const data = parseYaml(match[1]);
+    const body = match[2];
+    return { data, content: body };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Creates a Claude Code slash command from a prompt template
- * @param promptPath - Path to the prompt.yaml file
+ * @param promptPath - Path to the prompt.yaml or prompt.md file
  * @param commandName - Name for the slash command (defaults to prompt id)
  * @returns Path to the created command file
  */
@@ -28,13 +54,6 @@ export function createClaudeCommand(
   promptPath: string,
   commandName?: string
 ): string {
-  // Read and parse the prompt.yaml file
-  const yamlContent = readFileSync(promptPath, 'utf-8');
-  const prompt = parseYaml(yamlContent) as PromptYaml;
-
-  // Use provided command name or default to prompt id
-  const cmdName = commandName || prompt.id;
-
   // Determine .claude/commands directory
   const homeDir = process.env.HOME || process.env.USERPROFILE || '~';
   const claudeDir = resolvePath(join(homeDir, '.claude'));
@@ -48,8 +67,32 @@ export function createClaudeCommand(
     mkdirSync(commandsDir, { recursive: true });
   }
 
-  // Generate the command file content
-  const commandContent = generateCommandContent(prompt);
+  let commandContent: string;
+  let cmdName: string;
+
+  // Check if it's a markdown file
+  if (promptPath.endsWith('.md')) {
+    // For markdown files, extract frontmatter to get the ID
+    const content = readFileSync(promptPath, 'utf-8');
+    const parsed = parseFrontmatter(content);
+
+    if (!parsed || !parsed.data || typeof parsed.data !== 'object') {
+      throw new Error('Invalid markdown frontmatter');
+    }
+
+    const frontmatter = parsed.data as { id?: string };
+    cmdName = commandName || frontmatter.id || 'unknown';
+
+    // Use the entire markdown content (frontmatter will be stripped naturally)
+    commandContent = parsed.content;
+  } else {
+    // Legacy YAML handling
+    const yamlContent = readFileSync(promptPath, 'utf-8');
+    const prompt = parseYaml(yamlContent) as PromptYaml;
+
+    cmdName = commandName || prompt.id;
+    commandContent = generateCommandContent(prompt);
+  }
 
   // Write the command file
   const commandFilePath = join(commandsDir, `${cmdName}.md`);

@@ -125,8 +125,15 @@ export async function installCommand(
           logNewLine();
           logStep('Creating Claude Code slash command...');
 
+          // Check for prompt.md first (preferred), then fallback to prompt.yaml
+          const fs = await import('fs');
+          const promptMdPath = join(installPath, 'prompt.md');
           const promptYamlPath = join(installPath, 'prompt.yaml');
-          const commandPath = createClaudeCommand(promptYamlPath, tool.id);
+          const promptPath = fs.existsSync(promptMdPath)
+            ? promptMdPath
+            : promptYamlPath;
+
+          const commandPath = createClaudeCommand(promptPath, tool.id);
 
           logSuccess(`Created slash command: /${tool.id}`);
           logStep('Command file: ' + chalk.cyan(commandPath));

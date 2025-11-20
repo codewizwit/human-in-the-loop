@@ -44,7 +44,7 @@ Every contribution must include:
    - Prerequisites
    - Known limitations
 
-2. **Definition file** (`prompt.yaml`, `agent.yaml`, etc.) following the schema
+2. **Definition file** (`prompt.md`, `agent.yaml`, etc.) following the schema
 
 3. **Metadata**:
 
@@ -139,16 +139,19 @@ All contributions must align with the [Developer-First AI Accountability Framewo
 
 ```
 lib/prompts/[prompt-name]/
-├── prompt.yaml          # Prompt definition
+├── prompt.md            # Prompt definition (Markdown with frontmatter)
 ├── README.md            # Documentation
 └── examples/            # Example usage
     ├── input-1.md
     └── output-1.md
 ```
 
-### prompt.yaml Schema
+### prompt.md Schema
 
-```yaml
+Prompts use **Markdown with YAML frontmatter** format. The frontmatter (between `---` delimiters) contains metadata, and the body contains the prompt template.
+
+```markdown
+---
 id: prompt-name
 name: Human-Readable Name
 description: Brief description of what this prompt does
@@ -170,17 +173,6 @@ contextPacks:
   - typescript
   - testing
 
-# The actual prompt template
-template: |
-  Review this code with focus on {{focus_areas}}:
-
-  {{code}}
-
-  Provide structured feedback with:
-  1. Issues found
-  2. Recommendations
-  3. Positive patterns
-
 # Examples of usage
 examples:
   - name: TypeScript Component Review
@@ -197,6 +189,17 @@ metadata:
   license: MIT
   tags: [typescript, code-review, security]
   estimatedTokens: 500
+---
+
+Review this code with focus on {{focus_areas}}:
+
+{{code}}
+
+Provide structured feedback with:
+
+1. Issues found
+2. Recommendations
+3. Positive patterns
 ```
 
 ### README Template

@@ -165,8 +165,10 @@ Provide complete, runnable test file with:
 
 Use variables for reusable prompts:
 
-```yaml
-# prompt.yaml
+```markdown
+<!-- prompt.md -->
+
+---
 variables:
   - name: framework
     description: 'Frontend framework (React, Angular, Vue)'
@@ -180,11 +182,11 @@ variables:
     description: 'Specific areas to focus on'
     required: false
     defaultValue: 'general best practices'
+---
 
-template: |
-  Review this {{framework}} code with focus on {{focus_areas}}:
+Review this {{framework}} code with focus on {{focus_areas}}:
 
-  {{code}}
+{{code}}
 ```
 
 ---
