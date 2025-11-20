@@ -300,7 +300,7 @@ MIT License - see [LICENSE](./LICENSE)
 
 **Human-in-the-Loop** by [codewizwit](https://github.com/codewizwit)
 
-*Build with empathy. Ship with purpose. Code with joy.*
+*Build with care. Ship with purpose.*
 
 🐛 Found a bug? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
 💡 Have an idea? [Start a discussion](https://github.com/codewizwit/human-in-the-loop/discussions)
