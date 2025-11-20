@@ -681,10 +681,13 @@ For the example: $347K + $1.5K ≈ **$349K/year**
 
 ## Related Resources
 
-- [AWS Deployment Strategy](../aws-deployment-strategy/README.md) - Cloud deployment patterns
 - [System Design Review](../../architecture/system-design-review/README.md) - Architecture validation
 - [E2E Strategy Generator](../../testing/e2e-strategy/README.md) - E2E testing optimization
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+
+Coming soon:
+
+- AWS Deployment Strategy - Cloud deployment patterns
 
 ## Contributing
 
@@ -696,7 +699,7 @@ To improve this pipeline optimization prompt:
 4. Report edge cases or missing optimization opportunities
 5. Contribute cost calculation formulas
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 

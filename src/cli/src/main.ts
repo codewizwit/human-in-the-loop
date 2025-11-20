@@ -5,6 +5,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { searchCommand } from './commands/search';
 import { installCommand } from './commands/install';
+import { updateCommand } from './commands/update';
 import { doctorCommand } from './commands/doctor';
 import { contributeCommand } from './commands/contribute';
 import { statsCommand } from './commands/stats';
@@ -39,6 +40,16 @@ program
   .command('list')
   .description('List all installed tools')
   .action(listCommand);
+
+program
+  .command('update')
+  .description('Update installed tools to latest versions')
+  .argument('[tool]', 'Tool identifier (e.g., prompt/code-review-ts)')
+  .option('--all', 'Update all installed tools')
+  .option('--check', 'Check for updates without installing')
+  .option('--force', 'Force update even if version is the same')
+  .option('--no-backup', 'Skip backup of old version')
+  .action(updateCommand);
 
 program
   .command('doctor')

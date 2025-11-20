@@ -171,7 +171,7 @@ Each audit produces:
 
 ## Integration with ACCOUNTABILITY.md
 
-This audit prompt directly implements the accountability framework defined in [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md):
+This audit prompt directly implements the accountability framework defined in [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md):
 
 - Uses the same four-lens evaluation structure
 - Applies red flag detection from the framework
@@ -217,10 +217,9 @@ This audit prompt directly implements the accountability framework defined in [A
 
 ## Related Resources
 
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Full Developer-First AI Accountability Framework
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Full Developer-First AI Accountability Framework
 - [Bias Detection Prompt](../bias-detection/README.md) - Specialized bias analysis
 - [Security Review Prompt](../security-review/README.md) - Security-focused audits
-- [Code Quality Evaluator](../../evaluators/code-quality/README.md) - Automated quality checks
 
 ## Contributing
 
@@ -231,7 +230,7 @@ To improve this audit framework:
 3. Provide examples of well-designed vs. poorly-designed AI tools
 4. Report gaps in the current audit methodology
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 

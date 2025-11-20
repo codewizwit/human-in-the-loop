@@ -642,7 +642,7 @@ const query = `SELECT * FROM ${tableName} WHERE id = ?`;
 - [Responsible AI Audit](../responsible-ai-audit/README.md) - AI output quality review
 - [Code Review Empathy](../../culture/code-review-empathy/README.md) - Constructive feedback
 - [Unit Test Generator](../../testing/unit-test-generator/README.md) - Security test generation
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
 
 ## Contributing
 
@@ -654,7 +654,7 @@ To improve this security review prompt:
 4. Share secure code examples
 5. Contribute compliance checklists
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 

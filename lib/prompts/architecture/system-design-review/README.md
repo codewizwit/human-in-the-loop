@@ -510,10 +510,13 @@ Review architecture when crossing thresholds:
 ## Related Resources
 
 - [API Design Patterns](../api-design/README.md) - REST/GraphQL API design
-- [Microservices Pattern Prompt](../microservices-pattern/README.md) - Microservices guidance
-- [AWS Deployment Strategy](../../ci-cd/aws-deployment-strategy/README.md) - Cloud deployment
-- [Technical Debt Audit](../../refactoring/technical-debt-audit/README.md) - Debt identification
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+
+Coming soon:
+
+- Microservices Pattern Prompt - Microservices guidance
+- AWS Deployment Strategy - Cloud deployment
+- Technical Debt Audit - Debt identification
 
 ## Contributing
 
@@ -525,7 +528,7 @@ To improve this architectural review prompt:
 4. Report edge cases or missing patterns
 5. Suggest improvements to trade-off analysis
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 

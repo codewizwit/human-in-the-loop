@@ -731,7 +731,7 @@ To improve this bias detection prompt:
 4. Report false positives with context
 5. Contribute examples from different domains
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ## Accountability Statement
 

@@ -76,7 +76,7 @@ Comprehensive TypeScript code review covering type safety, best practices, perfo
 **Version:** 1.2.0
 **Use when:** Reviewing TypeScript code for quality and best practices
 
-[See code-review-ts prompt](./code-review-ts/)
+[See code-review-ts prompt](./code-review-ts/README.md)
 
 ### code-review-empathy
 
@@ -85,7 +85,7 @@ Transform harsh or unclear code review feedback into empathetic, constructive co
 **Version:** 1.0.0
 **Use when:** Before posting PR comments, when giving feedback to team members
 
-[See code-review-empathy prompt](./culture/code-review-empathy/)
+[See code-review-empathy prompt](./culture/code-review-empathy/README.md)
 
 ## Contributing a New Prompt
 

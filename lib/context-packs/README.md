@@ -2,7 +2,7 @@
 
 Cross-cutting patterns and domain knowledge for specialized use cases.
 
-> **Note:** Framework-specific expertise (Angular, NestJS, Nx) is now in [lib/skills](../skills/) with native Claude Code and GitHub Copilot formats.
+> **Note:** Framework-specific expertise (Angular, NestJS, Nx) is now in [lib/skills](../skills/README.md) with native Claude Code and GitHub Copilot formats.
 
 ## Structure
 
@@ -36,7 +36,7 @@ echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitrc.json
 
 ## Available Packs
 
-_(Context packs are for cross-cutting patterns. Framework-specific expertise moved to [lib/skills](../skills/))_
+_(Context packs are for cross-cutting patterns. Framework-specific expertise moved to [lib/skills](../skills/README.md))_
 
 Coming soon:
 
