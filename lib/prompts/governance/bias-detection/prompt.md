@@ -1,7 +1,7 @@
 ---
 id: bias-detection
 name: Bias Detection Analyzer
-version: 1.1.0
+version: 2.0.0
 description: Analyzes AI-generated content and outputs for potential bias across
   protected characteristics including gender, race, age, disability, cultural
   background, and socioeconomic status with specific examples and alternatives

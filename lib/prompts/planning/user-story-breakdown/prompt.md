@@ -1,7 +1,7 @@
 ---
 id: user-story-breakdown
 name: User Story Breakdown
-version: 1.1.0
+version: 2.0.0
 description: Breaks down epics and features into actionable, testable user
   stories following Agile best practices. Generates story points estimates,
   acceptance criteria, technical considerations, and identifies dependencies for

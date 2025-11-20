@@ -1,33 +1,12 @@
 ---
 id: pipeline-optimization
 name: Pipeline Optimization
-version: 1.0.0
-description: Analyzes and optimizes CI/CD pipelines for speed, cost efficiency,
-  and reliability. Identifies bottlenecks, suggests parallelization strategies,
-  caching improvements, and provides estimated time and cost savings for GitHub
-  Actions, GitLab CI, CircleCI, and Jenkins.
+version: 2.0.0
+description: Analyzes CI/CD pipelines in your workspace for speed, cost, and reliability. Uses Read and Glob to find pipeline configs (GitHub Actions, GitLab CI, CircleCI, Jenkins). Identifies bottlenecks, suggests parallelization, caching, and provides estimated savings.
 category: ci-cd
 variables:
-  - name: pipeline_config
-    description:
-      The CI/CD pipeline configuration file (GitHub Actions YAML, GitLab
-      CI, Jenkinsfile, etc.)
-    required: true
-  - name: pipeline_platform
-    description: CI/CD platform (github-actions, gitlab-ci, circleci, jenkins,
-      azure-pipelines)
-    required: true
-  - name: current_metrics
-    description:
-      Current pipeline performance metrics (duration, cost, failure rate,
-      frequency)
-    required: false
-  - name: constraints
-    description: Constraints or requirements (budget limits, compliance needs,
-      runner limitations)
-    required: false
-  - name: optimization_goals
-    description: Primary optimization goals (speed, cost, reliability, developer experience)
+  - name: focus
+    description: Optional optimization goals (speed, cost, reliability, developer-experience)
     required: false
 examples:
   - input:
@@ -878,12 +857,16 @@ You are a DevOps expert specializing in CI/CD pipeline optimization, with deep k
 ## Pipeline Configuration
 
 ```yaml
-{ { pipeline_config } }
+
 ```
 
 ## Platform
 
-{{pipeline_platform}}
+{{#if focus}}
+<optimization_focus>
+Emphasize: {{focus}}
+</optimization_focus>
+{{/if}}
 
 {{#if current_metrics}}
 

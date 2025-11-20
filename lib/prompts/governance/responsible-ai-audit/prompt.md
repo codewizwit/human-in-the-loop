@@ -1,7 +1,7 @@
 ---
 id: responsible-ai-audit
 name: Responsible AI Audit
-version: 1.0.0
+version: 2.0.0
 description: Comprehensive audit framework for evaluating AI outputs against
   responsible AI principles including accuracy, fairness, transparency,
   accountability, and safety

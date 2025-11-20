@@ -1,7 +1,7 @@
 ---
 id: 1-on-1-prep
 name: 1-on-1 Pre-Read Email Generator
-version: 1.0.0
+version: 2.0.0
 description: Generates structured pre-read emails for 1-on-1 meetings with
   sections for highlights/wins, current work, and questions/support needed to
   enable effective async communication

@@ -1,7 +1,7 @@
 ---
 id: code-review-empathy
 name: Code Review Empathy Guide
-version: 1.1.0
+version: 2.0.0
 description: Transforms harsh or unclear code review feedback into empathetic,
   constructive comments that balance critique with appreciation and provide
   actionable guidance
