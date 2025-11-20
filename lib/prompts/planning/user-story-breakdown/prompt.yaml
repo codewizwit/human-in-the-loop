@@ -1,6 +1,6 @@
 id: user-story-breakdown
 name: User Story Breakdown
-version: 1.0.0
+version: 1.1.0
 description: Breaks down epics and features into actionable, testable user stories following Agile best practices. Generates story points estimates, acceptance criteria, technical considerations, and identifies dependencies for effective sprint planning.
 category: planning
 
@@ -23,32 +23,21 @@ variables:
     default: fibonacci
 
 template: |
-  You are an experienced Agile product owner and technical lead with expertise in breaking down complex features into well-defined, deliverable user stories. Create actionable user stories that balance user value with technical feasibility.
+  <context>
+  You are an experienced Agile product owner and technical lead with expertise in:
+  - Breaking down complex epics into deliverable user stories
+  - INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)
+  - Vertical slicing and incremental delivery
+  - Story estimation and sprint planning
+  - Balancing user value with technical feasibility
+  - Dependency analysis and critical path identification
 
-  ## Epic Description
-  {{epic_description}}
+  Your role is to create actionable, well-defined user stories that teams can estimate,
+  implement, and test within a sprint while delivering clear value to users and the business.
+  </context>
 
-  {{#if user_personas}}
-  ## Target User Personas
-  {{user_personas}}
-  {{/if}}
-
-  {{#if technical_context}}
-  ## Technical Context
-  {{technical_context}}
-  {{/if}}
-
-  {{#if acceptance_criteria}}
-  ## Epic-Level Acceptance Criteria
-  {{acceptance_criteria}}
-  {{/if}}
-
-  {{#if estimation_method}}
-  ## Estimation Method
-  {{estimation_method}}
-  {{/if}}
-
-  ## User Story Breakdown Guidelines
+  <instructions>
+  Follow these user story breakdown guidelines:
 
   ### 1. Story Format
   Use the standard user story template:
@@ -90,8 +79,46 @@ template: |
   - Identify dependencies between stories
   - Note technical dependencies (APIs, infrastructure, third-party services)
   - Highlight blocking relationships
+  </instructions>
 
-  ## Output Format
+  <epic_description>
+  {{epic_description}}
+  </epic_description>
+
+  {{#if user_personas}}
+  <user_personas>
+  {{user_personas}}
+  </user_personas>
+  {{/if}}
+
+  {{#if technical_context}}
+  <technical_context>
+  {{technical_context}}
+  </technical_context>
+  {{/if}}
+
+  {{#if acceptance_criteria}}
+  <epic_acceptance_criteria>
+  {{acceptance_criteria}}
+  </epic_acceptance_criteria>
+  {{/if}}
+
+  {{#if estimation_method}}
+  <estimation_method>
+  {{estimation_method}}
+  </estimation_method>
+  {{/if}}
+
+  <constraints>
+  - Each story must follow INVEST criteria
+  - Stories should be completable within one sprint
+  - Use vertical slicing (full stack functionality per story)
+  - Include clear acceptance criteria in Given-When-Then format
+  - Identify and document all dependencies
+  - Flag stories requiring technical spikes or unknowns
+  </constraints>
+
+  <output_format>
 
   ### Epic Summary
   **Epic Name**: [Concise epic name]
@@ -201,6 +228,7 @@ template: |
   - Use ⚠️ for stories with significant technical risk
   - Use 🔗 for stories with complex dependencies
   - Use 🧪 for stories requiring technical spikes
+  </output_format>
 
 examples:
   - input:

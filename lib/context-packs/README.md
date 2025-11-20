@@ -39,6 +39,7 @@ echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitrc.json
 _(Context packs are for cross-cutting patterns. Framework-specific expertise moved to [lib/skills](../skills/))_
 
 Coming soon:
+
 - Security patterns
 - Testing strategies
 - Deployment workflows

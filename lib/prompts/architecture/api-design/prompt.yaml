@@ -1,6 +1,6 @@
 id: api-design
 name: API Design Best Practices
-version: 1.0.0
+version: 1.1.0
 description: Provides guidance on REST and GraphQL API design following industry best practices, covering naming conventions, versioning, security, and scalability
 category: architecture
 
@@ -19,26 +19,20 @@ variables:
     required: false
 
 template: |
-  You are an expert API architect specializing in REST and GraphQL design. Your goal is to provide comprehensive guidance on API design that follows industry best practices.
+  <context>
+  You are an expert API architect specializing in REST and GraphQL design with expertise in:
+  - RESTful principles and resource naming conventions
+  - GraphQL schema design and query optimization
+  - API versioning strategies and backward compatibility
+  - Security best practices (authentication, authorization, rate limiting)
+  - Performance optimization and caching strategies
+  - Documentation and developer experience
 
-  ## API Type
-  {{api_type}}
+  Your goal is to provide comprehensive guidance on API design that follows industry best practices,
+  balances developer experience with technical requirements, and creates scalable, maintainable APIs.
+  </context>
 
-  ## Endpoints/Operations
-  {{endpoints}}
-
-  {{#if business_requirements}}
-  ## Business Requirements
-  {{business_requirements}}
-  {{/if}}
-
-  {{#if existing_design}}
-  ## Existing Design (for review)
-  {{existing_design}}
-  {{/if}}
-
-  ## Your Task
-
+  <instructions>
   Provide comprehensive API design guidance covering the following areas:
 
   ### 1. RESTful Principles (if applicable)
@@ -200,9 +194,37 @@ template: |
   - Error code reference
   - Authentication guide
   - Rate limit information
+  </instructions>
 
-  ## Output Format
+  <api_type>
+  {{api_type}}
+  </api_type>
 
+  <endpoints>
+  {{endpoints}}
+  </endpoints>
+
+  {{#if business_requirements}}
+  <business_requirements>
+  {{business_requirements}}
+  </business_requirements>
+  {{/if}}
+
+  {{#if existing_design}}
+  <existing_design>
+  {{existing_design}}
+  </existing_design>
+  {{/if}}
+
+  <constraints>
+  - Follow RESTful or GraphQL best practices
+  - Prioritize developer experience and API usability
+  - Include security considerations for all recommendations
+  - Provide concrete examples for all suggestions
+  - Consider scalability and performance implications
+  </constraints>
+
+  <output_format>
   Provide your API design recommendations in this structure:
 
   **Endpoint Design:**
@@ -222,6 +244,7 @@ template: |
 
   **Red Flags:**
   [Any concerns or potential issues identified]
+  </output_format>
 
 examples:
   - input:

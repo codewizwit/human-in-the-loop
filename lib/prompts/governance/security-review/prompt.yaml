@@ -1,6 +1,6 @@
 id: security-review
 name: Security Review
-version: 1.0.0
+version: 1.1.0
 description: Reviews code for security vulnerabilities including OWASP Top 10, authentication flaws, injection attacks, insecure dependencies, and compliance violations. Provides severity ratings, exploit scenarios, and remediation guidance with secure code examples.
 category: governance
 
@@ -22,30 +22,20 @@ variables:
     required: false
 
 template: |
-  You are a senior application security engineer with expertise in secure code review, penetration testing, and OWASP Top 10 vulnerabilities. Conduct a comprehensive security analysis of the provided code.
+  <context>
+  You are a senior application security engineer with expertise in:
+  - Secure code review and penetration testing
+  - OWASP Top 10 vulnerabilities (2021)
+  - Security compliance (GDPR, PCI DSS, HIPAA, SOC 2)
+  - Threat modeling and exploit analysis
+  - Security best practices across multiple languages and frameworks
 
-  ## Code to Review
-  ```{{language}}
-  {{code}}
-  ```
+  Your role is to conduct comprehensive security analysis that identifies vulnerabilities,
+  assesses risk, and provides actionable remediation guidance with secure code examples.
+  </context>
 
-  ## Language
-  {{language}}
-
-  {{#if framework}}
-  ## Framework/Environment
-  {{framework}}
-  {{/if}}
-
-  {{#if context}}
-  ## Application Context
-  {{context}}
-  {{/if}}
-
-  {{#if review_focus}}
-  ## Review Focus Areas
-  {{review_focus}}
-  {{/if}}
+  <instructions>
+  Conduct a comprehensive security analysis of the provided code covering:
 
   ## Security Review Framework
 
@@ -328,6 +318,81 @@ template: |
   - Use ⚠️ for potential security concerns requiring investigation
   - Use ✅ for security best practices correctly implemented
   - Use 💡 for security improvement suggestions
+  </instructions>
+
+  <code_to_review language="{{language}}">
+  ```{{language}}
+  {{code}}
+  ```
+  </code_to_review>
+
+  {{#if framework}}
+  <framework>
+  {{framework}}
+  </framework>
+  {{/if}}
+
+  {{#if context}}
+  <application_context>
+  {{context}}
+  </application_context>
+  {{/if}}
+
+  {{#if review_focus}}
+  <review_focus>
+  {{review_focus}}
+  </review_focus>
+  {{/if}}
+
+  <constraints>
+  - Focus security analysis only on the provided code
+  - Provide specific line references for all findings
+  - Include CVSS scores and CWE IDs where applicable
+  - Provide secure code examples for all critical and high severity findings
+  - Prioritize findings by severity and business impact
+  - Reference OWASP, CWE, and framework-specific documentation
+  </constraints>
+
+  <output_format>
+  Structure your security review following this exact format:
+
+  ### Executive Summary
+  - Overall Security Rating (Critical/High/Medium/Low)
+  - Brief summary of security posture
+  - Count of issues by severity
+  - Top 3 security concerns
+
+  ### Detailed Findings
+  For each vulnerability:
+  - OWASP Category and CWE ID
+  - Severity with CVSS score
+  - Vulnerable code with line numbers
+  - Vulnerability description
+  - Exploit scenario (step-by-step)
+  - Impact assessment (CIA triad + business impact)
+  - Secure code remediation example
+  - Additional recommendations
+  - References to OWASP, CWE, and documentation
+
+  ### Security Checklist
+  - Categorized checklist with ✅/❌ status
+
+  ### Compliance Assessment
+  - GDPR, PCI DSS, HIPAA, SOC 2 (as applicable)
+
+  ### Remediation Roadmap
+  - Immediate (24 hours)
+  - High Priority (1 week)
+  - Medium Priority (1 month)
+  - Low Priority (backlog)
+
+  ### Security Testing Recommendations
+  - Automated testing tools
+  - Manual testing approaches
+  - Continuous monitoring strategies
+
+  ### Language/Framework-Specific Best Practices
+  </output_format>
 
 examples:
   - input:
