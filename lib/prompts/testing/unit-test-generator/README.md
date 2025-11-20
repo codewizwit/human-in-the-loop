@@ -450,9 +450,7 @@ Generates tests using:
 ## Related Resources
 
 - [E2E Strategy Generator](../e2e-strategy/README.md) - End-to-end test planning
-- [Test-Driven Development Guide](../../../docs/ai-best-practices.md#testing) - TDD best practices
-- [Code Quality Evaluator](../../evaluators/code-quality/README.md) - Automated quality checks
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Responsible AI usage guidelines
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage guidelines
 
 ## Contributing
 
@@ -463,7 +461,7 @@ To improve this test generator:
 3. Report framework-specific issues or missing patterns
 4. Provide domain-specific test templates (e.g., React hooks, Angular services)
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 

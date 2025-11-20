@@ -615,10 +615,13 @@ Technical: Refactor auth module to reduce login time from 2s to <500ms
 
 ## Related Resources
 
-- [Technical Spike Template](../technical-spike-template/README.md) - Research task planning
-- [API Documentation Generator](../../documentation/api-documentation.md) - Document APIs
 - [E2E Strategy Generator](../../testing/e2e-strategy/README.md) - Test planning
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+
+Coming soon:
+
+- Technical Spike Template - Research task planning
+- API Documentation Generator - Document APIs
 
 ## Contributing
 
@@ -630,7 +633,7 @@ To improve this user story breakdown prompt:
 4. Report edge cases or missing considerations
 5. Contribute estimation calibration data
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 

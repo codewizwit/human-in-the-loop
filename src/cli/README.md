@@ -30,6 +30,12 @@ hit install prompt/code-review-ts
 # List installed tools
 hit list
 
+# Check for updates
+hit update --check
+
+# Update all tools
+hit update --all
+
 # Validate environment
 hit doctor
 ```
@@ -100,6 +106,42 @@ List all installed tools from your registry.
 ```bash
 hit list
 ```
+
+### `hit update [tool]`
+
+Update installed tools to their latest versions.
+
+```bash
+# Check for available updates
+hit update --check
+
+# Update a specific tool
+hit update prompt/code-review-ts
+
+# Update all installed tools
+hit update --all
+
+# Force update even if version is the same
+hit update prompt/code-review-ts --force
+
+# Update without creating backup
+hit update prompt/code-review-ts --no-backup
+```
+
+**Options:**
+
+- `--all` - Update all installed tools
+- `--check` - Check for updates without installing
+- `--force` - Force update even if version is the same
+- `--no-backup` - Skip backup of old version
+
+**Semantic Versioning:**
+
+Updates are determined by comparing semantic versions (e.g., `1.0.0` → `1.1.0`). The command:
+
+1. **Creates backups** - Previous version saved with timestamp (e.g., `~/.claude/tools/code-review-ts.backup-1234567890`)
+2. **Copies new files** - Latest version from the library
+3. **Updates registry** - Tracks new version and update timestamp
 
 ### `hit doctor`
 

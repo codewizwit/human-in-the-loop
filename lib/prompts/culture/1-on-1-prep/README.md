@@ -550,7 +550,7 @@ This week I worked on several things including the design system migration which
 
 - [Code Review Empathy](../code-review-empathy/README.md) - Constructive feedback practices
 - [User Story Breakdown](../../planning/user-story-breakdown/README.md) - Project planning alignment
-- [ACCOUNTABILITY.md](../../../ACCOUNTABILITY.md) - Responsible AI usage guidelines
+- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage guidelines
 - [Communication Best Practices](https://www.manager-tools.com/manager-tools-basics) - Manager Tools podcast
 
 ## Further Reading
@@ -569,7 +569,7 @@ To improve this pre-read generator:
 3. Provide templates for specific roles or situations
 4. Share outcomes from using structured pre-reads
 
-See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
 
 ---
 
