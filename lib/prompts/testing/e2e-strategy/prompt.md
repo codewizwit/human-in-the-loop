@@ -1,44 +1,21 @@
 ---
 id: e2e-strategy
 name: E2E Testing Strategy Generator
-version: 1.1.0
-description: Generates comprehensive end-to-end testing strategy using
-  Playwright or Cypress, covering critical user flows, test organization, and
-  best practices
+version: 2.0.0
+description: Analyzes your application to generate comprehensive E2E testing strategy. Detects framework (Playwright/Cypress), identifies critical user flows, and creates test plans. Uses Read and Glob to understand codebase structure and existing tests.
 category: testing
 variables:
-  - name: framework
-    description: The E2E testing framework (Playwright, Cypress, or other)
-    required: true
-  - name: app_type
-    description: Type of application (Web app, SPA, SSR, Mobile web, PWA, etc.)
-    required: true
-  - name: critical_flows
-    description: List of critical user flows that must be tested
-    required: true
-  - name: tech_stack
-    description: Technology stack and frameworks used (React, Angular, Vue, etc.)
-    required: false
-  - name: existing_tests
-    description: Existing test setup to review or improve (optional)
+  - name: focus
+    description: Optional focus areas (auth-flows, payment-flows, critical-paths, etc.)
     required: false
 examples:
-  - input:
-      framework: Playwright
-      app_type: SPA (React)
-      critical_flows: |
-        1. User registration and email verification
-        2. User login (email/password and Google OAuth)
-        3. Create new project
-        4. Invite team member to project
-        5. Upgrade to paid plan
-        6. Cancel subscription
-      tech_stack: |
-        - React 18 with TypeScript
-        - React Router for navigation
-        - TanStack Query for data fetching
-        - Auth0 for authentication
-        - Stripe for payments
+  - description: Generate E2E strategy for entire application
+    input:
+      user_message: "Analyze the application and create a comprehensive E2E testing strategy"
+  - description: Focus on authentication flows
+    input:
+      focus: "auth-flows"
+      user_message: "Create E2E tests for all authentication and authorization flows"
     output: >
       **Test Scope & Prioritization:**
 
@@ -575,7 +552,23 @@ test reliability, execution speed, and developer productivity.
 </context>
 
 <instructions>
-Create a comprehensive E2E testing strategy covering the following areas:
+Analyze the application workspace and create a comprehensive E2E testing strategy.
+
+## Analysis Approach
+
+1. **Discovery Phase**:
+   - Use Glob to find application code, routes, and components
+   - Read package.json to detect E2E framework (Playwright, Cypress, or recommend one)
+   - Find existing E2E tests using Glob (e2e/, tests/, cypress/, playwright/)
+   - Identify application type (SPA, SSR, PWA) from build config
+
+2. **Flow Analysis Phase**:
+   - Use Read to examine routing files to identify user flows
+   - Analyze authentication implementation
+   - Identify API endpoints and integrations
+   - Map critical user journeys from code structure
+
+3. **Strategy Creation** covering the following areas:
 
 ### 1. Test Organization & Structure
 
@@ -792,31 +785,16 @@ class LoginPage {
 - Link to test run in CI
   </instructions>
 
-<framework>
-{{framework}}
-</framework>
-
-<app_type>
-{{app_type}}
-</app_type>
-
-<critical_flows>
-{{critical_flows}}
-</critical_flows>
-
-{{#if tech_stack}}
-<tech_stack>
-{{tech_stack}}
-</tech_stack>
-{{/if}}
-
-{{#if existing_tests}}
-<existing_tests>
-{{existing_tests}}
-</existing_tests>
+{{#if focus}}
+<strategy_focus>
+Emphasize these testing areas: {{focus}}
+</strategy_focus>
 {{/if}}
 
 <constraints>
+- Use Read, Grep, and Glob tools to analyze the application structure
+- Detect E2E framework from package.json or recommend one
+- Identify user flows from routing and component structure
 - Prioritize test reliability over extensive coverage
 - Minimize test execution time through parallelization
 - Follow framework-specific best practices
