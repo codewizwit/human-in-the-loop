@@ -109,6 +109,7 @@ hit install <tool> [options]
 **Options:**
 
 - `--path, -p <path>` - Installation path (skips interactive prompt)
+- `--claude-command, -c` - Create Claude Code slash command (prompts only)
 
 **Examples:**
 
@@ -121,6 +122,12 @@ hit install prompt/code-review-ts --path ~/my-tools/prompts
 
 # Install to specific location
 hit install agent/test-generator -p ~/.claude/tools/agent/test-generator
+
+# Install with Claude Code integration
+hit install prompt/security-review --claude-command
+
+# Combine path and Claude Code integration
+hit install prompt/security-review --path ~/.claude/tools/prompt/security-review --claude-command
 ```
 
 **Interactive Flow:**
@@ -152,6 +159,57 @@ If a tool is already installed, the CLI prompts for confirmation:
 
 ? Do you want to reinstall? (y/N)
 ```
+
+**Claude Code Integration:**
+
+The `--claude-command` flag automatically creates a Claude Code slash command for installed prompts:
+
+```bash
+hit install prompt/security-review --claude-command
+```
+
+**Output:**
+
+```
+📦 Installing prompt/security-review...
+
+  → Looking up tool...
+  → Copying tool files...
+  → Registering installation...
+
+✓ Successfully installed Security Review (v1.1.0)
+  → Installed to: ~/.claude/tools/prompt/security-review
+
+  → Creating Claude Code slash command...
+✓ Created slash command: /security-review
+  → Command file: ~/.claude/commands/security-review.md
+  → Use /security-review in Claude Code to activate this prompt
+
+💡 Tip: Use hit list to see all installed tools
+```
+
+**How it works:**
+
+1. Extracts the prompt template from `prompt.yaml`
+2. Creates `~/.claude/commands/{prompt-id}.md`
+3. Includes variable documentation as comments
+4. Makes the prompt available as a slash command in Claude Code
+
+**Usage in Claude Code:**
+
+After installing with `--claude-command`, open Claude Code and type:
+
+```
+/security-review
+```
+
+The prompt will be activated and ready to use with your code.
+
+**Limitations:**
+
+- Only works for **prompt** type tools (not agents, skills, or context packs)
+- Requires `~/.claude` directory to exist or be creatable
+- If Claude Code integration fails, installation still succeeds (shows warning)
 
 ---
 
