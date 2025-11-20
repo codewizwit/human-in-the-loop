@@ -450,7 +450,7 @@ Generates tests using:
 ## Related Resources
 
 - [E2E Strategy Generator](../e2e-strategy/README.md) - End-to-end test planning
-- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage guidelines
+- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Responsible AI usage guidelines
 
 ## Contributing
 

@@ -20,7 +20,7 @@ Comprehensive guide to responsible AI usage, prompt engineering, and optimizatio
 
 ### Core Principles
 
-Always apply the [Developer-First AI Accountability Framework](../ACCOUNTABILITY.md) when using AI tools:
+Always apply the [Developer-First Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md) when using AI tools:
 
 1. **Developer Experience & Growth** - AI should enhance, not replace, developer judgment and learning
 2. **Responsibility & Equity** - Ensure fair access and clear accountability
@@ -165,26 +165,31 @@ Provide complete, runnable test file with:
 
 Use variables for reusable prompts:
 
-```yaml
-# prompt.yaml
+```markdown
+<!-- prompt.md -->
+
+---
+
 variables:
-  - name: framework
-    description: 'Frontend framework (React, Angular, Vue)'
-    required: true
 
-  - name: code
-    description: 'Code to review'
-    required: true
+- name: framework
+  description: 'Frontend framework (React, Angular, Vue)'
+  required: true
 
-  - name: focus_areas
-    description: 'Specific areas to focus on'
-    required: false
-    defaultValue: 'general best practices'
+- name: code
+  description: 'Code to review'
+  required: true
 
-template: |
-  Review this {{framework}} code with focus on {{focus_areas}}:
+- name: focus_areas
+  description: 'Specific areas to focus on'
+  required: false
+  defaultValue: 'general best practices'
 
-  {{code}}
+---
+
+Review this {{framework}} code with focus on {{focus_areas}}:
+
+{{code}}
 ```
 
 ---
@@ -483,7 +488,7 @@ AI generates code that "works" but is hard to maintain.
 
 Before using AI in your workflow:
 
-- [ ] Read the [Accountability Framework](../ACCOUNTABILITY.md)
+- [ ] Read the [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md)
 - [ ] Install relevant context packs for your tech stack
 - [ ] Configure evaluators for your quality standards
 - [ ] Set up guardrails for security and compliance
@@ -495,7 +500,7 @@ Before using AI in your workflow:
 
 ## Additional Resources
 
-- [Accountability Framework](../ACCOUNTABILITY.md) - Developer-first AI principles
+- [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md) - Developer-first AI principles
 - [Toolkit Usage](./toolkit-usage.md) - How to use prompts, agents, evaluators
 - [Contributing Guidelines](./contributing-guidelines.md) - Submit your own prompts
 - [Governance Model](./governance-model.md) - Quality standards and review process

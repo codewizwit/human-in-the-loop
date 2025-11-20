@@ -146,6 +146,7 @@ function scanDirectory(
  */
 function findConfigFile(toolDir: string): string | null {
   const possibleFiles = [
+    'prompt.md', // Markdown with frontmatter (preferred)
     'prompt.yaml',
     'prompt.yml',
     'agent.yaml',
@@ -166,9 +167,35 @@ function findConfigFile(toolDir: string): string | null {
 }
 
 /**
+ * Extracts frontmatter from markdown content
+ * @param content - The markdown content
+ * @returns Object containing frontmatter data and content body
+ */
+function parseFrontmatter(content: string): {
+  data: unknown;
+  content: string;
+} | null {
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+  const match = content.match(frontmatterRegex);
+
+  if (!match) {
+    return null;
+  }
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const data = parse(match[1]);
+    const body = match[2];
+    return { data, content: body };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Parses a tool configuration file and creates a Tool object
  * @param toolDir - The directory containing the tool
- * @param configFile - The full path to the configuration YAML or JSON file
+ * @param configFile - The full path to the configuration file (YAML, JSON, or Markdown with frontmatter)
  * @param type - The type of tool being parsed (prompt, agent, evaluator, guardrail, context-pack, skill)
  * @returns A Tool object if parsing succeeds and required fields are present, null otherwise
  */
@@ -181,9 +208,18 @@ function parseToolConfig(
     const content = fs.readFileSync(configFile, 'utf-8');
 
     let config: unknown;
+
     if (configFile.endsWith('.json')) {
       config = JSON.parse(content);
+    } else if (configFile.endsWith('.md')) {
+      // Parse markdown with frontmatter
+      const parsed = parseFrontmatter(content);
+      if (!parsed) {
+        return null;
+      }
+      config = parsed.data;
     } else {
+      // Parse YAML
       config = parse(content);
     }
 

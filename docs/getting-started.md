@@ -198,7 +198,7 @@ hit doctor
 Submit a new tool for review.
 
 ```bash
-hit contribute prompt ./my-prompt.yaml
+hit contribute prompt ./my-prompt.md
 hit contribute agent ./my-agent/
 ```
 

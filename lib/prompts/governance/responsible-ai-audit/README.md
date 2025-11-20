@@ -4,7 +4,7 @@ Comprehensive audit framework for evaluating AI outputs against responsible AI p
 
 ## Overview
 
-This prompt provides a structured methodology for auditing AI Tooling using the four-lens Developer-First AI Accountability Framework:
+This prompt provides a structured methodology for auditing AI Tooling using the four-lens Developer-First Responsible AI Playbook:
 
 1. **Developer Experience & Growth** - Does it enhance or undermine learning and autonomy?
 2. **Responsibility & Equity** - Are benefits distributed fairly across all team members?
@@ -169,9 +169,9 @@ Each audit produces:
 - **Do Not Deploy**: Fails multiple lenses, significant risks outweigh benefits
 - **Needs Redesign**: Fundamental issues requiring architectural changes
 
-## Integration with ACCOUNTABILITY.md
+## Integration with RESPONSIBLE-AI-PLAYBOOK.md
 
-This audit prompt directly implements the accountability framework defined in [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md):
+This audit prompt directly implements the Responsible AI Playbook defined in [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md):
 
 - Uses the same four-lens evaluation structure
 - Applies red flag detection from the framework
@@ -217,7 +217,7 @@ This audit prompt directly implements the accountability framework defined in [A
 
 ## Related Resources
 
-- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Full Developer-First AI Accountability Framework
+- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Full Developer-First Responsible AI Playbook
 - [Bias Detection Prompt](../bias-detection/README.md) - Specialized bias analysis
 - [Security Review Prompt](../security-review/README.md) - Security-focused audits
 

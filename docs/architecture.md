@@ -174,7 +174,7 @@ Located in `src/governance/checks/`:
 
 ```
 lib/prompts/[prompt-name]/
-├── prompt.yaml              # Prompt definition
+├── prompt.md                # Prompt definition (Markdown with frontmatter)
 ├── README.md                # Documentation
 ├── examples/                # Usage examples
 │   ├── input-1.md

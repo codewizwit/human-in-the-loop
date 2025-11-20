@@ -642,7 +642,7 @@ const query = `SELECT * FROM ${tableName} WHERE id = ?`;
 - [Responsible AI Audit](../responsible-ai-audit/README.md) - AI output quality review
 - [Code Review Empathy](../../culture/code-review-empathy/README.md) - Constructive feedback
 - [Unit Test Generator](../../testing/unit-test-generator/README.md) - Security test generation
-- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Responsible AI usage
 
 ## Contributing
 

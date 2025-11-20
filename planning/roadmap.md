@@ -155,7 +155,7 @@ This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are 
 ### ✅ Fully Covered (4 areas)
 
 1. TypeScript/JavaScript Expertise - Code review prompts
-2. Governance Framework - ACCOUNTABILITY.md, governance model
+2. Governance Framework - RESPONSIBLE-AI-PLAYBOOK.md, governance model
 3. CLI Tooling - CLI structure and documentation
 4. Monorepo Experience - Nx workspace configured
 

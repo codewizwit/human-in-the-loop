@@ -683,7 +683,7 @@ For the example: $347K + $1.5K ≈ **$349K/year**
 
 - [System Design Review](../../architecture/system-design-review/README.md) - Architecture validation
 - [E2E Strategy Generator](../../testing/e2e-strategy/README.md) - E2E testing optimization
-- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Responsible AI usage
 
 Coming soon:
 

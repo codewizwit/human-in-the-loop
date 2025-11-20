@@ -616,7 +616,7 @@ Technical: Refactor auth module to reduce login time from 2s to <500ms
 ## Related Resources
 
 - [E2E Strategy Generator](../../testing/e2e-strategy/README.md) - Test planning
-- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Responsible AI usage
 
 Coming soon:
 

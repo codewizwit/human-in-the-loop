@@ -1,9 +1,12 @@
+---
 id: user-story-breakdown
 name: User Story Breakdown
-version: 1.1.0
-description: Breaks down epics and features into actionable, testable user stories following Agile best practices. Generates story points estimates, acceptance criteria, technical considerations, and identifies dependencies for effective sprint planning.
+version: 2.0.0
+description: Breaks down epics and features into actionable, testable user
+  stories following Agile best practices. Generates story points estimates,
+  acceptance criteria, technical considerations, and identifies dependencies for
+  effective sprint planning.
 category: planning
-
 variables:
   - name: epic_description
     description: High-level description of the epic or feature to break down
@@ -21,221 +24,18 @@ variables:
     description: Preferred estimation method (fibonacci, t-shirt-sizes, hours)
     required: false
     default: fibonacci
-
-template: |
-  <context>
-  You are an experienced Agile product owner and technical lead with expertise in:
-  - Breaking down complex epics into deliverable user stories
-  - INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)
-  - Vertical slicing and incremental delivery
-  - Story estimation and sprint planning
-  - Balancing user value with technical feasibility
-  - Dependency analysis and critical path identification
-
-  Your role is to create actionable, well-defined user stories that teams can estimate,
-  implement, and test within a sprint while delivering clear value to users and the business.
-  </context>
-
-  <instructions>
-  Follow these user story breakdown guidelines:
-
-  ### 1. Story Format
-  Use the standard user story template:
-  ```
-  As a [role/persona]
-  I want [feature/capability]
-  So that [benefit/value]
-  ```
-
-  ### 2. INVEST Criteria
-  Ensure each story is:
-  - **Independent**: Can be developed separately
-  - **Negotiable**: Details can be discussed with stakeholders
-  - **Valuable**: Delivers clear value to users or business
-  - **Estimable**: Team can estimate effort
-  - **Small**: Completable within a sprint (1-2 weeks)
-  - **Testable**: Clear acceptance criteria for validation
-
-  ### 3. Vertical Slicing
-  - Stories should be vertical slices (full stack: UI, API, database)
-  - Avoid horizontal stories (e.g., "Build entire database layer")
-  - Each story should deliver end-to-end functionality
-
-  ### 4. Acceptance Criteria
-  Each story must include:
-  - **Given-When-Then** format for behavior scenarios
-  - Clear, testable conditions for completion
-  - Edge cases and error handling
-  - Non-functional requirements (performance, security, accessibility)
-
-  ### 5. Story Sizing
-  - **Small (1-3 points)**: Simple CRUD, UI updates, minor features
-  - **Medium (5-8 points)**: Integration work, moderate complexity
-  - **Large (13+ points)**: Too large, needs further breakdown
-
-  If a story is >8 points, break it down further.
-
-  ### 6. Dependencies
-  - Identify dependencies between stories
-  - Note technical dependencies (APIs, infrastructure, third-party services)
-  - Highlight blocking relationships
-  </instructions>
-
-  <epic_description>
-  {{epic_description}}
-  </epic_description>
-
-  {{#if user_personas}}
-  <user_personas>
-  {{user_personas}}
-  </user_personas>
-  {{/if}}
-
-  {{#if technical_context}}
-  <technical_context>
-  {{technical_context}}
-  </technical_context>
-  {{/if}}
-
-  {{#if acceptance_criteria}}
-  <epic_acceptance_criteria>
-  {{acceptance_criteria}}
-  </epic_acceptance_criteria>
-  {{/if}}
-
-  {{#if estimation_method}}
-  <estimation_method>
-  {{estimation_method}}
-  </estimation_method>
-  {{/if}}
-
-  <constraints>
-  - Each story must follow INVEST criteria
-  - Stories should be completable within one sprint
-  - Use vertical slicing (full stack functionality per story)
-  - Include clear acceptance criteria in Given-When-Then format
-  - Identify and document all dependencies
-  - Flag stories requiring technical spikes or unknowns
-  </constraints>
-
-  <output_format>
-
-  ### Epic Summary
-  **Epic Name**: [Concise epic name]
-  **Epic Goal**: [One sentence describing the epic's purpose]
-  **User Value**: [Why this matters to users]
-  **Business Value**: [Why this matters to the business]
-
-  ### User Stories
-
-  For each user story:
-
-  #### Story [Number]: [Story Title]
-  **Priority**: High / Medium / Low
-  **Story Points**: [Estimate using specified method]
-  **Sprint Ready**: Yes / No (if No, explain what's missing)
-
-  **User Story**:
-  ```
-  As a [role]
-  I want [feature]
-  So that [benefit]
-  ```
-
-  **Acceptance Criteria**:
-  - [ ] **Given** [context], **When** [action], **Then** [outcome]
-  - [ ] **Given** [context], **When** [action], **Then** [outcome]
-  - [ ] [Additional criteria as needed]
-
-  **Technical Considerations**:
-  - [Technical implementation notes]
-  - [Potential challenges or unknowns]
-  - [Required infrastructure or services]
-
-  **Dependencies**:
-  - Depends on: [Story numbers or external dependencies]
-  - Blocks: [Story numbers that depend on this]
-
-  **Testing Strategy**:
-  - Unit tests: [What to test]
-  - Integration tests: [What to test]
-  - E2E tests: [User flows to validate]
-
-  **Definition of Done**:
-  - [ ] Code complete and reviewed
-  - [ ] Tests written and passing
-  - [ ] Documentation updated
-  - [ ] Acceptance criteria met
-  - [ ] Deployed to staging
-  - [ ] Product owner approval
-
-  ---
-
-  ### Story Breakdown Summary
-
-  **Total Stories**: [Number]
-  **Total Story Points**: [Sum]
-  **Estimated Sprints**: [Number] (assuming [X] points per sprint)
-
-  **Story Distribution**:
-  - High Priority: [X] stories ([Y] points)
-  - Medium Priority: [X] stories ([Y] points)
-  - Low Priority: [X] stories ([Y] points)
-
-  **Recommended Sprint Plan**:
-  - Sprint 1: [List story numbers and titles]
-  - Sprint 2: [List story numbers and titles]
-  - Sprint 3: [List story numbers and titles]
-
-  ### Dependency Graph
-
-  ```
-  [Visual representation of story dependencies]
-  Story 1 → Story 2 → Story 5
-  Story 1 → Story 3 → Story 6
-  Story 4 (independent)
-  ```
-
-  ### Risks and Assumptions
-
-  **Risks**:
-  - [Risk description and mitigation strategy]
-  - [Risk description and mitigation strategy]
-
-  **Assumptions**:
-  - [Assumption that needs validation]
-  - [Assumption that needs validation]
-
-  **Open Questions**:
-  - [Question for stakeholders]
-  - [Question for technical team]
-
-  ### Technical Spikes Needed
-
-  If technical unknowns exist:
-
-  **Spike [Number]: [Spike Title]**
-  - **Goal**: [What to investigate]
-  - **Time Box**: [Hours/days]
-  - **Success Criteria**: [What decision or knowledge to gain]
-  - **Blocks**: [Story numbers]
-
-  ## Special Markers
-
-  - Use 🔴 for high-priority stories (must-have for MVP)
-  - Use 🟡 for medium-priority stories (important but not critical)
-  - Use 🟢 for low-priority stories (nice-to-have)
-  - Use ⚠️ for stories with significant technical risk
-  - Use 🔗 for stories with complex dependencies
-  - Use 🧪 for stories requiring technical spikes
-  </output_format>
-
 examples:
   - input:
-      epic_description: |
-        Build a user authentication system for the application, allowing users to
-        sign up, log in, reset passwords, and manage their profiles. Must support
-        email/password authentication and OAuth (Google, GitHub). Includes role-based
+      epic_description: >
+        Build a user authentication system for the application, allowing users
+        to
+
+        sign up, log in, reset passwords, and manage their profiles. Must
+        support
+
+        email/password authentication and OAuth (Google, GitHub). Includes
+        role-based
+
         access control (RBAC) with admin and user roles.
       user_personas: |
         - End Users: Need to create accounts and access the application
@@ -252,387 +52,735 @@ examples:
         - Admins can view and manage all users
         - Proper role-based access control enforced
       estimation_method: fibonacci
-    output: |
+    output: >
       # User Authentication System - Story Breakdown
+
 
       ## Epic Summary
 
+
       **Epic Name**: User Authentication & Access Control
-      **Epic Goal**: Enable secure user registration, authentication, and role-based access control
-      **User Value**: Users can securely access the application with multiple auth options and manage their profiles
-      **Business Value**: Secure user management foundation for application growth, reduced support burden with self-service
+
+      **Epic Goal**: Enable secure user registration, authentication, and
+      role-based access control
+
+      **User Value**: Users can securely access the application with multiple
+      auth options and manage their profiles
+
+      **Business Value**: Secure user management foundation for application
+      growth, reduced support burden with self-service
+
 
       ---
+
 
       ## User Stories
 
+
       ### Story 1: Email/Password Sign Up
+
       **Priority**: 🔴 High
+
       **Story Points**: 5
+
       **Sprint Ready**: Yes
 
+
       **User Story**:
+
       ```
+
       As a new user
+
       I want to create an account with my email and password
+
       So that I can access the application
+
       ```
+
 
       **Acceptance Criteria**:
-      - [ ] **Given** I am on the sign-up page, **When** I enter valid email and password, **Then** my account is created and I am logged in
-      - [ ] **Given** I enter an invalid email format, **When** I submit, **Then** I see a validation error
-      - [ ] **Given** I enter a weak password (<8 chars, no special chars), **When** I submit, **Then** I see password requirements
-      - [ ] **Given** I try to sign up with an existing email, **When** I submit, **Then** I see "Email already registered" error
-      - [ ] **Given** I successfully sign up, **When** account is created, **Then** I receive a welcome email
+
+      - [ ] **Given** I am on the sign-up page, **When** I enter valid email and
+      password, **Then** my account is created and I am logged in
+
+      - [ ] **Given** I enter an invalid email format, **When** I submit,
+      **Then** I see a validation error
+
+      - [ ] **Given** I enter a weak password (<8 chars, no special chars),
+      **When** I submit, **Then** I see password requirements
+
+      - [ ] **Given** I try to sign up with an existing email, **When** I
+      submit, **Then** I see "Email already registered" error
+
+      - [ ] **Given** I successfully sign up, **When** account is created,
+      **Then** I receive a welcome email
+
 
       **Technical Considerations**:
+
       - Use bcrypt for password hashing (10 rounds)
-      - PostgreSQL schema: users table (id, email, password_hash, created_at, updated_at)
+
+      - PostgreSQL schema: users table (id, email, password_hash, created_at,
+      updated_at)
+
       - Email validation regex on frontend and backend
-      - Password requirements: min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
+
+      - Password requirements: min 8 chars, 1 uppercase, 1 lowercase, 1 number,
+      1 special char
+
       - Use nodemailer for welcome email
+
       - Rate limiting on sign-up endpoint (5 attempts per IP per hour)
 
+
       **Dependencies**:
+
       - Depends on: None (foundational story)
+
       - Blocks: Story 2 (Login), Story 4 (Profile Management)
 
+
       **Testing Strategy**:
+
       - Unit tests: Password hashing, email validation, user creation
+
       - Integration tests: Sign-up API endpoint with database
+
       - E2E tests: Complete sign-up flow in browser
 
+
       **Definition of Done**:
+
       - [x] Code complete and reviewed
+
       - [x] Tests written and passing (>80% coverage)
+
       - [x] Documentation updated (API docs, password requirements)
+
       - [x] Acceptance criteria met
+
       - [x] Deployed to staging
+
       - [x] Product owner approval
 
+
       ---
+
 
       ### Story 2: Email/Password Login
+
       **Priority**: 🔴 High
+
       **Story Points**: 3
+
       **Sprint Ready**: Yes
 
+
       **User Story**:
+
       ```
+
       As a registered user
+
       I want to log in with my email and password
+
       So that I can access my account
+
       ```
+
 
       **Acceptance Criteria**:
-      - [ ] **Given** I enter correct email and password, **When** I submit, **Then** I am logged in and redirected to dashboard
-      - [ ] **Given** I enter incorrect password, **When** I submit, **Then** I see "Invalid credentials" error (no email leak)
-      - [ ] **Given** I enter non-existent email, **When** I submit, **Then** I see "Invalid credentials" error
-      - [ ] **Given** I successfully log in, **When** session is created, **Then** I receive a JWT token valid for 24 hours
-      - [ ] **Given** I am logged in, **When** I refresh the page, **Then** I remain logged in
+
+      - [ ] **Given** I enter correct email and password, **When** I submit,
+      **Then** I am logged in and redirected to dashboard
+
+      - [ ] **Given** I enter incorrect password, **When** I submit, **Then** I
+      see "Invalid credentials" error (no email leak)
+
+      - [ ] **Given** I enter non-existent email, **When** I submit, **Then** I
+      see "Invalid credentials" error
+
+      - [ ] **Given** I successfully log in, **When** session is created,
+      **Then** I receive a JWT token valid for 24 hours
+
+      - [ ] **Given** I am logged in, **When** I refresh the page, **Then** I
+      remain logged in
+
 
       **Technical Considerations**:
+
       - JWT token generation with jsonwebtoken library
+
       - Token payload: { userId, email, role, exp }
+
       - Store token in httpOnly cookie (prevent XSS)
+
       - Compare password with bcrypt.compare()
+
       - Rate limiting on login endpoint (10 attempts per IP per 15 min)
+
       - Log failed login attempts for security monitoring
 
+
       **Dependencies**:
+
       - Depends on: Story 1 (Sign Up - need user accounts)
+
       - Blocks: Story 5 (OAuth Login), Story 7 (Admin User Management)
 
+
       **Testing Strategy**:
+
       - Unit tests: JWT generation, password comparison
+
       - Integration tests: Login API with valid/invalid credentials
+
       - E2E tests: Login flow, session persistence
 
+
       **Definition of Done**:
+
       - [x] Code complete and reviewed
+
       - [x] Tests written and passing
+
       - [x] Documentation updated
+
       - [x] Acceptance criteria met
+
       - [x] Deployed to staging
+
       - [x] Product owner approval
 
+
       ---
+
 
       ### Story 3: Password Reset Flow
+
       **Priority**: 🔴 High
+
       **Story Points**: 8
+
       **Sprint Ready**: Yes
 
+
       **User Story**:
+
       ```
+
       As a user who forgot my password
+
       I want to reset it via email
+
       So that I can regain access to my account
+
       ```
+
 
       **Acceptance Criteria**:
-      - [ ] **Given** I click "Forgot Password", **When** I enter my email, **Then** I receive a password reset link via email
-      - [ ] **Given** I receive the reset email, **When** I click the link, **Then** I am taken to a reset password page
-      - [ ] **Given** I am on the reset page with valid token, **When** I enter new password, **Then** my password is updated
-      - [ ] **Given** the reset token is expired (>1 hour old), **When** I try to use it, **Then** I see "Link expired" error
-      - [ ] **Given** I reset my password, **When** successful, **Then** all previous sessions are invalidated
+
+      - [ ] **Given** I click "Forgot Password", **When** I enter my email,
+      **Then** I receive a password reset link via email
+
+      - [ ] **Given** I receive the reset email, **When** I click the link,
+      **Then** I am taken to a reset password page
+
+      - [ ] **Given** I am on the reset page with valid token, **When** I enter
+      new password, **Then** my password is updated
+
+      - [ ] **Given** the reset token is expired (>1 hour old), **When** I try
+      to use it, **Then** I see "Link expired" error
+
+      - [ ] **Given** I reset my password, **When** successful, **Then** all
+      previous sessions are invalidated
+
 
       **Technical Considerations**:
+
       - Generate secure reset token (crypto.randomBytes(32))
+
       - Store token hash in database with expiration (1 hour)
+
       - Send email with reset link: /reset-password?token=XXX
+
       - Validate token on reset page load
-      - Invalidate all JWTs for user on password change (token blacklist or version number)
+
+      - Invalidate all JWTs for user on password change (token blacklist or
+      version number)
+
       - Rate limiting on reset request (3 per email per hour)
 
+
       **Dependencies**:
+
       - Depends on: Story 1 (Sign Up), Story 2 (Login)
+
       - Blocks: None
 
+
       **Testing Strategy**:
+
       - Unit tests: Token generation, expiration validation
+
       - Integration tests: Reset request, token validation, password update
+
       - E2E tests: Complete reset flow from email to new login
 
+
       **Definition of Done**:
+
       - [x] Code complete and reviewed
+
       - [x] Tests written and passing
+
       - [x] Documentation updated
+
       - [x] Acceptance criteria met
+
       - [x] Deployed to staging
+
       - [x] Product owner approval
 
+
       ---
+
 
       ### Story 4: User Profile Management
+
       **Priority**: 🟡 Medium
+
       **Story Points**: 5
+
       **Sprint Ready**: Yes
 
+
       **User Story**:
+
       ```
+
       As a logged-in user
+
       I want to view and update my profile information
+
       So that I can keep my account details current
+
       ```
+
 
       **Acceptance Criteria**:
-      - [ ] **Given** I am logged in, **When** I navigate to profile page, **Then** I see my current profile information
-      - [ ] **Given** I update my name, **When** I save, **Then** my name is updated in the database
-      - [ ] **Given** I change my email, **When** I save, **Then** I receive verification email at new address
-      - [ ] **Given** I verify new email, **When** I click link, **Then** my email is updated
-      - [ ] **Given** I try to change email to existing one, **When** I save, **Then** I see "Email already in use" error
+
+      - [ ] **Given** I am logged in, **When** I navigate to profile page,
+      **Then** I see my current profile information
+
+      - [ ] **Given** I update my name, **When** I save, **Then** my name is
+      updated in the database
+
+      - [ ] **Given** I change my email, **When** I save, **Then** I receive
+      verification email at new address
+
+      - [ ] **Given** I verify new email, **When** I click link, **Then** my
+      email is updated
+
+      - [ ] **Given** I try to change email to existing one, **When** I save,
+      **Then** I see "Email already in use" error
+
 
       **Technical Considerations**:
+
       - Profile fields: name, email, avatar (optional)
+
       - Email change requires verification (similar to password reset flow)
+
       - Avatar upload to S3 or similar storage
+
       - Image validation (max 5MB, jpg/png only)
+
       - Update updated_at timestamp on changes
 
+
       **Dependencies**:
+
       - Depends on: Story 1 (Sign Up), Story 2 (Login)
+
       - Blocks: None
+
 
       **Testing Strategy**:
+
       - Unit tests: Profile update validation
+
       - Integration tests: Update API endpoints
+
       - E2E tests: Profile page interactions
 
+
       **Definition of Done**:
+
       - [x] Code complete and reviewed
+
       - [x] Tests written and passing
+
       - [x] Documentation updated
+
       - [x] Acceptance criteria met
+
       - [x] Deployed to staging
+
       - [x] Product owner approval
 
+
       ---
+
 
       ### Story 5: OAuth Login (Google & GitHub)
+
       **Priority**: 🟡 Medium
+
       **Story Points**: 13 ⚠️
+
       **Sprint Ready**: No - Needs breakdown into Google and GitHub separately
 
+
       **User Story**:
-      ```
-      As a user
-      I want to log in with my Google or GitHub account
-      So that I can access the application without creating a new password
+
       ```
 
-      **Breakdown Needed**: This story is too large (13 points). Should be split into:
+      As a user
+
+      I want to log in with my Google or GitHub account
+
+      So that I can access the application without creating a new password
+
+      ```
+
+
+      **Breakdown Needed**: This story is too large (13 points). Should be split
+      into:
+
       - Story 5a: OAuth Login (Google) - 8 points
+
       - Story 5b: OAuth Login (GitHub) - 5 points
 
+
       **Acceptance Criteria** (for reference):
-      - [ ] **Given** I click "Sign in with Google", **When** I authorize, **Then** I am logged in
-      - [ ] **Given** I click "Sign in with GitHub", **When** I authorize, **Then** I am logged in
-      - [ ] **Given** I log in via OAuth for first time, **When** successful, **Then** account is created
-      - [ ] **Given** I log in via OAuth with existing email, **When** successful, **Then** accounts are linked
+
+      - [ ] **Given** I click "Sign in with Google", **When** I authorize,
+      **Then** I am logged in
+
+      - [ ] **Given** I click "Sign in with GitHub", **When** I authorize,
+      **Then** I am logged in
+
+      - [ ] **Given** I log in via OAuth for first time, **When** successful,
+      **Then** account is created
+
+      - [ ] **Given** I log in via OAuth with existing email, **When**
+      successful, **Then** accounts are linked
+
 
       **Technical Considerations**:
+
       - Use Passport.js with OAuth strategies
+
       - Google OAuth 2.0 credentials (client ID, secret)
+
       - GitHub OAuth app credentials
+
       - Store OAuth provider and provider_id in users table
+
       - Handle account linking (same email, different providers)
 
+
       **Dependencies**:
+
       - Depends on: Story 2 (Login - JWT token infrastructure)
+
       - Blocks: None
+
 
       ---
 
+
       ### Story 6: 🧪 Technical Spike - RBAC Implementation Strategy
+
       **Priority**: 🔴 High
+
       **Story Points**: 3 (spike)
+
       **Sprint Ready**: Yes
 
-      **Spike Goal**: Determine best approach for implementing role-based access control
+
+      **Spike Goal**: Determine best approach for implementing role-based access
+      control
+
 
       **Research Questions**:
+
       - Should we use middleware-based or decorator-based authorization?
+
       - Database schema: roles table vs. simple role enum?
+
       - How to handle permission inheritance?
+
       - Third-party library (casbin, accesscontrol) or custom implementation?
+
 
       **Time Box**: 2 days
 
+
       **Success Criteria**:
+
       - Decision documented on approach
+
       - Proof-of-concept for chosen approach
+
       - Database schema finalized
+
       - Unblocks Story 7 and Story 8
 
+
       **Dependencies**:
+
       - Depends on: None (can run in parallel with other stories)
-      - Blocks: Story 7 (Admin User Management), Story 8 (Role-Based Access Middleware)
+
+      - Blocks: Story 7 (Admin User Management), Story 8 (Role-Based Access
+      Middleware)
+
 
       ---
+
 
       ### Story 7: Admin User Management
+
       **Priority**: 🔴 High
+
       **Story Points**: 8
+
       **Sprint Ready**: No - Depends on Story 6 (RBAC Spike)
 
+
       **User Story**:
+
       ```
+
       As an administrator
+
       I want to view and manage all user accounts
+
       So that I can support users and maintain system security
+
       ```
+
 
       **Acceptance Criteria**:
-      - [ ] **Given** I am logged in as admin, **When** I navigate to admin panel, **Then** I see list of all users
-      - [ ] **Given** I am viewing user list, **When** I search by email, **Then** I see matching users
-      - [ ] **Given** I select a user, **When** I view details, **Then** I see full profile and activity
-      - [ ] **Given** I am viewing a user, **When** I click "Disable", **Then** user cannot log in
-      - [ ] **Given** I am a regular user, **When** I try to access admin panel, **Then** I receive 403 Forbidden
+
+      - [ ] **Given** I am logged in as admin, **When** I navigate to admin
+      panel, **Then** I see list of all users
+
+      - [ ] **Given** I am viewing user list, **When** I search by email,
+      **Then** I see matching users
+
+      - [ ] **Given** I select a user, **When** I view details, **Then** I see
+      full profile and activity
+
+      - [ ] **Given** I am viewing a user, **When** I click "Disable", **Then**
+      user cannot log in
+
+      - [ ] **Given** I am a regular user, **When** I try to access admin panel,
+      **Then** I receive 403 Forbidden
+
 
       **Technical Considerations**:
+
       - Admin role check middleware
+
       - User list pagination (50 per page)
+
       - Search with SQL LIKE or full-text search
+
       - User disable flag (is_active boolean)
+
       - Audit log for admin actions
 
+
       **Dependencies**:
+
       - Depends on: Story 6 (RBAC Spike), Story 2 (Login)
+
       - Blocks: None
 
+
       **Testing Strategy**:
+
       - Unit tests: Role check middleware
+
       - Integration tests: Admin API endpoints
+
       - E2E tests: Admin panel workflows
 
+
       **Definition of Done**:
+
       - [x] Code complete and reviewed
+
       - [x] Tests written and passing
+
       - [x] Documentation updated
+
       - [x] Acceptance criteria met
+
       - [x] Deployed to staging
+
       - [x] Product owner approval
 
+
       ---
+
 
       ### Story 8: Role-Based Access Middleware
+
       **Priority**: 🔴 High
+
       **Story Points**: 5
+
       **Sprint Ready**: No - Depends on Story 6 (RBAC Spike)
 
+
       **User Story**:
+
       ```
+
       As a developer
+
       I want reusable middleware for protecting routes by role
+
       So that I can easily enforce access control across the application
+
       ```
+
 
       **Acceptance Criteria**:
-      - [ ] **Given** a route is protected with @RequireRole('admin'), **When** admin accesses, **Then** request proceeds
-      - [ ] **Given** a route is protected with @RequireRole('admin'), **When** regular user accesses, **Then** 403 Forbidden
-      - [ ] **Given** a route is protected, **When** unauthenticated user accesses, **Then** 401 Unauthorized
-      - [ ] **Given** middleware is applied, **When** request fails authorization, **Then** clear error message returned
+
+      - [ ] **Given** a route is protected with @RequireRole('admin'), **When**
+      admin accesses, **Then** request proceeds
+
+      - [ ] **Given** a route is protected with @RequireRole('admin'), **When**
+      regular user accesses, **Then** 403 Forbidden
+
+      - [ ] **Given** a route is protected, **When** unauthenticated user
+      accesses, **Then** 401 Unauthorized
+
+      - [ ] **Given** middleware is applied, **When** request fails
+      authorization, **Then** clear error message returned
+
 
       **Technical Considerations**:
+
       - Express middleware: requireRole(['admin', 'moderator'])
+
       - Check JWT token for role claim
+
       - Support multiple roles per route
+
       - Logging for authorization failures
+
       - Clear error responses with WWW-Authenticate header
 
+
       **Dependencies**:
+
       - Depends on: Story 6 (RBAC Spike), Story 2 (Login - JWT infrastructure)
+
       - Blocks: Future feature development requiring authorization
 
+
       **Testing Strategy**:
+
       - Unit tests: Middleware logic with mocked requests
+
       - Integration tests: Protected routes with different roles
+
       - E2E tests: Authorization flows
 
+
       **Definition of Done**:
+
       - [x] Code complete and reviewed
+
       - [x] Tests written and passing
+
       - [x] Documentation updated (middleware usage guide)
+
       - [x] Acceptance criteria met
+
       - [x] Deployed to staging
+
       - [x] Product owner approval
 
+
       ---
+
 
       ## Story Breakdown Summary
 
-      **Total Stories**: 8 (6 implementation stories + 1 spike + 1 story needs breakdown)
-      **Total Story Points**: 52 points (excluding Story 5 which needs breakdown)
+
+      **Total Stories**: 8 (6 implementation stories + 1 spike + 1 story needs
+      breakdown)
+
+      **Total Story Points**: 52 points (excluding Story 5 which needs
+      breakdown)
+
       **Estimated Sprints**: 3 sprints (assuming 20-25 points per sprint)
 
+
       **Story Distribution**:
+
       - High Priority: 6 stories (34 points)
+
       - Medium Priority: 2 stories (18 points)
+
       - Low Priority: 0 stories (0 points)
+
 
       **Recommended Sprint Plan**:
 
+
       **Sprint 1: Foundation (23 points)**
+
       - Story 1: Email/Password Sign Up (5 points) 🔴
+
       - Story 2: Email/Password Login (3 points) 🔴
+
       - Story 3: Password Reset Flow (8 points) 🔴
+
       - Story 6: RBAC Spike (3 points) 🧪
+
       - Story 4: User Profile Management (5 points) 🟡
 
+
       **Sprint 2: OAuth & Admin Foundation (18 points)**
+
       - Story 5a: OAuth Login - Google (8 points) 🟡
+
       - Story 5b: OAuth Login - GitHub (5 points) 🟡
+
       - Story 8: Role-Based Access Middleware (5 points) 🔴
 
+
       **Sprint 3: Admin Features (8 points)**
+
       - Story 7: Admin User Management (8 points) 🔴
+
 
       ---
 
+
       ## Dependency Graph
 
+
       ```
+
       Story 1 (Sign Up) → Story 2 (Login) → Story 3 (Password Reset)
                        → Story 4 (Profile)
                        → Story 5a/5b (OAuth)
@@ -641,16 +789,23 @@ examples:
                            → Story 8 (RBAC Middleware)
 
       Story 2 (Login) → Story 7 (Admin Management)
+
       ```
+
 
       **Critical Path**: Story 1 → Story 2 → Story 6 → Story 8 → Story 7
 
+
       ---
+
 
       ## Risks and Assumptions
 
+
       **Risks**:
-      - 🔴 **OAuth Integration Complexity**: Third-party auth may have unforeseen edge cases
+
+      - 🔴 **OAuth Integration Complexity**: Third-party auth may have
+      unforeseen edge cases
         - **Mitigation**: Allocate extra testing time, use well-supported library (Passport.js)
 
       - 🟡 **Password Reset Email Deliverability**: Emails may go to spam
@@ -660,39 +815,66 @@ examples:
         - **Mitigation**: Start simple (2 roles), expand based on actual needs
 
       **Assumptions**:
+
       - ✅ Email service (SendGrid/Mailgun) already configured
+
       - ✅ PostgreSQL database already set up
+
       - ✅ Frontend routing structure supports new auth pages
+
       - ⚠️ OAuth credentials can be obtained within Sprint 1
+
       - ⚠️ No existing user data to migrate
 
+
       **Open Questions**:
+
       - ❓ Do we need email verification before first login?
+
       - ❓ Should we support multi-factor authentication (MFA) in v1?
+
       - ❓ What should happen to user data when account is disabled?
+
       - ❓ Do we need audit logging for all user actions or just admin actions?
 
+
       ---
+
 
       ## Technical Spikes Needed
 
+
       ### Spike 1: RBAC Implementation Strategy
+
       - **Goal**: Choose authorization approach and finalize schema
+
       - **Time Box**: 2 days
-      - **Success Criteria**: Decision documented, POC complete, schema finalized
+
+      - **Success Criteria**: Decision documented, POC complete, schema
+      finalized
+
       - **Blocks**: Story 7, Story 8
+
 
       ---
 
+
       ## Next Steps
 
-      1. **Review with stakeholders**: Confirm priorities and acceptance criteria
-      2. **Clarify open questions**: Get answers before Sprint 1 planning
-      3. **Breakdown Story 5**: Split OAuth into Google and GitHub stories
-      4. **Obtain OAuth credentials**: Apply for Google and GitHub OAuth apps
-      5. **Spike RBAC**: Complete technical spike in Sprint 1
-      6. **Sprint Planning**: Finalize Sprint 1 commitment based on team velocity
 
+      1. **Review with stakeholders**: Confirm priorities and acceptance
+      criteria
+
+      2. **Clarify open questions**: Get answers before Sprint 1 planning
+
+      3. **Breakdown Story 5**: Split OAuth into Google and GitHub stories
+
+      4. **Obtain OAuth credentials**: Apply for Google and GitHub OAuth apps
+
+      5. **Spike RBAC**: Complete technical spike in Sprint 1
+
+      6. **Sprint Planning**: Finalize Sprint 1 commitment based on team
+      velocity
 metadata:
   author: codewizwit
   license: MIT
@@ -705,4 +887,235 @@ metadata:
     - product-management
     - scrum
     - estimation
-  lastUpdated: '2025-01-18'
+  lastUpdated: 2025-01-18
+---
+
+<context>
+You are an experienced Agile product owner and technical lead with expertise in:
+- Breaking down complex epics into deliverable user stories
+- INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)
+- Vertical slicing and incremental delivery
+- Story estimation and sprint planning
+- Balancing user value with technical feasibility
+- Dependency analysis and critical path identification
+
+Your role is to create actionable, well-defined user stories that teams can estimate,
+implement, and test within a sprint while delivering clear value to users and the business.
+</context>
+
+<instructions>
+Follow these user story breakdown guidelines:
+
+### 1. Story Format
+
+Use the standard user story template:
+
+```
+As a [role/persona]
+I want [feature/capability]
+So that [benefit/value]
+```
+
+### 2. INVEST Criteria
+
+Ensure each story is:
+
+- **Independent**: Can be developed separately
+- **Negotiable**: Details can be discussed with stakeholders
+- **Valuable**: Delivers clear value to users or business
+- **Estimable**: Team can estimate effort
+- **Small**: Completable within a sprint (1-2 weeks)
+- **Testable**: Clear acceptance criteria for validation
+
+### 3. Vertical Slicing
+
+- Stories should be vertical slices (full stack: UI, API, database)
+- Avoid horizontal stories (e.g., "Build entire database layer")
+- Each story should deliver end-to-end functionality
+
+### 4. Acceptance Criteria
+
+Each story must include:
+
+- **Given-When-Then** format for behavior scenarios
+- Clear, testable conditions for completion
+- Edge cases and error handling
+- Non-functional requirements (performance, security, accessibility)
+
+### 5. Story Sizing
+
+- **Small (1-3 points)**: Simple CRUD, UI updates, minor features
+- **Medium (5-8 points)**: Integration work, moderate complexity
+- **Large (13+ points)**: Too large, needs further breakdown
+
+If a story is >8 points, break it down further.
+
+### 6. Dependencies
+
+- Identify dependencies between stories
+- Note technical dependencies (APIs, infrastructure, third-party services)
+- Highlight blocking relationships
+  </instructions>
+
+<epic_description>
+{{epic_description}}
+</epic_description>
+
+{{#if user_personas}}
+<user_personas>
+{{user_personas}}
+</user_personas>
+{{/if}}
+
+{{#if technical_context}}
+<technical_context>
+{{technical_context}}
+</technical_context>
+{{/if}}
+
+{{#if acceptance_criteria}}
+<epic_acceptance_criteria>
+{{acceptance_criteria}}
+</epic_acceptance_criteria>
+{{/if}}
+
+{{#if estimation_method}}
+<estimation_method>
+{{estimation_method}}
+</estimation_method>
+{{/if}}
+
+<constraints>
+- Each story must follow INVEST criteria
+- Stories should be completable within one sprint
+- Use vertical slicing (full stack functionality per story)
+- Include clear acceptance criteria in Given-When-Then format
+- Identify and document all dependencies
+- Flag stories requiring technical spikes or unknowns
+</constraints>
+
+<output_format>
+
+### Epic Summary
+
+**Epic Name**: [Concise epic name]
+**Epic Goal**: [One sentence describing the epic's purpose]
+**User Value**: [Why this matters to users]
+**Business Value**: [Why this matters to the business]
+
+### User Stories
+
+For each user story:
+
+#### Story [Number]: [Story Title]
+
+**Priority**: High / Medium / Low
+**Story Points**: [Estimate using specified method]
+**Sprint Ready**: Yes / No (if No, explain what's missing)
+
+**User Story**:
+
+```
+As a [role]
+I want [feature]
+So that [benefit]
+```
+
+**Acceptance Criteria**:
+
+- [ ] **Given** [context], **When** [action], **Then** [outcome]
+- [ ] **Given** [context], **When** [action], **Then** [outcome]
+- [ ] [Additional criteria as needed]
+
+**Technical Considerations**:
+
+- [Technical implementation notes]
+- [Potential challenges or unknowns]
+- [Required infrastructure or services]
+
+**Dependencies**:
+
+- Depends on: [Story numbers or external dependencies]
+- Blocks: [Story numbers that depend on this]
+
+**Testing Strategy**:
+
+- Unit tests: [What to test]
+- Integration tests: [What to test]
+- E2E tests: [User flows to validate]
+
+**Definition of Done**:
+
+- [ ] Code complete and reviewed
+- [ ] Tests written and passing
+- [ ] Documentation updated
+- [ ] Acceptance criteria met
+- [ ] Deployed to staging
+- [ ] Product owner approval
+
+---
+
+### Story Breakdown Summary
+
+**Total Stories**: [Number]
+**Total Story Points**: [Sum]
+**Estimated Sprints**: [Number] (assuming [X] points per sprint)
+
+**Story Distribution**:
+
+- High Priority: [X] stories ([Y] points)
+- Medium Priority: [X] stories ([Y] points)
+- Low Priority: [X] stories ([Y] points)
+
+**Recommended Sprint Plan**:
+
+- Sprint 1: [List story numbers and titles]
+- Sprint 2: [List story numbers and titles]
+- Sprint 3: [List story numbers and titles]
+
+### Dependency Graph
+
+```
+[Visual representation of story dependencies]
+Story 1 → Story 2 → Story 5
+Story 1 → Story 3 → Story 6
+Story 4 (independent)
+```
+
+### Risks and Assumptions
+
+**Risks**:
+
+- [Risk description and mitigation strategy]
+- [Risk description and mitigation strategy]
+
+**Assumptions**:
+
+- [Assumption that needs validation]
+- [Assumption that needs validation]
+
+**Open Questions**:
+
+- [Question for stakeholders]
+- [Question for technical team]
+
+### Technical Spikes Needed
+
+If technical unknowns exist:
+
+**Spike [Number]: [Spike Title]**
+
+- **Goal**: [What to investigate]
+- **Time Box**: [Hours/days]
+- **Success Criteria**: [What decision or knowledge to gain]
+- **Blocks**: [Story numbers]
+
+## Special Markers
+
+- Use 🔴 for high-priority stories (must-have for MVP)
+- Use 🟡 for medium-priority stories (important but not critical)
+- Use 🟢 for low-priority stories (nice-to-have)
+- Use ⚠️ for stories with significant technical risk
+- Use 🔗 for stories with complex dependencies
+- Use 🧪 for stories requiring technical spikes
+  </output_format>

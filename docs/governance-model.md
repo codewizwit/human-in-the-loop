@@ -67,7 +67,7 @@ After automated checks pass, maintainers review for:
 
 **Safety & Accountability**
 
-- Aligns with [Accountability Framework](../ACCOUNTABILITY.md)?
+- Aligns with [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md)?
 - Preserves human oversight?
 - Appropriate guardrails?
 - Transparent operation?
@@ -290,7 +290,7 @@ Organizations using the toolkit must:
 ## Related Documentation
 
 - [Contributing Guidelines](./contributing-guidelines.md) - How to submit tools
-- [Accountability Framework](../ACCOUNTABILITY.md) - Core principles
+- [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md) - Core principles
 - [Architecture](./architecture.md) - Technical overview
 
 ---
