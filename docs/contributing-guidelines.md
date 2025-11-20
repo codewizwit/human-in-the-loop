@@ -94,7 +94,7 @@ Your contribution will be reviewed for:
 - [ ] Quality and usefulness
 - [ ] Documentation completeness
 - [ ] Security concerns
-- [ ] Alignment with [Accountability Framework](../ACCOUNTABILITY.md)
+- [ ] Alignment with [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md)
 - [ ] Technical correctness
 
 ---
@@ -124,7 +124,7 @@ Your contribution will be reviewed for:
 - Safe defaults
 
 ###Accountability Alignment
-All contributions must align with the [Developer-First AI Accountability Framework](../ACCOUNTABILITY.md):
+All contributions must align with the [Developer-First Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md):
 
 - Enhance developer experience
 - Support learning and growth
@@ -370,7 +370,7 @@ Your contribution will be evaluated on:
 
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Quick overview
 - [Governance Model](./governance-model.md) - Review process details
-- [Accountability Framework](../ACCOUNTABILITY.md) - Core principles
+- [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md) - Core principles
 - [Toolkit Usage](./toolkit-usage.md) - How tools are used
 
 ---

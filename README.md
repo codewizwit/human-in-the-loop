@@ -184,7 +184,7 @@ hit install prompt/unit-test-generator
 
 **We believe AI should enhance developers, not replace them.**
 
-Every tool is evaluated through our [Accountability Framework](./ACCOUNTABILITY.md):
+Every tool is evaluated through our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md):
 
 - ✨ **Enhance** happiness & creativity, not replace judgment
 - 📚 **Support** learning & growth, not create dependency
@@ -193,7 +193,7 @@ Every tool is evaluated through our [Accountability Framework](./ACCOUNTABILITY.
 
 No black boxes. No "trust the AI." Just thoughtful tools that make you better at your job.
 
-[Read the full framework →](./ACCOUNTABILITY.md)
+[Read the full playbook →](./RESPONSIBLE-AI-PLAYBOOK.md)
 
 ---
 
@@ -229,7 +229,7 @@ gh pr create
 ## 📚 Documentation
 
 - 🚀 [Getting Started](./docs/getting-started.md) - Installation & first prompt
-- 🛡️ [Accountability Framework](./ACCOUNTABILITY.md) - Developer-first AI principles
+- 🛡️ [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) - Developer-first AI principles
 - 🎨 [CLI Reference](./docs/cli-reference.md) - Complete command guide
 - 🏗️ [Architecture](./docs/architecture.md) - System design overview
 - 🤝 [Contributing](./CONTRIBUTING.md) - Detailed contribution workflow

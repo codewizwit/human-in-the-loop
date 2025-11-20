@@ -1,6 +1,8 @@
-# Developer-First AI Accountability Framework
+# Responsible AI Playbook
 
-This framework guides how we build, evaluate, and deploy AI productivity tools in Human in the Loop. Every tool, prompt, agent, and workflow should be assessed through these lenses to ensure we're enhancing the developer experience, not undermining it.
+**Your guide to building AI tools that enhance developers, not replace them**
+
+This playbook shows you how to evaluate and deploy AI productivity tools responsibly. Every prompt, agent, and workflow in Human in the Loop follows these principles to ensure we're making developers better at their jobs, not dependent on automation.
 
 ---
 

@@ -32,7 +32,7 @@ Technical details and governance:
 
 - **[Governance Model](./governance-model.md)** - Quality review process, versioning, and metrics
 - **[Architecture](./architecture.md)** - System design, CLI architecture, and technical overview
-- **[ACCOUNTABILITY.md](../ACCOUNTABILITY.md)** - Developer-First AI Accountability Framework
+- **[RESPONSIBLE-AI-PLAYBOOK.md](../RESPONSIBLE-AI-PLAYBOOK.md)** - Developer-First Responsible AI Playbook
 
 ---
 
@@ -52,9 +52,9 @@ Technical details and governance:
 2. [Contributing Guidelines](./contributing-guidelines.md) - Follow the submission workflow
 3. [Governance Model](./governance-model.md) - Understand the review process
 
-**Understand the accountability framework**
+**Understand the Responsible AI Playbook**
 
-1. [ACCOUNTABILITY.md](../ACCOUNTABILITY.md) - Read the framework
+1. [RESPONSIBLE-AI-PLAYBOOK.md](../RESPONSIBLE-AI-PLAYBOOK.md) - Read the framework
 2. [AI Best Practices](./ai-best-practices.md) - See practical applications
 3. [Governance Model](./governance-model.md) - See how it's enforced
 
@@ -76,7 +76,7 @@ Technical details and governance:
 | [Contributing Guidelines](./contributing-guidelines.md) | Detailed contribution workflow and quality standards         |
 | [Governance Model](./governance-model.md)               | Review process, versioning, release strategy, metrics        |
 | [Architecture](./architecture.md)                       | System design, CLI architecture, governance layer            |
-| [ACCOUNTABILITY.md](../ACCOUNTABILITY.md)               | Developer-First AI Accountability Framework                  |
+| [RESPONSIBLE-AI-PLAYBOOK.md](../RESPONSIBLE-AI-PLAYBOOK.md)               | Developer-First Responsible AI Playbook                  |
 | [CONTRIBUTING.md](../CONTRIBUTING.md)                   | Quick contribution overview                                  |
 
 ---

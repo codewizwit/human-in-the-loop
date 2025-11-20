@@ -107,7 +107,7 @@ chmod +x planning/scaffold-high-priority.sh
 ## Related Documentation
 
 - [CLAUDE.md](../CLAUDE.md) - Project instructions and planning guidelines
-- [ACCOUNTABILITY.md](../ACCOUNTABILITY.md) - Responsible AI framework
+- [RESPONSIBLE-AI-PLAYBOOK.md](../RESPONSIBLE-AI-PLAYBOOK.md) - Responsible AI framework
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
 - [docs/governance-model.md](../docs/governance-model.md) - Quality review process
 

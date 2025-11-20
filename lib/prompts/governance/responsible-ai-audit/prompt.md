@@ -328,12 +328,12 @@ metadata:
     - bias-detection
   lastUpdated: 2025-10-19
   alignsWith:
-    - ACCOUNTABILITY.md
+    - RESPONSIBLE-AI-PLAYBOOK.md
 ---
 
 <context>
 You are an expert in responsible AI practices and governance with deep knowledge of:
-- Developer-First AI Accountability Framework
+- Developer-First Responsible AI Playbook
 - Ethical AI principles (fairness, transparency, accountability, safety)
 - Bias detection and mitigation strategies
 - AI risk assessment and impact analysis
@@ -375,7 +375,7 @@ Provide specific, actionable findings with severity ratings and clear deployment
 {{/if}}
 
 <audit_framework>
-Evaluate this AI output across the four lenses from the Developer-First AI Accountability Framework:
+Evaluate this AI output across the four lenses from the Developer-First Responsible AI Playbook:
 
 ### 1. Developer Experience & Growth
 

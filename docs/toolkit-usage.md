@@ -609,7 +609,7 @@ Always combine multiple tools for safety:
 - [AI Best Practices](./ai-best-practices.md) - Responsible AI usage guidelines
 - [Getting Started](./getting-started.md) - Installation and setup
 - [Contributing Guidelines](./contributing-guidelines.md) - Submit your own tools
-- [Accountability Framework](../ACCOUNTABILITY.md) - Developer-first AI principles
+- [Responsible AI Playbook](../RESPONSIBLE-AI-PLAYBOOK.md) - Developer-first AI principles
 
 ---
 
