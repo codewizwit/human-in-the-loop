@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.7...v1.2.0) (2025-11-20)
+
+
+### Features
+
+* add Skills architecture with Angular Modern and Legacy ([aa00f6f](https://github.com/codewizwit/human-in-the-loop/commit/aa00f6f5b48aa12f216f71f337278884cd9a23ef)), closes [#19](https://github.com/codewizwit/human-in-the-loop/issues/19)
+* add update command for installed tools ([054e1d9](https://github.com/codewizwit/human-in-the-loop/commit/054e1d982ada90e6185ec618482c284233293db3))
+* migrate prompts to XML structure and add migration guide ([b1f30c0](https://github.com/codewizwit/human-in-the-loop/commit/b1f30c00d1ee92a33b2491fe899e9d4046acee0a))
+
 ### [1.1.7](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.6...v1.1.7) (2025-10-19)
 
 ### [1.1.6](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.5...v1.1.6) (2025-10-17)
