@@ -1,41 +1,30 @@
 ---
 id: code-review-ts
 name: TypeScript Code Review
-version: 1.2.0
-description: Comprehensive code review for TypeScript with best practices, type
-  safety, and performance considerations
+version: 2.0.0
+description: Automated TypeScript code review for your workspace. Analyzes files using Read, Grep, and Glob tools. Covers type safety, best practices, performance, security, and code quality. Provides constructive feedback with examples.
 category: code-review
 variables:
-  - name: code
-    description: The TypeScript code to review
-    required: true
-  - name: context
-    description: Additional context about the code (optional)
+  - name: scope
+    description: Optional file pattern to review (e.g., "src/**/*.ts", "components/**/*.tsx"). If not provided, reviews all TypeScript files.
+    required: false
+  - name: focus
+    description: Optional review focus areas (type-safety, performance, security, testing, etc.)
     required: false
 examples:
-  - input:
-      code: |
-        function processData(data: any) {
-          return data.map((item) => item.value * 2);
-        }
-      context: Processing user input data
-    output: |
-      **Type Safety Issues:**
-      - Using `any` type loses type safety. Define proper interfaces:
-      ```typescript
-      interface DataItem {
-        value: number;
-      }
-
-      function processData(data: DataItem[]): number[] {
-        return data.map((item) => item.value * 2);
-      }
-      ```
-
-      **Additional Improvements:**
-      - Add input validation for data array
-      - Consider using readonly for immutability
-      - Add JSDoc comment explaining the function's purpose
+  - description: Full workspace TypeScript review
+    input:
+      user_message: "Please review all TypeScript code in this project"
+  - description: Focused component review
+    input:
+      scope: "src/components/**/*.tsx"
+      focus: "type-safety, performance"
+      user_message: "Review the React components for type safety and performance issues"
+  - description: API routes review
+    input:
+      scope: "src/api/**/*.ts"
+      focus: "security, error-handling"
+      user_message: "Review API routes focusing on security and error handling"
 metadata:
   author: codewizwit
   license: MIT
@@ -60,7 +49,19 @@ improve code quality while maintaining a supportive and educational tone.
 </context>
 
 <instructions>
-Review the provided TypeScript code and perform a comprehensive analysis covering:
+Review the TypeScript code in the current workspace and perform a comprehensive analysis.
+
+## Analysis Approach
+
+1. **Discovery Phase**:
+   - Use Glob to find TypeScript files (*.ts, *.tsx) in the workspace
+   - Identify the project structure (React, Node.js, NestJS, etc.)
+   - Locate configuration files (tsconfig.json, package.json)
+
+2. **Code Review Phase**:
+   - Use Read to examine TypeScript files
+   - Use Grep to search for common anti-patterns (`any` type, console.log, TODO comments)
+   - Analyze files covering:
 
 1. **Type Safety**
 
@@ -97,21 +98,25 @@ Review the provided TypeScript code and perform a comprehensive analysis coverin
    - Assess authentication/authorization logic
      </instructions>
 
-<code_to_review>
-{{code}}
-</code_to_review>
+{{#if scope}}
+<review_scope>
+Focus code review on files matching: {{scope}}
+</review_scope>
+{{/if}}
 
-{{#if context}}
-<additional_context>
-{{context}}
-</additional_context>
+{{#if focus}}
+<review_focus>
+Emphasize these areas: {{focus}}
+</review_focus>
 {{/if}}
 
 <constraints>
-- Focus only on the provided code, do not request additional files unless critical
-- Assume TypeScript strict mode is enabled
-- Provide specific line references when pointing out issues
+- Use Read, Grep, and Glob tools to analyze TypeScript files in the workspace
+- Start with project discovery (tsconfig.json, package.json, file structure)
+- Prioritize recently changed files and core application logic
+- Provide specific file paths and line references for all feedback
 - Include code examples for recommended changes
+- Assume TypeScript strict mode is enabled
 - Prioritize critical issues over style preferences
 </constraints>
 
