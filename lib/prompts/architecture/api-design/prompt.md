@@ -4,22 +4,13 @@ name: API Design Best Practices
 version: 2.0.0
 description: Analyzes your API codebase and provides guidance on REST/GraphQL design. Uses Read and Grep to examine existing endpoints, routes, and schemas. Covers naming conventions, versioning, security, scalability, and industry best practices.
 category: architecture
-variables:
-  - name: scope
-    description: Optional API scope to analyze (e.g., "src/api/**/*.ts", "routes/**/*.js"). If not provided, analyzes all API code.
-    required: false
-  - name: focus
-    description: Optional focus areas (security, versioning, naming, performance, etc.)
-    required: false
 examples:
   - description: Review entire API design
     input:
       user_message: "Review the API design and suggest improvements"
   - description: Focus on API security
     input:
-      scope: "src/api/**/*.ts"
-      focus: "security, authentication"
-      user_message: "Review API endpoints for security best practices"
+      user_message: "Review API endpoints for security best practices, especially authentication"
     output: >
       **Endpoint Design:**
 

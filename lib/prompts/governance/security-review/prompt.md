@@ -4,27 +4,16 @@ name: Security Review
 version: 2.0.0
 description: Analyzes your workspace for security vulnerabilities using automated code scanning. Covers OWASP Top 10, authentication flaws, injection attacks, insecure dependencies, and compliance violations. Uses Read, Grep, and Glob tools to discover and analyze code. Provides severity ratings, exploit scenarios, and remediation guidance with secure code examples.
 category: governance
-variables:
-  - name: scope
-    description: Optional file pattern to analyze (e.g., "src/**/*.ts", "**/*.py"). If not provided, analyzes all source code.
-    required: false
-  - name: focus
-    description: Optional security focus areas (auth, api-security, data-protection, injection, etc.)
-    required: false
 examples:
   - description: Full workspace security review
     input:
       user_message: "Please review this codebase for security vulnerabilities"
   - description: Focused API security review
     input:
-      scope: "src/api/**/*.ts"
-      focus: "api-security, authentication, injection"
-      user_message: "Review the API routes for security issues"
+      user_message: "Review the API routes for security issues, especially API security, authentication, and injection vulnerabilities"
   - description: Authentication system review
     input:
-      scope: "src/auth/**/*"
-      focus: "authentication, session-management, password-storage"
-      user_message: "Analyze the authentication system for security flaws"
+      user_message: "Analyze the authentication system for security flaws, focusing on session management and password storage"
     output: |
       # Security Review Report
 

@@ -4,21 +4,13 @@ name: System Design Review
 version: 2.0.0
 description: Analyzes your system architecture from codebase and documentation. Uses Read and Glob to examine architecture files, documentation, and code structure. Validates against best practices, scalability, maintainability, and operational excellence.
 category: architecture
-variables:
-  - name: scope
-    description: Optional scope (e.g., "docs/architecture/**", "src/services/**"). If not provided, analyzes entire system.
-    required: false
-  - name: focus
-    description: Optional focus areas (scalability, reliability, security, performance, maintainability)
-    required: false
 examples:
   - description: Full system architecture review
     input:
       user_message: "Review the system architecture and provide recommendations"
   - description: Focus on scalability
     input:
-      focus: "scalability, performance"
-      user_message: "Review architecture focusing on scalability concerns"
+      user_message: "Review architecture focusing on scalability and performance concerns"
       system_description: >
         E-commerce platform for selling custom merchandise. Users can browse
         products,

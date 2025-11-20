@@ -4,26 +4,15 @@ name: TypeScript Code Review
 version: 2.0.0
 description: Automated TypeScript code review for your workspace. Analyzes files using Read, Grep, and Glob tools. Covers type safety, best practices, performance, security, and code quality. Provides constructive feedback with examples.
 category: code-review
-variables:
-  - name: scope
-    description: Optional file pattern to review (e.g., "src/**/*.ts", "components/**/*.tsx"). If not provided, reviews all TypeScript files.
-    required: false
-  - name: focus
-    description: Optional review focus areas (type-safety, performance, security, testing, etc.)
-    required: false
 examples:
   - description: Full workspace TypeScript review
     input:
       user_message: "Please review all TypeScript code in this project"
   - description: Focused component review
     input:
-      scope: "src/components/**/*.tsx"
-      focus: "type-safety, performance"
       user_message: "Review the React components for type safety and performance issues"
   - description: API routes review
     input:
-      scope: "src/api/**/*.ts"
-      focus: "security, error-handling"
       user_message: "Review API routes focusing on security and error handling"
 metadata:
   author: codewizwit

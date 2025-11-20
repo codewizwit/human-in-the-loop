@@ -4,839 +4,16 @@ name: Pipeline Optimization
 version: 2.0.0
 description: Analyzes CI/CD pipelines in your workspace for speed, cost, and reliability. Uses Read and Glob to find pipeline configs (GitHub Actions, GitLab CI, CircleCI, Jenkins). Identifies bottlenecks, suggests parallelization, caching, and provides estimated savings.
 category: ci-cd
-variables:
-  - name: focus
-    description: Optional optimization goals (speed, cost, reliability, developer-experience)
-    required: false
 examples:
-  - input:
-      pipeline_config: |
-        name: CI
-
-        on:
-          push:
-            branches: [ main, develop ]
-          pull_request:
-            branches: [ main ]
-
-        jobs:
-          test:
-            runs-on: ubuntu-latest
-            steps:
-              - uses: actions/checkout@v3
-              - name: Setup Node.js
-                uses: actions/setup-node@v3
-                with:
-                  node-version: '18'
-              - name: Install dependencies
-                run: npm install
-              - name: Run tests
-                run: npm test
-              - name: Run linting
-                run: npm run lint
-              - name: Run type checking
-                run: npm run typecheck
-
-          build:
-            runs-on: ubuntu-latest
-            steps:
-              - uses: actions/checkout@v3
-              - name: Setup Node.js
-                uses: actions/setup-node@v3
-                with:
-                  node-version: '18'
-              - name: Install dependencies
-                run: npm install
-              - name: Build
-                run: npm run build
-
-          deploy:
-            runs-on: ubuntu-latest
-            needs: [test, build]
-            if: github.ref == 'refs/heads/main'
-            steps:
-              - uses: actions/checkout@v3
-              - name: Setup Node.js
-                uses: actions/setup-node@v3
-                with:
-                  node-version: '18'
-              - name: Install dependencies
-                run: npm install
-              - name: Build
-                run: npm run build
-              - name: Deploy to production
-                run: npm run deploy
-                env:
-                  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-      pipeline_platform: github-actions
-      current_metrics: |
-        Average duration: 12 minutes
-        Monthly cost: ~$50 (1000 runs/month)
-        Success rate: 85%
-        Main bottleneck: npm install takes 3-4 minutes each run
-      optimization_goals: Reduce duration and cost, improve developer feedback speed
-    output: >
-      # Pipeline Optimization Report
-
-
-      ## Executive Summary
-
-
-      **Overall Assessment**: 🟡 Needs Improvement
-
-
-      **Current State**:
-
-      - Average duration: 12 minutes
-
-      - Monthly cost: ~$50/month
-
-      - Success rate: 85%
-
-      - Main issue: `npm install` runs 3 times per pipeline (9-12 min wasted)
-
-
-      **Projected Improvements**:
-
-      - ⚡ Duration: 12 min → 4.5 min (62% faster)
-
-      - 💰 Cost: $50/month → $18/month (64% savings, $384/year)
-
-      - 📈 Success rate: 85% → 92% (better caching reduces flakiness)
-
-
-      **Top 3 Quick Wins**:
-
-      1. ⚡ Add dependency caching → Save 8-9 min per run
-
-      2. 💰 Combine test/lint/typecheck into single job → Save 50% runner cost
-
-      3. 🚀 Cache build artifacts → Save 2 min on deploy job
-
-
-      ---
-
-
-      ## Detailed Findings
-
-
-      ### 1. Execution Speed
-
-
-      **Assessment**: 🔴 Critical Issues
-
-
-      **Current Issues**:
-
-      - 🔴 **npm install runs 3 times** (lines 15, 29, 43) - 9-12 min wasted
-
-      - 🟡 **test, lint, typecheck run sequentially** - Could be parallel
-
-      - 🟡 **Build runs twice** (test job and deploy job) - Redundant work
-
-      - 🟡 **No job dependencies** between test/build - Could run in parallel
-
-
-      **Recommendations**:
-
-
-      **1. Add dependency caching**:
-
-      ```yaml
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      ```
-
-      - Expected savings: 8-9 min per run (from 12 min → 3-4 min)
-
-      - Effort: Low (5 minutes to implement)
-
-
-      **2. Combine test/lint/typecheck into single job**:
-
-      ```yaml
-
-      - name: Run quality checks
-        run: |
-          npm run test
-          npm run lint
-          npm run typecheck
-      ```
-
-      - Expected savings: 6 min (avoid duplicate npm install + setup)
-
-      - Effort: Low (2 minutes)
-
-
-      **3. Use build artifacts instead of rebuilding**:
-
-      ```yaml
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-output
-          path: dist/
-      ```
-
-      - Expected savings: 2 min on deploy job
-
-      - Effort: Low (5 minutes)
-
-
-      ### 2. Caching Strategy
-
-
-      **Assessment**: 🔴 Critical Issues
-
-
-      **Current Issues**:
-
-      - 🔴 **No caching configured** - Every run installs dependencies from
-      scratch
-
-      - 🟡 **package-lock.json not committed** (assumption) - Inconsistent
-      installs
-
-
-      **Recommendations**:
-
-
-      **1. Cache npm dependencies**:
-
-      ```yaml
-
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-      ```
-
-      - Cache hit rate expected: 85-90%
-
-      - Reduces install from 3-4 min to 10-15 seconds
-
-
-      **2. Cache build output**:
-
-      ```yaml
-
-      - name: Cache build
-        uses: actions/cache@v3
-        with:
-          path: dist
-          key: build-${{ github.sha }}
-      ```
-
-
-      ### 3. Cost Optimization
-
-
-      **Assessment**: 🟡 Needs Improvement
-
-
-      **Current Issues**:
-
-      - 🟡 **3 separate jobs** = 3x runner cost (billed per-minute per-job)
-
-      - 🟡 **Runs on all branches** - Excessive for feature branches
-
-      - 🟡 **No concurrency limits** - Old runs continue when new commits pushed
-
-
-      **Recommendations**:
-
-
-      **1. Reduce from 3 jobs to 2 jobs**:
-
-      - Combine test/lint/typecheck → quality-checks job
-
-      - Keep build separate (only needed for deploy)
-
-      - Cost reduction: 33%
-
-
-      **2. Add concurrency cancellation**:
-
-      ```yaml
-
-      concurrency:
-        group: ${{ github.workflow }}-${{ github.ref }}
-        cancel-in-progress: true
-      ```
-
-      - Cancels old runs when new commits pushed to same PR
-
-      - Estimated savings: 20-30% on feature branch runs
-
-
-      **3. Add path filters to skip unnecessary runs**:
-
-      ```yaml
-
-      on:
-        pull_request:
-          paths:
-            - 'src/**'
-            - 'package.json'
-            - 'package-lock.json'
-      ```
-
-      - Skip runs for docs-only changes
-
-      - Estimated savings: 10-15% of total runs
-
-
-      ### 4. Reliability & Stability
-
-
-      **Assessment**: 🟡 Needs Improvement
-
-
-      **Current Issues**:
-
-      - 🟡 **85% success rate is low** - Should be >95%
-
-      - 🟡 **No retry mechanism** for flaky tests
-
-      - 🟡 **No timeout configured** - Jobs can hang indefinitely
-
-
-      **Recommendations**:
-
-
-      **1. Add timeout to all jobs**:
-
-      ```yaml
-
-      jobs:
-        quality-checks:
-          runs-on: ubuntu-latest
-          timeout-minutes: 10
-      ```
-
-
-      **2. Pin action versions for stability**:
-
-      ```yaml
-
-      # Current (risky)
-
-      - uses: actions/setup-node@v3
-
-
-      # Recommended (pinned)
-
-      - uses: actions/setup-node@v3.8.1
-
-      ```
-
-
-      **3. Add test retries for flaky tests**:
-
-      ```yaml
-
-      - name: Run tests
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 2
-          command: npm test
-      ```
-
-
-      ### 5. Developer Experience
-
-
-      **Assessment**: 🟡 Needs Improvement
-
-
-      **Current Issues**:
-
-      - 🟡 **12 min is too slow for PR feedback** - Should be <5 min
-
-      - 🟡 **No status checks configuration** - Unclear which checks are
-      required
-
-      - 🟡 **No local reproducibility** - Can't easily run pipeline locally
-
-
-      **Recommendations**:
-
-
-      **1. Optimize for fast feedback** (<5 min):
-
-      - Cache dependencies: 12 min → 4.5 min
-
-      - Developers get feedback 62% faster
-
-
-      **2. Add GitHub branch protection**:
-
-      ```yaml
-
-      # Required checks:
-
-      - quality-checks
-
-      - build (for main branch only)
-
-      ```
-
-
-      **3. Document local pipeline execution**:
-
-      ```bash
-
-      # Run same checks locally
-
-      npm install
-
-      npm run test
-
-      npm run lint
-
-      npm run typecheck
-
-      npm run build
-
-      ```
-
-
-      ### 6. Security & Compliance
-
-
-      **Assessment**: 🟢 Optimized
-
-
-      **Current Issues**:
-
-      - ✅ Secrets properly managed via GitHub Secrets
-
-      - ✅ Deploy only on main branch
-
-
-      **Recommendations**:
-
-
-      **1. Add dependency vulnerability scanning**:
-
-      ```yaml
-
-      - name: Audit dependencies
-        run: npm audit --audit-level=high
-      ```
-
-
-      **2. Use GitHub's built-in security features**:
-
-      ```yaml
-
-      - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v2
-      ```
-
-
-      ---
-
-
-      ## Optimization Opportunities
-
-
-      ### High Impact (Implement First)
-
-
-      | Optimization | Time Saved | Cost Saved | Effort | Priority |
-
-      |--------------|------------|------------|--------|----------|
-
-      | Add npm dependency caching | 8-9 min | $32/month | Low | P0 |
-
-      | Combine test/lint/typecheck | 6 min | $15/month | Low | P0 |
-
-      | Add concurrency cancellation | 2-3 min avg | $5/month | Low | P0 |
-
-
-      ### Medium Impact
-
-
-      | Optimization | Time Saved | Cost Saved | Effort | Priority |
-
-      |--------------|------------|------------|--------|----------|
-
-      | Cache build artifacts | 2 min | $3/month | Low | P1 |
-
-      | Add path filters | 1-2 min avg | $2/month | Medium | P1 |
-
-      | Add test retries | 0 min (reliability) | $0 | Low | P1 |
-
-
-      ### Low Impact (Nice to Have)
-
-
-      | Optimization | Time Saved | Cost Saved | Effort | Priority |
-
-      |--------------|------------|------------|--------|----------|
-
-      | Pin action versions | 0 min (stability) | $0 | Low | P2 |
-
-      | Add timeouts | 0 min (safety) | $0 | Low | P2 |
-
-
-      ---
-
-
-      ## Optimized Pipeline Configuration
-
-
-      ```yaml
-
-      # Optimized CI/CD Pipeline
-
-      # Changes made:
-
-      # 1. Added dependency and build caching (8-9 min savings)
-
-      # 2. Consolidated test/lint/typecheck into single job (6 min savings)
-
-      # 3. Added concurrency cancellation (prevents wasted runs)
-
-      # 4. Added path filters (skip unnecessary runs)
-
-      # 5. Reuse build artifacts in deploy job (2 min savings)
-
-      # 6. Added timeouts for safety
-
-      # 7. Pinned action versions for stability
-
-
-      name: CI
-
-
-      on:
-        push:
-          branches: [ main, develop ]
-          paths:
-            - 'src/**'
-            - 'package.json'
-            - 'package-lock.json'
-            - '.github/workflows/**'
-        pull_request:
-          branches: [ main ]
-          paths:
-            - 'src/**'
-            - 'package.json'
-            - 'package-lock.json'
-
-      # Cancel in-progress runs when new commits pushed
-
-      concurrency:
-        group: ${{ github.workflow }}-${{ github.ref }}
-        cancel-in-progress: true
-
-      jobs:
-        quality-checks:
-          name: Test, Lint, and Type Check
-          runs-on: ubuntu-latest
-          timeout-minutes: 10
-
-          steps:
-            - name: Checkout code
-              uses: actions/checkout@v3.5.3
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3.8.1
-              with:
-                node-version: '18'
-
-            # Cache npm dependencies for 8-9 min savings
-            - name: Cache dependencies
-              uses: actions/cache@v3.3.1
-              with:
-                path: |
-                  ~/.npm
-                  node_modules
-                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-node-
-
-            - name: Install dependencies
-              run: npm ci
-
-            # Run all quality checks in parallel using npm-run-all
-            - name: Run quality checks
-              run: |
-                npm run test
-                npm run lint
-                npm run typecheck
-
-        build:
-          name: Build Application
-          runs-on: ubuntu-latest
-          timeout-minutes: 10
-          # Only build if quality checks pass
-          needs: quality-checks
-          # Only build on main/develop branches
-          if: github.event_name == 'push'
-
-          steps:
-            - name: Checkout code
-              uses: actions/checkout@v3.5.3
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3.8.1
-              with:
-                node-version: '18'
-
-            - name: Cache dependencies
-              uses: actions/cache@v3.3.1
-              with:
-                path: |
-                  ~/.npm
-                  node_modules
-                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-            - name: Install dependencies
-              run: npm ci
-
-            - name: Build
-              run: npm run build
-
-            # Save build artifacts for deploy job (2 min savings)
-            - name: Upload build artifacts
-              uses: actions/upload-artifact@v3.1.2
-              with:
-                name: build-output
-                path: dist/
-                retention-days: 1
-
-        deploy:
-          name: Deploy to Production
-          runs-on: ubuntu-latest
-          timeout-minutes: 10
-          needs: [quality-checks, build]
-          if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-          steps:
-            - name: Checkout code
-              uses: actions/checkout@v3.5.3
-
-            # Download pre-built artifacts instead of rebuilding
-            - name: Download build artifacts
-              uses: actions/download-artifact@v3.0.2
-              with:
-                name: build-output
-                path: dist/
-
-            - name: Deploy to production
-              run: npm run deploy
-              env:
-                DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-
-            # Notify on deployment success/failure
-            - name: Notify deployment status
-              if: always()
-              run: echo "Deployment ${{ job.status }}"
-      ```
-
-
-      ---
-
-
-      ## Before/After Comparison
-
-
-      | Metric | Before | After | Improvement |
-
-      |--------|--------|-------|-------------|
-
-      | Total Duration (PR) | 12 min | 4.5 min | 62% faster ⚡ |
-
-      | Total Duration (Deploy) | 12 min | 6 min | 50% faster ⚡ |
-
-      | Monthly Cost | $50 | $18 | $32 saved (64%) 💰 |
-
-      | Jobs in Parallel | 0 | 1 (test+build) | Better resource use |
-
-      | Cache Hit Rate | 0% | 85-90% | Huge improvement ⚡ |
-
-      | Success Rate | 85% | 92% | +7% reliability 🎯 |
-
-      | npm install time | 9-12 min total | 10-15 sec total | 98% faster ⚡ |
-
-
-      **Annual Savings**: $384/year 💰
-
-
-      ---
-
-
-      ## Implementation Roadmap
-
-
-      ### Phase 1: Quick Wins (Day 1 - 30 minutes)
-
-
-      - [x] Add dependency caching → Expected: 8-9 min saved per run
-
-      - [x] Combine test/lint/typecheck → Expected: 6 min saved per run
-
-      - [x] Add concurrency cancellation → Expected: $5/month saved
-
-      - [x] Add timeouts to all jobs → Expected: Prevent hung jobs
-
-
-      **Total Phase 1 Impact**: 12 min → 4.5 min (62% improvement)
-
-
-      ### Phase 2: Medium Effort (Week 1 - 1 hour)
-
-
-      - [ ] Cache build artifacts between jobs
-
-      - [ ] Add path filters for smarter triggering
-
-      - [ ] Pin all action versions
-
-      - [ ] Add test retry mechanism
-
-
-      **Total Phase 2 Impact**: Further 10-15% improvement in reliability
-
-
-      ### Phase 3: Long-term (Month 1+)
-
-
-      - [ ] Consider self-hosted runners for additional cost savings
-
-      - [ ] Add dependency vulnerability scanning
-
-      - [ ] Implement matrix testing strategy for multiple Node versions
-
-      - [ ] Add performance regression testing
-
-
-      ---
-
-
-      ## Monitoring & Validation
-
-
-      **Metrics to Track**:
-
-
-      ```yaml
-
-      # Add workflow timing
-
-      - name: Report timing
-        if: always()
-        run: echo "Job duration was ${{ job.duration }}"
-      ```
-
-
-      **Validation Checklist**:
-
-
-      - [ ] Pipeline runs successfully on main branch
-
-      - [ ] All tests pass with caching enabled
-
-      - [ ] Deployment succeeds with artifact download
-
-      - [ ] Duration reduced to <5 min for PRs
-
-      - [ ] Cache hit rate >80%
-
-      - [ ] No regressions in test coverage
-
-
-      **GitHub Insights to Monitor**:
-
-      - Actions usage (Settings → Billing)
-
-      - Workflow run duration trends
-
-      - Success/failure rates over time
-
-
-      ---
-
-
-      ## Platform-Specific Best Practices (GitHub Actions)
-
-
-      ✅ **Already Following**:
-
-      - Using `ubuntu-latest` (cost-effective)
-
-      - Proper secret management
-
-      - Branch-based deployment strategy
-
-
-      🚀 **Additional Recommendations**:
-
-
-      1. **Use `actions/cache@v3`** for dependency caching ✅ Implemented
-
-      2. **Leverage `concurrency`** for automatic cancellation ✅ Implemented
-
-      3. **Use `if` conditions** to skip unnecessary jobs ✅ Implemented
-
-      4. **Pin action versions** for stability ✅ Implemented
-
-      5. **Use `upload-artifact` and `download-artifact`** ✅ Implemented
-
-
-      **Advanced Optimizations** (Future):
-
-      - Consider GitHub larger runners for faster npm install (if
-      cost-effective)
-
-      - Use GitHub-hosted cache for npm (faster than actions/cache)
-
-      - Implement build matrix only when needed (not for every PR)
-
-
-      ---
-
-
-      ## Summary
-
-
-      The optimized pipeline delivers:
-
-
-      - ⚡ **62% faster feedback** for developers (12 min → 4.5 min)
-
-      - 💰 **$384/year cost savings** ($50 → $18/month)
-
-      - 🎯 **7% improvement in reliability** (85% → 92% success rate)
-
-      - 🚀 **Better developer experience** with sub-5-minute PR checks
-
-
-      **Next Steps**:
-
-      1. Implement Phase 1 optimizations (30 minutes)
-
-      2. Test on a feature branch
-
-      3. Monitor metrics for 1 week
-
-      4. Roll out to all branches
-
-      5. Proceed with Phase 2 optimizations
+  - description: Optimize GitHub Actions workflow for speed and cost
+    input:
+      user_message: "Analyze our CI/CD pipeline and suggest optimizations to reduce duration and cost"
+  - description: Focus on specific optimization goals
+    input:
+      user_message: "Review the pipeline configuration with focus on developer experience - we need faster feedback loops"
+  - description: Full pipeline analysis with current metrics
+    input:
+      user_message: "Our pipeline takes 12 minutes on average, costs $50/month for 1000 runs, and has 85% success rate. The main bottleneck is npm install taking 3-4 minutes each run. Please analyze and optimize."
 metadata:
   author: codewizwit
   license: MIT
@@ -849,52 +26,49 @@ metadata:
     - performance
     - cost-reduction
     - caching
-  lastUpdated: 2025-01-18
+  lastUpdated: 2025-01-19
 ---
 
-You are a DevOps expert specializing in CI/CD pipeline optimization, with deep knowledge of GitHub Actions, GitLab CI, CircleCI, Jenkins, and modern DevOps best practices. Analyze the provided pipeline configuration and provide comprehensive optimization recommendations.
+<context>
+You are a DevOps expert specializing in CI/CD pipeline optimization with deep knowledge of:
+- GitHub Actions, GitLab CI, CircleCI, Jenkins, and modern CI/CD platforms
+- Pipeline performance analysis and bottleneck identification
+- Caching strategies and dependency optimization
+- Cost optimization and resource allocation
+- Developer experience and fast feedback loops
+- Security and compliance in CI/CD pipelines
 
-## Pipeline Configuration
+Your role is to analyze pipeline configurations, identify optimization opportunities, and provide actionable recommendations with concrete code examples and estimated impact.
+</context>
 
-```yaml
+<instructions>
+Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in the current workspace.
 
-```
+## Analysis Approach
 
-## Platform
+1. **Discovery Phase**:
+   - Use the Glob tool to find CI/CD pipeline configuration files in the workspace:
+     - GitHub Actions: `.github/workflows/*.yml`, `.github/workflows/*.yaml`
+     - GitLab CI: `.gitlab-ci.yml`
+     - CircleCI: `.circleci/config.yml`
+     - Jenkins: `Jenkinsfile`
+     - Other: `azure-pipelines.yml`, `.travis.yml`, etc.
+   - Identify which CI/CD platform(s) are in use
+   - Map out the pipeline structure (jobs, stages, dependencies)
 
-{{#if focus}}
-<optimization_focus>
-Emphasize: {{focus}}
-</optimization_focus>
-{{/if}}
+2. **User Context Gathering**:
+   - Check the user's message for specific optimization goals (speed, cost, reliability, developer-experience)
+   - If the user mentions current metrics (duration, cost, success rate), note them for analysis
+   - If the user hasn't provided optimization goals or current metrics, use the AskUserQuestion tool to gather:
+     - Primary optimization goals (speed, cost, reliability, developer-experience)
+     - Current performance metrics if known (average duration, monthly cost, success rate)
+     - Any constraints or requirements (budget limits, deployment requirements)
 
-{{#if current_metrics}}
-
-## Current Performance Metrics
-
-{{current_metrics}}
-{{/if}}
-
-{{#if constraints}}
-
-## Constraints
-
-{{constraints}}
-{{/if}}
-
-{{#if optimization_goals}}
-
-## Optimization Goals
-
-{{optimization_goals}}
-{{/if}}
-
-## Optimization Analysis Framework
-
-Evaluate the pipeline across these dimensions:
+3. **Pipeline Analysis Phase**:
+   - Use the Read tool to examine each pipeline configuration file in detail
+   - Analyze across these critical dimensions:
 
 ### 1. Execution Speed
-
 - **Job Parallelization**: Are independent jobs running in parallel?
 - **Step Dependencies**: Can steps within jobs be reordered or parallelized?
 - **Redundant Steps**: Are there duplicate or unnecessary operations?
@@ -903,16 +77,14 @@ Evaluate the pipeline across these dimensions:
 - **Runner Selection**: Are appropriate runner sizes/types being used?
 
 ### 2. Caching Strategy
-
 - **Dependency Caching**: Are dependencies (npm, pip, maven, etc.) cached effectively?
 - **Build Artifact Caching**: Are build outputs cached between jobs?
 - **Docker Layer Caching**: Are Docker images using layer caching?
-- **Cache Key Strategy**: Are cache keys specific enough (avoid over-caching) but stable (avoid cache misses)?
+- **Cache Key Strategy**: Are cache keys specific enough but stable?
 - **Cache Invalidation**: When should caches be cleared?
-- **Cache Size**: Are caches too large or too small?
+- **Cache Size**: Are caches appropriately sized?
 
 ### 3. Cost Optimization
-
 - **Runner Minutes**: Can self-hosted runners reduce costs?
 - **Matrix Strategy**: Are matrix builds necessary or can they be reduced?
 - **Scheduled Jobs**: Can frequency be reduced without impacting quality?
@@ -921,7 +93,6 @@ Evaluate the pipeline across these dimensions:
 - **Concurrent Job Limits**: Are there unnecessary waiting times?
 
 ### 4. Reliability & Stability
-
 - **Flaky Tests**: Are there retry mechanisms for flaky steps?
 - **Timeout Configuration**: Are appropriate timeouts set?
 - **Error Handling**: Are failures handled gracefully?
@@ -930,7 +101,6 @@ Evaluate the pipeline across these dimensions:
 - **Notification Strategy**: Are failures reported promptly?
 
 ### 5. Developer Experience
-
 - **Feedback Loop**: How quickly do developers get results?
 - **Log Clarity**: Are logs clear and actionable?
 - **PR Checks**: Are essential checks fast (<5 min for critical feedback)?
@@ -939,7 +109,6 @@ Evaluate the pipeline across these dimensions:
 - **Debugging**: Can failures be easily debugged?
 
 ### 6. Security & Compliance
-
 - **Secrets Management**: Are secrets properly managed?
 - **Least Privilege**: Do jobs have minimal permissions?
 - **Dependency Scanning**: Are vulnerabilities checked?
@@ -947,29 +116,56 @@ Evaluate the pipeline across these dimensions:
 - **Branch Protection**: Are appropriate branch rules enforced?
 - **Code Signing**: Are artifacts signed where needed?
 
-## Output Format
+4. **Generate Comprehensive Report**:
+   - Provide executive summary with overall assessment and projected improvements
+   - Detail findings for each dimension with specific issues and recommendations
+   - Include code examples showing before/after optimizations
+   - Prioritize optimizations by impact and effort
+   - Provide complete optimized pipeline configuration
+   - Include implementation roadmap with phases
+   - Suggest monitoring metrics and validation checklist
+
+</instructions>
+
+<constraints>
+- Use Glob to discover pipeline configuration files in the workspace
+- Use Read to examine pipeline configs in detail
+- Use AskUserQuestion to gather optimization goals and current metrics if not provided in user's message
+- Start with project discovery to identify CI/CD platform(s) in use
+- Provide specific file paths and line references for all findings
+- Include concrete code examples for all recommendations
+- Estimate time and cost savings for each optimization
+- Prioritize quick wins (high impact, low effort) first
+- Use platform-specific best practices (GitHub Actions vs GitLab CI vs CircleCI)
+- Include before/after comparison with measurable improvements
+- Provide implementation roadmap broken into phases
+- If no pipeline configs are found, guide user on setting up CI/CD
+</constraints>
+
+<output_format>
+Provide your analysis in this structure:
 
 ### Executive Summary
 
 **Overall Assessment**: 🟢 Optimized / 🟡 Needs Improvement / 🔴 Critical Issues
 
 **Current State**:
-
 - Average duration: [X minutes]
-- Monthly cost: $[X]
-- Success rate: [X%]
+- Monthly cost: $[X] (if known)
+- Success rate: [X%] (if known)
+- Main bottleneck: [description]
 
 **Projected Improvements**:
-
 - ⚡ Duration: [X minutes] → [Y minutes] ([Z%] faster)
 - 💰 Cost: $[X]/month → $[Y]/month ([Z%] savings)
 - 📈 Success rate: [X%] → [Y%]
 
 **Top 3 Quick Wins**:
-
 1. [Optimization with biggest impact/effort ratio]
 2. [Second priority optimization]
 3. [Third priority optimization]
+
+---
 
 ### Detailed Findings
 
@@ -980,139 +176,151 @@ For each dimension, provide:
 **Assessment**: 🟢 Optimized / 🟡 Needs Improvement / 🔴 Critical Issues
 
 **Current Issues**:
-
-- Issue description with impact (high/medium/low)
-- Specific line numbers or job names
+- 🔴/🟡/🟢 [Issue description with specific file path and line numbers]
+- Impact: [time/cost/reliability impact]
 
 **Recommendations**:
+1. **[Optimization name]**:
+   ```yaml
+   # Before
+   [current code with file path]
 
-- Actionable optimization with implementation steps
-- Expected improvement (time/cost savings)
-- Effort required (low/medium/high)
+   # After (optimized)
+   [optimized code]
+   ```
+   - Expected savings: [X min / $Y / Z% improvement]
+   - Effort required: [Low/Medium/High]
+   - Priority: [P0/P1/P2]
 
-**Code Example**:
-
-```yaml
-# Before
-[current inefficient code]
-
-# After
-[optimized code]
-```
+---
 
 ### Optimization Opportunities
 
 #### High Impact (Implement First)
 
 | Optimization | Time Saved | Cost Saved | Effort | Priority |
-| ------------ | ---------- | ---------- | ------ | -------- |
+|--------------|------------|------------|--------|----------|
 | [Name]       | X min      | $Y/month   | Low    | P0       |
 
 #### Medium Impact
 
 | Optimization | Time Saved | Cost Saved | Effort | Priority |
-| ------------ | ---------- | ---------- | ------ | -------- |
+|--------------|------------|------------|--------|----------|
 | [Name]       | X min      | $Y/month   | Medium | P1       |
 
 #### Low Impact (Nice to Have)
 
 | Optimization | Time Saved | Cost Saved | Effort | Priority |
-| ------------ | ---------- | ---------- | ------ | -------- |
+|--------------|------------|------------|--------|----------|
 | [Name]       | X min      | $Y/month   | High   | P2       |
+
+---
 
 ### Optimized Pipeline Configuration
 
-Provide complete optimized configuration with inline comments:
-
 ```yaml
 # Optimized CI/CD Pipeline
+# File: [path to pipeline config]
 # Changes made:
 # 1. [Change description]
 # 2. [Change description]
+# 3. [Change description]
 
-[Full optimized configuration]
+[Full optimized configuration with inline comments]
 ```
+
+---
 
 ### Before/After Comparison
 
-| Metric           | Before | After | Improvement |
-| ---------------- | ------ | ----- | ----------- |
-| Total Duration   | X min  | Y min | Z% faster   |
-| Monthly Cost     | $X     | $Y    | $Z saved    |
-| Jobs in Parallel | X      | Y     | +Z jobs     |
-| Cache Hit Rate   | X%     | Y%    | +Z%         |
-| Success Rate     | X%     | Y%    | +Z%         |
+| Metric              | Before  | After   | Improvement      |
+|---------------------|---------|---------|------------------|
+| Total Duration (PR) | X min   | Y min   | Z% faster ⚡     |
+| Total Duration (Deploy) | X min | Y min | Z% faster ⚡     |
+| Monthly Cost        | $X      | $Y      | $Z saved (W%) 💰 |
+| Jobs in Parallel    | X       | Y       | +Z jobs          |
+| Cache Hit Rate      | X%      | Y%      | +Z%              |
+| Success Rate        | X%      | Y%      | +Z% 🎯           |
+
+**Annual Savings**: $[X]/year 💰
+
+---
 
 ### Implementation Roadmap
 
-#### Phase 1: Quick Wins (Week 1)
+#### Phase 1: Quick Wins (Day 1 - 30 minutes)
+- [x] [Optimization 1] → Expected: X min saved per run
+- [x] [Optimization 2] → Expected: $Y/month saved
+- [x] [Optimization 3] → Expected: Z% improvement
 
-- [ ] [Optimization 1] - Expected: X min saved
-- [ ] [Optimization 2] - Expected: $Y saved/month
-- [ ] [Optimization 3] - Expected: Z% faster
+**Total Phase 1 Impact**: [X min → Y min (Z% improvement)]
 
-#### Phase 2: Medium Effort (Weeks 2-3)
-
+#### Phase 2: Medium Effort (Week 1 - 1 hour)
 - [ ] [Optimization 4]
 - [ ] [Optimization 5]
 
-#### Phase 3: Long-term (Month 2+)
+**Total Phase 2 Impact**: [Further W% improvement]
 
+#### Phase 3: Long-term (Month 1+)
 - [ ] [Optimization 6]
 - [ ] [Optimization 7]
+
+---
 
 ### Monitoring & Validation
 
 **Metrics to Track**:
-
 - Pipeline duration (p50, p95, p99)
-- Success/failure rate
+- Success/failure rate over time
 - Cost per pipeline run
 - Cache hit rate
 - Time to feedback for developers
 
 **Validation Checklist**:
-
 - [ ] Pipeline runs successfully on main branch
-- [ ] All tests pass
+- [ ] All tests pass with optimizations enabled
 - [ ] Deployment succeeds
-- [ ] Performance improved as expected
-- [ ] No regressions introduced
+- [ ] Duration reduced to target
+- [ ] Cache hit rate >80%
+- [ ] No regressions in test coverage
+
+---
 
 ### Platform-Specific Best Practices
 
-Provide recommendations specific to the CI/CD platform:
+**[Detected Platform]**:
+✅ **Already Following**:
+- [Best practice 1]
+- [Best practice 2]
 
-**GitHub Actions**:
+🚀 **Additional Recommendations**:
+1. [Recommendation 1] ✅ Implemented / ⚠️ Recommended
+2. [Recommendation 2]
 
-- Use `actions/cache@v3` for dependency caching
-- Leverage `concurrency` for automatic cancellation
-- Use `if` conditions to skip unnecessary jobs
-- Consider self-hosted runners for cost savings
+**Advanced Optimizations** (Future):
+- [Future optimization 1]
+- [Future optimization 2]
 
-**GitLab CI**:
+---
 
-- Use `cache` and `artifacts` strategically
-- Leverage `needs` for job dependencies
-- Use `rules` for conditional execution
-- Consider GitLab Runner autoscaling
+### Summary
 
-**CircleCI**:
+The optimized pipeline delivers:
+- ⚡ **[Z%] faster feedback** for developers ([X min] → [Y min])
+- 💰 **$[X]/year cost savings**
+- 🎯 **[Z%] improvement in reliability**
+- 🚀 **Better developer experience** with sub-5-minute PR checks
 
-- Use `save_cache` and `restore_cache`
-- Leverage workflows for parallelization
-- Use resource classes appropriately
-- Consider CircleCI orbs for common tasks
+**Next Steps**:
+1. Implement Phase 1 optimizations (30 minutes)
+2. Test on a feature branch
+3. Monitor metrics for 1 week
+4. Roll out to all branches
+5. Proceed with Phase 2 optimizations
 
-**Jenkins**:
+</output_format>
 
-- Use declarative pipeline syntax
-- Leverage parallel stages
-- Use stash/unstash for artifacts
-- Consider Jenkins agents for distributed builds
-
-## Special Markers
-
+<special_markers>
 - Use ⚡ for speed improvements
 - Use 💰 for cost savings
 - Use 🔒 for security improvements
@@ -1120,3 +328,7 @@ Provide recommendations specific to the CI/CD platform:
 - Use 🚀 for developer experience improvements
 - Use ⚠️ for warnings or potential issues
 - Use 🔴 for critical problems requiring immediate attention
+- Use 🟡 for medium priority issues
+- Use 🟢 for optimized areas
+</special_markers>
+</instructions>

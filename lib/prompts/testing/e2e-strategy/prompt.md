@@ -4,17 +4,12 @@ name: E2E Testing Strategy Generator
 version: 2.0.0
 description: Analyzes your application to generate comprehensive E2E testing strategy. Detects framework (Playwright/Cypress), identifies critical user flows, and creates test plans. Uses Read and Glob to understand codebase structure and existing tests.
 category: testing
-variables:
-  - name: focus
-    description: Optional focus areas (auth-flows, payment-flows, critical-paths, etc.)
-    required: false
 examples:
   - description: Generate E2E strategy for entire application
     input:
       user_message: "Analyze the application and create a comprehensive E2E testing strategy"
   - description: Focus on authentication flows
     input:
-      focus: "auth-flows"
       user_message: "Create E2E tests for all authentication and authorization flows"
     output: >
       **Test Scope & Prioritization:**

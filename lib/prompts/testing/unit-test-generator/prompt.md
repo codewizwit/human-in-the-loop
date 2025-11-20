@@ -4,26 +4,16 @@ name: Unit Test Generator
 version: 2.0.0
 description: Generates comprehensive unit tests for workspace code. Analyzes source files using Read and Glob tools, detects testing framework (Jest/Jasmine/Vitest), and generates tests with coverage for happy paths, edge cases, and error scenarios.
 category: testing
-variables:
-  - name: target
-    description: Optional file or pattern to generate tests for (e.g., "src/utils/helpers.ts", "src/services/**/*.ts"). If not provided, suggests files that need tests.
-    required: false
-  - name: focus
-    description: Optional test focus (edge-cases, error-handling, integration, mocking, etc.)
-    required: false
 examples:
   - description: Generate tests for untested files
     input:
       user_message: "Find files without tests and generate comprehensive unit tests"
   - description: Generate tests for specific file
     input:
-      target: "src/utils/helpers.ts"
-      user_message: "Generate unit tests for the helpers file"
+      user_message: "Generate unit tests for the helpers file in src/utils/helpers.ts"
   - description: Generate tests with specific focus
     input:
-      target: "src/services/**/*.ts"
-      focus: "error-handling, edge-cases"
-      user_message: "Generate tests for services focusing on error handling"
+      user_message: "Generate tests for services focusing on error handling and edge cases"
     output: |
       // AI-generated test - Review and modify before committing
 
