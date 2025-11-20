@@ -1,38 +1,24 @@
 ---
 id: system-design-review
 name: System Design Review
-version: 1.0.0
-description: Validates architectural decisions against best practices,
-  scalability concerns, maintainability, and operational excellence. Provides
-  comprehensive analysis of system design with trade-offs, alternatives, and
-  actionable recommendations.
+version: 2.0.0
+description: Analyzes your system architecture from codebase and documentation. Uses Read and Glob to examine architecture files, documentation, and code structure. Validates against best practices, scalability, maintainability, and operational excellence.
 category: architecture
 variables:
-  - name: system_description
-    description: High-level description of the system or component being designed
-    required: true
-  - name: requirements
-    description: Functional and non-functional requirements (performance, scale,
-      reliability, etc.)
-    required: true
-  - name: proposed_architecture
-    description:
-      Detailed architecture design including components, data flow, and
-      technology choices
-    required: true
-  - name: constraints
-    description: Technical constraints, budget limits, team expertise, timeline,
-      compliance requirements
+  - name: scope
+    description: Optional scope (e.g., "docs/architecture/**", "src/services/**"). If not provided, analyzes entire system.
     required: false
-  - name: architecture_type
-    description: Type of architecture (microservices, monolith, serverless,
-      event-driven, etc.)
-    required: false
-  - name: scale_requirements
-    description: Expected scale (users, requests/sec, data volume, geographic distribution)
+  - name: focus
+    description: Optional focus areas (scalability, reliability, security, performance, maintainability)
     required: false
 examples:
-  - input:
+  - description: Full system architecture review
+    input:
+      user_message: "Review the system architecture and provide recommendations"
+  - description: Focus on scalability
+    input:
+      focus: "scalability, performance"
+      user_message: "Review architecture focusing on scalability concerns"
       system_description: >
         E-commerce platform for selling custom merchandise. Users can browse
         products,
@@ -618,40 +604,43 @@ metadata:
   lastUpdated: 2025-01-18
 ---
 
-You are an expert software architect with deep experience in distributed systems, scalability, security, and operational excellence. Conduct a comprehensive architectural review of the proposed system design.
+<context>
+You are an expert software architect with deep experience in distributed systems, scalability, security, and operational excellence.
+</context>
 
-## System Overview
+<instructions>
+Conduct a comprehensive architectural review of the system by analyzing the workspace.
 
-{{system_description}}
+## Analysis Approach
 
-## Requirements
+1. **Discovery Phase**:
+   - Use Glob to find architecture documentation (docs/architecture/**, README.md, ADRs)
+   - Read package.json and configuration files to understand tech stack
+   - Find infrastructure-as-code files (Terraform, CloudFormation, docker-compose)
+   - Locate service definitions and API contracts
 
-{{requirements}}
+2. **Architecture Analysis Phase**:
+   - Use Read to examine system documentation
+   - Identify architecture patterns (microservices, monolith, event-driven, etc.)
+   - Analyze service boundaries and dependencies
+   - Review data flow and storage strategies
+   - Examine deployment and scaling approaches
 
-## Proposed Architecture
+3. **Review Framework** - Analyze these architectural dimensions:
+</instructions>
 
-{{proposed_architecture}}
-
-{{#if constraints}}
-
-## Constraints
-
-{{constraints}}
+{{#if scope}}
+<review_scope>
+Focus architecture review on: {{scope}}
+</review_scope>
 {{/if}}
 
-{{#if architecture_type}}
-
-## Architecture Type
-
-{{architecture_type}}
+{{#if focus}}
+<architecture_focus>
+Emphasize these areas: {{focus}}
+</architecture_focus>
 {{/if}}
 
-{{#if scale_requirements}}
-
-## Scale Requirements
-
-{{scale_requirements}}
-{{/if}}
 
 ## Review Framework
 
