@@ -1,43 +1,29 @@
 ---
 id: unit-test-generator
 name: Unit Test Generator
-version: 1.0.0
-description: Generates comprehensive unit tests for TypeScript/JavaScript code
-  with coverage for happy paths, edge cases, and error scenarios using Jest or
-  Jasmine frameworks
+version: 2.0.0
+description: Generates comprehensive unit tests for workspace code. Analyzes source files using Read and Glob tools, detects testing framework (Jest/Jasmine/Vitest), and generates tests with coverage for happy paths, edge cases, and error scenarios.
 category: testing
 variables:
-  - name: code
-    description: The source code (function, class, or module) to generate tests for
-    required: true
-  - name: framework
-    description: Testing framework to use (jest or jasmine)
-    required: true
-  - name: test_type
-    description:
-      Type of component being tested (function, class, React component,
-      Angular service, etc.)
+  - name: target
+    description: Optional file or pattern to generate tests for (e.g., "src/utils/helpers.ts", "src/services/**/*.ts"). If not provided, suggests files that need tests.
     required: false
-  - name: dependencies
-    description: External dependencies that need mocking (API clients, databases, etc.)
-    required: false
-  - name: coverage_focus
-    description: Specific scenarios to emphasize (edge cases, error handling,
-      performance, etc.)
+  - name: focus
+    description: Optional test focus (edge-cases, error-handling, integration, mocking, etc.)
     required: false
 examples:
-  - input:
-      code: >
-        export function calculateDiscount(price: number, discountPercent:
-        number): number {
-          if (price < 0 || discountPercent < 0 || discountPercent > 100) {
-            throw new Error('Invalid input');
-          }
-          return price * (1 - discountPercent / 100);
-        }
-      framework: jest
-      test_type: function
-      coverage_focus: Edge cases and error handling
+  - description: Generate tests for untested files
+    input:
+      user_message: "Find files without tests and generate comprehensive unit tests"
+  - description: Generate tests for specific file
+    input:
+      target: "src/utils/helpers.ts"
+      user_message: "Generate unit tests for the helpers file"
+  - description: Generate tests with specific focus
+    input:
+      target: "src/services/**/*.ts"
+      focus: "error-handling, edge-cases"
+      user_message: "Generate tests for services focusing on error handling"
     output: |
       // AI-generated test - Review and modify before committing
 
@@ -371,42 +357,39 @@ while remaining easy to understand and maintain.
 </context>
 
 <instructions>
-Generate comprehensive unit tests following AAA pattern and best practices.
-Include happy path, edge cases, and error scenarios with clear test names and organization.
+Generate comprehensive unit tests for code in the workspace.
+
+## Analysis Approach
+
+1. **Discovery Phase**:
+   - Use Glob to find source files and existing test files
+   - Read package.json to detect testing framework (Jest, Jasmine, Vitest)
+   - Identify files without corresponding test files
+   - Map project structure and testing patterns
+
+2. **Code Analysis Phase**:
+   - Use Read to examine source files needing tests
+   - Identify functions, classes, and components to test
+   - Analyze dependencies that need mocking
+   - Determine test coverage gaps
+
+3. **Test Generation**:
+   - Generate tests following AAA pattern (Arrange-Act-Assert)
+   - Cover happy path, edge cases, and error scenarios
+   - Include proper mocking for dependencies
+   - Use descriptive test names and organization
 </instructions>
 
-<code_to_test>
-
-```typescript
-{
-  {
-    code;
-  }
-}
-```
-
-</code_to_test>
-
-<testing_framework>
-{{framework}}
-</testing_framework>
-
-{{#if test_type}}
-<component_type>
-{{test_type}}
-</component_type>
+{{#if target}}
+<test_target>
+Generate tests for files matching: {{target}}
+</test_target>
 {{/if}}
 
-{{#if dependencies}}
-<dependencies_to_mock>
-{{dependencies}}
-</dependencies_to_mock>
-{{/if}}
-
-{{#if coverage_focus}}
-<coverage_focus>
-{{coverage_focus}}
-</coverage_focus>
+{{#if focus}}
+<test_focus>
+Emphasize these test scenarios: {{focus}}
+</test_focus>
 {{/if}}
 
 <test_generation_guidelines>
