@@ -157,7 +157,9 @@ Developer-first principles and practices that guide how we build, evaluate, and 
 
 ## Repository Structure
 
-> Generated with `npx tree-node-cli -L 3 --dirs-first -I "node_modules|dist|.git|.nx|tmp|coverage"`
+> Generated with `pnpm tree` (auto-updated via markdown-magic)
+
+<!-- AUTO-GENERATED-CONTENT:START (TREE) -->
 
 ```
 human-in-the-loop/
@@ -200,6 +202,8 @@ human-in-the-loop/
 ├── CONTRIBUTING.md              # Contribution guidelines
 └── README.md                    # This file
 ```
+
+<!-- AUTO-GENERATED-CONTENT:END -->
 
 ---
 

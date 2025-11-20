@@ -1,0 +1,13 @@
+name: Build Project
+description: Build the CLI project and run type checking
+
+runs:
+  using: composite
+  steps:
+    - name: Build all projects
+      shell: bash
+      run: npx nx build cli
+
+    - name: Type check
+      shell: bash
+      run: pnpm typecheck

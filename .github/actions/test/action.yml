@@ -1,0 +1,20 @@
+name: Run Tests
+description: Run test suite with optional coverage
+
+inputs:
+  coverage:
+    description: 'Generate coverage report'
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Run tests
+      shell: bash
+      run: |
+        if [ "${{ inputs.coverage }}" = "true" ]; then
+          pnpm test:coverage
+        else
+          pnpm test:all
+        fi

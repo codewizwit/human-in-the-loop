@@ -4,11 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: 'Version bump type (leave empty to use conventional commits)'
+        description: 'Version bump type'
         required: false
         type: choice
+        default: 'auto'
         options:
-          - ''
+          - auto
           - patch
           - minor
           - major
@@ -54,7 +55,7 @@ jobs:
         id: version_bump
         run: |
           # Use manual version type if provided, otherwise use conventional commits
-          if [ -n "${{ inputs.version_type }}" ]; then
+          if [ "${{ inputs.version_type }}" != "auto" ]; then
             echo "📦 Manual version bump: ${{ inputs.version_type }}"
             pnpm release --release-as ${{ inputs.version_type }}
           else

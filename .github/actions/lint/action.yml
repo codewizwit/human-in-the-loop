@@ -1,0 +1,13 @@
+name: Lint and Format Check
+description: Run linting and formatting checks
+
+runs:
+  using: composite
+  steps:
+    - name: Check formatting
+      shell: bash
+      run: npx prettier --check "**/*.{ts,js,json,md,yml,yaml}"
+
+    - name: Run ESLint
+      shell: bash
+      run: pnpm lint
