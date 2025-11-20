@@ -15,16 +15,21 @@ import {
   isToolInstalled,
   getInstalledTool,
 } from '../utils/registry';
+import {
+  createClaudeCommand,
+  isClaudeAvailable,
+} from '../utils/claude-integration';
 import inquirer from 'inquirer';
+import { join } from 'path';
 
 /**
  * Installs a prompt or agent from the library to the specified location
  * @param toolIdentifier - The tool identifier in format type/id (e.g., prompt/code-review-ts)
- * @param options - Optional configuration including installation path
+ * @param options - Optional configuration including installation path and Claude Code integration
  */
 export async function installCommand(
   toolIdentifier: string,
-  options?: { path?: string }
+  options?: { path?: string; claudeCommand?: boolean }
 ): Promise<void> {
   logInfo(`📦 Installing ${toolIdentifier}...`);
   logNewLine();
@@ -102,6 +107,44 @@ export async function installCommand(
     logNewLine();
     logSuccess(`Successfully installed ${tool.name} (v${tool.version})`);
     logStep('Installed to: ' + chalk.cyan(installPath));
+
+    if (options?.claudeCommand) {
+      if (tool.type !== 'prompt') {
+        logNewLine();
+        logWarning(
+          'Claude Code slash commands can only be created for prompts'
+        );
+        logStep('Skipping slash command creation');
+      } else if (!isClaudeAvailable()) {
+        logNewLine();
+        logWarning(
+          'Claude Code integration not available (unable to access .claude directory)'
+        );
+        logStep('Skipping slash command creation');
+      } else {
+        try {
+          logNewLine();
+          logStep('Creating Claude Code slash command...');
+
+          const promptYamlPath = join(installPath, 'prompt.yaml');
+          const commandPath = createClaudeCommand(promptYamlPath, tool.id);
+
+          logSuccess(`Created slash command: /${tool.id}`);
+          logStep('Command file: ' + chalk.cyan(commandPath));
+          logStep(
+            `Use ${chalk.bold(
+              `/${tool.id}`
+            )} in Claude Code to activate this prompt`
+          );
+        } catch (error) {
+          logWarning(
+            'Failed to create Claude Code command: ' +
+              (error instanceof Error ? error.message : 'Unknown error')
+          );
+        }
+      }
+    }
+
     logNewLine();
     logTip('Use ' + chalk.bold('hit list') + ' to see all installed tools');
   } catch (error) {
