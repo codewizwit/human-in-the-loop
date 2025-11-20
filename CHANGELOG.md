@@ -19,7 +19,6 @@ All notable changes to this project will be documented in this file. See [standa
 - ACCOUNTABILITY.md renamed to RESPONSIBLE-AI-PLAYBOOK.md
 - All references to "Accountability Framework" updated to "Responsible AI Playbook"
 
-
 ### [1.1.7](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.6...v1.1.7) (2025-10-19)
 
 ### [1.1.6](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.5...v1.1.6) (2025-10-17)
