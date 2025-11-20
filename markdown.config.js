@@ -6,6 +6,6 @@ module.exports = {
       // Run pnpm tree and get output
       const tree = execSync('pnpm tree', { encoding: 'utf-8' });
       return tree.trim();
-    }
-  }
+    },
+  },
 };

@@ -160,6 +160,7 @@ Developer-first principles and practices that guide how we build, evaluate, and 
 > Generated with `pnpm tree` (auto-updated via markdown-magic)
 
 <!-- AUTO-GENERATED-CONTENT:START (TREE) -->
+
 ```
 human-in-the-loop/
 ├── docs/                        # Documentation
@@ -201,6 +202,7 @@ human-in-the-loop/
 ├── CONTRIBUTING.md              # Contribution guidelines
 └── README.md                    # This file
 ```
+
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ---

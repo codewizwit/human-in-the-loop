@@ -6,59 +6,22 @@ Brief description of what this PR does and why.
 
 ## Type of Change
 
-- [ ] New prompt
-- [ ] New agent
-- [ ] New context pack
+- [ ] New prompt/agent/tool
 - [ ] Bug fix
-- [ ] Documentation update
+- [ ] Documentation
 - [ ] CLI enhancement
-- [ ] Other (please describe)
 
 ## Checklist
 
-### Pre-Commit Validation
-
-Before submitting this PR, the following commands were run and passed:
-
-- [ ] `pnpm format` - Prettier formatting applied
-- [ ] `pnpm lint` - ESLint checks passed
-- [ ] `pnpm typecheck` - TypeScript compilation successful
-- [ ] `pnpm build` - Project builds without errors
-- [ ] `pnpm test` - All tests pass (if applicable)
-
-See [CLAUDE.md PR-Ready Workflow](../CLAUDE.md#-pr-ready-workflow) for details.
-
-### Code Quality
-
-- [ ] All functions documented with TypeDoc comments (above functions only)
-- [ ] No inline comments (`//` style)
-- [ ] TypeScript strict mode passes
-- [ ] Code follows project conventions
-
-### Documentation
-
-- [ ] Each new feature directory has README.md
-- [ ] READMEs contain usage examples with clear instructions
-- [ ] READMEs have proper section headers
-- [ ] Main README updated if adding major feature
-
-### For Prompts/Agents
-
-- [ ] prompt.yaml or agent.yaml follows schema
-- [ ] Includes at least 2 usage examples
-- [ ] Author and license metadata provided
-- [ ] Version follows semver (X.Y.Z)
-
-### Testing & Security
-
-- [ ] Tests added/updated (if applicable)
+- [ ] Ran `pnpm format && pnpm lint && pnpm typecheck && pnpm build && pnpm test`
+- [ ] New features have README.md with usage examples
 - [ ] No secrets or credentials in code
-- [ ] No hardcoded API keys or tokens
-- [ ] Follows contribution guidelines in CONTRIBUTING.md
+
+> **Note:** CI will automatically check formatting, linting, tests, TypeDoc comments, and YAML schemas.
 
 ## Additional Notes
 
-Add any additional context or screenshots here.
+_(Optional) Add context, screenshots, or breaking changes here._
 
 ---
 
