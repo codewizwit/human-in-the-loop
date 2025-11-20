@@ -1,0 +1,9 @@
+name: Check Documentation Links
+description: Validate all documentation links are not broken
+
+runs:
+  using: composite
+  steps:
+    - name: Check documentation links
+      shell: bash
+      run: pnpm check-links
