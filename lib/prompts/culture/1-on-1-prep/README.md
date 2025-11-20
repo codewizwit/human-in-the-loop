@@ -551,7 +551,7 @@ This week I worked on several things including the design system migration which
 - [Code Review Empathy](../code-review-empathy/README.md) - Constructive feedback practices
 - [User Story Breakdown](../../planning/user-story-breakdown/README.md) - Project planning alignment
 - [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage guidelines
-- [Communication Best Practices](https://www.manager-tools.com/manager-tools-basics) - Manager Tools podcast
+- Manager Tools podcast - Communication best practices and 1-on-1 frameworks
 
 ## Further Reading
 
