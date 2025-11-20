@@ -6,7 +6,7 @@ jest.mock('child_process');
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
 
 // Note: We don't mock package.json because the require path in update.ts
-// resolves to the actual built package.json (version 1.1.7)
+// resolves to the actual built package.json (version 2.0.0)
 
 describe('update command', () => {
   beforeEach(() => {
@@ -16,8 +16,8 @@ describe('update command', () => {
   });
 
   it('should show success message when already on latest version', async () => {
-    // Mock npm view to return same version as current (1.1.7)
-    mockExecSync.mockReturnValueOnce('1.1.7' as never); // npm view call
+    // Mock npm view to return same version as current (2.0.0)
+    mockExecSync.mockReturnValueOnce('2.0.0' as never); // npm view call
 
     await updateCommand();
 
@@ -28,7 +28,7 @@ describe('update command', () => {
 
   it('should update CLI when newer version is available', async () => {
     // First call: npm view (get latest version)
-    mockExecSync.mockReturnValueOnce('1.2.0\n' as never);
+    mockExecSync.mockReturnValueOnce('2.1.0\n' as never);
 
     // Second call: npm install (perform update)
     mockExecSync.mockReturnValueOnce('' as never);
@@ -63,7 +63,7 @@ describe('update command', () => {
 
   it('should handle error when update fails', async () => {
     // First call succeeds (get latest version)
-    mockExecSync.mockReturnValueOnce('1.2.0\n' as never);
+    mockExecSync.mockReturnValueOnce('2.1.0\n' as never);
 
     // Second call fails (update fails)
     mockExecSync.mockImplementationOnce(() => {
