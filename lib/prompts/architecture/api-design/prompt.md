@@ -1,37 +1,25 @@
 ---
 id: api-design
 name: API Design Best Practices
-version: 1.1.0
-description: Provides guidance on REST and GraphQL API design following industry
-  best practices, covering naming conventions, versioning, security, and
-  scalability
+version: 2.0.0
+description: Analyzes your API codebase and provides guidance on REST/GraphQL design. Uses Read and Grep to examine existing endpoints, routes, and schemas. Covers naming conventions, versioning, security, scalability, and industry best practices.
 category: architecture
 variables:
-  - name: api_type
-    description: The type of API (REST, GraphQL, or both)
-    required: true
-  - name: endpoints
-    description: List of endpoints or operations to design/review
-    required: true
-  - name: business_requirements
-    description: Business context and requirements for the API
+  - name: scope
+    description: Optional API scope to analyze (e.g., "src/api/**/*.ts", "routes/**/*.js"). If not provided, analyzes all API code.
     required: false
-  - name: existing_design
-    description: Existing API design to review (optional)
+  - name: focus
+    description: Optional focus areas (security, versioning, naming, performance, etc.)
     required: false
 examples:
-  - input:
-      api_type: REST
-      endpoints: |
-        - User registration
-        - User login
-        - Get user profile
-        - Update user profile
-        - Delete user account
-      business_requirements: |
-        Building a user management system for a SaaS application.
-        Need to support OAuth and API key authentication.
-        Must comply with GDPR (data deletion).
+  - description: Review entire API design
+    input:
+      user_message: "Review the API design and suggest improvements"
+  - description: Focus on API security
+    input:
+      scope: "src/api/**/*.ts"
+      focus: "security, authentication"
+      user_message: "Review API endpoints for security best practices"
     output: >
       **Endpoint Design:**
 
@@ -392,7 +380,24 @@ balances developer experience with technical requirements, and creates scalable,
 </context>
 
 <instructions>
-Provide comprehensive API design guidance covering the following areas:
+Analyze the API implementation in the workspace and provide comprehensive design guidance.
+
+## Analysis Approach
+
+1. **Discovery Phase**:
+   - Use Glob to find API files (routes, controllers, resolvers, schemas)
+   - Read package.json to identify API framework (Express, NestJS, Fastify, Apollo, etc.)
+   - Identify API type (REST, GraphQL, or both)
+   - Locate API documentation (OpenAPI/Swagger, GraphQL schema)
+
+2. **API Analysis Phase**:
+   - Use Read to examine route definitions and endpoint handlers
+   - Use Grep to find authentication/authorization patterns
+   - Analyze request/response structures
+   - Identify versioning strategy
+   - Review error handling patterns
+
+3. **Design Guidance** covering the following areas:
 
 ### 1. RESTful Principles (if applicable)
 
@@ -577,24 +582,16 @@ Provide comprehensive API design guidance covering the following areas:
 - Rate limit information
   </instructions>
 
-<api_type>
-{{api_type}}
-</api_type>
-
-<endpoints>
-{{endpoints}}
-</endpoints>
-
-{{#if business_requirements}}
-<business_requirements>
-{{business_requirements}}
-</business_requirements>
+{{#if scope}}
+<api_scope>
+Focus API analysis on files matching: {{scope}}
+</api_scope>
 {{/if}}
 
-{{#if existing_design}}
-<existing_design>
-{{existing_design}}
-</existing_design>
+{{#if focus}}
+<design_focus>
+Emphasize these design areas: {{focus}}
+</design_focus>
 {{/if}}
 
 <constraints>
