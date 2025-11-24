@@ -2,294 +2,88 @@ import {
   logInfo,
   logStep,
   logSuccess,
-  logWarning,
   logError,
-  logHeader,
   logNewLine,
 } from '../utils/logger';
-import chalk from 'chalk';
-import { getTool } from '../utils/lib-scanner';
-import { copyDirectory } from '../utils/file-operations';
-import {
-  getInstalledTools,
-  registerInstallation,
-  getInstalledTool,
-} from '../utils/registry';
-import inquirer from 'inquirer';
-import { existsSync, renameSync } from 'fs';
+import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 /**
- * Compares two semantic version strings
- * @param current - Current version (e.g., "1.0.0")
- * @param latest - Latest version (e.g., "1.1.0")
- * @returns true if latest is newer than current
+ * Gets the current CLI version from package.json
+ * @returns Current version string
  */
-function isNewerVersion(current: string, latest: string): boolean {
-  const parseCurrent = current.split('.').map(Number);
-  const parseLatest = latest.split('.').map(Number);
-
-  for (let i = 0; i < 3; i++) {
-    if (parseLatest[i] > parseCurrent[i]) return true;
-    if (parseLatest[i] < parseCurrent[i]) return false;
+function getCurrentVersion(): string {
+  try {
+    const packagePath = join(__dirname, '../../package.json');
+    const packageContent = readFileSync(packagePath, 'utf-8');
+    const packageJson = JSON.parse(packageContent) as { version: string };
+    return packageJson.version;
+  } catch {
+    return 'unknown';
   }
-  return false;
 }
 
 /**
- * Checks for available updates for installed tools
- * @param toolId - Optional specific tool ID to check
- * @returns Array of tools that have updates available
+ * Gets the latest CLI version from npm registry
+ * @returns Latest version string or null if unable to fetch
  */
-export async function checkForUpdates(toolId?: string): Promise<
-  Array<{
-    id: string;
-    name: string;
-    currentVersion: string;
-    latestVersion: string;
-    installedPath: string;
-  }>
-> {
-  const installedTools = toolId
-    ? [getInstalledTool(toolId)].filter(Boolean)
-    : getInstalledTools();
-
-  const updatesAvailable = [];
-
-  for (const installed of installedTools) {
-    if (!installed) continue;
-
-    const latestTool = getTool(installed.id);
-
-    if (!latestTool) {
-      logWarning(
-        `Tool "${installed.id}" not found in toolkit (may have been removed)`
-      );
-      continue;
-    }
-
-    if (isNewerVersion(installed.version, latestTool.version)) {
-      updatesAvailable.push({
-        id: installed.id,
-        name: installed.name,
-        currentVersion: installed.version,
-        latestVersion: latestTool.version,
-        installedPath: installed.installedPath,
-      });
-    }
+function getLatestVersion(): string | null {
+  try {
+    const result = execSync('npm view @human-in-the-loop/cli version', {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+    return result.trim();
+  } catch {
+    return null;
   }
-
-  return updatesAvailable;
 }
 
 /**
- * Updates a specific tool to its latest version
- * @param toolIdentifier - The tool identifier in format type/id (e.g., prompt/code-review-ts)
- * @param options - Optional configuration including force and no-backup flags
+ * Updates the CLI to the latest version from npm
  */
-export async function updateCommand(
-  toolIdentifier?: string,
-  options?: {
-    all?: boolean;
-    check?: boolean;
-    force?: boolean;
-    noBackup?: boolean;
-  }
-): Promise<void> {
-  if (options?.check) {
-    logInfo('🔍 Checking for updates...');
-    logNewLine();
-
-    const updates = await checkForUpdates(
-      toolIdentifier ? toolIdentifier.split('/')[1] : undefined
-    );
-
-    if (updates.length === 0) {
-      logSuccess('All installed tools are up to date!');
-      return;
-    }
-
-    logHeader(
-      `Found ${updates.length} update${updates.length === 1 ? '' : 's'}:`
-    );
-    logNewLine();
-
-    updates.forEach((update) => {
-      console.log(
-        chalk.blue(`  ${update.name}`) + chalk.gray(` (${update.id})`)
-      );
-      console.log(
-        chalk.gray(`    Current: ${update.currentVersion}`) +
-          chalk.green(` → Latest: ${update.latestVersion}`)
-      );
-      logNewLine();
-    });
-
-    return;
-  }
-
-  if (options?.all) {
-    logInfo('⬆️  Updating all installed tools...');
-    logNewLine();
-
-    const updates = await checkForUpdates();
-
-    if (updates.length === 0) {
-      logSuccess('All installed tools are up to date!');
-      return;
-    }
-
-    logHeader(
-      `Found ${updates.length} update${updates.length === 1 ? '' : 's'}`
-    );
-    updates.forEach((update) => {
-      console.log(
-        chalk.gray(`  • ${update.name} `) +
-          chalk.gray(`${update.currentVersion}`) +
-          chalk.green(` → ${update.latestVersion}`)
-      );
-    });
-    logNewLine();
-
-    const { proceed } = await inquirer.prompt<{ proceed: boolean }>([
-      {
-        type: 'confirm',
-        name: 'proceed',
-        message: `Update ${updates.length} tool${
-          updates.length === 1 ? '' : 's'
-        }?`,
-        default: true,
-      },
-    ]);
-
-    if (!proceed) {
-      logInfo('Update cancelled');
-      return;
-    }
-
-    let successCount = 0;
-    let failureCount = 0;
-
-    for (const update of updates) {
-      try {
-        await performUpdate(
-          update.id,
-          update.installedPath,
-          options?.noBackup || false
-        );
-        successCount++;
-        logSuccess(`Updated ${update.name} to v${update.latestVersion}`);
-      } catch (error) {
-        failureCount++;
-        logError(
-          `Failed to update ${update.name}: ${(error as Error).message}`
-        );
-      }
-    }
-
-    logNewLine();
-    logHeader('Update Summary:');
-    console.log(chalk.green(`  ✓ ${successCount} updated successfully`));
-    if (failureCount > 0) {
-      console.log(chalk.red(`  ✗ ${failureCount} failed`));
-    }
-
-    return;
-  }
-
-  if (!toolIdentifier) {
-    logError('Please specify a tool to update or use --all');
-    logStep('Example: ' + chalk.bold('hit update prompt/code-review-ts'));
-    logStep('Or: ' + chalk.bold('hit update --all'));
-    return;
-  }
-
-  logInfo(`⬆️  Updating ${toolIdentifier}...`);
+export async function updateCommand(): Promise<void> {
+  logInfo('🔍 Checking for updates...');
   logNewLine();
 
-  const parts = toolIdentifier.split('/');
-  if (parts.length !== 2) {
-    logError('Invalid tool identifier. Use format: <type>/<id>');
-    logStep('Example: ' + chalk.bold('hit update prompt/code-review-ts'));
-    return;
-  }
+  const currentVersion = getCurrentVersion();
+  const latestVersion = getLatestVersion();
 
-  const [, toolId] = parts;
-
-  const installed = getInstalledTool(toolId);
-  if (!installed) {
-    logError(`Tool "${toolIdentifier}" is not installed`);
-    logStep('Use ' + chalk.bold('hit list') + ' to see installed tools');
-    return;
-  }
-
-  const latestTool = getTool(toolId);
-  if (!latestTool) {
-    logError(`Tool "${toolIdentifier}" not found in toolkit`);
-    return;
-  }
-
-  if (
-    !options?.force &&
-    !isNewerVersion(installed.version, latestTool.version)
-  ) {
-    logSuccess(
-      `${installed.name} is already up to date (v${installed.version})`
+  if (!latestVersion) {
+    logError(
+      'Unable to check for updates. Please check your internet connection.'
     );
     return;
   }
 
-  logStep(`Updating from v${installed.version} to v${latestTool.version}...`);
+  logStep(`Current version: v${currentVersion}`);
+  logStep(`Latest version:  v${latestVersion}`);
+  logNewLine();
+
+  if (currentVersion === latestVersion) {
+    logSuccess('You are already running the latest version!');
+    return;
+  }
+
+  logInfo('⬆️  Updating CLI to latest version...');
+  logNewLine();
 
   try {
-    await performUpdate(
-      toolId,
-      installed.installedPath,
-      options?.noBackup || false
-    );
+    logStep('Running: npm install -g @human-in-the-loop/cli@latest');
+
+    execSync('npm install -g @human-in-the-loop/cli@latest', {
+      stdio: 'inherit',
+    });
+
     logNewLine();
     logSuccess(
-      `Successfully updated ${installed.name} to v${latestTool.version}`
+      `Successfully updated CLI from v${currentVersion} to v${latestVersion}`
     );
-  } catch (error) {
-    logError(`Update failed: ${(error as Error).message}`);
+    logStep('All bundled tools (prompts, agents, skills) have been updated!');
+  } catch {
+    logNewLine();
+    logError('Update failed. Please try manually:');
+    logStep('  npm install -g @human-in-the-loop/cli@latest');
   }
-}
-
-/**
- * Performs the actual update operation
- * @param toolId - The tool ID to update
- * @param installedPath - The current installation path
- * @param noBackup - Whether to skip backup
- */
-async function performUpdate(
-  toolId: string,
-  installedPath: string,
-  noBackup: boolean
-): Promise<void> {
-  const latestTool = getTool(toolId);
-  if (!latestTool) {
-    throw new Error(`Tool "${toolId}" not found in toolkit`);
-  }
-
-  if (!noBackup) {
-    const backupPath = `${installedPath}.backup-${Date.now()}`;
-    if (existsSync(installedPath)) {
-      logStep('Creating backup...');
-      renameSync(installedPath, backupPath);
-      logStep(`Backup created at: ${backupPath}`);
-    }
-  }
-
-  logStep('Copying updated files...');
-  await copyDirectory(latestTool.path, installedPath);
-
-  logStep('Updating registry...');
-  registerInstallation({
-    id: latestTool.id,
-    name: latestTool.name,
-    version: latestTool.version,
-    type: latestTool.type,
-    installedPath: installedPath,
-    installedAt: new Date().toISOString(),
-  });
 }

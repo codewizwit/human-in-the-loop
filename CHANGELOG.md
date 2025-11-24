@@ -2,20 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.3.2](https://github.com/codewizwit/human-in-the-loop/compare/v1.3.1...v1.3.2) (2025-11-20)
-
-### [1.3.1](https://github.com/codewizwit/human-in-the-loop/compare/v1.3.0...v1.3.1) (2025-11-20)
-
-## [1.3.0](https://github.com/codewizwit/human-in-the-loop/compare/v1.2.0...v1.3.0) (2025-11-20)
-
-## [1.2.0](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.7...v1.2.0) (2025-11-20)
-
+## [2.0.0] - 2025-11-20
 
 ### Features
 
-* add Skills architecture with Angular Modern and Legacy ([aa00f6f](https://github.com/codewizwit/human-in-the-loop/commit/aa00f6f5b48aa12f216f71f337278884cd9a23ef)), closes [#19](https://github.com/codewizwit/human-in-the-loop/issues/19)
-* add update command for installed tools ([054e1d9](https://github.com/codewizwit/human-in-the-loop/commit/054e1d982ada90e6185ec618482c284233293db3))
-* migrate prompts to XML structure and add migration guide ([b1f30c0](https://github.com/codewizwit/human-in-the-loop/commit/b1f30c00d1ee92a33b2491fe899e9d4046acee0a))
+- **XML Template Migration** - Migrate prompts to markdown with XML structure for Claude Code integration
+- **Claude Code Integration** - Automatic `/slash-command` creation in Claude Code
+- **Tool-Based Workspace Analysis** - Prompts use Read/Grep/Glob tools instead of copy-paste
+- **Responsible AI Playbook** - Rebrand from Accountability Framework to Responsible AI Playbook
+- **Documentation Refactor** - Developer-friendly README with codewizwit branding and emojis
+- **Skills Architecture** - Add Angular Modern and Angular Legacy skills for Claude Code
+
+### Breaking Changes
+
+- Prompt format changed from plain markdown to markdown with YAML frontmatter and XML structure
+- ACCOUNTABILITY.md renamed to RESPONSIBLE-AI-PLAYBOOK.md
+- All references to "Accountability Framework" updated to "Responsible AI Playbook"
 
 ### [1.1.7](https://github.com/codewizwit/human-in-the-loop/compare/v1.1.6...v1.1.7) (2025-10-19)
 

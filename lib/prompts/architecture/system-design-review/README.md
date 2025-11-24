@@ -510,7 +510,7 @@ Review architecture when crossing thresholds:
 ## Related Resources
 
 - [API Design Patterns](../api-design/README.md) - REST/GraphQL API design
-- [ACCOUNTABILITY.md](../../../../ACCOUNTABILITY.md) - Responsible AI usage
+- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Responsible AI usage
 
 Coming soon:
 

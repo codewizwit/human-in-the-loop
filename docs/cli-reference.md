@@ -109,18 +109,29 @@ hit install <tool> [options]
 **Options:**
 
 - `--path, -p <path>` - Installation path (skips interactive prompt)
+- `--no-claude-command` - Skip creating Claude Code slash command (prompts only)
+
+**Default Behavior:**
+
+When installing **prompts**, Claude Code slash commands are **automatically created** by default. Use `--no-claude-command` to skip this step.
 
 **Examples:**
 
 ```bash
-# Interactive install (prompts for path)
+# Interactive install - creates slash command automatically for prompts
 hit install prompt/code-review-ts
 
-# Non-interactive with custom path
+# Non-interactive with custom path - still creates slash command
 hit install prompt/code-review-ts --path ~/my-tools/prompts
 
-# Install to specific location
+# Install agent (no slash command - agents don't support this)
 hit install agent/test-generator -p ~/.claude/tools/agent/test-generator
+
+# Install prompt WITHOUT creating slash command
+hit install prompt/security-review --no-claude-command
+
+# Install prompt with custom path, skip slash command
+hit install prompt/security-review --path ~/.claude/tools/prompt/security-review --no-claude-command
 ```
 
 **Interactive Flow:**
@@ -152,6 +163,65 @@ If a tool is already installed, the CLI prompts for confirmation:
 
 ? Do you want to reinstall? (y/N)
 ```
+
+**Claude Code Integration:**
+
+When installing **prompts**, a Claude Code slash command is **automatically created** by default:
+
+```bash
+hit install prompt/security-review
+```
+
+**Output:**
+
+```
+📦 Installing prompt/security-review...
+
+  → Looking up tool...
+  → Copying tool files...
+  → Registering installation...
+
+✓ Successfully installed Security Review (v1.1.0)
+  → Installed to: ~/.claude/tools/prompt/security-review
+
+  → Creating Claude Code slash command...
+✓ Created slash command: /security-review
+  → Command file: ~/.claude/commands/security-review.md
+  → Use /security-review in Claude Code to activate this prompt
+
+💡 Tip: Use hit list to see all installed tools
+```
+
+**How it works:**
+
+1. Extracts the prompt template from `prompt.md`
+2. Creates `~/.claude/commands/{prompt-id}.md`
+3. Includes variable documentation as comments
+4. Makes the prompt available as a slash command in Claude Code
+
+**Usage in Claude Code:**
+
+After installing a prompt, open Claude Code and type:
+
+```
+/security-review
+```
+
+The prompt will be activated and ready to use with your code.
+
+**Opt-Out:**
+
+To install a prompt WITHOUT creating a slash command:
+
+```bash
+hit install prompt/security-review --no-claude-command
+```
+
+**Limitations:**
+
+- Only works for **prompt** type tools (not agents, skills, or context packs)
+- Requires `~/.claude` directory to exist or be creatable
+- If Claude Code integration fails, installation still succeeds (shows warning)
 
 ---
 
@@ -194,6 +264,84 @@ Context Packs:
 ⚠ No tools installed yet
 
 Use hit search to discover available tools, then hit install to add them.
+```
+
+---
+
+### `hit update`
+
+Update the CLI to the latest version from npm. This command updates the entire CLI package, including all bundled tools (prompts, agents, skills, context packs, etc.).
+
+**Usage:**
+
+```bash
+hit update
+```
+
+**What it does:**
+
+1. Checks the npm registry for the latest version of `@human-in-the-loop/cli`
+2. Compares it with your currently installed version
+3. If a newer version exists, installs it globally via npm
+4. All bundled tools are automatically updated with the CLI
+
+**Output Example (Already Up-to-Date):**
+
+```
+🔍 Checking for updates...
+
+  → Current version: v1.1.7
+  → Latest version:  v1.1.7
+
+✓ You are already running the latest version!
+```
+
+**Output Example (Update Available):**
+
+```
+🔍 Checking for updates...
+
+  → Current version: v1.1.7
+  → Latest version:  v1.2.0
+
+⬆️  Updating CLI to latest version...
+
+  → Running: npm install -g @human-in-the-loop/cli@latest
+
+✓ Successfully updated CLI from v1.1.7 to v1.2.0
+  → All bundled tools (prompts, agents, skills) have been updated!
+```
+
+**Output Example (Update Failed):**
+
+```
+🔍 Checking for updates...
+
+  → Current version: v1.1.7
+  → Latest version:  v1.2.0
+
+⬆️  Updating CLI to latest version...
+
+  → Running: npm install -g @human-in-the-loop/cli@latest
+
+✗ Update failed. Please try manually:
+  → npm install -g @human-in-the-loop/cli@latest
+```
+
+**Notes:**
+
+- Requires internet connection to check npm registry
+- Updates the entire CLI package (not individual tools)
+- Uses global npm installation (`-g` flag)
+- No arguments or options required
+- Automatically updates all bundled tools with the CLI
+
+**Manual Alternative:**
+
+If `hit update` fails, you can manually update with:
+
+```bash
+npm install -g @human-in-the-loop/cli@latest
 ```
 
 ---
@@ -383,13 +531,13 @@ hit contribute <type> <path>
 **Arguments:**
 
 - `type` (required) - Tool type: `prompt`, `agent`, `evaluator`, `guardrail`, or `context-pack`
-- `path` (required) - Path to tool YAML file (e.g., `prompt.yaml`)
+- `path` (required) - Path to tool definition file (e.g., `prompt.md`)
 
 **Examples:**
 
 ```bash
 # Contribute a prompt
-hit contribute prompt lib/prompts/my-prompt/prompt.yaml
+hit contribute prompt lib/prompts/my-prompt/prompt.md
 
 # Contribute an agent
 hit contribute agent lib/agents/my-agent/agent.yaml
@@ -418,7 +566,7 @@ hit contribute context-pack lib/context-packs/react/config.yaml
 ```
 📤 Submitting prompt for review...
 
-  → Validating lib/prompts/my-prompt/prompt.yaml...
+  → Validating lib/prompts/my-prompt/prompt.md...
   → Running quality checks...
 
 ✓ ✅ YAML validation passed
@@ -442,7 +590,7 @@ Next steps:
 ```
 📤 Submitting prompt for review...
 
-  → Validating lib/prompts/my-prompt/prompt.yaml...
+  → Validating lib/prompts/my-prompt/prompt.md...
   → Running quality checks...
 
 ✗ ❌ YAML validation failed

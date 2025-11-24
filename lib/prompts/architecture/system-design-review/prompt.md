@@ -1,206 +1,23 @@
+---
 id: system-design-review
 name: System Design Review
-version: 1.0.0
-description: Validates architectural decisions against best practices, scalability concerns, maintainability, and operational excellence. Provides comprehensive analysis of system design with trade-offs, alternatives, and actionable recommendations.
+version: 2.0.0
+description: Analyzes your system architecture from codebase and documentation. Uses Read and Glob to examine architecture files, documentation, and code structure. Validates against best practices, scalability, maintainability, and operational excellence.
 category: architecture
-
-variables:
-  - name: system_description
-    description: High-level description of the system or component being designed
-    required: true
-  - name: requirements
-    description: Functional and non-functional requirements (performance, scale, reliability, etc.)
-    required: true
-  - name: proposed_architecture
-    description: Detailed architecture design including components, data flow, and technology choices
-    required: true
-  - name: constraints
-    description: Technical constraints, budget limits, team expertise, timeline, compliance requirements
-    required: false
-  - name: architecture_type
-    description: Type of architecture (microservices, monolith, serverless, event-driven, etc.)
-    required: false
-  - name: scale_requirements
-    description: Expected scale (users, requests/sec, data volume, geographic distribution)
-    required: false
-
-template: |
-  You are an expert software architect with deep experience in distributed systems, scalability, security, and operational excellence. Conduct a comprehensive architectural review of the proposed system design.
-
-  ## System Overview
-  {{system_description}}
-
-  ## Requirements
-  {{requirements}}
-
-  ## Proposed Architecture
-  {{proposed_architecture}}
-
-  {{#if constraints}}
-  ## Constraints
-  {{constraints}}
-  {{/if}}
-
-  {{#if architecture_type}}
-  ## Architecture Type
-  {{architecture_type}}
-  {{/if}}
-
-  {{#if scale_requirements}}
-  ## Scale Requirements
-  {{scale_requirements}}
-  {{/if}}
-
-  ## Review Framework
-
-  Evaluate the proposed architecture across these critical dimensions:
-
-  ### 1. Scalability & Performance
-  - **Horizontal Scalability**: Can the system scale out by adding more instances?
-  - **Vertical Scalability**: What are the limits of scaling up individual components?
-  - **Performance Bottlenecks**: Identify potential bottlenecks (database, network, compute)
-  - **Caching Strategy**: Is caching appropriately used? (CDN, application, database levels)
-  - **Load Distribution**: How is load distributed? (load balancers, sharding, partitioning)
-  - **Async Processing**: Are long-running tasks handled asynchronously?
-
-  ### 2. Reliability & Resilience
-  - **Single Points of Failure**: Identify components that could bring down the entire system
-  - **Fault Tolerance**: How does the system handle component failures?
-  - **Disaster Recovery**: What is the backup and recovery strategy?
-  - **Circuit Breakers**: Are circuit breakers implemented for external dependencies?
-  - **Health Checks**: How is system health monitored and reported?
-  - **Graceful Degradation**: Can the system operate in degraded mode?
-
-  ### 3. Security
-  - **Authentication & Authorization**: How are users authenticated and authorized?
-  - **Data Encryption**: Is data encrypted at rest and in transit?
-  - **Network Security**: Are proper network boundaries and firewalls in place?
-  - **Secrets Management**: How are secrets, API keys, and credentials managed?
-  - **Attack Surface**: What is the attack surface and how is it minimized?
-  - **Compliance**: Does the design meet regulatory requirements (GDPR, HIPAA, SOC2)?
-
-  ### 4. Maintainability & Developer Experience
-  - **Code Organization**: Is the codebase well-structured and modular?
-  - **Service Boundaries**: Are service boundaries clear and well-defined?
-  - **Documentation**: Is the architecture well-documented?
-  - **Testing Strategy**: How will the system be tested? (unit, integration, E2E)
-  - **Local Development**: Can developers easily run the system locally?
-  - **Debugging & Tracing**: How will issues be diagnosed in production?
-
-  ### 5. Operational Excellence
-  - **Monitoring & Alerting**: What metrics are tracked? How are anomalies detected?
-  - **Logging**: Is logging centralized and searchable?
-  - **Deployment Strategy**: How is the system deployed? (CI/CD, blue-green, canary)
-  - **Rollback Capability**: Can deployments be quickly rolled back?
-  - **Infrastructure as Code**: Is infrastructure defined as code?
-  - **Cost Optimization**: Are there opportunities to reduce infrastructure costs?
-
-  ### 6. Data Management
-  - **Data Storage**: Are the right database technologies chosen for each use case?
-  - **Data Consistency**: How is data consistency maintained across services?
-  - **Data Migration**: How will schema changes and data migrations be handled?
-  - **Data Retention**: What is the data retention and archival strategy?
-  - **Database Scalability**: How will databases scale with growth?
-  - **Backup & Recovery**: Are backups automated and regularly tested?
-
-  ### 7. Integration & Dependencies
-  - **Third-Party Services**: What external services are used? What are the risks?
-  - **API Contracts**: Are API contracts well-defined and versioned?
-  - **Service Communication**: How do services communicate? (REST, gRPC, message queues)
-  - **Dependency Management**: Are dependencies minimized and well-managed?
-  - **Vendor Lock-in**: What is the risk of vendor lock-in?
-
-  ## Output Format
-
-  Provide a comprehensive architectural review with the following structure:
-
-  ### Executive Summary
-  - Overall assessment: 🟢 Strong / 🟡 Needs Improvement / 🔴 Critical Issues
-  - 2-3 sentence summary of the architecture's strengths and key concerns
-  - Top 3 recommendations for improvement
-
-  ### Detailed Findings
-
-  For each dimension (Scalability, Reliability, Security, etc.):
-
-  #### [Dimension Name]
-  **Assessment**: 🟢 Strong / 🟡 Needs Improvement / 🔴 Critical Issues
-
-  **Strengths**:
-  - List specific strengths in this dimension
-  - Highlight good architectural decisions
-
-  **Concerns**:
-  - List specific concerns or risks
-  - Explain potential impact (high/medium/low)
-
-  **Recommendations**:
-  - Provide actionable recommendations
-  - Suggest alternative approaches where applicable
-  - Include implementation guidance
-
-  ### Trade-offs Analysis
-
-  Document key trade-offs made in the architecture:
-
-  | Decision | Benefits | Drawbacks | Alternatives Considered |
-  |----------|----------|-----------|------------------------|
-  | [Choice] | [Pros]   | [Cons]    | [Other options]        |
-
-  ### Alternative Architectures
-
-  Suggest 1-2 alternative architectural approaches:
-
-  **Alternative 1: [Name]**
-  - Description: Brief overview
-  - When to use: Scenarios where this would be better
-  - Trade-offs: Key differences from proposed architecture
-
-  ### Risk Assessment
-
-  | Risk | Likelihood | Impact | Mitigation Strategy |
-  |------|-----------|--------|-------------------|
-  | [Risk description] | High/Medium/Low | High/Medium/Low | [How to mitigate] |
-
-  ### Action Items
-
-  Prioritized list of concrete next steps:
-
-  **High Priority** (address before implementation):
-  - [ ] Action item with clear acceptance criteria
-
-  **Medium Priority** (address during implementation):
-  - [ ] Action item with clear acceptance criteria
-
-  **Low Priority** (future improvements):
-  - [ ] Action item with clear acceptance criteria
-
-  ### Architectural Principles Checklist
-
-  - [ ] **Separation of Concerns**: Components have single, well-defined responsibilities
-  - [ ] **Loose Coupling**: Services can be modified independently
-  - [ ] **High Cohesion**: Related functionality is grouped together
-  - [ ] **Scalability**: System can handle growth in users, data, and traffic
-  - [ ] **Resilience**: System handles failures gracefully
-  - [ ] **Security**: Defense in depth with multiple security layers
-  - [ ] **Observability**: System behavior can be understood from outputs
-  - [ ] **Simplicity**: Architecture is as simple as possible, but no simpler
-  - [ ] **Cost Efficiency**: Resources are used efficiently
-  - [ ] **Developer Productivity**: Architecture enables fast, safe development
-
-  ## Special Markers
-
-  - Use 🔴 for critical issues that must be addressed before implementation
-  - Use 🟡 for concerns that should be addressed soon
-  - Use 🟢 for well-designed aspects that follow best practices
-  - Use 💡 for suggestions and optimizations
-  - Use ⚠️ for warnings about potential risks or anti-patterns
-
 examples:
-  - input:
-      system_description: |
-        E-commerce platform for selling custom merchandise. Users can browse products,
-        customize designs, place orders, and track shipments. Sellers can manage inventory
+  - description: Full system architecture review
+    input:
+      user_message: 'Review the system architecture and provide recommendations'
+  - description: Focus on scalability
+    input:
+      user_message: 'Review architecture focusing on scalability and performance concerns'
+      system_description: >
+        E-commerce platform for selling custom merchandise. Users can browse
+        products,
+
+        customize designs, place orders, and track shipments. Sellers can manage
+        inventory
+
         and fulfill orders.
       requirements: |
         - Support 10,000 concurrent users
@@ -220,44 +37,76 @@ examples:
         All traffic goes through Application Load Balancer.
         Session state stored in PostgreSQL.
         No caching layer.
-      constraints: Small team (3 developers), 6-month timeline, $5,000/month infrastructure budget
+      constraints: Small team (3 developers), 6-month timeline, $5,000/month
+        infrastructure budget
       architecture_type: monolith
       scale_requirements: 10,000 concurrent users, 1,000 orders/day, US market only
-    output: |
+    output: >
       # System Design Review: E-commerce Platform
+
 
       ## Executive Summary
 
+
       **Overall Assessment**: 🟡 Needs Improvement
 
-      The proposed architecture provides a solid foundation for an MVP but has several scalability and reliability concerns that should be addressed before launch. The single database instance is a critical single point of failure, and the lack of caching will impact performance at scale. The choice of a monolith is appropriate for the team size and timeline, but key improvements are needed.
+
+      The proposed architecture provides a solid foundation for an MVP but has
+      several scalability and reliability concerns that should be addressed
+      before launch. The single database instance is a critical single point of
+      failure, and the lack of caching will impact performance at scale. The
+      choice of a monolith is appropriate for the team size and timeline, but
+      key improvements are needed.
+
 
       **Top 3 Recommendations**:
-      1. 🔴 Add database replication (read replicas) to eliminate single point of failure
-      2. 🔴 Implement Redis caching layer for sessions and frequently accessed data
+
+      1. 🔴 Add database replication (read replicas) to eliminate single point
+      of failure
+
+      2. 🔴 Implement Redis caching layer for sessions and frequently accessed
+      data
+
       3. 🟡 Add CDN (CloudFront) for static assets to improve global performance
+
 
       ---
 
+
       ## Detailed Findings
+
 
       ### 1. Scalability & Performance
 
+
       **Assessment**: 🟡 Needs Improvement
 
+
       **Strengths**:
+
       - ✅ React SPA on Vercel provides excellent frontend scalability
+
       - ✅ S3 for file storage is highly scalable and cost-effective
+
       - ✅ Application Load Balancer enables horizontal scaling of backend
 
+
       **Concerns**:
-      - 🔴 Single PostgreSQL instance cannot handle 10,000 concurrent users without read replicas
+
+      - 🔴 Single PostgreSQL instance cannot handle 10,000 concurrent users
+      without read replicas
+
       - 🔴 No caching layer means every request hits the database
+
       - 🟡 Session state in PostgreSQL creates database bottleneck
+
       - 🟡 No CDN for static assets increases latency for global users
 
+
       **Recommendations**:
-      1. **Add PostgreSQL Read Replicas**: Deploy 2 read replicas for read-heavy queries (product catalog, order history). Use primary for writes only.
+
+      1. **Add PostgreSQL Read Replicas**: Deploy 2 read replicas for read-heavy
+      queries (product catalog, order history). Use primary for writes only.
          - Implementation: AWS RDS with Multi-AZ deployment
          - Estimated cost: +$200/month
          - Performance improvement: 5-10x read capacity
@@ -276,36 +125,53 @@ examples:
          - Estimated cost: +$100/month, but saves on S3 egress
          - Performance improvement: Sub-100ms asset load times globally
 
-      4. **Database Connection Pooling**: Use PgBouncer to manage database connections efficiently
+      4. **Database Connection Pooling**: Use PgBouncer to manage database
+      connections efficiently
          - Max 1,000 concurrent connections to database
          - Prevents connection exhaustion
 
       ### 2. Reliability & Resilience
 
+
       **Assessment**: 🔴 Critical Issues
 
+
       **Strengths**:
-      - ✅ Application Load Balancer provides health checks and automatic failover
+
+      - ✅ Application Load Balancer provides health checks and automatic
+      failover
+
       - ✅ Vercel has built-in redundancy for frontend
 
+
       **Concerns**:
-      - 🔴 **Single Point of Failure**: PostgreSQL database has no failover mechanism
+
+      - 🔴 **Single Point of Failure**: PostgreSQL database has no failover
+      mechanism
+
       - 🔴 Single EC2 instance (if only one deployed) creates availability risk
+
       - 🟡 No circuit breaker for Stripe or SendGrid integrations
+
       - 🟡 No disaster recovery plan documented
 
+
       **Recommendations**:
-      1. **Enable RDS Multi-AZ Deployment**: Automatic failover to standby instance
+
+      1. **Enable RDS Multi-AZ Deployment**: Automatic failover to standby
+      instance
          - Achieves 99.95% availability SLA
          - Minimal configuration change
          - Estimated cost: +$150/month
 
-      2. **Deploy Multiple EC2 Instances**: Minimum 2 instances across availability zones
+      2. **Deploy Multiple EC2 Instances**: Minimum 2 instances across
+      availability zones
          - Auto-scaling group (min: 2, max: 10)
          - Health checks with automatic replacement
          - Estimated cost: +$200/month for second instance
 
-      3. **Implement Circuit Breakers**: Use node-circuit-breaker for external services
+      3. **Implement Circuit Breakers**: Use node-circuit-breaker for external
+      services
          ```javascript
          const circuitBreaker = new CircuitBreaker(stripeAPI, {
            timeout: 3000,
@@ -320,19 +186,30 @@ examples:
 
       ### 3. Security
 
+
       **Assessment**: 🟢 Strong
 
+
       **Strengths**:
+
       - ✅ Stripe handles PCI DSS compliance (no card data stored)
+
       - ✅ HTTPS enforced via Load Balancer and Vercel
+
       - ✅ S3 bucket encryption at rest
 
+
       **Concerns**:
+
       - 🟡 Session management security not detailed
+
       - 🟡 No mention of API rate limiting
+
       - 🟡 Database connection security not specified
 
+
       **Recommendations**:
+
       1. **Secure Session Management**:
          - Use httpOnly, secure, sameSite cookies
          - Implement CSRF protection (csurf middleware)
@@ -359,18 +236,28 @@ examples:
 
       ### 4. Maintainability & Developer Experience
 
+
       **Assessment**: 🟢 Strong
 
+
       **Strengths**:
+
       - ✅ Monolith architecture appropriate for team size (3 developers)
+
       - ✅ Well-known tech stack (React, Node.js, PostgreSQL)
+
       - ✅ Clear separation between frontend and backend
 
+
       **Concerns**:
+
       - 🟡 Testing strategy not documented
+
       - 🟡 Local development setup not specified
 
+
       **Recommendations**:
+
       1. **Testing Strategy**:
          - Unit tests: Jest for frontend and backend (80% coverage target)
          - Integration tests: Supertest for API endpoints
@@ -393,17 +280,26 @@ examples:
 
       ### 5. Operational Excellence
 
+
       **Assessment**: 🟡 Needs Improvement
 
+
       **Strengths**:
+
       - ✅ Vercel provides automatic deployments for frontend
 
+
       **Concerns**:
+
       - 🟡 No monitoring or alerting specified
+
       - 🟡 No logging strategy documented
+
       - 🟡 Backend deployment process not defined
 
+
       **Recommendations**:
+
       1. **Monitoring & Alerting**: Implement CloudWatch + Datadog/New Relic
          - Track: Response times, error rates, database queries, CPU/memory
          - Alerts: Error rate >1%, p95 latency >2s, database connections >80%
@@ -424,17 +320,26 @@ examples:
 
       ### 6. Data Management
 
+
       **Assessment**: 🟢 Strong
 
+
       **Strengths**:
+
       - ✅ PostgreSQL excellent choice for transactional data
+
       - ✅ S3 for unstructured file storage
 
+
       **Concerns**:
+
       - 🟡 Data migration strategy not documented
+
       - 🟡 No data retention policy specified
 
+
       **Recommendations**:
+
       1. **Database Migrations**: Use node-pg-migrate or Prisma Migrate
          - Version-controlled migrations
          - Automated migration on deployment
@@ -447,20 +352,31 @@ examples:
 
       3. **Data Archival**: Archive completed orders >2 years to S3 Glacier
 
+
       ### 7. Integration & Dependencies
+
 
       **Assessment**: 🟢 Strong
 
+
       **Strengths**:
+
       - ✅ Stripe is industry-standard for payments
+
       - ✅ SendGrid reliable for transactional email
+
       - ✅ Minimal third-party dependencies reduces risk
 
+
       **Concerns**:
+
       - 🟡 No fallback if Stripe or SendGrid fails
+
       - 🟡 API versioning strategy not documented
 
+
       **Recommendations**:
+
       1. **Graceful Degradation**:
          - If Stripe fails: Queue payment for retry, notify user
          - If SendGrid fails: Queue email for retry, log failure
@@ -471,58 +387,110 @@ examples:
 
       ---
 
+
       ## Trade-offs Analysis
 
+
       | Decision | Benefits | Drawbacks | Alternatives Considered |
+
       |----------|----------|-----------|------------------------|
-      | Monolith architecture | - Simple to develop and deploy<br>- Easier debugging<br>- Lower operational complexity | - Harder to scale individual components<br>- Entire app redeploys for small changes | Microservices (too complex for team size), Serverless (vendor lock-in concerns) |
-      | PostgreSQL | - ACID compliance<br>- Rich feature set<br>- Strong consistency | - Requires careful scaling strategy<br>- More expensive than NoSQL | MongoDB (weaker consistency), DynamoDB (vendor lock-in) |
-      | Vercel hosting | - Zero-config deployments<br>- Excellent performance<br>- Built-in CDN | - Higher cost at scale<br>- Vendor lock-in | Self-hosted on S3/CloudFront (more complexity), Netlify (similar trade-offs) |
+
+      | Monolith architecture | - Simple to develop and deploy<br>- Easier
+      debugging<br>- Lower operational complexity | - Harder to scale individual
+      components<br>- Entire app redeploys for small changes | Microservices
+      (too complex for team size), Serverless (vendor lock-in concerns) |
+
+      | PostgreSQL | - ACID compliance<br>- Rich feature set<br>- Strong
+      consistency | - Requires careful scaling strategy<br>- More expensive than
+      NoSQL | MongoDB (weaker consistency), DynamoDB (vendor lock-in) |
+
+      | Vercel hosting | - Zero-config deployments<br>- Excellent
+      performance<br>- Built-in CDN | - Higher cost at scale<br>- Vendor lock-in
+      | Self-hosted on S3/CloudFront (more complexity), Netlify (similar
+      trade-offs) |
+
 
       ---
+
 
       ## Alternative Architectures
 
+
       ### Alternative 1: Serverless Architecture
+
 
       **Description**: Replace EC2/Express with AWS Lambda + API Gateway
 
+
       **Components**:
+
       - Frontend: Vercel (unchanged)
+
       - Backend: AWS Lambda functions (Node.js)
+
       - Database: Aurora Serverless v2 (PostgreSQL-compatible)
+
       - API: AWS API Gateway
 
+
       **When to use**:
+
       - If traffic is highly variable (spiky)
+
       - If budget is very tight (pay-per-request)
+
       - If team has AWS Lambda experience
 
+
       **Trade-offs**:
+
       - ✅ Automatic scaling, no server management
+
       - ✅ Pay only for actual usage
+
       - ✅ High availability built-in
+
       - ❌ Cold start latency (100-500ms)
+
       - ❌ More complex debugging
+
       - ❌ Vendor lock-in to AWS
 
+
       ---
+
 
       ## Risk Assessment
 
+
       | Risk | Likelihood | Impact | Mitigation Strategy |
+
       |------|-----------|--------|-------------------|
-      | Database becomes bottleneck at scale | High | High | Implement read replicas + Redis caching |
-      | Single database failure causes downtime | Medium | Critical | Enable RDS Multi-AZ with automatic failover |
-      | Stripe payment failures | Low | High | Implement circuit breaker + retry queue |
-      | Infrastructure costs exceed budget | Medium | Medium | Set up cost alerts + auto-scaling limits |
-      | Security breach due to misconfiguration | Low | Critical | Security audit + AWS Security Hub monitoring |
+
+      | Database becomes bottleneck at scale | High | High | Implement read
+      replicas + Redis caching |
+
+      | Single database failure causes downtime | Medium | Critical | Enable RDS
+      Multi-AZ with automatic failover |
+
+      | Stripe payment failures | Low | High | Implement circuit breaker + retry
+      queue |
+
+      | Infrastructure costs exceed budget | Medium | Medium | Set up cost
+      alerts + auto-scaling limits |
+
+      | Security breach due to misconfiguration | Low | Critical | Security
+      audit + AWS Security Hub monitoring |
+
 
       ---
 
+
       ## Action Items
 
+
       ### High Priority (address before implementation)
+
 
       - [ ] **Enable RDS Multi-AZ deployment** for database high availability
         - Acceptance criteria: Database failover tested, <60s recovery time
@@ -538,6 +506,7 @@ examples:
 
       ### Medium Priority (address during implementation)
 
+
       - [ ] **Add CloudFront CDN** for static assets
         - Acceptance criteria: <100ms asset load times globally
 
@@ -552,6 +521,7 @@ examples:
 
       ### Low Priority (future improvements)
 
+
       - [ ] **Implement database connection pooling** with PgBouncer
         - Acceptance criteria: Support 1,000+ concurrent connections
 
@@ -563,29 +533,54 @@ examples:
 
       ---
 
+
       ## Architectural Principles Checklist
 
+
       - [x] **Separation of Concerns**: Frontend and backend clearly separated
+
       - [x] **Loose Coupling**: Services communicate via well-defined APIs
-      - [x] **High Cohesion**: Related functionality grouped (e.g., order management)
-      - [ ] **Scalability**: Needs read replicas and caching for 10,000 concurrent users
+
+      - [x] **High Cohesion**: Related functionality grouped (e.g., order
+      management)
+
+      - [ ] **Scalability**: Needs read replicas and caching for 10,000
+      concurrent users
+
       - [ ] **Resilience**: Needs Multi-AZ database and multiple EC2 instances
+
       - [x] **Security**: Strong foundation with Stripe, HTTPS, encryption
+
       - [ ] **Observability**: Needs comprehensive monitoring and logging
+
       - [x] **Simplicity**: Monolith appropriate for team size and timeline
-      - [x] **Cost Efficiency**: Fits within budget with recommended improvements
-      - [x] **Developer Productivity**: Well-known stack enables fast development
+
+      - [x] **Cost Efficiency**: Fits within budget with recommended
+      improvements
+
+      - [x] **Developer Productivity**: Well-known stack enables fast
+      development
+
 
       ---
 
+
       ## Summary
 
-      The proposed architecture is a solid starting point but requires key improvements in scalability and reliability. Implementing database replication, caching, and proper monitoring will ensure the system meets its SLA requirements. The monolith approach is appropriate given the team size and timeline constraints.
 
-      **Estimated total infrastructure cost with improvements**: ~$700-800/month (well within $5,000 budget)
+      The proposed architecture is a solid starting point but requires key
+      improvements in scalability and reliability. Implementing database
+      replication, caching, and proper monitoring will ensure the system meets
+      its SLA requirements. The monolith approach is appropriate given the team
+      size and timeline constraints.
 
-      **Next step**: Prioritize the High Priority action items and implement before launch.
 
+      **Estimated total infrastructure cost with improvements**: ~$700-800/month
+      (well within $5,000 budget)
+
+
+      **Next step**: Prioritize the High Priority action items and implement
+      before launch.
 metadata:
   author: codewizwit
   license: MIT
@@ -598,4 +593,195 @@ metadata:
     - review
     - best-practices
     - trade-offs
-  lastUpdated: '2025-01-18'
+  lastUpdated: 2025-01-18
+---
+
+<context>
+You are an expert software architect with deep experience in distributed systems, scalability, security, and operational excellence.
+</context>
+
+<instructions>
+Conduct a comprehensive architectural review of the system by analyzing the workspace.
+
+## Analysis Approach
+
+1. **Discovery Phase**:
+
+   - Use Glob to find architecture documentation (docs/architecture/\*\*, README.md, ADRs)
+   - Read package.json and configuration files to understand tech stack
+   - Find infrastructure-as-code files (Terraform, CloudFormation, docker-compose)
+   - Locate service definitions and API contracts
+
+2. **Architecture Analysis Phase**:
+
+   - Use Read to examine system documentation
+   - Identify architecture patterns (microservices, monolith, event-driven, etc.)
+   - Analyze service boundaries and dependencies
+   - Review data flow and storage strategies
+   - Examine deployment and scaling approaches
+
+3. **Review Framework** - Analyze these architectural dimensions:
+
+</instructions>
+
+<constraints>
+## Review Framework
+
+Evaluate the proposed architecture across these critical dimensions:
+
+### 1. Scalability & Performance
+
+- **Horizontal Scalability**: Can the system scale out by adding more instances?
+- **Vertical Scalability**: What are the limits of scaling up individual components?
+- **Performance Bottlenecks**: Identify potential bottlenecks (database, network, compute)
+- **Caching Strategy**: Is caching appropriately used? (CDN, application, database levels)
+- **Load Distribution**: How is load distributed? (load balancers, sharding, partitioning)
+- **Async Processing**: Are long-running tasks handled asynchronously?
+
+### 2. Reliability & Resilience
+
+- **Single Points of Failure**: Identify components that could bring down the entire system
+- **Fault Tolerance**: How does the system handle component failures?
+- **Disaster Recovery**: What is the backup and recovery strategy?
+- **Circuit Breakers**: Are circuit breakers implemented for external dependencies?
+- **Health Checks**: How is system health monitored and reported?
+- **Graceful Degradation**: Can the system operate in degraded mode?
+
+### 3. Security
+
+- **Authentication & Authorization**: How are users authenticated and authorized?
+- **Data Encryption**: Is data encrypted at rest and in transit?
+- **Network Security**: Are proper network boundaries and firewalls in place?
+- **Secrets Management**: How are secrets, API keys, and credentials managed?
+- **Attack Surface**: What is the attack surface and how is it minimized?
+- **Compliance**: Does the design meet regulatory requirements (GDPR, HIPAA, SOC2)?
+
+### 4. Maintainability & Developer Experience
+
+- **Code Organization**: Is the codebase well-structured and modular?
+- **Service Boundaries**: Are service boundaries clear and well-defined?
+- **Documentation**: Is the architecture well-documented?
+- **Testing Strategy**: How will the system be tested? (unit, integration, E2E)
+- **Local Development**: Can developers easily run the system locally?
+- **Debugging & Tracing**: How will issues be diagnosed in production?
+
+### 5. Operational Excellence
+
+- **Monitoring & Alerting**: What metrics are tracked? How are anomalies detected?
+- **Logging**: Is logging centralized and searchable?
+- **Deployment Strategy**: How is the system deployed? (CI/CD, blue-green, canary)
+- **Rollback Capability**: Can deployments be quickly rolled back?
+- **Infrastructure as Code**: Is infrastructure defined as code?
+- **Cost Optimization**: Are there opportunities to reduce infrastructure costs?
+
+### 6. Data Management
+
+- **Data Storage**: Are the right database technologies chosen for each use case?
+- **Data Consistency**: How is data consistency maintained across services?
+- **Data Migration**: How will schema changes and data migrations be handled?
+- **Data Retention**: What is the data retention and archival strategy?
+- **Database Scalability**: How will databases scale with growth?
+- **Backup & Recovery**: Are backups automated and regularly tested?
+
+### 7. Integration & Dependencies
+
+- **Third-Party Services**: What external services are used? What are the risks?
+- **API Contracts**: Are API contracts well-defined and versioned?
+- **Service Communication**: How do services communicate? (REST, gRPC, message queues)
+- **Dependency Management**: Are dependencies minimized and well-managed?
+- **Vendor Lock-in**: What is the risk of vendor lock-in?
+
+## Output Format
+
+Provide a comprehensive architectural review with the following structure:
+
+### Executive Summary
+
+- Overall assessment: 🟢 Strong / 🟡 Needs Improvement / 🔴 Critical Issues
+- 2-3 sentence summary of the architecture's strengths and key concerns
+- Top 3 recommendations for improvement
+
+### Detailed Findings
+
+For each dimension (Scalability, Reliability, Security, etc.):
+
+#### [Dimension Name]
+
+**Assessment**: 🟢 Strong / 🟡 Needs Improvement / 🔴 Critical Issues
+
+**Strengths**:
+
+- List specific strengths in this dimension
+- Highlight good architectural decisions
+
+**Concerns**:
+
+- List specific concerns or risks
+- Explain potential impact (high/medium/low)
+
+**Recommendations**:
+
+- Provide actionable recommendations
+- Suggest alternative approaches where applicable
+- Include implementation guidance
+
+### Trade-offs Analysis
+
+Document key trade-offs made in the architecture:
+
+| Decision | Benefits | Drawbacks | Alternatives Considered |
+| -------- | -------- | --------- | ----------------------- |
+| [Choice] | [Pros]   | [Cons]    | [Other options]         |
+
+### Alternative Architectures
+
+Suggest 1-2 alternative architectural approaches:
+
+**Alternative 1: [Name]**
+
+- Description: Brief overview
+- When to use: Scenarios where this would be better
+- Trade-offs: Key differences from proposed architecture
+
+### Risk Assessment
+
+| Risk               | Likelihood      | Impact          | Mitigation Strategy |
+| ------------------ | --------------- | --------------- | ------------------- |
+| [Risk description] | High/Medium/Low | High/Medium/Low | [How to mitigate]   |
+
+### Action Items
+
+Prioritized list of concrete next steps:
+
+**High Priority** (address before implementation):
+
+- [ ] Action item with clear acceptance criteria
+
+**Medium Priority** (address during implementation):
+
+- [ ] Action item with clear acceptance criteria
+
+**Low Priority** (future improvements):
+
+- [ ] Action item with clear acceptance criteria
+
+### Architectural Principles Checklist
+
+- [ ] **Separation of Concerns**: Components have single, well-defined responsibilities
+- [ ] **Loose Coupling**: Services can be modified independently
+- [ ] **High Cohesion**: Related functionality is grouped together
+- [ ] **Scalability**: System can handle growth in users, data, and traffic
+- [ ] **Resilience**: System handles failures gracefully
+- [ ] **Security**: Defense in depth with multiple security layers
+- [ ] **Observability**: System behavior can be understood from outputs
+- [ ] **Simplicity**: Architecture is as simple as possible, but no simpler
+- [ ] **Cost Efficiency**: Resources are used efficiently
+- [ ] **Developer Productivity**: Architecture enables fast, safe development
+
+## Special Markers
+
+- Use 🔴 for critical issues that must be addressed before implementation
+- Use 🟡 for concerns that should be addressed soon
+- Use 🟢 for well-designed aspects that follow best practices
+- Use 💡 for suggestions and optimizations
+- Use ⚠️ for warnings about potential risks or anti-patterns

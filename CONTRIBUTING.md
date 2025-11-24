@@ -69,16 +69,21 @@ Follow the appropriate guide based on what you're contributing:
 mkdir -p libs/prompts/src/my-prompt
 ```
 
-2. Create `prompt.yaml`:
+2. Create `prompt.md` (Markdown with YAML frontmatter):
 
-```yaml
+```markdown
+---
 id: my-prompt
 name: My Awesome Prompt
 version: 1.0.0
 description: A clear, concise description of what this prompt does
 category: code-review # or documentation, testing, refactoring, etc.
-author: Your Name
-license: MIT
+metadata:
+  author: Your Name
+  license: MIT
+  tags:
+    - code-review
+    - quality
 
 variables:
   - name: code
@@ -88,22 +93,23 @@ variables:
     description: Programming language
     required: true
 
-template: |
-  Review the following {{language}} code:
-
-  {{code}}
-
-  Provide feedback on:
-  - Code quality and readability
-  - Potential bugs or issues
-  - Performance considerations
-  - Best practices
-
 examples:
   - input:
       code: "function test() { console.log('hello') }"
       language: 'TypeScript'
     output: 'The function works but could be improved...'
+---
+
+Review the following {{language}} code:
+
+{{code}}
+
+Provide feedback on:
+
+- Code quality and readability
+- Potential bugs or issues
+- Performance considerations
+- Best practices
 ```
 
 3. Add TypeScript types in `libs/prompts/src/my-prompt/types.ts`:

@@ -1,312 +1,317 @@
-# 🌭 Human in the Loop
+# 🪄 Human in the Loop
 
 [![npm version](https://img.shields.io/npm/v/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Open sourced repository, npm cli for responsible AI tools, with governance and quality gates**
+**Your AI toolkit for building better software, faster—without losing your humanity** ✨
 
-A developer-friendly toolkit for exploring standardization of AI prompts, agents, skills, and evaluators with CI/DS validation, quality control, and visibility.
-
----
-
-## Why This Exists
-
-AI productivity tools are transforming how we build software, but without standardization and quality gates, we risk inconsistency, duplication, and quality drift. Human in the Loop solves this by creating a central source of truth for quality AI engineering tools.
-
-**The problem:**
-
-- Prompts and agents scattered across repos, Slack threads, and local files
-- No standardization means teams reinvent the wheel with different patterns
-- Zero visibility into what works, what's adopted, or what needs improvement
-- Quality concerns with no review process for AI tools
-
-**The solution:**
-
-- Single repository where all AI productivity tools are discoverable, versioned, and governed
-- Standardized contribution workflow that ensures quality and consistency
-- Clear metrics on tool adoption and effectiveness
-- Developer-friendly CLI that makes it easy to find, install, and use AI tools
+Stop copy-pasting prompts from Slack. Stop reinventing the wheel. Get production-ready AI tools with built-in quality gates, Claude Code integration, and developer-first accountability.
 
 ---
 
-## Developer-First AI
-
-AI tools should **enhance** developers, not replace them. Every tool in this repository is evaluated through our [Developer-First AI Accountability Framework](./ACCOUNTABILITY.md) to ensure we're building technology that makes everyone better off - developers, teams, and organizations.
-
-### Core Principles
-
-We believe AI productivity tools should:
-
-- **✨ Enhance** developer happiness and creativity, not replace judgment
-- **📚 Support** learning and growth, not create dependency
-- **🤝 Strengthen** collaboration and trust, not erode human connection
-- **🔍 Maintain** transparency and control, not obscure decision-making
-
-Every prompt, agent, and workflow is designed with these principles in mind. When you use tools from this library, you're not just getting automation - you're getting carefully considered solutions that preserve what makes software development fulfilling while removing tedious friction.
-
-**Read the full framework:** [ACCOUNTABILITY.md](./ACCOUNTABILITY.md)
-
----
-
-## Quick Start
-
-Install the CLI:
+## ⚡ Quick Start
 
 ```bash
+# Install globally
 npm install -g @human-in-the-loop/cli
+
+# Or use npx (no install needed)
+npx hit search "security review"
 ```
 
-Or use npx:
+**That's it.** 🎉 Now you have access to 12+ production-tested prompts.
+
+### 🚀 Try it now
 
 ```bash
-npx hit --version
-```
-
-Search for tools:
-
-```bash
+# Find what you need
 hit search "code review"
+
+# Install with automatic Claude Code integration
+hit install prompt/security-review
+
+# Use in Claude Code
+/security-review
 ```
 
-Output:
+Claude will automatically analyze your workspace—no copy-pasting code required.
+
+---
+
+## 🎯 Why This Exists
+
+**The problem:** AI prompts are scattered everywhere—Slack threads, Notion docs, random .txt files. Every team reinvents the same patterns. Quality is all over the place.
+
+**The solution:** One npm package. Versioned tools. Quality gates. Claude Code integration. Done.
+
+### 🪄 What makes this different
+
+- **🔌 Claude Code native** - Auto-creates `/slash-commands` when you install
+- **🤖 Tool-based analysis** - Prompts use Read/Grep/Glob, not copy-paste
+- **✅ Quality gates** - Every tool passes governance checks before merge
+- **📦 One install** - Everything you need: `npm i -g @human-in-the-loop/cli`
+- **🎓 Developer-first** - Built by devs, for devs, with empathy baked in
+
+---
+
+## 🧰 What's Inside
+
+### 📚 12 Production-Ready Prompts
+
+**Code Quality**
+
+- 🔍 `code-review-ts` - TypeScript review with constructive feedback
+- 🔒 `security-review` - OWASP Top 10, auth flaws, injection detection
+- 🏗️ `api-design` - REST/GraphQL best practices
+- 🎯 `system-design-review` - Architecture & scalability analysis
+
+**Testing & CI/CD**
+
+- 🧪 `unit-test-generator` - Generate Jest/Vitest tests with edge cases
+- 🎬 `e2e-strategy` - Playwright/Cypress test planning
+- ⚡ `pipeline-optimization` - GitHub Actions cost & speed optimization
+
+**Planning & Culture**
+
+- 📋 `user-story-breakdown` - Epic → INVEST stories with acceptance criteria
+- 💬 `1-on-1-prep` - Structured pre-reads for better meetings
+- 💙 `code-review-empathy` - Transform harsh feedback into helpful coaching
+
+**Governance**
+
+- 🛡️ `responsible-ai-audit` - Developer-first AI accountability checks
+- ⚖️ `bias-detection` - Identify bias in AI outputs
+
+### 🎓 Skills for Claude Code
+
+**Framework Expertise**
+
+- ⚡ **Angular Modern** - Signals, standalone, control flow (16+)
+- 🏛️ **Angular Legacy** - NgModules, RxJS, lifecycle hooks (pre-16)
+
+### 🔜 Coming Soon
+
+- 🤖 **Agent Registry** - Reusable autonomous agents
+- 🎯 **Context Packs** - Domain knowledge bundles
+- ✅ **Evaluators** - Output quality validation
+- 🛡️ **Guardrails** - Safety & compliance enforcement
+
+---
+
+## 💡 How It Works
+
+### Old way (copy-paste hell)
 
 ```
-🔍 Searching for: "code review"
-
-Found 2 tools:
-
-1. prompt/code-review-ts
-   TypeScript code review with best practices
-   Version: 1.2.0
-   Tags: typescript, code-review
-
-2. prompt/code-review-security
-   Security-focused code review
-   Version: 2.0.0
-   Tags: security, code-review
-
-💡 Tip: Use hit install <type>/<id> to install a tool
+1. Find a prompt somewhere
+2. Copy code from your IDE
+3. Paste into ChatGPT
+4. Copy response back
+5. Repeat for every file
 ```
 
-Install a prompt:
+### New way (automated workspace analysis)
 
 ```bash
-hit install prompt/code-review-ts
+hit install prompt/security-review
+# Creates /security-review in Claude Code
+
+# In Claude:
+/security-review
 ```
 
-The CLI prompts for installation location (or use `--path` for non-interactive):
-
-```
-📦 Installing prompt/code-review-ts...
-
-  → Looking up tool...
-  → Copying tool files...
-  → Registering installation...
-
-✓ Successfully installed Code Review TypeScript (v1.2.0)
-  → Installed to: ~/.claude/tools/prompt/code-review-ts
-```
+Claude uses **Read**, **Grep**, and **Glob** to analyze your workspace automatically. No copy-paste. Just natural conversation.
 
 ---
 
-## What's Inside
-
-### 📚 Prompt Library (`/lib/prompts`)
-
-Production-ready prompts organized by use case, versioned and quality-assured. Each prompt includes metadata, usage examples, and expected outputs.
-
-### 🤖 Agent Registry (`/lib/agents`)
-
-Catalog of AI agents with their configurations, capabilities, and integration guides. _(Coming soon - framework in place)_
-
-### 🎓 Skills (`/lib/skills`)
-
-Framework-specific expertise for Claude Code and GitHub Copilot:
-
-- **Angular Modern**: Signals, standalone components, control flow (Angular 16+) ✅
-- **Angular Legacy**: NgModules, lifecycle hooks, RxJS (pre-16) ✅
-- **NestJS**: Module structure, dependency injection, middleware _(coming soon)_
-- **Nx Monorepo**: Workspace organization, computation caching _(coming soon)_
-
-### 🎯 Context Packs (`/lib/context-packs`)
-
-Cross-cutting patterns and domain knowledge for specialized use cases.
-
-### ✅ Evaluators (`/lib/evaluators`)
-
-Quality assurance tools that validate AI outputs against defined criteria. _(Coming soon - framework in place)_
-
-### 🛡️ Guardrails (`/lib/guardrails`)
-
-Safety mechanisms that enforce responsible AI usage. _(Coming soon - framework in place)_
-
-### ⚡ CLI Tool (`/src/cli`)
-
-Developer-friendly command-line interface for discovering, installing, and managing AI tools.
-
-### 🛡️ Governance (`/src/governance`)
-
-Contribution validation and quality assurance tooling that ensures all contributions meet project standards.
-
-### 🤝 Accountability Framework (`/ACCOUNTABILITY.md`)
-
-Developer-first principles and practices that guide how we build, evaluate, and deploy AI tools responsibly - ensuring they enhance developers instead of replacing them.
-
----
-
-## Repository Structure
-
-> Generated with `pnpm tree` (auto-updated via markdown-magic)
-
-<!-- AUTO-GENERATED-CONTENT:START (TREE) -->
-
-```
-human-in-the-loop/
-├── docs/                        # Documentation
-│   ├── ai-best-practices.md     # Responsible AI usage guidelines
-│   ├── architecture.md          # System design overview
-│   ├── cli-reference.md         # Complete CLI command reference
-│   ├── contributing-guidelines.md # Detailed contribution workflow
-│   ├── getting-started.md       # Installation and first steps
-│   ├── governance-model.md      # Quality and review process
-│   ├── publishing.md            # NPM publishing workflow
-│   ├── toolkit-usage.md         # Using prompts, agents, evaluators
-│   └── xml-template-migration.md # XML structure migration guide
-├── lib/                         # Reusable AI tools library
-│   ├── agents/                  # Agent definitions and configs
-│   ├── context-packs/           # Cross-cutting patterns
-│   ├── evaluators/              # Quality evaluation tools
-│   ├── guardrails/              # Safety and governance rules
-│   ├── prompts/                 # Production-ready prompts
-│   │   ├── architecture/        # System & API design
-│   │   ├── ci-cd/               # Pipeline optimization
-│   │   ├── code-review-ts/      # TypeScript code review
-│   │   ├── culture/             # Team & communication
-│   │   ├── governance/          # Security, bias, AI audits
-│   │   ├── planning/            # User stories, epics
-│   │   └── testing/             # E2E, unit test generation
-│   └── skills/                  # Framework-specific expertise
-│       ├── angular-legacy/      # Pre-16 Angular (NgModules, RxJS)
-│       └── angular-modern/      # Angular 16+ (signals, standalone)
-├── planning/                    # Project planning and roadmap
-├── scripts/                     # Automation scripts
-│   ├── build/                   # Build-time automation
-│   ├── publish/                 # NPM publishing helpers
-│   ├── release/                 # Release workflow
-│   └── setup/                   # One-time setup scripts
-├── src/                         # Source code
-│   ├── cli/                     # TypeScript CLI tool
-│   └── governance/              # Quality validation and checks
-├── ACCOUNTABILITY.md            # Developer-First AI Framework
-├── CONTRIBUTING.md              # Contribution guidelines
-└── README.md                    # This file
-```
-
-<!-- AUTO-GENERATED-CONTENT:END -->
-
----
-
-## CLI Commands
+## 🎨 CLI Commands
 
 ```bash
-# Search for tools (prompts, agents, etc.)
-hit search [query]
-
-# Install a tool (interactive or with --path)
-hit install <tool> [--path <path>]
-
-# List all installed tools
-hit list
-
-# Check for updates
-hit update --check
-
-# Update a specific tool
-hit update <tool>
-
-# Update all installed tools
-hit update --all
-
-# Validate local setup
-hit doctor
-
-# Validate and submit a new tool (creates GitHub issue)
-hit contribute <type> <path>
-
-# View usage analytics
-hit stats
+hit search [query]              # Find tools (fuzzy search)
+hit install <tool>              # Install with Claude Code integration
+hit list                        # Show installed tools
+hit update --all                # Update everything
+hit doctor                      # Validate setup
+hit contribute <type> <path>    # Submit new tools
+hit stats                       # Usage analytics
 ```
 
-**New in v1.2.0:** The `update` command keeps your installed tools up to date with semantic versioning, automatic backups, and batch updates!
-
-For complete CLI documentation, see [CLI Reference](./docs/cli-reference.md).
+**Pro tip:** Use `--no-claude-command` to skip slash command creation if you want manual setup.
 
 ---
 
-## Contributing
+## 🌟 Featured Workflows
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-### Quick Contribution Workflow
+### 🔒 Security Audit Your Codebase
 
 ```bash
-# 1. Make changes with conventional commits
-pnpm commit
-# Interactive prompt enforces: feat:, fix:, docs:, etc.
+hit install prompt/security-review
+# Creates /security-review
 
-# 2. Submit contribution (validates and creates GitHub issue)
-hit contribute <type> <path>
+# In Claude Code:
+/security-review
 
-# 3. Create PR once validation passes
+# Claude asks: "What should I focus on?"
+# You say: "Authentication and SQL injection"
+# Claude analyzes your workspace with those priorities
 ```
 
-**Conventional Commits:**
+### ⚡ Optimize Your CI/CD Pipeline
 
-- `feat:` - New features (minor version bump)
-- `fix:` - Bug fixes (patch version bump)
-- `docs:` - Documentation changes
-- `refactor:` - Code refactoring
-- `test:` - Test updates
+```bash
+hit install prompt/pipeline-optimization
 
-All code must include TypeDoc comments above functions (no inline comments) and follow TypeScript strict mode.
+# In Claude Code:
+/pipeline-optimization
+
+# Claude:
+# - Finds your .github/workflows/*.yml
+# - Analyzes parallelization, caching, costs
+# - Provides before/after comparison with savings
+```
+
+### 🧪 Generate Unit Tests
+
+```bash
+hit install prompt/unit-test-generator
+
+# In Claude Code:
+/unit-test-generator
+
+# Claude:
+# - Finds files without tests
+# - Detects framework (Jest/Vitest)
+# - Generates tests with edge cases & mocking
+```
 
 ---
 
-## Documentation
+## 🛡️ Developer-First AI
 
-- [Getting Started](./docs/getting-started.md) - Installation, setup, and your first prompt
-- [Accountability Framework](./ACCOUNTABILITY.md) - Developer-first AI principles and responsible usage
-- [AI Best Practices](./docs/ai-best-practices.md) - Responsible AI usage and prompt engineering
-- [Toolkit Usage](./docs/toolkit-usage.md) - Using prompts, agents, evaluators, and guardrails
-- [Contributing Guidelines](./docs/contributing-guidelines.md) - Detailed contribution workflow
-- [Governance Model](./docs/governance-model.md) - Quality review and release process
-- [Architecture](./docs/architecture.md) - System design and technical overview
+**We believe AI should enhance developers, not replace them.**
+
+Every tool is evaluated through our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md):
+
+- ✨ **Enhance** happiness & creativity, not replace judgment
+- 📚 **Support** learning & growth, not create dependency
+- 🤝 **Strengthen** collaboration, not erode connection
+- 🔍 **Maintain** transparency, not obscure decisions
+
+No black boxes. No "trust the AI." Just thoughtful tools that make you better at your job.
+
+[Read the full playbook →](./RESPONSIBLE-AI-PLAYBOOK.md)
 
 ---
 
-## Technology Stack
+## 🤝 Contributing
 
-- **Build System**: Nx monorepo
+We'd love your help! Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+### Quick workflow
+
+```bash
+# 1. Create your feature
+git checkout -b feature/my-awesome-prompt
+
+# 2. Follow the standards
+pnpm format && pnpm lint && pnpm typecheck
+
+# 3. Commit with conventional commits
+git commit -m "feat: add my awesome prompt"
+
+# 4. Push and create PR
+git push origin feature/my-awesome-prompt
+gh pr create
+```
+
+**Standards:**
+
+- ✅ TypeDoc comments above functions (no inline `//` comments)
+- ✅ TypeScript strict mode
+- ✅ All tests passing
+- ✅ Conventional commits (`feat:`, `fix:`, `docs:`)
+
+---
+
+## 📚 Documentation
+
+- 🚀 [Getting Started](./docs/getting-started.md) - Installation & first prompt
+- 🛡️ [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) - Developer-first AI principles
+- 🎨 [CLI Reference](./docs/cli-reference.md) - Complete command guide
+- 🏗️ [Architecture](./docs/architecture.md) - System design overview
+- 🤝 [Contributing](./CONTRIBUTING.md) - Detailed contribution workflow
+
+---
+
+## 🏗️ Tech Stack
+
+Built with the good stuff:
+
+- **Build**: Nx monorepo
 - **Language**: TypeScript (strict mode)
 - **Package Manager**: pnpm
-- **CLI Framework**: Commander.js
+- **CLI**: Commander.js
 - **Prompts**: Inquirer.js
-- **Styling**: Chalk
-- **YAML Parsing**: yaml
 - **Testing**: Jest
 
 ---
 
-## License
+## 📦 Repository Structure
 
-MIT License - see [LICENSE](./LICENSE) for details
+```
+human-in-the-loop/
+├── lib/                         # 🧰 Reusable AI tools
+│   ├── prompts/                 # 📚 12 production-ready prompts
+│   │   ├── architecture/        # 🏗️ System & API design
+│   │   ├── ci-cd/               # ⚡ Pipeline optimization
+│   │   ├── governance/          # 🛡️ Security, bias, audits
+│   │   ├── testing/             # 🧪 E2E, unit test generation
+│   │   └── culture/             # 💬 Team & communication
+│   ├── skills/                  # 🎓 Framework expertise
+│   │   ├── angular-modern/      # ⚡ Angular 16+ (signals)
+│   │   └── angular-legacy/      # 🏛️ Pre-16 (NgModules)
+│   ├── agents/                  # 🤖 Coming soon
+│   ├── context-packs/           # 🎯 Coming soon
+│   ├── evaluators/              # ✅ Coming soon
+│   └── guardrails/              # 🛡️ Coming soon
+├── src/
+│   ├── cli/                     # 🎨 CLI tool
+│   └── governance/              # ✅ Quality validation
+└── docs/                        # 📚 Documentation
+```
 
 ---
 
-## About
+## 🎉 What's New
 
-**Human-in-the-Loop with &hearts; by codewizwit**
-Build with care. Ship with purpose.
+**v2.0.0** - XML Template Migration & Claude Code Integration
 
-For issues and feature requests, please use [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues).
+- 🔌 Automatic `/slash-command` creation in Claude Code
+- 🤖 Tool-based workspace analysis (no more copy-paste!)
+- 📝 Markdown format with YAML frontmatter
+- ✨ Pure XML structure for prompts
+
+**v1.2.0** - Update Command
+
+- ⬆️ `hit update --all` batch updates
+- 🔄 Semantic versioning with automatic backups
+- 📊 Version change summaries
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](./LICENSE)
+
+---
+
+## 💙 Built with Care
+
+**Human-in-the-Loop** by [codewizwit](https://github.com/codewizwit)
+
+_Build with care. Ship with purpose._
+
+🐛 Found a bug? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
+💡 Have an idea? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
+⭐ Like what you see? Star the repo!

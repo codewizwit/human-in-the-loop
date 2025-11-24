@@ -48,7 +48,7 @@ This checklist tracks coverage of Alexandra Kelstrom's resume skills across the 
 ## ✅ AI Governance & Responsible Engineering
 
 - [x] **Covered**: `docs/governance-model.md` - Review process and quality metrics
-- [x] **Covered**: `ACCOUNTABILITY.md` - Core accountability framework
+- [x] **Covered**: `RESPONSIBLE-AI-PLAYBOOK.md` - Core Responsible AI Playbook
 - [x] **Covered**: `lib/guardrails/` - Safety mechanisms directory
 - [x] **Covered**: `lib/evaluators/` - Quality validation directory
 - [ ] **Missing**: `prompts/governance/responsible-ai-audit.md` - AI output quality audit checklist
