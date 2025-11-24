@@ -313,5 +313,5 @@ MIT License - see [LICENSE](./LICENSE)
 _Build with care. Ship with purpose._
 
 🐛 Found a bug? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
-💡 Have an idea? [Start a discussion](https://github.com/codewizwit/human-in-the-loop/discussions)
+💡 Have an idea? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
 ⭐ Like what you see? Star the repo!
