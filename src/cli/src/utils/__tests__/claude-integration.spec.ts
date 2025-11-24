@@ -1,15 +1,10 @@
 import { createClaudeCommand, isClaudeAvailable } from '../claude-integration';
-import {
-  readFileSync,
-  writeFileSync,
-  mkdirSync,
-  existsSync,
-} from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
 
 jest.mock('fs');
 jest.mock('../file-operations', () => ({
-  resolvePath: (path: string) => path,
+  resolvePath: (path: string): string => path,
 }));
 
 const mockReadFileSync = readFileSync as jest.MockedFunction<
@@ -266,10 +261,9 @@ Content`;
 
         createClaudeCommand('/path/to/prompt.md');
 
-        expect(mockMkdirSync).toHaveBeenCalledWith(
-          join(homeDir, '.claude'),
-          { recursive: true }
-        );
+        expect(mockMkdirSync).toHaveBeenCalledWith(join(homeDir, '.claude'), {
+          recursive: true,
+        });
         expect(mockMkdirSync).toHaveBeenCalledWith(
           join(homeDir, '.claude', 'commands'),
           { recursive: true }
@@ -333,19 +327,16 @@ Content`;
       mockExistsSync.mockReturnValue(true);
 
       expect(isClaudeAvailable()).toBe(true);
-      expect(mockExistsSync).toHaveBeenCalledWith(
-        join(homeDir, '.claude')
-      );
+      expect(mockExistsSync).toHaveBeenCalledWith(join(homeDir, '.claude'));
     });
 
     it('should create .claude directory if it does not exist', () => {
       mockExistsSync.mockReturnValue(false);
 
       expect(isClaudeAvailable()).toBe(true);
-      expect(mockMkdirSync).toHaveBeenCalledWith(
-        join(homeDir, '.claude'),
-        { recursive: true }
-      );
+      expect(mockMkdirSync).toHaveBeenCalledWith(join(homeDir, '.claude'), {
+        recursive: true,
+      });
     });
 
     it('should return false if HOME is not set', () => {
