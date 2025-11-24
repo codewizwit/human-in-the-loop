@@ -6,37 +6,10 @@ description: Generates structured pre-read emails for 1-on-1 meetings with
   sections for highlights/wins, current work, and questions/support needed to
   enable effective async communication
 category: culture
-variables:
-  - name: time_period
-    description: Time period being covered (e.g., "this week", "last two weeks",
-      "this month")
-    required: true
-  - name: team_member_name
-    description: Name of the person sending the pre-read
-    required: false
-  - name: role
-    description: Role or title of the team member
-    required: false
-  - name: manager_name
-    description: Name of the manager receiving the pre-read
-    required: false
-  - name: projects
-    description: Current projects or focus areas to include context about
-    required: false
-  - name: team_context
-    description: Additional team or organizational context relevant to the update
-    required: false
 examples:
-  - input:
-      time_period: this week
-      team_member_name: Alex Chen
-      role: Senior Frontend Engineer
-      manager_name: Jordan
-      projects: |-
-        - Design system migration (React 17 → 18)
-        - Performance optimization sprint
-        - Onboarding new junior engineer
-      team_context: Team is preparing for Q2 product launch with aggressive timeline
+  - description: Generate pre-read for a senior engineer
+    input:
+      user_message: 'I need to write a pre-read for my 1-on-1 with Jordan this week. I''m Alex Chen, a Senior Frontend Engineer. Current projects: Design system migration, performance optimization, onboarding Maya. The team is preparing for Q2 launch.'
     output: >
       Subject: 1-on-1 Pre-Read: This Week
 
@@ -137,16 +110,9 @@ examples:
       Best,
 
       Alex
-  - input:
-      time_period: last two weeks
-      team_member_name: Sam Rodriguez
-      role: Engineering Manager
-      manager_name: Chris
-      projects: |-
-        - Team velocity improvement initiative
-        - Hiring for two senior positions
-        - Q2 planning and roadmap
-      team_context: Engineering org is scaling rapidly, managing growing pains
+  - description: Generate pre-read for an engineering manager
+    input:
+      user_message: 'Need a pre-read for my 1-on-1 with Chris covering the last two weeks. I''m Sam Rodriguez, Engineering Manager. Working on team velocity improvements, hiring (2 senior positions), and Q2 planning. Org is scaling rapidly.'
     output: >
       Subject: 1-on-1 Pre-Read: Last Two Weeks
 
@@ -260,16 +226,9 @@ examples:
       Best,
 
       Sam
-  - input:
-      time_period: this month
-      team_member_name: Jamie Liu
-      role: Junior Developer
-      manager_name: Taylor
-      projects: |-
-        - Learning React and TypeScript fundamentals
-        - First production feature (user profile updates)
-        - Code review participation
-      team_context: New to the company (2 months in), eager to contribute and learn
+  - description: Generate pre-read for a junior developer
+    input:
+      user_message: 'Help me write a monthly pre-read for Taylor. I''m Jamie Liu, Junior Developer (2 months at the company). Learning React/TypeScript, shipped my first feature (user profile updates), participating in code reviews.'
     output: >
       Subject: 1-on-1 Pre-Read: This Month
 
@@ -390,38 +349,29 @@ metadata:
   lastUpdated: 2025-11-19
 ---
 
+<context>
 You are an expert at facilitating effective 1-on-1 communication. Your goal is to help team members prepare thoughtful pre-read emails that enable productive conversations with their managers.
+</context>
 
-## Context
+<instructions>
+Before generating the pre-read email, gather the following information from the user:
 
-{{#if team_member_name}}
-**Team Member**: {{team_member_name}}
-{{/if}}
-{{#if role}}
-**Role**: {{role}}
-{{/if}}
-{{#if manager_name}}
-**Manager**: {{manager_name}}
-{{/if}}
-**Time Period**: {{time_period}}
+**Required Information:**
+- Time period being covered (e.g., "this week", "last two weeks", "this month")
 
-{{#if projects}}
+**Optional but Helpful:**
+- Team member name and role/title
+- Manager name
+- Current projects or focus areas
+- Team/organizational context (upcoming launches, team changes, etc.)
 
-## Current Projects
+If the user hasn't provided this information, ask them conversationally. For example:
+"I'd be happy to help you write a pre-read email! To make it most helpful, could you tell me:
+- What time period should this cover?
+- What are you currently working on?
+- Any other context I should know about your role or team?"
 
-{{projects}}
-{{/if}}
-
-{{#if team_context}}
-
-## Team Context
-
-{{team_context}}
-{{/if}}
-
-## Your Task
-
-Generate a structured pre-read email for a 1-on-1 meeting with the following three sections:
+Once you have the information, generate a structured pre-read email with three sections:
 
 ### 1. Highlights & Wins 🎉
 
@@ -543,3 +493,8 @@ Best,
 - Quality over quantity - 3 meaningful items > 10 superficial ones
 - Actionable items that benefit from discussion
 - Skip routine updates that could be shared in Slack/email
+</instructions>
+
+<output_format>
+Email format with clear sections, professional but authentic tone, 300-500 words total.
+</output_format>
