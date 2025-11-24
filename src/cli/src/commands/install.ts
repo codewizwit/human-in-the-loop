@@ -108,8 +108,6 @@ export async function installCommand(
     logSuccess(`Successfully installed ${tool.name} (v${tool.version})`);
     logStep('Installed to: ' + chalk.cyan(installPath));
 
-    // Default to creating Claude Code slash command for prompts
-    // unless explicitly disabled with --no-claude-command
     const shouldCreateCommand =
       options?.claudeCommand !== false && tool.type === 'prompt';
 
@@ -125,7 +123,6 @@ export async function installCommand(
           logNewLine();
           logStep('Creating Claude Code slash command...');
 
-          // Check for prompt.md first (preferred), then fallback to prompt.yaml
           const fs = await import('fs');
           const promptMdPath = join(installPath, 'prompt.md');
           const promptYamlPath = join(installPath, 'prompt.yaml');

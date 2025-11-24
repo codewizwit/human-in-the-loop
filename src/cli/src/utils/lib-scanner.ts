@@ -146,7 +146,7 @@ function scanDirectory(
  */
 function findConfigFile(toolDir: string): string | null {
   const possibleFiles = [
-    'prompt.md', // Markdown with frontmatter (preferred)
+    'prompt.md',
     'prompt.yaml',
     'prompt.yml',
     'agent.yaml',
@@ -183,8 +183,7 @@ function parseFrontmatter(content: string): {
   }
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const data = parse(match[1]);
+    const data = parse(match[1]) as unknown;
     const body = match[2];
     return { data, content: body };
   } catch {
@@ -212,14 +211,12 @@ function parseToolConfig(
     if (configFile.endsWith('.json')) {
       config = JSON.parse(content);
     } else if (configFile.endsWith('.md')) {
-      // Parse markdown with frontmatter
       const parsed = parseFrontmatter(content);
       if (!parsed) {
         return null;
       }
       config = parsed.data;
     } else {
-      // Parse YAML
       config = parse(content);
     }
 

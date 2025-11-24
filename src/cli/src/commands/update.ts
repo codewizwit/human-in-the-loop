@@ -6,6 +6,8 @@ import {
   logNewLine,
 } from '../utils/logger';
 import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 /**
  * Gets the current CLI version from package.json
@@ -13,10 +15,9 @@ import { execSync } from 'child_process';
  */
 function getCurrentVersion(): string {
   try {
-    // The package.json is in the same directory as the compiled JS
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
-    const packageJson = require('../../package.json');
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+    const packagePath = join(__dirname, '../../package.json');
+    const packageContent = readFileSync(packagePath, 'utf-8');
+    const packageJson = JSON.parse(packageContent) as { version: string };
     return packageJson.version;
   } catch {
     return 'unknown';
