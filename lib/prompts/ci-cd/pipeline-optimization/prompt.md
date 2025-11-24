@@ -151,7 +151,7 @@ Conduct a comprehensive CI/CD pipeline optimization analysis of the codebase in 
 </constraints>
 
 <output_format>
-Provide your analysis in this structure:
+Write your pipeline optimization analysis to a markdown file in the workspace. Use proper markdown syntax with headings, tables, and code blocks. Follow this structure:
 
 ### Executive Summary
 

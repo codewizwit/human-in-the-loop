@@ -76,5 +76,5 @@ For each finding:
 </instructions>
 
 <output_format>
-Structured bias analysis with findings, explanations, alternatives, and severity ratings.
+Write your bias analysis to a markdown file in the workspace. Use proper markdown syntax with clear sections, severity markers (🔴🟡🟢), headings, and structured findings. Include specific examples, explanations, alternatives, and severity ratings.
 </output_format>

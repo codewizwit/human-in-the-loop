@@ -585,7 +585,7 @@ Analyze the API implementation in the workspace and provide comprehensive design
 </constraints>
 
 <output_format>
-Provide your API design recommendations in this structure:
+Write your API design recommendations to a markdown file in the workspace. Use proper markdown syntax with code blocks, headings, and tables. Follow this structure:
 
 **Endpoint Design:**
 [Specific endpoint designs with URLs/schemas, methods, parameters]

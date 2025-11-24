@@ -691,9 +691,8 @@ Evaluate the proposed architecture across these critical dimensions:
 - **Dependency Management**: Are dependencies minimized and well-managed?
 - **Vendor Lock-in**: What is the risk of vendor lock-in?
 
-## Output Format
-
-Provide a comprehensive architectural review with the following structure:
+<output_format>
+Write your system design review to a markdown file in the workspace. Use proper markdown syntax with clear headings, tables, code blocks, and structured sections. Follow this structure:
 
 ### Executive Summary
 
@@ -785,3 +784,4 @@ Prioritized list of concrete next steps:
 - Use 🟢 for well-designed aspects that follow best practices
 - Use 💡 for suggestions and optimizations
 - Use ⚠️ for warnings about potential risks or anti-patterns
+</output_format>

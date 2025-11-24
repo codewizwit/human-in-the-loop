@@ -345,5 +345,5 @@ For each finding:
 </instructions>
 
 <output_format>
-Structured audit report with findings organized by principle, severity ratings, and actionable recommendations.
+Write your responsible AI audit report to a markdown file in the workspace. Use proper markdown syntax with clear sections, headings, severity markers, and structured findings organized by principle. Include actionable recommendations with checkboxes and priority levels.
 </output_format>

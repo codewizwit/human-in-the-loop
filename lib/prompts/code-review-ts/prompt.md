@@ -101,7 +101,7 @@ Review the TypeScript code in the current workspace and perform a comprehensive 
 </constraints>
 
 <output_format>
-Structure your review as follows:
+Write your code review to a markdown file in the workspace. Use proper markdown syntax with clear headings and code blocks. Structure your review as follows:
 
 **Type Safety**
 

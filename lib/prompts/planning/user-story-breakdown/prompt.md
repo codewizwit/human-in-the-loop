@@ -91,8 +91,7 @@ For each user story provide:
 </instructions>
 
 <output_format>
-List of user stories with acceptance criteria, estimates, dependencies, and sprint recommendations.
-</output_format>
+Write the user story breakdown to a markdown file in the workspace. Use proper markdown syntax with clear headings, priority markers (🔴🟡🟢), structured lists, tables, and formatted sections. Include acceptance criteria, story point estimates, dependencies, and sprint recommendations.
 
 ## Special Markers
 
@@ -102,4 +101,4 @@ List of user stories with acceptance criteria, estimates, dependencies, and spri
 - Use ⚠️ for stories with significant technical risk
 - Use 🔗 for stories with complex dependencies
 - Use 🧪 for stories requiring technical spikes
-  </output_format>
+</output_format>

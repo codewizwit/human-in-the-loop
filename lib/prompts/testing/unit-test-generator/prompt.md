@@ -425,7 +425,7 @@ Generate tests for:
 </constraints>
 
 <output_format>
-Provide the complete test file with:
+Write the complete test file to a markdown file in the workspace. Use proper markdown syntax with syntax-highlighted code blocks and clear sections. Include:
 
 1. **Imports**: All necessary testing utilities and modules
 2. **Mocks**: Mock declarations at file level

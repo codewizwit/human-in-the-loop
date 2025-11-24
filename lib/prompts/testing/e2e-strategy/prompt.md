@@ -795,7 +795,7 @@ class LoginPage {
 </constraints>
 
 <output_format>
-Provide your E2E testing strategy in this structure:
+Write your E2E testing strategy to a markdown file in the workspace. Use proper markdown syntax with code blocks, headings, and tables. Follow this structure:
 
 **Test Scope & Prioritization:**
 [Which flows to test, priority levels, smoke vs regression]

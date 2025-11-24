@@ -1048,7 +1048,7 @@ Provide language/framework-specific guidance:
 </constraints>
 
 <output_format>
-Structure your security review following this exact format:
+Write your security review to a markdown file in the workspace. Use proper markdown syntax with code blocks, severity markers (🔴🟠🟡🔵), tables, and checklists. Follow this structure:
 
 ### Executive Summary
 

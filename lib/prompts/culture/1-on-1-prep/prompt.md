@@ -496,5 +496,5 @@ Best,
 </instructions>
 
 <output_format>
-Email format with clear sections, professional but authentic tone, 300-500 words total.
+Write the 1-on-1 pre-read email to a markdown file in the workspace. Use proper markdown syntax with clear sections, professional but authentic tone, 300-500 words total. Include headings, lists, and formatting for readability.
 </output_format>

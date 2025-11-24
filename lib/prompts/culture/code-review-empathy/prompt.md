@@ -242,5 +242,5 @@ Once you have the information, transform the feedback following these principles
 </instructions>
 
 <output_format>
-Transformed feedback with explanatory sections showing what changed and why.
+Write the transformed feedback to a markdown file in the workspace. Use proper markdown syntax with clear sections showing what changed and why. Include headings, code blocks, and structured explanations.
 </output_format>
