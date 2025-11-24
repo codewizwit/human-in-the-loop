@@ -208,7 +208,7 @@ Create a `.hitrc.json` file in your project root or home directory:
 
 ### Developer-First AI
 
-Every tool is evaluated through our [Developer-First AI Accountability Framework](https://github.com/codewizwit/human-in-the-loop/blob/main/ACCOUNTABILITY.md):
+Every tool is evaluated through our [Developer-First Responsible AI Playbook](https://github.com/codewizwit/human-in-the-loop/blob/main/RESPONSIBLE-AI-PLAYBOOK.md):
 
 - ✨ **Enhance** developer happiness and creativity
 - 📚 **Support** learning and growth
