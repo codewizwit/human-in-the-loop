@@ -132,46 +132,48 @@ hit stats                       # Installation info
 
 ## 🌟 Featured Workflows
 
-### 🔒 Security Audit Your Codebase
+### 🗺️ Understand an Unfamiliar Codebase
 
 ```bash
-hit install prompt/security-review
-# Creates /security-review
+hit install prompt/codebase-explainer
 
 # In Claude Code:
-/security-review
+/codebase-explainer
 
-# Claude asks: "What should I focus on?"
-# You say: "Authentication and SQL injection"
-# Claude analyzes your workspace with those priorities
+# Claude analyzes the repo and explains:
+# - Architecture overview with diagrams
+# - Directory structure and conventions
+# - Entry points and key files
+# - How to get started as a new developer
 ```
 
-### ⚡ Optimize Your CI/CD Pipeline
+### 💙 Give Better Code Review Feedback
 
 ```bash
-hit install prompt/pipeline-optimization
+hit install prompt/code-review-empathy
 
 # In Claude Code:
-/pipeline-optimization
+/code-review-empathy
 
-# Claude:
-# - Finds your .github/workflows/*.yml
-# - Analyzes parallelization, caching, costs
-# - Provides before/after comparison with savings
+# Transform harsh feedback into coaching:
+# - "This is wrong" → "Consider this approach because..."
+# - Focus on learning, not criticism
+# - Maintain the technical substance
 ```
 
-### 🧪 Generate Unit Tests
+### 🛡️ Audit AI-Generated Code
 
 ```bash
-hit install prompt/unit-test-generator
+hit install prompt/responsible-ai-audit
 
 # In Claude Code:
-/unit-test-generator
+/responsible-ai-audit
 
-# Claude:
-# - Finds files without tests
-# - Detects framework (Jest/Vitest)
-# - Generates tests with edge cases & mocking
+# Before shipping AI output, verify:
+# - Accuracy and correctness
+# - Potential bias or fairness issues
+# - Security vulnerabilities
+# - Clear reasoning and transparency
 ```
 
 ---
