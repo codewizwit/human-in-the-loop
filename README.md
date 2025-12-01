@@ -130,62 +130,39 @@ hit stats                       # Installation info
 
 ---
 
-## 🌟 Featured Workflows
+## 🛡️ Keeping Humans in the Loop
+
+Every prompt is designed to **augment your expertise, not replace it**. Here are a few examples:
 
 ### 🗺️ Understand an Unfamiliar Codebase
 
 ```bash
 hit install prompt/codebase-explainer
-
-# In Claude Code:
 /codebase-explainer
 
-# Claude analyzes the repo and explains:
-# - Architecture overview with diagrams
-# - Directory structure and conventions
-# - Entry points and key files
-# - How to get started as a new developer
+# Get architecture diagrams, directory breakdowns,
+# and a getting-started guide—you decide what to explore next
 ```
 
 ### 💙 Give Better Code Review Feedback
 
 ```bash
 hit install prompt/code-review-empathy
-
-# In Claude Code:
 /code-review-empathy
 
-# Transform harsh feedback into coaching:
-# - "This is wrong" → "Consider this approach because..."
-# - Focus on learning, not criticism
-# - Maintain the technical substance
+# Transform "This is wrong" into "Consider this approach because..."
+# Keep the technical substance, improve the delivery
 ```
 
 ### 🛡️ Audit AI-Generated Code
 
 ```bash
 hit install prompt/responsible-ai-audit
-
-# In Claude Code:
 /responsible-ai-audit
 
-# Before shipping AI output, verify:
-# - Accuracy and correctness
-# - Potential bias or fairness issues
-# - Security vulnerabilities
-# - Clear reasoning and transparency
+# Before shipping AI output: check accuracy, bias, security, transparency
+# You validate, you decide, you ship
 ```
-
----
-
-## 🛡️ Responsible AI First
-
-Every prompt in this toolkit is built on the principle that **AI should augment human expertise, not replace it**.
-
-- `responsible-ai-audit` - Evaluate AI outputs for accuracy, completeness, and potential harm
-- `code-review-empathy` - Transform critical feedback into constructive coaching
-- `learning-path` - Build personalized skill development roadmaps
-- `codebase-explainer` - Understand unfamiliar repos without getting lost
 
 See our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) for the full framework.
 
