@@ -210,7 +210,7 @@ human-in-the-loop/
 
 ## 🎉 What's New
 
-**v2.0.0** - Pure XML Prompts & Claude Code Integration
+**v3.0.0** - Pure XML Prompts & Claude Code Integration
 
 - 🔌 Automatic slash command creation on install
 - 🤖 Tool-based workspace analysis (Read/Grep/Glob)
