@@ -1,364 +1,116 @@
----
-id: api-design
-name: API Design Best Practices
-version: 2.0.0
-description: Analyzes your API codebase and provides guidance on REST/GraphQL design. Uses Read and Grep to examine existing endpoints, routes, and schemas. Covers naming conventions, versioning, security, scalability, and industry best practices.
-category: architecture
-examples:
-  - description: Review entire API design
-    input:
-      user_message: 'Review the API design and suggest improvements'
-  - description: Focus on API security
-    input:
-      user_message: 'Review API endpoints for security best practices, especially authentication'
-    output: >
-      **Endpoint Design:**
+<prompt>
+  <metadata>
+    <id>api-design</id>
+    <name>API Design Best Practices</name>
+    <version>2.0.0</version>
+    <description>Analyzes your API codebase and provides guidance on REST/GraphQL design. Uses Read and Grep to examine existing endpoints, routes, and schemas. Covers naming conventions, versioning, security, scalability, and industry best practices.</description>
+    <category>architecture</category>
+    <author>codewizwit</author>
+    <license>MIT</license>
+    <tags>
+      <tag>architecture</tag>
+      <tag>api-design</tag>
+      <tag>rest</tag>
+      <tag>graphql</tag>
+      <tag>best-practices</tag>
+      <tag>security</tag>
+    </tags>
+    <lastUpdated>2025-10-15</lastUpdated>
+  </metadata>
+
+  <examples>
+    <example>
+      <description>Review entire API design</description>
+      <input>
+        <user_message>Review the API design and suggest improvements</user_message>
+      </input>
+    </example>
+    <example>
+      <description>Focus on API security</description>
+      <input>
+        <user_message>Review API endpoints for security best practices, especially authentication</user_message>
+      </input>
+      <output>**Endpoint Design:**
+
+```
+POST   /v1/users                    # Register new user
+POST   /v1/auth/login               # Authenticate user
+GET    /v1/users/{id}               # Get user profile
+PATCH  /v1/users/{id}               # Update user profile
+DELETE /v1/users/{id}               # Delete user account (GDPR)
+POST   /v1/auth/refresh             # Refresh access token
+POST   /v1/auth/logout              # Revoke tokens
+```
+
+**Key Improvements:**
+
+- Use `PATCH` instead of `PUT` for profile updates (allows partial updates)
+- Separate `/auth` namespace for authentication operations
+- Include token refresh endpoint for security
+- User ID in path, not query parameter
+- Plural resource names (`/users` not `/user`)
+
+**Security Recommendations:**
+
+- **Authentication**: JWT access tokens (15 min expiry) + refresh tokens (7 days)
+- **Rate Limiting**:
+  - Registration: 3 attempts per IP per hour
+  - Login: 5 failed attempts per user per 15 minutes
+  - Profile operations: 100 requests per user per minute
+- **Input Validation**:
+  - Email: RFC 5322 format validation
+  - Password: Min 12 chars, require uppercase, lowercase, number, special char
+  - Profile updates: Whitelist allowed fields
+- **GDPR Compliance**:
+  - DELETE endpoint performs hard delete + anonymization
+  - Audit log retention policy
+  - Data export endpoint (not shown but recommended)
+
+**Versioning Strategy:**
+URL versioning (`/v1/`) - most transparent and easiest to understand.
+Support N-1 versions (v1 and v2 simultaneously) during migration period.
+
+**Sample Request/Response:**
+
+```http
+POST /v1/users
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "SecureP@ssw0rd123",
+  "firstName": "Jane",
+  "lastName": "Doe"
+}
+
+Response: 201 Created
+{
+  "data": {
+    "id": "usr_1a2b3c4d",
+    "email": "user@example.com",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "isVerified": false
+  },
+  "meta": {
+    "requestId": "req_abc123"
+  }
+}
+```
+
+**Red Flags:**
 
+- ⚠️ Password reset flow not included (highly recommended)
+- ⚠️ Email verification workflow missing
+- ⚠️ Consider multi-factor authentication for sensitive operations
+- ⚠️ Profile updates should log changes for audit trail</output>
+</example>
+</examples>
 
-      ```
-
-      POST   /v1/users                    # Register new user
-
-      POST   /v1/auth/login               # Authenticate user
-
-      GET    /v1/users/{id}               # Get user profile
-
-      PATCH  /v1/users/{id}               # Update user profile
-
-      DELETE /v1/users/{id}               # Delete user account (GDPR)
-
-      POST   /v1/auth/refresh             # Refresh access token
-
-      POST   /v1/auth/logout              # Revoke tokens
-
-      ```
-
-
-      **Key Improvements:**
-
-      - Use `PATCH` instead of `PUT` for profile updates (allows partial
-      updates)
-
-      - Separate `/auth` namespace for authentication operations
-
-      - Include token refresh endpoint for security
-
-      - User ID in path, not query parameter
-
-      - Plural resource names (`/users` not `/user`)
-
-
-      **Security Recommendations:**
-
-      - **Authentication**: JWT access tokens (15 min expiry) + refresh tokens
-      (7 days)
-
-      - **Rate Limiting**:
-        - Registration: 3 attempts per IP per hour
-        - Login: 5 failed attempts per user per 15 minutes
-        - Profile operations: 100 requests per user per minute
-      - **Input Validation**:
-        - Email: RFC 5322 format validation
-        - Password: Min 12 chars, require uppercase, lowercase, number, special char
-        - Profile updates: Whitelist allowed fields
-      - **GDPR Compliance**:
-        - DELETE endpoint performs hard delete + anonymization
-        - Audit log retention policy
-        - Data export endpoint (not shown but recommended)
-
-      **Versioning Strategy:**
-
-      URL versioning (`/v1/`) - most transparent and easiest to understand.
-
-      Support N-1 versions (v1 and v2 simultaneously) during migration period.
-
-
-      **Sample Request/Response:**
-
-
-      ```http
-
-      POST /v1/users
-
-      Content-Type: application/json
-
-
-      {
-        "email": "user@example.com",
-        "password": "SecureP@ssw0rd123",
-        "firstName": "Jane",
-        "lastName": "Doe"
-      }
-
-
-      Response: 201 Created
-
-      {
-        "data": {
-          "id": "usr_1a2b3c4d",
-          "email": "user@example.com",
-          "firstName": "Jane",
-          "lastName": "Doe",
-          "createdAt": "2024-01-15T10:30:00Z",
-          "isVerified": false
-        },
-        "meta": {
-          "requestId": "req_abc123"
-        }
-      }
-
-      ```
-
-
-      **Red Flags:**
-
-      - ⚠️ Password reset flow not included (highly recommended)
-
-      - ⚠️ Email verification workflow missing
-
-      - ⚠️ Consider multi-factor authentication for sensitive operations
-
-      - ⚠️ Profile updates should log changes for audit trail
-  - input:
-      api_type: GraphQL
-      endpoints: |
-        - Query products with filters
-        - Get product details
-        - Add product to cart
-        - Checkout cart
-      business_requirements: |
-        E-commerce platform with product catalog and shopping cart.
-        Need to handle high read traffic, optimize for mobile apps.
-      existing_design: |
-        type Query {
-          products: [Product]
-          product(id: ID): Product
-        }
-
-        type Mutation {
-          addToCart(productId: ID, qty: Int): Cart
-          checkout(cartId: ID): Order
-        }
-    output: >
-      **Schema Design:**
-
-
-      ```graphql
-
-      # Queries
-
-      type Query {
-        products(
-          filter: ProductFilter
-          sort: ProductSort
-          first: Int = 20
-          after: String
-        ): ProductConnection!
-
-        product(id: ID!): Product
-
-        cart(id: ID!): Cart
-      }
-
-
-      # Mutations
-
-      type Mutation {
-        addToCart(input: AddToCartInput!): AddToCartPayload!
-        removeFromCart(input: RemoveFromCartInput!): RemoveFromCartPayload!
-        updateCartItem(input: UpdateCartItemInput!): UpdateCartItemPayload!
-        checkout(input: CheckoutInput!): CheckoutPayload!
-      }
-
-
-      # Types
-
-      type Product {
-        id: ID!
-        name: String!
-        description: String
-        price: Money!
-        images: [Image!]!
-        inStock: Boolean!
-        inventory: Int!
-      }
-
-
-      type ProductConnection {
-        edges: [ProductEdge!]!
-        pageInfo: PageInfo!
-        totalCount: Int!
-      }
-
-
-      type ProductEdge {
-        node: Product!
-        cursor: String!
-      }
-
-
-      # Input types
-
-      input ProductFilter {
-        category: String
-        priceMin: Float
-        priceMax: Float
-        inStockOnly: Boolean
-      }
-
-
-      input AddToCartInput {
-        cartId: ID
-        productId: ID!
-        quantity: Int! @constraint(min: 1, max: 99)
-      }
-
-
-      # Payload types (return errors + data)
-
-      type AddToCartPayload {
-        cart: Cart
-        errors: [UserError!]
-      }
-
-
-      type UserError {
-        field: String
-        message: String!
-      }
-
-      ```
-
-
-      **Key Improvements:**
-
-      - **Pagination**: Use Connection pattern (Relay spec) for scalability
-
-      - **Input types**: Dedicated input types for all mutations (not inline
-      args)
-
-      - **Non-nullable**: Use `!` for required fields, avoid overuse
-
-      - **Payload pattern**: Return both data and errors from mutations
-
-      - **Filtering**: Structured filter input instead of many arguments
-
-      - **Validation**: Use directives like `@constraint` for input validation
-
-
-      **Security Recommendations:**
-
-      - **Query Complexity**: Limit query depth (max 5 levels) and breadth
-
-      - **Rate Limiting**:
-        - Anonymous users: 100 queries per 15 min
-        - Authenticated: 1000 queries per 15 min
-        - Mutations: 50 per 15 min per user
-      - **Field-level auth**: Sensitive fields (profit margin, supplier info)
-      require admin role
-
-      - **Input validation**: Quantity limits, price validation, cart size
-      limits
-
-      - **Caching**: Implement DataLoader to prevent N+1 queries
-
-
-      **Versioning Strategy:**
-
-      GraphQL allows gradual evolution without versions:
-
-      - Add new fields (non-breaking)
-
-      - Deprecate old fields with `@deprecated` directive
-
-      - Never remove fields without deprecation period (6+ months)
-
-      - Use schema stitching for major rewrites
-
-
-      **Sample Query/Response:**
-
-
-      ```graphql
-
-      query GetProducts {
-        products(
-          filter: { category: "electronics", inStockOnly: true }
-          first: 10
-        ) {
-          edges {
-            node {
-              id
-              name
-              price {
-                amount
-                currency
-              }
-              inStock
-            }
-          }
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
-        }
-      }
-
-
-      Response:
-
-      {
-        "data": {
-          "products": {
-            "edges": [
-              {
-                "node": {
-                  "id": "prod_123",
-                  "name": "Wireless Headphones",
-                  "price": {
-                    "amount": 99.99,
-                    "currency": "USD"
-                  },
-                  "inStock": true
-                }
-              }
-            ],
-            "pageInfo": {
-              "hasNextPage": true,
-              "endCursor": "Y3Vyc29yOnYyOpK5"
-            }
-          }
-        }
-      }
-
-      ```
-
-
-      **Red Flags:**
-
-      - ⚠️ Missing error handling in checkout (payment failures, inventory
-      issues)
-
-      - ⚠️ Cart should have expiration policy (abandoned carts)
-
-      - ⚠️ Consider optimistic locking for inventory (prevent overselling)
-
-      - ⚠️ Add subscription for real-time cart updates (multi-device support)
-metadata:
-  author: codewizwit
-  license: MIT
-  tags:
-    - architecture
-    - api-design
-    - rest
-    - graphql
-    - best-practices
-    - security
-  lastUpdated: 2025-10-15
----
-
-<context>
+  <context>
 You are an expert API architect specializing in REST and GraphQL design with expertise in:
+
 - RESTful principles and resource naming conventions
 - GraphQL schema design and query optimization
 - API versioning strategies and backward compatibility
@@ -370,7 +122,7 @@ Your goal is to provide comprehensive guidance on API design that follows indust
 balances developer experience with technical requirements, and creates scalable, maintainable APIs.
 </context>
 
-<instructions>
+  <instructions>
 Analyze the API implementation in the workspace and provide comprehensive design guidance.
 
 ## Analysis Approach
@@ -556,7 +308,7 @@ Analyze the API implementation in the workspace and provide comprehensive design
 }
 ```
 
-### 7. Performance & Scalability
+### 7. Performance &amp; Scalability
 
 - Implement caching (ETags, Cache-Control)
 - Support compression (gzip, brotli)
@@ -573,19 +325,19 @@ Analyze the API implementation in the workspace and provide comprehensive design
 - Error code reference
 - Authentication guide
 - Rate limit information
+  </instructions>
 
-</instructions>
+  <constraints>
 
-<constraints>
 - Follow RESTful or GraphQL best practices
 - Prioritize developer experience and API usability
 - Include security considerations for all recommendations
 - Provide concrete examples for all suggestions
 - Consider scalability and performance implications
-</constraints>
+  </constraints>
 
-<output_format>
-Write your API design recommendations to a markdown file in the workspace. Use proper markdown syntax with code blocks, headings, and tables. Follow this structure:
+  <output_format>
+  Write your API design recommendations to a markdown file in the workspace. Use proper markdown syntax with code blocks, headings, and tables. Follow this structure:
 
 **Endpoint Design:**
 [Specific endpoint designs with URLs/schemas, methods, parameters]
@@ -607,3 +359,4 @@ Write your API design recommendations to a markdown file in the workspace. Use p
 **Red Flags:**
 [Any concerns or potential issues identified]
 </output_format>
+</prompt>
