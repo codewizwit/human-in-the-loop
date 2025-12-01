@@ -6,6 +6,8 @@ Thank you for your interest in contributing! This document outlines the process 
 
 ## How to Contribute
 
+> **Note**: As of v2.0.0, all prompts use **pure XML format** (no YAML frontmatter). See the [Pure XML Template Format Guide](./docs/xml-template-migration.md) for details.
+
 ### 1. Types of Contributions
 
 We accept the following types of contributions:
@@ -19,12 +21,13 @@ We accept the following types of contributions:
 - **Bug Fixes**: Fixes to existing tools or CLI
 - **Features**: New CLI features or improvements
 
-###2. Before You Start
+### 2. Before You Start
 
 1. Check existing issues and PRs to avoid duplication
 2. For major changes, open an issue first to discuss your approach
-3. Read our [Best Practices](./docs/ai-best-practices.md) guide
-4. Familiarize yourself with our [Governance](./docs/governance-model.md) model
+3. Read our [Pure XML Template Format Guide](./docs/xml-template-migration.md)
+4. Review [Best Practices](./docs/ai-best-practices.md) guide (if available)
+5. Familiarize yourself with our [Governance](./docs/governance-model.md) model (if available)
 
 ---
 
@@ -63,76 +66,142 @@ Follow the appropriate guide based on what you're contributing:
 
 #### Contributing a Prompt
 
-1. Create a new directory in `libs/prompts/src/`:
+1. Create a new directory in `lib/prompts/category/`:
 
 ```bash
-mkdir -p libs/prompts/src/my-prompt
+mkdir -p lib/prompts/code-review/my-prompt
 ```
 
-2. Create `prompt.md` (Markdown with YAML frontmatter):
+2. Create `prompt.md` (Pure XML format):
+
+```xml
+<prompt>
+  <metadata>
+    <id>my-prompt</id>
+    <name>My Awesome Prompt</name>
+    <version>1.0.0</version>
+    <description>A clear, concise description of what this prompt does</description>
+    <category>code-review</category>
+    <author>Your Name</author>
+    <license>MIT</license>
+    <tags>
+      <tag>code-review</tag>
+      <tag>quality</tag>
+    </tags>
+    <lastUpdated>2025-01-15</lastUpdated>
+  </metadata>
+
+  <examples>
+    <example>
+      <description>Review entire workspace</description>
+      <input>
+        <user_message>Please review all code in this project</user_message>
+      </input>
+    </example>
+    <example>
+      <description>Review specific file</description>
+      <input>
+        <user_message>Review src/auth/login.ts for security issues</user_message>
+      </input>
+    </example>
+  </examples>
+
+  <context>
+You are an expert code reviewer with deep knowledge of software engineering best practices, security, and performance optimization.
+  </context>
+
+  <instructions>
+Review the code in the current workspace and analyze:
+
+1. **Code Quality**
+   - Use Glob tool to find relevant code files
+   - Use Read tool to examine each file
+   - Assess readability and maintainability
+
+2. **Security**
+   - Identify potential vulnerabilities
+   - Check for input validation issues
+
+3. **Performance**
+   - Identify optimization opportunities
+  </instructions>
+
+  <constraints>
+- Use Read, Grep, and Glob tools to analyze code
+- Focus on critical issues over style preferences
+- Provide specific line references for issues
+- Include code examples for recommendations
+  </constraints>
+
+  <output_format>
+Write your code review to a markdown file in the workspace. Use proper markdown syntax with clear headings and code blocks. Structure your review as follows:
+
+**Code Quality**
+- [Specific findings with code examples]
+
+**Security**
+- [Specific findings with code examples]
+
+**Performance**
+- [Specific findings with code examples]
+
+For each issue:
+- Explain the problem clearly
+- Provide actionable recommendations
+- Include code examples showing improvements
+- Note severity (Critical, High, Medium, Low)
+  </output_format>
+</prompt>
+```
+
+3. Create `README.md` in the same directory (185-233 words):
 
 ```markdown
----
-id: my-prompt
-name: My Awesome Prompt
-version: 1.0.0
-description: A clear, concise description of what this prompt does
-category: code-review # or documentation, testing, refactoring, etc.
-metadata:
-  author: Your Name
-  license: MIT
-  tags:
-    - code-review
-    - quality
+# My Awesome Prompt
 
-variables:
-  - name: code
-    description: The code to review
-    required: true
-  - name: language
-    description: Programming language
-    required: true
+A clear, concise description of what this prompt does.
 
-examples:
-  - input:
-      code: "function test() { console.log('hello') }"
-      language: 'TypeScript'
-    output: 'The function works but could be improved...'
----
+## What You'll Be Asked
 
-Review the following {{language}} code:
+- The prompt automatically analyzes code files in your workspace (no input required)
+- Optionally: Specific focus areas (e.g., "focus on security")
 
-{{code}}
+## Usage Examples
 
-Provide feedback on:
+### Example 1: Full Workspace Review
 
-- Code quality and readability
-- Potential bugs or issues
-- Performance considerations
-- Best practices
+Analyze an entire project for code quality, security, and performance issues.
+
+**Expected Output:**
+
+\```markdown
+**Code Quality**
+- src/auth/login.ts:45 - Complex function should be split
+  Recommendation: Extract validation logic to separate function
+
+**Security**
+- src/api/users.ts:23 - SQL injection vulnerability
+  CRITICAL: Use parameterized queries
+\```
+
+### Example 2: Focused Security Review
+
+Review specific components for security vulnerabilities.
+
+**Expected Output:**
+
+\```markdown
+**Security**
+- Input validation missing on user registration
+  Recommendation: Add validation using [library]
+\```
+
+## Related Resources
+
+- [Other Related Prompt](../other-prompt) - Description
+- [External Documentation](https://example.com) - Description
+- [Tool/Framework Guide](https://example.com) - Description
 ```
-
-3. Add TypeScript types in `libs/prompts/src/my-prompt/types.ts`:
-
-```typescript
-/**
- * Input variables for my-prompt
- */
-export interface MyPromptInput {
-  code: string;
-  language: string;
-}
-
-/**
- * Expected output structure from my-prompt
- */
-export interface MyPromptOutput {
-  feedback: string;
-  suggestions: string[];
-}
-```
-
-4. Create README in `libs/prompts/src/my-prompt/README.md`
 
 #### Contributing an Agent
 

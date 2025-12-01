@@ -1,6 +1,8 @@
-# XML Template Migration Guide
+# Pure XML Template Format
 
-Guide for migrating prompt templates to XML structure following Claude prompt engineering best practices.
+Guide for creating prompt templates using pure XML structure following Anthropic Claude best practices.
+
+> **Note**: As of v2.0.0, all prompts use pure XML format (no YAML frontmatter). Human-readable metadata is provided in separate README files.
 
 ## Why XML Structure?
 
@@ -12,9 +14,97 @@ XML tags in prompt templates provide several key benefits:
 4. **Better Parsing** - Claude is trained to recognize and respect XML structure
 5. **Improved Responses** - Structured prompts lead to more accurate, consistent outputs
 
-## Recommended XML Tag Structure
+## Pure XML File Structure
 
-### Core Tags
+All prompt files must start with a root `<prompt>` element containing metadata and prompt sections:
+
+```xml
+<prompt>
+  <metadata>
+    <!-- Metadata section - stripped by CLI before sending to Claude -->
+  </metadata>
+
+  <examples>
+    <!-- Example usage - stripped by CLI before sending to Claude -->
+  </examples>
+
+  <context>
+    <!-- Role definition - sent to Claude -->
+  </context>
+
+  <instructions>
+    <!-- Task directives - sent to Claude -->
+  </instructions>
+
+  <constraints>
+    <!-- Limitations and rules - sent to Claude -->
+  </constraints>
+
+  <output_format>
+    <!-- Expected response structure - sent to Claude -->
+  </output_format>
+</prompt>
+```
+
+**Important**: The CLI automatically strips `<metadata>` and `<examples>` sections before creating Claude Code slash commands. Only `<context>`, `<instructions>`, `<constraints>`, and `<output_format>` are sent to Claude.
+
+## Required Sections
+
+### Metadata Section (Stripped by CLI)
+
+**`<metadata>`** - File metadata for documentation and tooling
+
+```xml
+<metadata>
+  <id>code-review-ts</id>
+  <name>TypeScript Code Review</name>
+  <version>2.0.0</version>
+  <description>Automated TypeScript code review for your workspace</description>
+  <category>code-review</category>
+  <author>codewizwit</author>
+  <license>MIT</license>
+  <tags>
+    <tag>typescript</tag>
+    <tag>code-review</tag>
+    <tag>best-practices</tag>
+  </tags>
+  <lastUpdated>2025-01-15</lastUpdated>
+
+  <!-- Optional: Variable definitions -->
+  <variables>
+    <variable>
+      <name>code</name>
+      <description>The code to review</description>
+      <required>true</required>
+    </variable>
+  </variables>
+</metadata>
+```
+
+### Examples Section (Stripped by CLI)
+
+**`<examples>`** - Usage examples for documentation
+
+```xml
+<examples>
+  <example>
+    <description>Full workspace TypeScript review</description>
+    <input>
+      <user_message>Please review all TypeScript code in this project</user_message>
+    </input>
+  </example>
+  <example>
+    <description>Review specific file</description>
+    <input>
+      <user_message>Review src/auth/login.ts for security issues</user_message>
+    </input>
+  </example>
+</examples>
+```
+
+## Core Prompt Tags (Sent to Claude)
+
+### Context Tag
 
 **`<context>`** - Role definition and background
 
@@ -48,20 +138,7 @@ Review the provided TypeScript code and analyze:
 </instructions>
 ```
 
-**`<input>` or specific input tags** - User-provided content
-
-```xml
-<code_to_review>
-{{code}}
-</code_to_review>
-
-<!-- Conditional inputs -->
-{{#if context}}
-<additional_context>
-{{context}}
-</additional_context>
-{{/if}}
-```
+**Note**: Variable substitution (e.g., `{{code}}`) is no longer used in v2.0.0. Prompts now use Claude Code's built-in capabilities to access workspace files directly via tools like Read, Grep, and Glob.
 
 **`<constraints>`** - Limitations and rules
 
@@ -79,7 +156,7 @@ Review the provided TypeScript code and analyze:
 
 ```xml
 <output_format>
-Structure your review as follows:
+Write your code review to a markdown file in the workspace. Use proper markdown syntax with clear headings and code blocks. Structure your review as follows:
 
 **Type Safety**
 - [Specific findings with code examples]
@@ -98,35 +175,11 @@ For each issue:
 </output_format>
 ```
 
+**Important**: Always specify that outputs should be written to a markdown file in the workspace, not just displayed in the terminal. This allows users to reference and iterate on the output file.
+
 ### Optional Tags
 
-**`<examples>`** - Input/output examples for Claude
-
-````xml
-<examples>
-  <example>
-    <input_case>
-    function processData(data: any) {
-      return data.value;
-    }
-    </input_case>
-    <expected_output>
-    **Type Safety Issues:**
-    - Line 1: Avoid using `any` type. Define a proper interface:
-    ```typescript
-    interface DataInput {
-      value: unknown;
-    }
-    function processData(data: DataInput) {
-      return data.value;
-    }
-    ```
-    </expected_output>
-  </example>
-</examples>
-````
-
-**`<thinking>`** - For chain-of-thought reasoning
+**`<thinking>`** - For chain-of-thought reasoning (sent to Claude)
 
 ```xml
 <thinking>
@@ -137,157 +190,161 @@ Before providing your final analysis, think through:
 </thinking>
 ```
 
-## Variable Substitution
-
-Keep Handlebars syntax for variable substitution:
+## Complete Example: TypeScript Code Review Prompt
 
 ```xml
-<!-- Simple variable -->
-<code_to_review>
-{{code}}
-</code_to_review>
+<prompt>
+  <metadata>
+    <id>code-review-ts</id>
+    <name>TypeScript Code Review</name>
+    <version>2.0.0</version>
+    <description>Automated TypeScript code review for your workspace using Read, Grep, and Glob tools</description>
+    <category>code-review</category>
+    <author>codewizwit</author>
+    <license>MIT</license>
+    <tags>
+      <tag>typescript</tag>
+      <tag>code-review</tag>
+      <tag>best-practices</tag>
+    </tags>
+    <lastUpdated>2025-01-15</lastUpdated>
+  </metadata>
 
-<!-- Conditional variable -->
-{{#if context}}
-<additional_context>
-{{context}}
-</additional_context>
-{{/if}}
+  <examples>
+    <example>
+      <description>Full workspace TypeScript review</description>
+      <input>
+        <user_message>Please review all TypeScript code in this project</user_message>
+      </input>
+    </example>
+  </examples>
 
-<!-- Default values -->
-{{language}} <!-- defaults to value from variables section -->
-```
-
-## Migration Examples
-
-### Example 1: Code Review Prompt
-
-**BEFORE (Plain Text):**
-
-```yaml
-template: |
-  Review the following TypeScript code:
-
-  {{code}}
-
-  Provide a comprehensive code review covering:
-  1. Type Safety
-  2. Code Quality
-  3. Best Practices
-
-  Provide specific, actionable feedback.
-```
-
-**AFTER (XML Structure):**
-
-```yaml
-template: |
   <context>
-  You are an expert TypeScript code reviewer with deep knowledge of type systems,
-  modern ECMAScript features, and security best practices.
+You are an expert TypeScript code reviewer with deep knowledge of type systems, modern ECMAScript features, and security best practices. Your role is to provide constructive, actionable feedback that helps developers improve code quality.
   </context>
 
   <instructions>
-  Review the provided TypeScript code and analyze:
+Review the TypeScript code in the current workspace and analyze:
 
-  1. **Type Safety**
-     - Evaluate type definitions and usage
-     - Identify inappropriate use of `any` type
+1. **Type Safety**
+   - Evaluate type definitions and usage
+   - Identify inappropriate use of `any` type
+   - Assess generic type effectiveness
 
-  2. **Code Quality**
-     - Assess readability and maintainability
-     - Evaluate naming conventions
+2. **Code Quality**
+   - Assess readability and maintainability
+   - Evaluate naming conventions
+   - Review code organization
 
-  3. **Best Practices**
-     - Verify adherence to TypeScript conventions
-     - Evaluate error handling approaches
+3. **Security**
+   - Verify input validation
+   - Identify potential vulnerabilities
   </instructions>
 
-  <code_to_review>
-  {{code}}
-  </code_to_review>
-
   <constraints>
-  - Focus only on the provided code
-  - Assume TypeScript strict mode is enabled
-  - Provide specific line references
-  - Include code examples for changes
+- Use Read, Grep, and Glob tools to analyze TypeScript files
+- Assume TypeScript strict mode is enabled
+- Provide specific line references when pointing out issues
+- Include code examples for recommended changes
+- Prioritize critical issues over style preferences
   </constraints>
 
   <output_format>
-  Structure your review as:
+Write your code review to a markdown file in the workspace. Use proper markdown syntax with clear headings and code blocks. Structure your review as follows:
 
-  **Type Safety**
-  - [Findings with examples]
+**Type Safety**
+- [Specific findings with code examples]
 
-  **Code Quality**
-  - [Findings with examples]
+**Code Quality**
+- [Specific findings with code examples]
 
-  **Best Practices**
-  - [Findings with examples]
+**Security**
+- [Specific findings with code examples]
+
+For each issue:
+- Clearly explain the problem
+- Provide a specific, actionable recommendation
+- Include a code example showing the improvement
+- Note the severity (Critical, High, Medium, Low)
   </output_format>
+</prompt>
 ```
 
-### Example 2: Test Generation Prompt
+## README Files
 
-**BEFORE:**
+Each prompt must include a concise README.md file in the same directory. The README provides human-readable metadata and usage examples.
 
-```yaml
-template: |
-  Generate unit tests for the following code:
+**README Structure** (185-233 words):
 
-  {{code}}
+```markdown
+# [Prompt Name]
 
-  {{#if framework}}
-  Use {{framework}} for testing.
-  {{/if}}
+[One-sentence description]
 
-  Include edge cases and error scenarios.
+## What You'll Be Asked
+
+- [Input 1] - [Description]
+- [Input 2 (optional)] - [Description]
+
+## Usage Examples
+
+### Example 1: [Scenario Name]
+
+[Brief description of the use case]
+
+**Expected Output:**
+
+\```markdown
+[Realistic output snippet showing what the prompt generates]
+\```
+
+### Example 2: [Another Scenario]
+
+[Brief description]
+
+**Expected Output:**
+
+\```markdown
+[Another output snippet]
+\```
+
+## Related Resources
+
+- [Internal Link](../category/other-prompt) - Description
+- [External Documentation](https://example.com) - Description
+- [Tool/Framework Guide](https://example.com) - Description
 ```
 
-**AFTER:**
+**Example README** (lib/prompts/code-review-ts/README.md):
 
-```yaml
-template: |
-  <context>
-  You are an expert test engineer who writes comprehensive, maintainable unit tests
-  following testing best practices and the Arrange-Act-Assert pattern.
-  </context>
+```markdown
+# TypeScript Code Review
 
-  <instructions>
-  Generate unit tests for the provided code that cover:
+Automated TypeScript code review for your workspace using Read, Grep, and Glob tools.
 
-  1. **Happy Path** - Normal, expected usage
-  2. **Edge Cases** - Boundary conditions and unusual inputs
-  3. **Error Scenarios** - Invalid inputs and error handling
-  4. **Integration Points** - Mocked dependencies and external calls
-  </instructions>
+## What You'll Be Asked
 
-  <code_to_test>
-  {{code}}
-  </code_to_test>
+- The prompt automatically analyzes all TypeScript files in your workspace (no input required)
+- Optionally: Specific focus areas (e.g., "focus on authentication logic")
 
-  {{#if framework}}
-  <testing_framework>
-  {{framework}}
-  </testing_framework>
-  {{/if}}
+## Usage Examples
 
-  <constraints>
-  - Follow Arrange-Act-Assert pattern
-  - Use descriptive test names
-  - Include setup and teardown when needed
-  - Mock external dependencies
-  - Aim for 80%+ code coverage
-  </constraints>
+### Example 1: Full Workspace Review
 
-  <output_format>
-  Provide complete test file with:
-  - Import statements
-  - Test suite setup
-  - Individual test cases with clear descriptions
-  - Cleanup/teardown logic
-  </output_format>
+Analyze an entire TypeScript project for type safety issues, code quality problems, and security vulnerabilities.
+
+**Expected Output:**
+
+\```markdown
+**Type Safety**
+- src/auth/login.ts:45 - Using `any` type defeats TypeScript's benefits
+  Recommendation: Define proper interface for user object
+\```
+
+## Related Resources
+
+- [Code Review Empathy](../culture/code-review-empathy) - Transform harsh feedback
+- [Anthropic Prompt Engineering](https://docs.anthropic.com/claude/docs/prompt-engineering) - XML best practices
 ```
 
 ## Best Practices
@@ -320,25 +377,33 @@ Analyze the provided input for:
 </instructions>
 ```
 
-### 3. Isolate User Input
+### 3. Use Claude Code Tools for File Access
 
-Always wrap user-provided content in XML tags:
+In v2.0.0, prompts no longer use variable substitution. Instead, instruct Claude to use built-in tools:
 
 ```xml
-<user_input>
-{{variable_name}}
-</user_input>
+<instructions>
+Review the TypeScript code in the current workspace and analyze:
+1. Use the Glob tool to find all *.ts files
+2. Use the Read tool to examine each file
+3. Use the Grep tool to search for specific patterns
+</instructions>
+
+<constraints>
+- Use Read, Grep, and Glob tools to analyze TypeScript files
+- Do not make assumptions about file locations
+</constraints>
 ```
 
-This prevents prompt injection where user input could include instructions like "Ignore previous instructions..."
+This approach is more flexible and prevents prompt injection vulnerabilities.
 
-### 4. Specify Output Format
+### 4. Write Outputs to Markdown Files
 
-Be explicit about expected response structure:
+Always instruct Claude to write outputs to markdown files in the workspace:
 
 ```xml
 <output_format>
-Provide response in this format:
+Write your analysis to a markdown file in the workspace. Use proper markdown syntax with clear headings and code blocks. Structure your output as follows:
 
 ## Section 1
 [Content]
@@ -346,9 +411,11 @@ Provide response in this format:
 ## Section 2
 [Content]
 
-Use markdown formatting with code blocks where appropriate.
+Include code examples using fenced code blocks with language identifiers.
 </output_format>
 ```
+
+This allows users to reference and iterate on the output file rather than scrolling through terminal output.
 
 ### 5. Define Constraints
 
@@ -368,57 +435,101 @@ Set boundaries for Claude's responses:
 ### Pattern 1: Code Analysis Prompts
 
 ```xml
-<context>Expert role definition</context>
-<instructions>Specific analysis tasks</instructions>
-<code_to_analyze>{{code}}</code_to_analyze>
-<constraints>Analysis boundaries</constraints>
-<output_format>Response structure</output_format>
+<prompt>
+  <metadata>[...]</metadata>
+  <examples>[...]</examples>
+
+  <context>Expert role definition</context>
+
+  <instructions>
+  Specific analysis tasks:
+  1. Use Glob tool to find relevant files
+  2. Use Read tool to examine code
+  3. Analyze for [specific criteria]
+  </instructions>
+
+  <constraints>
+  - Use Read, Grep, and Glob tools
+  - Analysis boundaries
+  </constraints>
+
+  <output_format>
+  Write your analysis to a markdown file in the workspace.
+  Structure: [specific format]
+  </output_format>
+</prompt>
 ```
 
-### Pattern 2: Generation Prompts
+### Pattern 2: Review Prompts
 
 ```xml
-<context>Generator role definition</context>
-<instructions>What to generate and requirements</instructions>
-<input_data>{{data}}</input_data>
-<examples>Sample outputs</examples>
-<output_format>Expected format</output_format>
+<prompt>
+  <metadata>[...]</metadata>
+  <examples>[...]</examples>
+
+  <context>Reviewer expertise</context>
+
+  <instructions>
+  Review criteria and focus areas:
+  1. Use appropriate tools to access workspace
+  2. Analyze according to [criteria]
+  </instructions>
+
+  <constraints>
+  - Review scope and limitations
+  - Tool usage guidelines
+  </constraints>
+
+  <output_format>
+  Write your review to a markdown file with severity ratings.
+  </output_format>
+</prompt>
 ```
 
-### Pattern 3: Review Prompts
+### Pattern 3: Planning Prompts
 
 ```xml
-<context>Reviewer expertise</context>
-<instructions>Review criteria and focus areas</instructions>
-<content_to_review>{{content}}</content_to_review>
-<constraints>Review scope and limitations</constraints>
-<output_format>Review structure with severity ratings</output_format>
+<prompt>
+  <metadata>[...]</metadata>
+  <examples>[...]</examples>
+
+  <context>Planner role and expertise</context>
+
+  <instructions>
+  Planning objectives and deliverables
+  </instructions>
+
+  <thinking>
+  Step-by-step reasoning process
+  </thinking>
+
+  <output_format>
+  Write your plan to a markdown file in the workspace.
+  Structure: [plan format]
+  </output_format>
+</prompt>
 ```
 
-### Pattern 4: Planning Prompts
+## Creation Checklist
 
-```xml
-<context>Planner role and expertise</context>
-<instructions>Planning objectives and deliverables</instructions>
-<requirements>{{requirements}}</requirements>
-<thinking>Step-by-step reasoning process</thinking>
-<output_format>Plan structure and format</output_format>
-```
+When creating a new pure XML prompt:
 
-## Migration Checklist
-
-When converting a prompt to XML structure:
-
+- [ ] Start with `<prompt>` root element
+- [ ] Add complete `<metadata>` section with all required fields:
+  - [ ] id, name, version, description, category
+  - [ ] author, license, tags, lastUpdated
+- [ ] Add `<examples>` section with 2+ usage examples
 - [ ] Wrap role definition in `<context>` tags
 - [ ] Structure task directives in `<instructions>` with numbered lists
-- [ ] Wrap all user input variables in descriptive XML tags
-- [ ] Add `<constraints>` section with clear boundaries
-- [ ] Define `<output_format>` with specific structure
-- [ ] Test variable substitution still works
+- [ ] Add `<constraints>` section specifying tool usage and boundaries
+- [ ] Define `<output_format>` instructing to write to markdown file
 - [ ] Verify XML tags are balanced (opening and closing tags match)
-- [ ] Use descriptive tag names (e.g., `<code_to_review>` not `<input>`)
-- [ ] Include conditional sections with Handlebars syntax when needed
-- [ ] Add examples if pattern is complex or novel
+- [ ] Create concise README.md (185-233 words) with:
+  - [ ] One-sentence description
+  - [ ] "What You'll Be Asked" section
+  - [ ] 2 usage examples with expected output snippets
+  - [ ] Related resources (3 links)
+- [ ] Test with CLI: `hit contribute prompt /path/to/prompt.md`
 
 ## Validation
 
@@ -474,17 +585,32 @@ A: The tags are flexible. Use what makes sense for your prompt. The key principl
 3. Isolate user input
 4. Specify output format
 
-**Q: Will this break existing prompts?**
-A: No! Plain text templates still work. XML is recommended for new prompts and migrations.
+**Q: Does the CLI support legacy formats?**
+A: Yes! The CLI maintains backward compatibility:
+- Pure XML format (v2.0.0+) - Recommended
+- Markdown with YAML frontmatter (v1.x) - Supported
+- Pure YAML (legacy) - Supported
+
+New prompts should use pure XML format.
 
 **Q: How do I test my XML template?**
-A: Use the CLI validation:
+A: Use the CLI:
 
 ```bash
-hit contribute prompt /path/to/prompt
+# Test prompt creation
+hit contribute prompt /path/to/prompt.md
+
+# Verify the slash command was created
+ls ~/.claude/commands/
+
+# Test the command in Claude Code
+# (Use the slash command in Claude Code CLI)
 ```
 
-This checks XML structure and warns about missing recommended tags.
+This validates XML structure and creates the Claude Code slash command.
+
+**Q: Why are metadata and examples stripped from the slash command?**
+A: To keep the prompt clean and focused. Anthropic best practices recommend sending only the essential prompt content to Claude. Metadata and examples are for human documentation and tooling, not for Claude's execution context.
 
 ## Resources
 
