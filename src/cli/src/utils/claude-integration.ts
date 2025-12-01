@@ -122,7 +122,6 @@ function parsePromptXml(xmlContent: string): {
 
     const prompt = parsed.prompt;
 
-    // Extract metadata
     const metadata: PromptMetadata = {
       id: prompt.metadata?.id ?? 'unknown',
       name: prompt.metadata?.name ?? 'Unknown Prompt',
@@ -131,7 +130,6 @@ function parsePromptXml(xmlContent: string): {
       category: prompt.metadata?.category,
     };
 
-    // Extract variables if present
     if (prompt.metadata?.variables) {
       let varsArray: Array<{
         name?: string;
@@ -163,10 +161,8 @@ function parsePromptXml(xmlContent: string): {
       });
     }
 
-    // Build clean content without metadata and examples
     const contentParts: string[] = [];
 
-    // Add context if present
     if (prompt.context) {
       contentParts.push('<context>');
       contentParts.push(prompt.context);
@@ -174,7 +170,6 @@ function parsePromptXml(xmlContent: string): {
       contentParts.push('');
     }
 
-    // Add instructions if present
     if (prompt.instructions) {
       contentParts.push('<instructions>');
       contentParts.push(prompt.instructions);
@@ -182,7 +177,6 @@ function parsePromptXml(xmlContent: string): {
       contentParts.push('');
     }
 
-    // Add constraints if present
     if (prompt.constraints) {
       contentParts.push('<constraints>');
       contentParts.push(prompt.constraints);
@@ -190,7 +184,6 @@ function parsePromptXml(xmlContent: string): {
       contentParts.push('');
     }
 
-    // Add output_format if present
     if (prompt.output_format) {
       contentParts.push('<output_format>');
       contentParts.push(prompt.output_format);
@@ -229,10 +222,8 @@ export function createClaudeCommand(
   let commandContent: string;
   let cmdName: string;
 
-  // Read file content
   const content = readFileSync(promptPath, 'utf-8');
 
-  // Try to parse as XML first (detect by <prompt> tag)
   if (content.trim().startsWith('<prompt>')) {
     const parsed = parsePromptXml(content);
 
@@ -243,7 +234,6 @@ export function createClaudeCommand(
     cmdName = commandName || parsed.metadata.id;
     commandContent = generateXmlCommandContent(parsed.metadata, parsed.content);
   } else if (promptPath.endsWith('.md')) {
-    // Parse markdown with frontmatter
     const parsed = parseFrontmatter(content);
 
     if (!parsed || !parsed.data || typeof parsed.data !== 'object') {
@@ -267,7 +257,6 @@ export function createClaudeCommand(
       parsed.content
     );
   } else {
-    // Parse as YAML
     const prompt = parseYaml(content) as PromptYaml;
 
     cmdName = commandName || prompt.id;

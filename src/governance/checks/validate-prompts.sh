@@ -1,10 +1,11 @@
 #!/bin/bash
-# Validate prompt markdown files have required frontmatter fields
+# Validate prompt markdown files have required XML structure
 # Ensures prompts meet quality standards for metadata and structure
+# Supports v2.0.0 pure XML format
 
 set -e
 
-echo "🔍 Validating prompt markdown files..."
+echo "🔍 Validating prompt markdown files (pure XML format)..."
 echo ""
 
 # Find all prompt.md files in lib/
@@ -19,59 +20,104 @@ has_errors=false
 
 while IFS= read -r file; do
   echo "Checking $file..."
+  file_has_errors=false
 
-  # Check required top-level fields
-  if ! grep -q "^id:" "$file"; then
-    echo "  ❌ Missing 'id' field"
+  # Check for root <prompt> element
+  if ! grep -q "<prompt>" "$file"; then
+    echo "  ❌ Missing root <prompt> element"
     has_errors=true
+    file_has_errors=true
   fi
 
-  if ! grep -q "^name:" "$file"; then
-    echo "  ❌ Missing 'name' field"
+  # Check for closing </prompt> element
+  if ! grep -q "</prompt>" "$file"; then
+    echo "  ❌ Missing closing </prompt> element"
     has_errors=true
+    file_has_errors=true
   fi
 
-  if ! grep -q "^version:" "$file"; then
-    echo "  ❌ Missing 'version' field"
+  # Check for <metadata> section
+  if ! grep -q "<metadata>" "$file"; then
+    echo "  ❌ Missing <metadata> section"
     has_errors=true
+    file_has_errors=true
   fi
 
-  if ! grep -q "^description:" "$file"; then
-    echo "  ❌ Missing 'description' field"
+  # Check required metadata fields (within XML tags)
+  if ! grep -q "<id>" "$file"; then
+    echo "  ❌ Missing <id> field in metadata"
     has_errors=true
+    file_has_errors=true
   fi
 
-  if ! grep -q "^category:" "$file"; then
-    echo "  ❌ Missing 'category' field"
+  if ! grep -q "<name>" "$file"; then
+    echo "  ❌ Missing <name> field in metadata"
     has_errors=true
+    file_has_errors=true
   fi
 
-  # Check required metadata fields
-  if ! grep -q "author:" "$file"; then
-    echo "  ❌ Missing 'author' in metadata"
+  if ! grep -q "<version>" "$file"; then
+    echo "  ❌ Missing <version> field in metadata"
     has_errors=true
+    file_has_errors=true
   fi
 
-  if ! grep -q "license:" "$file"; then
-    echo "  ❌ Missing 'license' in metadata"
+  if ! grep -q "<description>" "$file"; then
+    echo "  ❌ Missing <description> field in metadata"
     has_errors=true
+    file_has_errors=true
   fi
 
-  # Check for examples
-  if ! grep -q "^examples:" "$file"; then
-    echo "  ❌ Missing 'examples' section"
+  if ! grep -q "<category>" "$file"; then
+    echo "  ❌ Missing <category> field in metadata"
     has_errors=true
+    file_has_errors=true
   fi
 
-  # For markdown files, content is after frontmatter (no template field needed)
-  # Check that file has content after frontmatter closing ---
-  if ! grep -A 1 "^---$" "$file" | tail -n +2 | grep -q "."; then
-    echo "  ❌ Missing prompt content after frontmatter"
+  if ! grep -q "<author>" "$file"; then
+    echo "  ❌ Missing <author> field in metadata"
     has_errors=true
+    file_has_errors=true
   fi
 
-  if [ "$has_errors" = false ]; then
-    echo "  ✅ Valid"
+  if ! grep -q "<license>" "$file"; then
+    echo "  ❌ Missing <license> field in metadata"
+    has_errors=true
+    file_has_errors=true
+  fi
+
+  # Check for <examples> section
+  if ! grep -q "<examples>" "$file"; then
+    echo "  ⚠️  Missing <examples> section (recommended)"
+    # Not a hard error, just a warning
+  fi
+
+  # Check for core prompt sections (sent to Claude)
+  if ! grep -q "<context>" "$file"; then
+    echo "  ❌ Missing <context> section"
+    has_errors=true
+    file_has_errors=true
+  fi
+
+  if ! grep -q "<instructions>" "$file"; then
+    echo "  ❌ Missing <instructions> section"
+    has_errors=true
+    file_has_errors=true
+  fi
+
+  if ! grep -q "<constraints>" "$file"; then
+    echo "  ⚠️  Missing <constraints> section (recommended)"
+    # Not a hard error, just a warning
+  fi
+
+  if ! grep -q "<output_format>" "$file"; then
+    echo "  ❌ Missing <output_format> section"
+    has_errors=true
+    file_has_errors=true
+  fi
+
+  if [ "$file_has_errors" = false ]; then
+    echo "  ✅ Valid XML structure"
   fi
 
 done <<< "$prompt_files"
@@ -83,4 +129,4 @@ if [ "$has_errors" = true ]; then
   exit 1
 fi
 
-echo "✅ All prompt files validated successfully"
+echo "✅ All prompt files validated successfully (pure XML format)"

@@ -276,7 +276,7 @@ Each prompt must include a concise README.md file in the same directory. The REA
 
 **README Structure** (185-233 words):
 
-```markdown
+````markdown
 # [Prompt Name]
 
 [One-sentence description]
@@ -313,11 +313,11 @@ Each prompt must include a concise README.md file in the same directory. The REA
 - [Internal Link](../category/other-prompt) - Description
 - [External Documentation](https://example.com) - Description
 - [Tool/Framework Guide](https://example.com) - Description
-```
+````
 
 **Example README** (lib/prompts/code-review-ts/README.md):
 
-```markdown
+````markdown
 # TypeScript Code Review
 
 Automated TypeScript code review for your workspace using Read, Grep, and Glob tools.
@@ -337,15 +337,16 @@ Analyze an entire TypeScript project for type safety issues, code quality proble
 
 \```markdown
 **Type Safety**
+
 - src/auth/login.ts:45 - Using `any` type defeats TypeScript's benefits
   Recommendation: Define proper interface for user object
-\```
+  \```
 
 ## Related Resources
 
 - [Code Review Empathy](../culture/code-review-empathy) - Transform harsh feedback
 - [Anthropic Prompt Engineering](https://docs.anthropic.com/claude/docs/prompt-engineering) - XML best practices
-```
+````
 
 ## Best Practices
 
@@ -587,6 +588,7 @@ A: The tags are flexible. Use what makes sense for your prompt. The key principl
 
 **Q: Does the CLI support legacy formats?**
 A: Yes! The CLI maintains backward compatibility:
+
 - Pure XML format (v2.0.0+) - Recommended
 - Markdown with YAML frontmatter (v1.x) - Supported
 - Pure YAML (legacy) - Supported

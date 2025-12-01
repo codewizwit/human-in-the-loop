@@ -156,7 +156,7 @@ For each issue:
 
 3. Create `README.md` in the same directory (185-233 words):
 
-```markdown
+````markdown
 # My Awesome Prompt
 
 A clear, concise description of what this prompt does.
@@ -176,13 +176,15 @@ Analyze an entire project for code quality, security, and performance issues.
 
 \```markdown
 **Code Quality**
+
 - src/auth/login.ts:45 - Complex function should be split
   Recommendation: Extract validation logic to separate function
 
 **Security**
+
 - src/api/users.ts:23 - SQL injection vulnerability
   CRITICAL: Use parameterized queries
-\```
+  \```
 
 ### Example 2: Focused Security Review
 
@@ -192,16 +194,17 @@ Review specific components for security vulnerabilities.
 
 \```markdown
 **Security**
+
 - Input validation missing on user registration
   Recommendation: Add validation using [library]
-\```
+  \```
 
 ## Related Resources
 
 - [Other Related Prompt](../other-prompt) - Description
 - [External Documentation](https://example.com) - Description
 - [Tool/Framework Guide](https://example.com) - Description
-```
+````
 
 #### Contributing an Agent
 
