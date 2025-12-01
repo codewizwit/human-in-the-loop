@@ -1,10 +1,17 @@
-# 🪄 Human in the Loop CLI 
+# 🪄 Human in the Loop
 
 [![npm version](https://img.shields.io/npm/v/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A curated prompt library for Claude Code. Install versioned, CI-validated prompts as slash commands. Prompts analyze your workspace automatically using Claude's tools—no copy-pasting code.
+**AI-assisted development with humans in control.**
+
+A curated prompt library that keeps developers in the loop. Every prompt is designed to enhance your judgment—not replace it. Built on responsible AI principles: transparency, accountability, and human oversight at every step.
+
+- **You stay in control** - Prompts guide AI analysis, you make the decisions
+- **Transparent outputs** - Clear reasoning, no black-box recommendations
+- **Quality gates built-in** - Security reviews, bias detection, and governance checks
+- **Learn as you go** - Prompts explain the "why," not just the "what"
 
 ---
 
@@ -169,15 +176,26 @@ hit install prompt/unit-test-generator
 
 ---
 
-## 🛡️ Responsible AI
+## 🛡️ Responsible AI First
 
-This project includes a [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) that guides prompt design:
+Every prompt in this toolkit is built on the principle that **AI should augment human expertise, not replace it**.
 
-- Prompts should enhance developer judgment, not replace it
-- Outputs should be transparent and explainable
-- Tools should support learning, not create dependency
+### Our Commitments
 
-The `responsible-ai-audit` and `bias-detection` prompts help you apply these principles to your own AI workflows.
+| Principle               | How We Apply It                                                    |
+| ----------------------- | ------------------------------------------------------------------ |
+| **Human Oversight**     | Prompts surface information and options—you decide what to do      |
+| **Transparency**        | Outputs explain reasoning, trade-offs, and confidence levels       |
+| **Accountability**      | Clear audit trails, no hidden logic or unexplained recommendations |
+| **Continuous Learning** | Prompts teach patterns and principles, building your expertise     |
+
+### Built-in Governance
+
+- `responsible-ai-audit` - Audit any AI output for accuracy, fairness, and transparency
+- `bias-detection` - Identify potential bias in AI-generated content
+- `security-review` - Catch vulnerabilities before they ship
+
+See our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) for the full framework.
 
 ---
 
