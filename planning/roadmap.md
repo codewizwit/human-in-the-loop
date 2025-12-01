@@ -1,8 +1,8 @@
 # Human-in-the-Loop: Project Roadmap
 
-**Status**: Draft
-**Last Updated**: 2025-10-12
-**Overall Resume Alignment**: 25% complete
+**Status**: Active
+**Last Updated**: 2025-11-30
+**Overall Resume Alignment**: 55% complete
 
 This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are reflected in reusable prompt templates, context packs, and governance specs.
 
@@ -20,36 +20,36 @@ This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are 
 
 | Category          | Item                     | Status     | Rationale                                                | Priority  | Filename                                                | Issue Title                          |
 | ----------------- | ------------------------ | ---------- | -------------------------------------------------------- | --------- | ------------------------------------------------------- | ------------------------------------ |
-| **Architecture**  | System design review     | ❌ Missing | Validates architectural decisions against best practices | 🔴 High   | `prompts/architecture/system-design-review.md`          | Add System Design Review Prompt      |
-| **Architecture**  | API design patterns      | ❌ Missing | REST/GraphQL API design guidance                         | 🔴 High   | `prompts/architecture/api-design.md`                    | Add API Design Pattern Prompt        |
+| **Architecture**  | System design review     | ✅ Done    | Validates architectural decisions against best practices | 🔴 High   | `lib/prompts/architecture/system-design-review`         | ~Add System Design Review Prompt~    |
+| **Architecture**  | API design patterns      | ✅ Done    | REST/GraphQL API design guidance                         | 🔴 High   | `lib/prompts/architecture/api-design`                   | ~Add API Design Pattern Prompt~      |
 | **Architecture**  | Microservices patterns   | ❌ Missing | Microservices architecture guidance                      | 🟡 Medium | `prompts/architecture/microservices-pattern.md`         | Add Microservices Pattern Prompt     |
 | **Architecture**  | Technical debt audit     | ❌ Missing | Identifies and prioritizes tech debt                     | 🟡 Medium | `prompts/refactoring/technical-debt-audit.md`           | Add Technical Debt Audit Prompt      |
-| **Testing**       | E2E strategy generator   | ❌ Missing | Cypress/Playwright E2E test strategy                     | 🔴 High   | `prompts/testing/generate-e2e-strategy.md`              | Add E2E Strategy Generator Prompt    |
-| **Testing**       | Unit test generator      | ❌ Missing | TypeScript/Angular unit test generation                  | 🔴 High   | `prompts/testing/generate-unit-tests.md`                | Add Unit Test Generator Prompt       |
+| **Testing**       | E2E strategy generator   | ✅ Done    | Cypress/Playwright E2E test strategy                     | 🔴 High   | `lib/prompts/testing/e2e-strategy`                      | ~Add E2E Strategy Generator Prompt~  |
+| **Testing**       | Unit test generator      | ✅ Done    | TypeScript/Angular unit test generation                  | 🔴 High   | `lib/prompts/testing/unit-test-generator`               | ~Add Unit Test Generator Prompt~     |
 | **Testing**       | BDD scenarios            | ❌ Missing | Behavior-driven development scenarios                    | 🟡 Medium | `prompts/testing/bdd-scenarios.md`                      | Add BDD Scenarios Prompt             |
 | **Testing**       | Test coverage analysis   | ❌ Missing | Analyzes test coverage gaps                              | 🟡 Medium | `prompts/testing/test-coverage-analysis.md`             | Add Test Coverage Analysis Prompt    |
-| **CI/CD**         | Pipeline optimization    | ❌ Missing | GitHub Actions workflow optimization                     | 🔴 High   | `prompts/ci-cd/pipeline-optimization.md`                | Add Pipeline Optimization Prompt     |
+| **CI/CD**         | Pipeline optimization    | ✅ Done    | GitHub Actions workflow optimization                     | 🔴 High   | `lib/prompts/ci-cd/pipeline-optimization`               | ~Add Pipeline Optimization Prompt~   |
 | **CI/CD**         | AWS deployment           | ❌ Missing | AWS deployment strategy patterns                         | 🔴 High   | `prompts/ci-cd/aws-deployment-strategy.md`              | Add AWS Deployment Strategy Prompt   |
 | **CI/CD**         | CI/CD context pack       | ❌ Missing | Complete CI/CD patterns library                          | 🔴 High   | `context-packs/ci-cd/README.md`                         | Add CI/CD Context Pack               |
-| **Planning**      | User story breakdown     | ❌ Missing | Break epics into user stories                            | 🔴 High   | `prompts/planning/user-story-breakdown.md`              | Add User Story Breakdown Prompt      |
+| **Planning**      | User story breakdown     | ✅ Done    | Break epics into user stories                            | 🔴 High   | `lib/prompts/planning/user-story-breakdown`             | ~Add User Story Breakdown Prompt~    |
 | **Planning**      | Technical spike template | ❌ Missing | Technical spike planning                                 | 🟡 Medium | `prompts/planning/technical-spike-template.md`          | Add Technical Spike Template         |
 | **Documentation** | API documentation        | ❌ Missing | Auto-generate API docs from code                         | 🔴 High   | `prompts/documentation/api-documentation.md`            | Add API Documentation Generator      |
 | **Documentation** | ADR generator            | ❌ Missing | Architecture Decision Records                            | 🟡 Medium | `prompts/documentation/architecture-decision-record.md` | Add ADR Generator Prompt             |
 | **Documentation** | Onboarding guide         | ❌ Missing | New developer onboarding docs                            | 🟡 Medium | `prompts/documentation/onboarding-guide.md`             | Add Onboarding Guide Generator       |
-| **Governance**    | Responsible AI audit     | ❌ Missing | AI output quality audit checklist                        | 🔴 High   | `prompts/governance/responsible-ai-audit.md`            | Add Responsible AI Audit Prompt      |
-| **Governance**    | Bias detection           | ❌ Missing | Bias and fairness analysis                               | 🔴 High   | `prompts/governance/bias-detection.md`                  | Add Bias Detection Prompt            |
-| **Governance**    | Security review          | ❌ Missing | AI-generated code security review                        | 🔴 High   | `prompts/governance/security-review.md`                 | Add Security Review Prompt           |
+| **Governance**    | Responsible AI audit     | ✅ Done    | AI output quality audit checklist                        | 🔴 High   | `lib/prompts/governance/responsible-ai-audit`           | ~Add Responsible AI Audit Prompt~    |
+| **Governance**    | Bias detection           | ✅ Done    | Bias and fairness analysis                               | 🔴 High   | `lib/prompts/governance/bias-detection`                 | ~Add Bias Detection Prompt~          |
+| **Governance**    | Security review          | ✅ Done    | AI-generated code security review                        | 🔴 High   | `lib/prompts/governance/security-review`                | ~Add Security Review Prompt~         |
 | **Evaluators**    | Code quality evaluator   | ❌ Missing | Validates code quality metrics                           | 🔴 High   | `lib/evaluators/code-quality-evaluator.yaml`            | Add Code Quality Evaluator           |
 | **Evaluators**    | Security evaluator       | ❌ Missing | Security validation rules                                | 🔴 High   | `lib/evaluators/security-evaluator.yaml`                | Add Security Evaluator               |
-| **Context Packs** | Angular components       | ❌ Missing | Angular component patterns                               | 🔴 High   | `context-packs/angular/component-patterns.md`           | Add Angular Component Patterns       |
+| **Context Packs** | Angular components       | ✅ Done    | Angular component patterns (via skills)                  | 🔴 High   | `lib/skills/angular-modern`                             | ~Add Angular Component Patterns~     |
 | **Context Packs** | Angular state mgmt       | ❌ Missing | NgRx/signals patterns                                    | 🟡 Medium | `context-packs/angular/state-management.md`             | Add Angular State Management Context |
 | **Context Packs** | Angular testing          | ❌ Missing | Angular testing best practices                           | 🟡 Medium | `context-packs/angular/testing-patterns.md`             | Add Angular Testing Patterns         |
 | **Context Packs** | NestJS modules           | ❌ Missing | NestJS module structure                                  | 🔴 High   | `context-packs/nestjs/module-structure.md`              | Add NestJS Module Structure Context  |
 | **Context Packs** | NestJS DI                | ❌ Missing | Dependency injection patterns                            | 🟡 Medium | `context-packs/nestjs/di-patterns.md`                   | Add NestJS DI Patterns Context       |
 | **Context Packs** | Nx monorepo              | ❌ Missing | Nx monorepo best practices                               | 🔴 High   | `context-packs/nx-monorepo/README.md`                   | Add Nx Monorepo Context Pack         |
-| **Culture**       | Review empathy           | ❌ Missing | Empathetic code review feedback                          | 🔴 High   | `prompts/culture/code-review-empathy.md`                | Add Code Review Empathy Prompt       |
+| **Culture**       | Review empathy           | ✅ Done    | Empathetic code review feedback                          | 🔴 High   | `lib/prompts/culture/code-review-empathy`               | ~Add Code Review Empathy Prompt~     |
 | **Culture**       | Constructive feedback    | ❌ Missing | Constructive feedback generator                          | 🟡 Medium | `prompts/culture/constructive-feedback.md`              | Add Constructive Feedback Prompt     |
-| **Culture**       | 1-on-1 prep              | ❌ Missing | 1-on-1 meeting preparation                               | 🟢 Low    | `prompts/culture/1-on-1-prep.md`                        | Add 1-on-1 Prep Template             |
+| **Culture**       | 1-on-1 prep              | ✅ Done    | 1-on-1 meeting preparation                               | 🟢 Low    | `lib/prompts/culture/1-on-1-prep`                       | ~Add 1-on-1 Prep Template~           |
 | **Culture**       | Team retrospective       | ❌ Missing | Retrospective facilitation                               | 🟢 Low    | `prompts/culture/team-retrospective.md`                 | Add Team Retrospective Template      |
 | **Mentorship**    | Learning path            | ❌ Missing | Personalized learning paths                              | 🟡 Medium | `prompts/mentorship/learning-path.md`                   | Add Learning Path Generator          |
 | **Meta**          | Prompt optimization      | ❌ Missing | Optimize existing prompts                                | 🟡 Medium | `prompts/meta/prompt-optimization.md`                   | Add Prompt Optimization Template     |
