@@ -35,31 +35,49 @@ hit install prompt/security-review
 
 ## 🧰 What's Inside
 
-### 📚 12 Prompts
+### 📚 21 Prompts
 
-**Code Quality**
+**Code Quality & Architecture**
 
 - 🔍 `code-review-ts` - TypeScript review with constructive feedback
 - 🔒 `security-review` - OWASP Top 10, auth flaws, injection detection
 - 🏗️ `api-design` - REST/GraphQL best practices
 - 🎯 `system-design-review` - Architecture & scalability analysis
 
-**Testing & CI/CD**
+**Testing**
 
 - 🧪 `unit-test-generator` - Generate Jest/Vitest tests with edge cases
 - 🎬 `e2e-strategy` - Playwright/Cypress test planning
+- 🥒 `bdd-scenarios` - Gherkin scenarios from user stories
+- 📊 `test-coverage-analysis` - Coverage gap analysis and risk assessment
+
+**CI/CD & Deployment**
+
 - ⚡ `pipeline-optimization` - GitHub Actions cost & speed optimization
+- ☁️ `aws-deployment-strategy` - Lambda, ECS, CDK infrastructure patterns
+
+**Documentation**
+
+- 📖 `api-documentation` - Generate API docs from code
+- 🗺️ `codebase-explainer` - Analyze and document repository architecture
 
 **Planning & Culture**
 
 - 📋 `user-story-breakdown` - Epic → INVEST stories with acceptance criteria
 - 💬 `1-on-1-prep` - Structured pre-reads for better meetings
 - 💙 `code-review-empathy` - Transform harsh feedback into helpful coaching
+- 🔄 `team-retrospective` - Facilitate effective team retros
+- 🎓 `learning-path` - Personalized learning roadmaps
 
 **Governance**
 
 - 🛡️ `responsible-ai-audit` - Audit AI outputs for accuracy, fairness, transparency
 - ⚖️ `bias-detection` - Identify bias in AI-generated content
+
+**Meta**
+
+- ✨ `prompt-optimization` - Analyze and improve existing prompts
+- 📦 `context-pack-builder` - Generate framework context packs
 
 ### 🎓 Skills
 
@@ -194,16 +212,25 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding prompts, repor
 ```
 human-in-the-loop/
 ├── lib/
-│   ├── prompts/           # 12 prompts (code review, security, testing, etc.)
-│   ├── skills/            # Framework expertise (Angular)
-│   ├── agents/            # Coming soon
-│   ├── context-packs/     # Coming soon
-│   ├── evaluators/        # Coming soon
-│   └── guardrails/        # Coming soon
+│   ├── prompts/              # 21 prompts organized by category
+│   │   ├── architecture/     # API design, system design review
+│   │   ├── ci-cd/            # Pipeline optimization, AWS deployment
+│   │   ├── culture/          # 1-on-1 prep, code review empathy, retros
+│   │   ├── documentation/    # API docs, codebase explainer
+│   │   ├── governance/       # AI audit, bias detection, security review
+│   │   ├── mentorship/       # Learning paths
+│   │   ├── meta/             # Prompt optimization, context pack builder
+│   │   ├── planning/         # User story breakdown
+│   │   └── testing/          # Unit tests, E2E, BDD, coverage analysis
+│   ├── skills/               # Framework expertise (Angular, NestJS, Nx)
+│   ├── agents/               # Coming soon
+│   ├── context-packs/        # CI/CD patterns
+│   ├── evaluators/           # Coming soon
+│   └── guardrails/           # Coming soon
 ├── src/
-│   ├── cli/               # CLI source code
-│   └── governance/        # CI validation scripts
-└── docs/                  # Documentation
+│   ├── cli/                  # CLI source code
+│   └── governance/           # CI validation scripts
+└── docs/                     # Documentation
 ```
 
 ---

@@ -1,8 +1,8 @@
 # Human-in-the-Loop: Project Roadmap
 
 **Status**: Active
-**Last Updated**: 2025-11-30
-**Overall Resume Alignment**: 55% complete
+**Last Updated**: 2025-12-01
+**Overall Resume Alignment**: 75% complete
 
 This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are reflected in reusable prompt templates, context packs, and governance specs.
 
@@ -26,15 +26,16 @@ This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are 
 | **Architecture**  | Technical debt audit     | ❌ Missing | Identifies and prioritizes tech debt                     | 🟡 Medium | `prompts/refactoring/technical-debt-audit.md`           | Add Technical Debt Audit Prompt       |
 | **Testing**       | E2E strategy generator   | ✅ Done    | Cypress/Playwright E2E test strategy                     | 🔴 High   | `lib/prompts/testing/e2e-strategy`                      | ~Add E2E Strategy Generator Prompt~   |
 | **Testing**       | Unit test generator      | ✅ Done    | TypeScript/Angular unit test generation                  | 🔴 High   | `lib/prompts/testing/unit-test-generator`               | ~Add Unit Test Generator Prompt~      |
-| **Testing**       | BDD scenarios            | ❌ Missing | Behavior-driven development scenarios                    | 🟡 Medium | `prompts/testing/bdd-scenarios.md`                      | Add BDD Scenarios Prompt              |
-| **Testing**       | Test coverage analysis   | ❌ Missing | Analyzes test coverage gaps                              | 🟡 Medium | `prompts/testing/test-coverage-analysis.md`             | Add Test Coverage Analysis Prompt     |
+| **Testing**       | BDD scenarios            | ✅ Done    | Behavior-driven development scenarios                    | 🟡 Medium | `lib/prompts/testing/bdd-scenarios`                     | ~Add BDD Scenarios Prompt~            |
+| **Testing**       | Test coverage analysis   | ✅ Done    | Analyzes test coverage gaps                              | 🟡 Medium | `lib/prompts/testing/test-coverage-analysis`            | ~Add Test Coverage Analysis Prompt~   |
 | **CI/CD**         | Pipeline optimization    | ✅ Done    | GitHub Actions workflow optimization                     | 🔴 High   | `lib/prompts/ci-cd/pipeline-optimization`               | ~Add Pipeline Optimization Prompt~    |
-| **CI/CD**         | AWS deployment           | ❌ Missing | AWS deployment strategy patterns                         | 🔴 High   | `prompts/ci-cd/aws-deployment-strategy.md`              | Add AWS Deployment Strategy Prompt    |
+| **CI/CD**         | AWS deployment           | ✅ Done    | AWS deployment strategy patterns                         | 🔴 High   | `lib/prompts/ci-cd/aws-deployment-strategy`             | ~Add AWS Deployment Strategy Prompt~  |
 | **CI/CD**         | CI/CD context pack       | ✅ Done    | Complete CI/CD patterns library                          | 🔴 High   | `lib/context-packs/ci-cd`                               | ~Add CI/CD Context Pack~              |
 | **Planning**      | User story breakdown     | ✅ Done    | Break epics into user stories                            | 🔴 High   | `lib/prompts/planning/user-story-breakdown`             | ~Add User Story Breakdown Prompt~     |
 | **Planning**      | Technical spike template | ❌ Missing | Technical spike planning                                 | 🟡 Medium | `prompts/planning/technical-spike-template.md`          | Add Technical Spike Template          |
 | **Documentation** | API documentation        | ✅ Done    | Auto-generate API docs from code                         | 🔴 High   | `lib/prompts/documentation/api-documentation`           | ~Add API Documentation Generator~     |
 | **Documentation** | ADR generator            | ❌ Missing | Architecture Decision Records                            | 🟡 Medium | `prompts/documentation/architecture-decision-record.md` | Add ADR Generator Prompt              |
+| **Documentation** | Codebase explainer       | ✅ Done    | Analyze and document repository architecture             | 🟡 Medium | `lib/prompts/documentation/codebase-explainer`          | ~Add Codebase Explainer~              |
 | **Documentation** | Onboarding guide         | ❌ Missing | New developer onboarding docs                            | 🟡 Medium | `prompts/documentation/onboarding-guide.md`             | Add Onboarding Guide Generator        |
 | **Governance**    | Responsible AI audit     | ✅ Done    | AI output quality audit checklist                        | 🔴 High   | `lib/prompts/governance/responsible-ai-audit`           | ~Add Responsible AI Audit Prompt~     |
 | **Governance**    | Bias detection           | ✅ Done    | Bias and fairness analysis                               | 🔴 High   | `lib/prompts/governance/bias-detection`                 | ~Add Bias Detection Prompt~           |
@@ -50,10 +51,10 @@ This roadmap ensures all major skill areas from Alexandra Kelstrom's resume are 
 | **Culture**       | Review empathy           | ✅ Done    | Empathetic code review feedback                          | 🔴 High   | `lib/prompts/culture/code-review-empathy`               | ~Add Code Review Empathy Prompt~      |
 | **Culture**       | Constructive feedback    | ❌ Missing | Constructive feedback generator                          | 🟡 Medium | `prompts/culture/constructive-feedback.md`              | Add Constructive Feedback Prompt      |
 | **Culture**       | 1-on-1 prep              | ✅ Done    | 1-on-1 meeting preparation                               | 🟢 Low    | `lib/prompts/culture/1-on-1-prep`                       | ~Add 1-on-1 Prep Template~            |
-| **Culture**       | Team retrospective       | ❌ Missing | Retrospective facilitation                               | 🟢 Low    | `prompts/culture/team-retrospective.md`                 | Add Team Retrospective Template       |
-| **Mentorship**    | Learning path            | ❌ Missing | Personalized learning paths                              | 🟡 Medium | `prompts/mentorship/learning-path.md`                   | Add Learning Path Generator           |
-| **Meta**          | Prompt optimization      | ❌ Missing | Optimize existing prompts                                | 🟡 Medium | `prompts/meta/prompt-optimization.md`                   | Add Prompt Optimization Template      |
-| **Meta**          | Context pack builder     | ❌ Missing | Create new context packs                                 | 🟡 Medium | `prompts/meta/context-pack-builder.md`                  | Add Context Pack Builder              |
+| **Culture**       | Team retrospective       | ✅ Done    | Retrospective facilitation                               | 🟢 Low    | `lib/prompts/culture/team-retrospective`                | ~Add Team Retrospective Template~     |
+| **Mentorship**    | Learning path            | ✅ Done    | Personalized learning paths                              | 🟡 Medium | `lib/prompts/mentorship/learning-path`                  | ~Add Learning Path Generator~         |
+| **Meta**          | Prompt optimization      | ✅ Done    | Optimize existing prompts                                | 🟡 Medium | `lib/prompts/meta/prompt-optimization`                  | ~Add Prompt Optimization Template~    |
+| **Meta**          | Context pack builder     | ✅ Done    | Create new context packs                                 | 🟡 Medium | `lib/prompts/meta/context-pack-builder`                 | ~Add Context Pack Builder~            |
 | **Community**     | Blog post outline        | ❌ Missing | Technical blog post creation                             | 🟢 Low    | `prompts/community/blog-post-outline.md`                | Add Blog Post Outline Template        |
 | **Community**     | Conference talk          | ❌ Missing | Conference talk preparation                              | 🟢 Low    | `prompts/community/conference-talk-outline.md`          | Add Conference Talk Template          |
 | **Community**     | OSS contribution         | ❌ Missing | OSS contribution guide                                   | 🟢 Low    | `prompts/community/open-source-contribution.md`         | Add OSS Contribution Guide            |
