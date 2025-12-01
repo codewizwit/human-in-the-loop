@@ -15,7 +15,7 @@ A curated prompt library for Claude Code. Install versioned, CI-validated prompt
 npm install -g @human-in-the-loop/cli
 
 # Or use npx (no install needed)
-npx hit search "security review"
+npx @human-in-the-loop/cli search "security review"
 ```
 
 ### 🚀 Try it now
