@@ -617,7 +617,7 @@ A: To keep the prompt clean and focused. Anthropic best practices recommend send
 ## Resources
 
 - [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/claude/docs/prompt-engineering)
-- [XML Best Practices](https://www.w3.org/TR/xml/)
+- [XML Tutorial](https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction)
 - [Contributing Guidelines](../CONTRIBUTING.md)
 
 ---
