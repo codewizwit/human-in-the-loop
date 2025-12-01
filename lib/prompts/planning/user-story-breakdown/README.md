@@ -59,5 +59,5 @@ Decompose multi-step checkout into independent stories with dependencies and tes
 ## Related Resources
 
 - [Agile User Story Guide](https://www.atlassian.com/agile/project-management/user-stories) - Story writing best practices
-- [INVEST Criteria](https://www.agilealliance.org/glossary/invest/) - Quality user story framework
+- [INVEST Criteria](https://agilealliance.org/glossary/invest/) - Quality user story framework
 - [1-on-1 Prep](../../culture/1-on-1-prep) - Sprint retrospective communication
