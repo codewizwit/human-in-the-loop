@@ -369,5 +369,22 @@ describe('installCommand', () => {
       );
       expect(consoleMock.contains('Successfully installed')).toBe(true);
     });
+
+    it('should use prompt.yaml when prompt.md does not exist', async () => {
+      mockFs.existsSync.mockImplementation((path: unknown) => {
+        const pathStr = String(path);
+        if (pathStr.endsWith('prompt.md')) {
+          return false;
+        }
+        return true;
+      });
+
+      await installCommand('prompt/code-review-ts');
+
+      expect(mockClaudeIntegration.createClaudeCommand).toHaveBeenCalledWith(
+        expect.stringContaining('prompt.yaml'),
+        'code-review-ts'
+      );
+    });
   });
 });

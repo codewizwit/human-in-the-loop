@@ -527,6 +527,88 @@ Test example
 
       expect(consoleMock.contains('README.md is very short')).toBe(true);
     });
+
+    it('should fail if v2.0.0 format has What You\'ll Be Asked but missing Usage Examples', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+- Test input
+
+## Related Resources
+
+- [Link](http://example.com)`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(
+        consoleMock.contains(
+          'README.md missing required "## Usage Examples" section (v2.0.0 format)'
+        )
+      ).toBe(true);
+    });
+
+    it('should fail if v2.0.0 format has What You\'ll Be Asked but missing Related Resources', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+- Test input
+
+## Usage Examples
+
+Test example`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(
+        consoleMock.contains(
+          'README.md missing required "## Related Resources" section (v2.0.0 format)'
+        )
+      ).toBe(true);
+    });
   });
 
   describe('GitHub issue creation', () => {
@@ -590,6 +672,189 @@ Test example
       expect(consoleMock.contains('Failed to create issue')).toBe(true);
       expect(consoleMock.contains('gh auth login')).toBe(true);
       expect(mockExit).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('legacy YAML validation', () => {
+    beforeEach(() => {
+      mockFs.existsSync.mockReturnValue(true);
+    });
+
+    it('should validate YAML files for backwards compatibility', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.yaml')) {
+          return `id: test-prompt
+name: Test Prompt
+version: 1.0.0
+description: Test description
+category: testing
+metadata:
+  author: test-author
+  license: MIT
+template: |
+  <context>Test template</context>
+examples:
+  - description: Example 1`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.yaml');
+
+      expect(consoleMock.contains('✅ YAML validation passed')).toBe(true);
+    });
+
+    it('should fail YAML validation for missing required fields', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.yaml')) {
+          return `id: test-prompt
+name: Test Prompt`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.yaml');
+
+      expect(consoleMock.contains('❌ YAML validation failed')).toBe(true);
+      expect(consoleMock.contains('Missing required field')).toBe(true);
+    });
+
+    it('should fail YAML validation for missing metadata section', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.yaml')) {
+          return `id: test-prompt
+name: Test Prompt
+version: 1.0.0
+description: Test
+category: test`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.yaml');
+
+      expect(consoleMock.contains('❌ YAML validation failed')).toBe(true);
+      expect(consoleMock.contains('Missing metadata section')).toBe(true);
+    });
+
+    it('should fail YAML validation for missing template in prompt type', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.yaml')) {
+          return `id: test-prompt
+name: Test Prompt
+version: 1.0.0
+description: Test
+category: test
+metadata:
+  author: test
+  license: MIT`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.yaml');
+
+      expect(consoleMock.contains('❌ YAML validation failed')).toBe(true);
+      expect(consoleMock.contains('Prompts must have a template field')).toBe(
+        true
+      );
+    });
+
+    it('should warn when no examples are provided in YAML', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.yaml')) {
+          return `id: test-prompt
+name: Test Prompt
+version: 1.0.0
+description: Test description
+category: testing
+metadata:
+  author: test-author
+  license: MIT
+template: |
+  <context>Test template</context>`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.yaml');
+
+      expect(consoleMock.contains('No examples provided')).toBe(true);
+    });
+
+    it('should handle YAML parse errors gracefully', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.yaml')) {
+          return `invalid: yaml: [
+unclosed bracket`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.yaml');
+
+      expect(consoleMock.contains('❌ YAML validation failed')).toBe(true);
+      expect(consoleMock.contains('Failed to parse YAML')).toBe(true);
     });
   });
 
