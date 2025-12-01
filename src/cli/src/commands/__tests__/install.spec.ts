@@ -12,17 +12,43 @@ import { installCommand } from '../install';
 import * as toolkitScanner from '../../utils/lib-scanner';
 import * as fileOps from '../../utils/file-operations';
 import * as registry from '../../utils/registry';
+import * as claudeIntegration from '../../utils/claude-integration';
 import inquirer from 'inquirer';
+import * as fs from 'fs';
 
 jest.mock('../../utils/lib-scanner');
 jest.mock('../../utils/file-operations');
 jest.mock('../../utils/registry');
+jest.mock('../../utils/claude-integration');
 jest.mock('inquirer');
+jest.mock('fs');
+jest.mock('chalk', () => {
+  const passthrough = (str: string): string => str;
+  const chalkMock = {
+    cyan: passthrough,
+    bold: passthrough,
+    green: passthrough,
+    red: passthrough,
+    yellow: passthrough,
+    blue: passthrough,
+    gray: passthrough,
+    dim: passthrough,
+    white: passthrough,
+  };
+  return {
+    default: chalkMock,
+    ...chalkMock,
+  };
+});
 
 const mockToolkitScanner = toolkitScanner as jest.Mocked<typeof toolkitScanner>;
 const mockFileOps = fileOps as jest.Mocked<typeof fileOps>;
 const mockRegistry = registry as jest.Mocked<typeof registry>;
+const mockClaudeIntegration = claudeIntegration as jest.Mocked<
+  typeof claudeIntegration
+>;
 const mockInquirer = inquirer as jest.Mocked<typeof inquirer>;
+const mockFs = fs as jest.Mocked<typeof fs>;
 
 describe('installCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
@@ -53,6 +79,13 @@ describe('installCommand', () => {
     (mockInquirer.prompt as any).mockResolvedValue({
       userPath: '~/.claude/tools/prompt/code-review-ts',
     });
+
+    mockClaudeIntegration.isClaudeAvailable.mockReturnValue(true);
+    mockClaudeIntegration.createClaudeCommand.mockReturnValue(
+      '/home/user/.claude/commands/code-review-ts.md'
+    );
+
+    mockFs.existsSync.mockReturnValue(true);
   });
 
   afterEach(() => {
@@ -272,6 +305,69 @@ describe('installCommand', () => {
         'copyDirectory',
         'registerInstallation',
       ]);
+    });
+  });
+
+  describe('Claude Code integration', () => {
+    it('should create slash command for prompts when Claude is available', async () => {
+      await installCommand('prompt/code-review-ts');
+
+      expect(mockClaudeIntegration.isClaudeAvailable).toHaveBeenCalled();
+      expect(mockClaudeIntegration.createClaudeCommand).toHaveBeenCalled();
+      expect(consoleMock.contains('Creating Claude Code slash command')).toBe(
+        true
+      );
+      expect(consoleMock.contains('Created slash command')).toBe(true);
+    });
+
+    it('should skip slash command when Claude is not available', async () => {
+      mockClaudeIntegration.isClaudeAvailable.mockReturnValue(false);
+
+      await installCommand('prompt/code-review-ts');
+
+      expect(mockClaudeIntegration.createClaudeCommand).not.toHaveBeenCalled();
+      expect(
+        consoleMock.contains('Claude Code integration not available')
+      ).toBe(true);
+      expect(consoleMock.contains('Skipping slash command creation')).toBe(
+        true
+      );
+    });
+
+    it('should skip slash command for non-prompt types', async () => {
+      mockToolkitScanner.getTool.mockReturnValue({
+        id: 'angular-modern',
+        name: 'Angular Modern',
+        version: '1.0.0',
+        description: 'Angular skill',
+        category: 'framework',
+        type: 'skill',
+        path: '/lib/skills/angular-modern',
+        metadata: {},
+      });
+
+      await installCommand('skill/angular-modern');
+
+      expect(mockClaudeIntegration.createClaudeCommand).not.toHaveBeenCalled();
+    });
+
+    it('should skip slash command when --no-claude-command is passed', async () => {
+      await installCommand('prompt/code-review-ts', { claudeCommand: false });
+
+      expect(mockClaudeIntegration.createClaudeCommand).not.toHaveBeenCalled();
+    });
+
+    it('should handle slash command creation failure gracefully', async () => {
+      mockClaudeIntegration.createClaudeCommand.mockImplementation(() => {
+        throw new Error('Failed to write file');
+      });
+
+      await installCommand('prompt/code-review-ts');
+
+      expect(consoleMock.contains('Failed to create Claude Code command')).toBe(
+        true
+      );
+      expect(consoleMock.contains('Successfully installed')).toBe(true);
     });
   });
 });

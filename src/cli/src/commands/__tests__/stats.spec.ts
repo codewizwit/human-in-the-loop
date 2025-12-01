@@ -10,6 +10,25 @@ import { createConsoleMock } from '../../test-utils';
 import { statsCommand } from '../stats';
 import * as registry from '../../utils/registry';
 
+jest.mock('chalk', () => {
+  const passthrough = (str: string): string => str;
+  const chalkMock = {
+    cyan: passthrough,
+    bold: passthrough,
+    green: passthrough,
+    red: passthrough,
+    yellow: passthrough,
+    blue: passthrough,
+    gray: passthrough,
+    dim: passthrough,
+    white: passthrough,
+  };
+  return {
+    default: chalkMock,
+    ...chalkMock,
+  };
+});
+
 describe('statsCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
   let mockGetInstalledTools: jest.SpiedFunction<
@@ -297,6 +316,65 @@ describe('statsCommand', () => {
       output = await runCommand();
 
       expectOutput(['By Type:', 'prompt:', 'agent:']);
+    });
+  });
+
+  describe('time formatting', () => {
+    it('should show "today" for tools installed today', async () => {
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'new-tool',
+          name: 'New Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: new Date().toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+
+      output = await runCommand();
+
+      expectOutput('today');
+    });
+
+    it('should show "1 day ago" for tools installed yesterday', async () => {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'old-tool',
+          name: 'Old Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: yesterday.toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+
+      output = await runCommand();
+
+      expectOutput('1 day ago');
+    });
+
+    it('should show "X days ago" for tools installed multiple days ago', async () => {
+      const fiveDaysAgo = new Date();
+      fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+
+      mockGetInstalledTools.mockReturnValue([
+        {
+          id: 'older-tool',
+          name: 'Older Tool',
+          type: 'prompt',
+          version: '1.0.0',
+          installedAt: fiveDaysAgo.toISOString(),
+          installedPath: '/path/to/tool',
+        },
+      ]);
+
+      output = await runCommand();
+
+      expectOutput('5 days ago');
     });
   });
 });

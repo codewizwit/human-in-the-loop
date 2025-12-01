@@ -11,6 +11,24 @@ import { searchCommand } from '../search';
 import * as toolkitScanner from '../../utils/lib-scanner';
 
 jest.mock('../../utils/lib-scanner');
+jest.mock('chalk', () => {
+  const passthrough = (str: string): string => str;
+  const chalkMock = {
+    cyan: passthrough,
+    bold: passthrough,
+    green: passthrough,
+    red: passthrough,
+    yellow: passthrough,
+    blue: passthrough,
+    gray: passthrough,
+    dim: passthrough,
+    white: passthrough,
+  };
+  return {
+    default: chalkMock,
+    ...chalkMock,
+  };
+});
 
 const mockToolkitScanner = toolkitScanner as jest.Mocked<typeof toolkitScanner>;
 
@@ -182,6 +200,79 @@ describe('searchCommand', () => {
 
     it('should complete without throwing', () => {
       expect(() => searchCommand('code review')).not.toThrow();
+    });
+  });
+
+  describe('singular/plural tool count', () => {
+    it('should use singular "tool" when only 1 result', () => {
+      mockToolkitScanner.searchTools.mockReturnValue([
+        {
+          id: 'single-tool',
+          name: 'Single Tool',
+          version: '1.0.0',
+          description: 'A single tool',
+          category: 'test',
+          type: 'prompt',
+          path: '/lib/prompts/single-tool',
+          metadata: {},
+        },
+      ]);
+
+      searchCommand('single');
+
+      expect(consoleMock.contains('Found 1 tool:')).toBe(true);
+    });
+
+    it('should use plural "tools" when multiple results', () => {
+      searchCommand();
+
+      expect(consoleMock.contains('Found 3 tools:')).toBe(true);
+    });
+  });
+
+  describe('tools without tags', () => {
+    it('should not display Tags line when no tags', () => {
+      mockToolkitScanner.searchTools.mockReturnValue([
+        {
+          id: 'no-tags-tool',
+          name: 'No Tags Tool',
+          version: '1.0.0',
+          description: 'A tool without tags',
+          category: 'test',
+          type: 'prompt',
+          path: '/lib/prompts/no-tags-tool',
+          metadata: {},
+        },
+      ]);
+
+      searchCommand();
+
+      const output = consoleMock.getOutput();
+
+      expect(output).toContain('prompt/no-tags-tool');
+      expect(output).not.toContain('Tags:');
+    });
+
+    it('should not display Tags line when tags array is empty', () => {
+      mockToolkitScanner.searchTools.mockReturnValue([
+        {
+          id: 'empty-tags-tool',
+          name: 'Empty Tags Tool',
+          version: '1.0.0',
+          description: 'A tool with empty tags',
+          category: 'test',
+          type: 'prompt',
+          path: '/lib/prompts/empty-tags-tool',
+          metadata: { tags: [] },
+        },
+      ]);
+
+      searchCommand();
+
+      const output = consoleMock.getOutput();
+
+      expect(output).toContain('prompt/empty-tags-tool');
+      expect(output).not.toContain('Tags:');
     });
   });
 });

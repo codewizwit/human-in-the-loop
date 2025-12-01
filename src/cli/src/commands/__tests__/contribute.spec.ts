@@ -343,6 +343,83 @@ Test example
         true
       );
     });
+
+    it('should fail validation for file not ending with </prompt>', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+  </metadata>`;
+        }
+        return '## Usage\n\nContent';
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('❌ Pure XML validation failed')).toBe(true);
+      expect(consoleMock.contains('must end with </prompt> closing tag')).toBe(
+        true
+      );
+    });
+
+    it('should fail validation for unclosed XML tags in template', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test <unclosed></context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return '## Usage\n\nContent';
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('❌ Pure XML validation failed')).toBe(true);
+      expect(consoleMock.contains('Unclosed XML tag')).toBe(true);
+    });
+
+    it('should fail validation for missing <metadata> section after parsing', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <context>Test</context>
+</prompt>`;
+        }
+        return '## Usage\n\nContent';
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('❌ Pure XML validation failed')).toBe(true);
+      expect(consoleMock.contains('Missing <metadata> section')).toBe(true);
+    });
   });
 
   describe('documentation validation', () => {
