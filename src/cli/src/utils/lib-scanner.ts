@@ -233,8 +233,12 @@ function parseXmlPrompt(content: string): {
       id: typeof metadata.id === 'string' ? metadata.id : '',
       name: typeof metadata.name === 'string' ? metadata.name : '',
       version: typeof metadata.version === 'string' ? metadata.version : '',
-      description: typeof metadata.description === 'string' ? metadata.description : undefined,
-      category: typeof metadata.category === 'string' ? metadata.category : undefined,
+      description:
+        typeof metadata.description === 'string'
+          ? metadata.description
+          : undefined,
+      category:
+        typeof metadata.category === 'string' ? metadata.category : undefined,
     };
   } catch {
     return null;

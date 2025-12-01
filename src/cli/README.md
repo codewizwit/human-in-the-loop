@@ -30,11 +30,8 @@ hit install prompt/code-review-ts
 # List installed tools
 hit list
 
-# Check for updates
-hit update --check
-
-# Update all tools
-hit update --all
+# Update CLI to latest version
+hit update
 
 # Validate environment
 hit doctor
@@ -77,7 +74,7 @@ Install a tool from the library to your local system.
 
 Installing copies a prompt, agent, or tool from the library to a location where your AI tools can access it. When you install:
 
-1. **Files are copied** - All prompt/agent files (YAML configs, READMEs, etc.) are copied to your chosen location
+1. **Files are copied** - All prompt/agent files (prompt.md, READMEs, etc.) are copied to your chosen location
 2. **Registration** - The installation is tracked in `~/.hit/registry.json` for easy management
 3. **Ready to use** - AI tools like Claude Code can now access and use the prompt
 
@@ -107,41 +104,21 @@ List all installed tools from your registry.
 hit list
 ```
 
-### `hit update [tool]`
+### `hit update`
 
-Update installed tools to their latest versions.
+Update the CLI to the latest version from npm. This updates the entire CLI package, including all bundled tools (prompts, agents, skills, etc.).
 
 ```bash
-# Check for available updates
-hit update --check
-
-# Update a specific tool
-hit update prompt/code-review-ts
-
-# Update all installed tools
-hit update --all
-
-# Force update even if version is the same
-hit update prompt/code-review-ts --force
-
-# Update without creating backup
-hit update prompt/code-review-ts --no-backup
+# Update CLI to latest version
+hit update
 ```
 
-**Options:**
+**What it does:**
 
-- `--all` - Update all installed tools
-- `--check` - Check for updates without installing
-- `--force` - Force update even if version is the same
-- `--no-backup` - Skip backup of old version
-
-**Semantic Versioning:**
-
-Updates are determined by comparing semantic versions (e.g., `1.0.0` → `1.1.0`). The command:
-
-1. **Creates backups** - Previous version saved with timestamp (e.g., `~/.claude/tools/code-review-ts.backup-1234567890`)
-2. **Copies new files** - Latest version from the library
-3. **Updates registry** - Tracks new version and update timestamp
+1. Checks npm registry for the latest version of `@human-in-the-loop/cli`
+2. Compares with your currently installed version
+3. If a newer version exists, installs it globally via npm
+4. All bundled tools are automatically updated with the CLI
 
 ### `hit doctor`
 
@@ -164,13 +141,13 @@ Submit a new tool for review and inclusion in the library.
 
 ```bash
 # Contribute a prompt
-hit contribute prompt ./my-prompt.yaml
+hit contribute prompt lib/prompts/my-prompt/prompt.md
 
 # Contribute an agent
-hit contribute agent ./my-agent/
+hit contribute agent lib/agents/my-agent/agent.yaml
 ```
 
-**Types:** `prompt`, `agent`, `evaluator`, `guardrail`, `context-pack`
+**Types:** `prompt`, `agent`, `evaluator`, `guardrail`, `context-pack`, `skill`
 
 ### `hit stats`
 
@@ -243,21 +220,20 @@ hit install prompt/code-review-ts
 # Install empathy guide for feedback
 hit install prompt/code-review-empathy
 
-# Use in your workflow
-hit use code-review-ts --code "$(cat src/myfile.ts)"
+# List installed tools
+hit list
 ```
 
-### Angular Development
+### Using with Claude Code
+
+After installing a prompt, it automatically creates a Claude Code slash command:
 
 ```bash
-# Install Angular context pack
-hit install context/angular
+# Install the prompt
+hit install prompt/security-review
 
-# Install component generator
-hit install agent/component-generator
-
-# Generate component with Angular best practices
-hit generate component --name user-profile
+# In Claude Code, use the slash command:
+# /security-review
 ```
 
 ## Requirements
