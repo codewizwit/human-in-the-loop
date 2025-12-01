@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { parse } from 'yaml';
+import { XMLParser } from 'fast-xml-parser';
 
 /**
  * Represents a tool found in the toolkit
@@ -192,6 +193,55 @@ function parseFrontmatter(content: string): {
 }
 
 /**
+ * Parses pure XML prompt format and extracts metadata
+ * @param content - The XML content starting with <prompt>
+ * @returns Object containing metadata if parsing succeeds, null otherwise
+ */
+function parseXmlPrompt(content: string): {
+  id: string;
+  name: string;
+  version: string;
+  description?: string;
+  category?: string;
+} | null {
+  if (!content.trim().startsWith('<prompt>')) {
+    return null;
+  }
+
+  try {
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      preserveOrder: false,
+      trimValues: true,
+    });
+
+    const parsed = parser.parse(content) as {
+      prompt?: { metadata?: Record<string, unknown> };
+    };
+
+    if (!parsed.prompt?.metadata) {
+      return null;
+    }
+
+    const metadata = parsed.prompt.metadata;
+
+    if (!metadata.id || !metadata.name || !metadata.version) {
+      return null;
+    }
+
+    return {
+      id: typeof metadata.id === 'string' ? metadata.id : '',
+      name: typeof metadata.name === 'string' ? metadata.name : '',
+      version: typeof metadata.version === 'string' ? metadata.version : '',
+      description: typeof metadata.description === 'string' ? metadata.description : undefined,
+      category: typeof metadata.category === 'string' ? metadata.category : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Parses a tool configuration file and creates a Tool object
  * @param toolDir - The directory containing the tool
  * @param configFile - The full path to the configuration file (YAML, JSON, or Markdown with frontmatter)
@@ -211,11 +261,17 @@ function parseToolConfig(
     if (configFile.endsWith('.json')) {
       config = JSON.parse(content);
     } else if (configFile.endsWith('.md')) {
-      const parsed = parseFrontmatter(content);
-      if (!parsed) {
-        return null;
+      const frontmatterParsed = parseFrontmatter(content);
+      if (frontmatterParsed) {
+        config = frontmatterParsed.data;
+      } else {
+        const xmlParsed = parseXmlPrompt(content);
+        if (xmlParsed) {
+          config = xmlParsed;
+        } else {
+          return null;
+        }
       }
-      config = parsed.data;
     } else {
       config = parse(content);
     }
