@@ -1,238 +1,64 @@
 # Responsible AI Audit
 
-Comprehensive audit framework for evaluating AI outputs against responsible AI principles including accuracy, fairness, transparency, accountability, and safety.
+Comprehensive audit framework evaluating AI outputs against accuracy, fairness, transparency, accountability, and safety principles.
 
-## Overview
+## What You'll Be Asked
 
-This prompt provides a structured methodology for auditing AI Tooling using the four-lens Developer-First Responsible AI Playbook:
+- **AI system/output** - Tool, model output, or AI-generated content
+- **Purpose and context** (optional) - What it does, who uses it, decisions it makes
+- **Known concerns** (optional) - Issues already identified
 
-1. **Developer Experience & Growth** - Does it enhance or undermine learning and autonomy?
-2. **Responsibility & Equity** - Are benefits distributed fairly across all team members?
-3. **Culture & Collaboration** - Does it strengthen or erode team dynamics?
-4. **Transparency & Trust** - Are AI decisions explainable and controllable?
+## Usage Examples
 
-The audit generates actionable risk assessments, mitigation recommendations, and deployment decisions.
+### Example 1: Code Review Bot Audit
 
-## When to Use This Prompt
+Audit automated PR comment bot for developer experience, equity, and transparency.
 
-Use this audit framework when:
+**Expected Output:**
 
-- **Evaluating new AI tools** before adding them to your workflow
-- **Reviewing AI-generated outputs** for production deployment
-- **Assessing risks** of AI-assisted features
-- **Compliance checking** against responsible AI policies
-- **Incident investigation** when AI outputs cause issues
-- **Quarterly reviews** of existing AI tools
+```markdown
+### Executive Summary
 
-## Usage
+Risk level: HIGH. Recommendation: Do Not Deploy
 
-### Basic Audit
+### Lens-by-Lens Analysis
 
-```yaml
-ai_output: |
-  [Paste the AI-generated content, code, or system to audit]
+**1. Developer Experience & Growth**
 
-use_case: |
-  [Describe how this will be used]
+- Score: Fail
+- No explanations bypass learning opportunities
+- No opt-out reduces autonomy
 
-risk_level: medium
+**2. Transparency & Trust**
+
+- Score: Fail
+- No indication of how suggestions generated
 ```
 
-### Comprehensive Audit
+### Example 2: Test Generator Tool Audit
 
-```yaml
-ai_output: |
-  [Paste the AI-generated content]
+Evaluate AI test generator with human review requirements and clear labeling.
 
-use_case: |
-  [Detailed use case description]
+**Expected Output:**
 
-risk_level: high
+```markdown
+### Executive Summary
 
-target_audience: |
-  [Who will be affected - team size, experience levels, roles]
+Risk level: MEDIUM. Recommendation: Deploy with Conditions
 
-deployment_context: |
-  [Where and how this will be deployed]
+**Conditions:**
+
+- Add "Edge cases to consider" prompts
+- Document tool limitations
+- Pilot with 3-5 developers for 2 weeks
+
+### Monitoring Plan
+
+- Track test coverage and bug escape rates
 ```
-
-## Examples
-
-### Example 1: Auditing an AI Code Review Tool
-
-**Input:**
-
-```yaml
-ai_output: |
-  AI Code Review Bot that:
-  - Automatically comments on PRs with style suggestions
-  - Detects potential bugs and security issues
-  - Provides performance optimization recommendations
-  - Auto-approves PRs that pass all automated checks
-
-use_case: Automated code review assistance in GitHub pull requests
-
-risk_level: high
-
-target_audience: Engineering team of 25 developers (8 junior, 12 mid-level, 5 senior)
-
-deployment_context: GitHub PRs for microservices in production
-```
-
-**Output Highlights:**
-
-- **Lens Analysis**: Fails Developer Experience (auto-approval removes learning), fails Culture (eliminates collaboration)
-- **Risk Level**: HIGH - Auto-approval and lack of explanations are critical issues
-- **Recommendation**: Do Not Deploy - Requires major redesign
-- **Key Mitigations**: Remove auto-approval, add explanations, make opt-in, preserve human review
-
-### Example 2: Auditing an AI Test Generator
-
-**Input:**
-
-```yaml
-ai_output: |
-  AI Test Generator that:
-  - Creates unit tests from function signatures
-  - Adds JSDoc comments explaining test purpose
-  - Marks tests with // AI-generated comments
-  - Saves as .ai.spec.ts files for easy identification
-  - Requires developer review before merging
-
-use_case: Accelerate test coverage for new TypeScript functions
-
-risk_level: medium
-
-target_audience: Development team writing new features
-
-deployment_context: Optional development tool
-```
-
-**Output Highlights:**
-
-- **Lens Analysis**: Passes most lenses with minor concerns about edge case coverage
-- **Risk Level**: MEDIUM - Clear labeling and human review reduce risk
-- **Recommendation**: Deploy with Conditions - Add edge case prompts
-- **Key Mitigations**: Add TODO markers, document limitations, monitor test quality
-
-### Example 3: Auditing AI-Generated Documentation
-
-**Input:**
-
-```yaml
-ai_output: |
-  AI Documentation Generator that:
-  - Creates API documentation from TypeScript types
-  - Generates usage examples from test files
-  - Adds explanatory comments for complex logic
-  - Includes "Generated by AI" footer
-  - Allows developer editing before commit
-
-use_case: Automate initial API documentation creation
-
-risk_level: low
-
-target_audience: Developers and API consumers
-
-deployment_context: Internal documentation portal
-```
-
-**Output Highlights:**
-
-- **Lens Analysis**: Passes all lenses with strong transparency practices
-- **Risk Level**: LOW - Documentation use case has lower risk, good controls in place
-- **Recommendation**: Deploy - Minor monitoring recommended
-- **Key Mitigations**: Review accuracy quarterly, gather user feedback
-
-## Audit Report Structure
-
-Each audit produces:
-
-1. **Executive Summary** - Quick overview of findings and recommendation
-2. **Lens-by-Lens Analysis** - Detailed evaluation across four lenses with Pass/Fail scores
-3. **Risk Assessment** - Overall risk level and top 3 risks identified
-4. **Mitigation Recommendations** - Immediate, short-term, and long-term actions
-5. **Deployment Decision** - Clear recommendation (Deploy, Deploy with Conditions, Do Not Deploy, Needs Redesign)
-6. **Monitoring Plan** - Metrics, frequency, and success criteria
-
-## Risk Levels
-
-- **Low**: Minimal impact, optional usage, strong safeguards
-- **Medium**: Moderate impact, some risks, clear mitigation path
-- **High**: Significant impact, major risks, redesign likely needed
-- **Critical**: Production-impacting, safety concerns, immediate action required
-
-## Deployment Recommendations
-
-- **Deploy**: Passes all lenses, minimal risk, ready for production
-- **Deploy with Conditions**: Passes most lenses, specific improvements needed first
-- **Do Not Deploy**: Fails multiple lenses, significant risks outweigh benefits
-- **Needs Redesign**: Fundamental issues requiring architectural changes
-
-## Integration with RESPONSIBLE-AI-PLAYBOOK.md
-
-This audit prompt directly implements the Responsible AI Playbook defined in [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md):
-
-- Uses the same four-lens evaluation structure
-- Applies red flag detection from the framework
-- Enforces best practices outlined in implementation guidelines
-- Measures success using framework criteria
-- Identifies when to pause or remove tools per framework guidance
-
-## Best Practices
-
-### For Auditors
-
-1. **Be Thorough**: Evaluate all four lenses, even if one seems dominant
-2. **Provide Evidence**: Back up scores with specific examples from the AI output
-3. **Be Actionable**: Give clear, implementable mitigation recommendations
-4. **Consider Context**: Risk assessment depends on use case and deployment context
-5. **Think Long-term**: Consider impacts after 6-12 months of usage
-
-### For Teams Receiving Audits
-
-1. **Take Seriously**: Don't deploy against "Do Not Deploy" recommendations
-2. **Address Conditions**: If "Deploy with Conditions", meet all conditions before deployment
-3. **Monitor Continuously**: Use the monitoring plan to track post-deployment impact
-4. **Iterate Based on Feedback**: Adjust AI tools based on actual developer experience
-5. **Re-audit Periodically**: Re-run audits quarterly or after major changes
-
-## Common Audit Findings
-
-### Frequent Issues
-
-- **Lack of explanations** for AI suggestions (fails Transparency)
-- **No opt-out mechanisms** (fails Developer Experience)
-- **Auto-approval or auto-merge** (fails Culture & Collaboration)
-- **Unclear accountability** when AI causes issues (fails Responsibility)
-- **Hidden AI usage** not disclosed to users (fails Transparency)
-
-### Good Practices
-
-- **Clear AI-generated labels** on all outputs
-- **Human review required** before production use
-- **Detailed explanations** of AI reasoning
-- **Opt-in usage** rather than mandatory
-- **Separate files or clear markers** for easy identification
 
 ## Related Resources
 
-- [RESPONSIBLE-AI-PLAYBOOK.md](../../../../RESPONSIBLE-AI-PLAYBOOK.md) - Full Developer-First Responsible AI Playbook
-- [Bias Detection Prompt](../bias-detection/README.md) - Specialized bias analysis
-- [Security Review Prompt](../security-review/README.md) - Security-focused audits
-
-## Contributing
-
-To improve this audit framework:
-
-1. Share audit reports from real-world usage
-2. Suggest additional red flags or evaluation criteria
-3. Provide examples of well-designed vs. poorly-designed AI tools
-4. Report gaps in the current audit methodology
-
-See [CONTRIBUTING.md](../../../../CONTRIBUTING.md) for guidelines.
-
----
-
-**Human-in-the-Loop by codewizwit**
-Build with care. Ship with purpose.
+- [Bias Detection](../bias-detection) - Specific bias analysis
+- [Anthropic Responsible Scaling Policy](https://www.anthropic.com/news/anthropics-responsible-scaling-policy) - AI safety framework
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) - Governance standards

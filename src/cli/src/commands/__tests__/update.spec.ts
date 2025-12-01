@@ -1,18 +1,21 @@
 import { updateCommand } from '../update';
 import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
 
 jest.mock('child_process');
+jest.mock('fs');
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
-
-// Note: We don't mock package.json because the require path in update.ts
-// resolves to the actual built package.json (version 2.0.0)
+const mockReadFileSync = readFileSync as jest.MockedFunction<
+  typeof readFileSync
+>;
 
 describe('update command', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     console.log = jest.fn();
     console.error = jest.fn();
+    mockReadFileSync.mockReturnValue(JSON.stringify({ version: '2.0.0' }));
   });
 
   it('should show success message when already on latest version', async () => {
@@ -77,6 +80,23 @@ describe('update command', () => {
     );
     expect(console.log).toHaveBeenCalledWith(
       expect.stringContaining('try manually')
+    );
+  });
+
+  it('should handle unknown current version when package.json cannot be read', async () => {
+    mockReadFileSync.mockImplementation(() => {
+      throw new Error('File not found');
+    });
+    mockExecSync.mockReturnValueOnce('2.1.0' as never);
+    mockExecSync.mockReturnValueOnce('' as never);
+
+    await updateCommand();
+
+    expect(console.log).toHaveBeenCalledWith(
+      expect.stringContaining('Current version: vunknown')
+    );
+    expect(console.log).toHaveBeenCalledWith(
+      expect.stringContaining('Successfully updated')
     );
   });
 });

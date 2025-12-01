@@ -84,7 +84,7 @@ Install a prompt, agent, or other tool from the toolkit to your local system.
 
 Installing copies a tool from the library to a location where your AI applications can access it. The installation process:
 
-1. **Copies Files** - All tool files (YAML configs, READMEs, examples) are copied to your chosen directory
+1. **Copies Files** - All tool files (prompt.md, READMEs, examples) are copied to your chosen directory
 2. **Registers Installation** - The tool is tracked in `~/.hit/registry.json` for version management
 3. **Makes Available** - AI tools like Claude Code can now discover and use the installed prompts/agents
 
@@ -509,10 +509,10 @@ Validate a contribution and automatically create a GitHub issue for review.
 
 1. **Validates** your tool against quality standards:
 
-   - YAML structure and required metadata fields
-   - README.md presence and "## Usage" section
+   - Pure XML structure with required metadata fields (for prompts)
+   - README.md presence with required sections
    - Examples provided (warns if missing)
-   - Type-specific requirements (e.g., prompts need `template` field)
+   - Type-specific requirements
 
 2. **Auto-detects** tool type from directory path (verifies it matches specified type)
 
@@ -530,35 +530,37 @@ hit contribute <type> <path>
 
 **Arguments:**
 
-- `type` (required) - Tool type: `prompt`, `agent`, `evaluator`, `guardrail`, or `context-pack`
+- `type` (required) - Tool type: `prompt`, `agent`, `evaluator`, `guardrail`, `context-pack`, or `skill`
 - `path` (required) - Path to tool definition file (e.g., `prompt.md`)
 
 **Examples:**
 
 ```bash
-# Contribute a prompt
+# Contribute a prompt (pure XML format)
 hit contribute prompt lib/prompts/my-prompt/prompt.md
 
 # Contribute an agent
 hit contribute agent lib/agents/my-agent/agent.yaml
 
-# Contribute a context pack
-hit contribute context-pack lib/context-packs/react/config.yaml
+# Contribute a skill
+hit contribute skill lib/skills/my-skill/metadata.json
 ```
 
 **Validation Checks:**
 
-✅ **YAML Structure:**
+✅ **Pure XML Structure (for prompts):**
 
-- Required fields: `id`, `name`, `version`, `description`, `category`
-- Required metadata: `author`, `license`
-- Type-specific fields (e.g., prompts need `template`)
-- Examples array (warns if empty)
+- Root `<prompt>` element required
+- Required metadata: `<id>`, `<name>`, `<version>`, `<description>`, `<category>`, `<author>`, `<license>`
+- Required sections: `<context>`, `<instructions>`, `<output_format>`
+- Recommended sections: `<constraints>`, `<examples>`
 
-✅ **Documentation:**
+✅ **Documentation (v2.0.0 format):**
 
 - README.md exists in tool directory
-- README contains "## Usage" section
+- README contains "## What You'll Be Asked" or "## Usage" section
+- README contains "## Usage Examples" section
+- README contains "## Related Resources" section
 - Sufficient content (warns if too short)
 
 **Success Output:**
@@ -569,7 +571,7 @@ hit contribute context-pack lib/context-packs/react/config.yaml
   → Validating lib/prompts/my-prompt/prompt.md...
   → Running quality checks...
 
-✓ ✅ YAML validation passed
+✓ ✅ Pure XML validation passed
 ✓ ✅ Documentation validation passed
 
   → Creating GitHub issue...
@@ -593,16 +595,17 @@ Next steps:
   → Validating lib/prompts/my-prompt/prompt.md...
   → Running quality checks...
 
-✗ ❌ YAML validation failed
-  - Missing required field: version
-  - Missing metadata section
-  - Prompts must have a template field
+✗ ❌ Pure XML validation failed
+  - File must start with <prompt> root element
+  - Missing required metadata field: version
+  - Missing <context> section
 
 ✗ ❌ Documentation validation failed
   - Missing README.md file
 
 ⚠️  Warnings:
-  - No examples provided (recommended: at least 2)
+  - Missing <constraints> section (recommended)
+  - Missing <examples> section (recommended)
 
   → Creating GitHub issue...
 
@@ -617,13 +620,13 @@ Next steps:
 
 **Requirements:**
 
-Before running `hit contribute`, ensure your tool has:
+Before running `hit contribute`, ensure your prompt has:
 
-- ✅ Valid YAML file with all required fields
-- ✅ README.md in the same directory as the YAML
-- ✅ "## Usage" section in README
-- ✅ At least 2 usage examples
-- ✅ Proper metadata (author, license)
+- ✅ Valid pure XML format starting with `<prompt>` root element
+- ✅ All required metadata fields in `<metadata>` section
+- ✅ Required sections: `<context>`, `<instructions>`, `<output_format>`
+- ✅ README.md in the same directory
+- ✅ README with required sections (What You'll Be Asked, Usage Examples, Related Resources)
 - ✅ Semantic version number
 
 **GitHub Issue:**

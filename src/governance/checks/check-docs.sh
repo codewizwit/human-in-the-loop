@@ -34,9 +34,19 @@ for file in $files; do
       continue
     fi
 
-    # Check README has Usage section
-    if ! grep -q "## Usage" "$dir/README.md"; then
-      echo "❌ README in $dir missing '## Usage' section"
+    # Check README has required sections for v2.0.0 format
+    if ! grep -q "## What You'll Be Asked" "$dir/README.md"; then
+      echo "❌ README in $dir missing '## What You'll Be Asked' section"
+      has_errors=true
+    fi
+
+    if ! grep -q "## Usage Examples" "$dir/README.md"; then
+      echo "❌ README in $dir missing '## Usage Examples' section"
+      has_errors=true
+    fi
+
+    if ! grep -q "## Related Resources" "$dir/README.md"; then
+      echo "❌ README in $dir missing '## Related Resources' section"
       has_errors=true
     fi
 
@@ -47,9 +57,9 @@ for file in $files; do
       has_errors=true
     fi
 
-    # Check for prompt.yaml or agent.yaml
-    if [[ $file == lib/prompts/*/* ]] && [ ! -f "$dir/prompt.yaml" ]; then
-      echo "❌ Missing prompt.yaml in $dir"
+    # Check for prompt.md (pure XML format v2.0.0) or agent.yaml
+    if [[ $file == lib/prompts/*/* ]] && [ ! -f "$dir/prompt.md" ]; then
+      echo "❌ Missing prompt.md in $dir"
       has_errors=true
     fi
 

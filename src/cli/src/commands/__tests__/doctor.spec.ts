@@ -190,6 +190,36 @@ describe('doctorCommand', () => {
         expectOutput(['.claude directory', 'will be created']);
       });
     });
+
+    describe('when .claude exists but subdirectories are missing', () => {
+      it('should show warning when tools directory is missing', async () => {
+        existsSync.mockImplementation((path: unknown) => {
+          const pathStr = String(path);
+          if (pathStr.includes('tools')) {
+            return false;
+          }
+          return true;
+        });
+
+        output = await runCommand();
+
+        expectOutput(['tools directory', 'not found', 'will be created']);
+      });
+
+      it('should show warning when registry.json is missing', async () => {
+        existsSync.mockImplementation((path: unknown) => {
+          const pathStr = String(path);
+          if (pathStr.includes('registry.json')) {
+            return false;
+          }
+          return true;
+        });
+
+        output = await runCommand();
+
+        expectOutput(['registry.json', 'not found', 'will be created']);
+      });
+    });
   });
 
   describe('execution flow', () => {

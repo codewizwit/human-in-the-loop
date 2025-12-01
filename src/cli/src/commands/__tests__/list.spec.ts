@@ -221,6 +221,26 @@ describe('listCommand', () => {
     });
   });
 
+  describe('with unknown tool type', () => {
+    it('should use type name as fallback label for unknown types', async () => {
+      mockRegistry.getInstalledTools.mockReturnValue([
+        {
+          id: 'custom-tool',
+          name: 'Custom Tool',
+          version: '1.0.0',
+          type: 'unknown-type' as 'prompt',
+          installedPath: '/path/to/custom-tool',
+          installedAt: '2024-01-01T00:00:00Z',
+        },
+      ]);
+
+      await listCommand();
+
+      expect(consoleMock.contains('unknown-type:')).toBe(true);
+      expect(consoleMock.contains('custom-tool')).toBe(true);
+    });
+  });
+
   describe('execution flow', () => {
     beforeEach(() => {
       mockRegistry.getInstalledTools.mockReturnValue([
