@@ -1,0 +1,70 @@
+id: nestjs
+name: NestJS Context Pack
+version: 1.0.0
+description: Framework-specific knowledge base for NestJS backend development including module structure, dependency injection, providers, controllers, guards, interceptors, and architectural patterns
+category: framework
+
+metadata:
+  author: codewizwit
+  license: MIT
+  tags:
+    - nestjs
+    - typescript
+    - backend
+    - framework
+    - dependency-injection
+    - microservices
+    - rest-api
+    - graphql
+  frameworks:
+    - nestjs
+  lastUpdated: '2025-11-19'
+
+contents:
+  - architecture/module-structure
+  - architecture/dependency-injection
+  - patterns/providers
+  - patterns/controllers
+  - patterns/services
+  - patterns/guards
+  - patterns/interceptors
+  - patterns/pipes
+  - patterns/exception-filters
+  - testing/unit-tests
+  - testing/e2e-tests
+  - performance/optimization
+  - microservices/architecture
+  - graphql/resolvers
+  - database/typeorm
+  - database/prisma
+  - examples/real-world
+
+includes:
+  - Module organization and structure
+  - Dependency injection patterns
+  - Providers (services, repositories, factories)
+  - Controllers and routing
+  - Guards and authentication
+  - Interceptors and middleware
+  - Pipes and validation
+  - Exception filters and error handling
+  - Testing strategies (Jest, Supertest)
+  - Microservices architecture
+  - GraphQL resolvers and schemas
+  - Database integration (TypeORM, Prisma)
+  - Performance optimization
+  - Circular dependency avoidance
+  - Common patterns and anti-patterns
+
+bestUsedWith:
+  prompts:
+    - code-review-ts
+    - api-design
+    - unit-test-generator
+    - system-design-review
+  agents:
+    - nestjs-refactor
+    - test-generator-nestjs
+  contextPacks:
+    - typescript-advanced
+    - microservices-patterns
