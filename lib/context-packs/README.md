@@ -8,9 +8,9 @@ Cross-cutting patterns and domain knowledge for specialized use cases.
 
 ```
 context-packs/
+├── ci-cd/         # CI/CD patterns and deployment strategies
 ├── security/      # Security patterns (planned)
-├── testing/       # Testing strategies (planned)
-└── deployment/    # Deployment workflows (planned)
+└── testing/       # Testing strategies (planned)
 ```
 
 ## What's a Context Pack?
@@ -38,11 +38,28 @@ echo '{"defaultContextPacks": ["angular", "nestjs"]}' > .hitrc.json
 
 _(Context packs are for cross-cutting patterns. Framework-specific expertise moved to [lib/skills](../skills/README.md))_
 
-Coming soon:
+### CI/CD
+
+Complete CI/CD patterns including GitHub Actions workflows, deployment strategies, caching, and pipeline optimization.
+
+```bash
+hit install context/ci-cd
+```
+
+**Includes**:
+
+- GitHub Actions patterns (reusable workflows, matrix builds)
+- Deployment strategies (blue-green, canary, rolling)
+- Caching strategies (dependencies, build artifacts)
+- Secrets management and OIDC authentication
+- Monorepo CI/CD (Nx affected, path filtering)
+
+See [ci-cd/README.md](./ci-cd/README.md) for full documentation.
+
+### Coming Soon
 
 - Security patterns
 - Testing strategies
-- Deployment workflows
 
 ## Contributing
 
