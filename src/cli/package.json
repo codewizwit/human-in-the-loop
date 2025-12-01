@@ -1,6 +1,6 @@
 {
   "name": "@human-in-the-loop/cli",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "CLI tool for managing AI prompts, agents, and productivity tools with governance and quality standards",
   "main": "./main.js",
   "type": "commonjs",
