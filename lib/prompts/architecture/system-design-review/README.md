@@ -60,4 +60,4 @@ Analyze distributed system across all dimensions with risk assessment and recomm
 - [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/) - Cloud architecture best practices
 - [System Design Primer](https://github.com/donnemartin/system-design-primer) - Comprehensive guide
 - [API Design](../api-design) - API architecture patterns
-- [Security Review](../governance/security-review) - Security validation
+- [Security Review](../../governance/security-review) - Security validation

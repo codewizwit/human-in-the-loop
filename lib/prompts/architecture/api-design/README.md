@@ -54,4 +54,4 @@ Analyze GraphQL schema for query efficiency, naming conventions, and type design
 - [OWASP API Security](https://owasp.org/www-project-api-security/) - Security best practices
 - [REST API Tutorial](https://restfulapi.net/) - RESTful design principles
 - [GraphQL Best Practices](https://graphql.org/learn/best-practices/) - Official guide
-- [Security Review](../governance/security-review) - Deep security analysis
+- [Security Review](../../governance/security-review) - Deep security analysis
