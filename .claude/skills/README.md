@@ -2,54 +2,62 @@
 
 This directory contains [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) that automatically activate when Claude detects relevant context in your work.
 
-## What are Skills?
+## Source of Truth
 
-Skills are domain-specific expertise that Claude can invoke automatically when working on related tasks. Unlike slash commands that require manual invocation, skills activate based on context - such as when you're working with specific frameworks, discussing architecture patterns, or performing certain types of tasks.
+**Important**: The source of truth for skills is `lib/skills/`. This directory contains copies installed for use by Claude Code in this project.
+
+To update skills, edit files in `lib/skills/*/claude-skill.md` and copy here.
 
 ## Available Skills
 
 ### Framework Expertise
 
-#### `angular-expert.md`
+#### `angular-modern.md`
 
-**Activates when**: Working with Angular components, discussing reactive patterns, or optimizing Angular applications
-
-**Provides**:
-
-- Component architecture (smart vs presentational)
-- OnPush change detection strategy
-- RxJS reactive programming patterns
-- Signals API (Angular 16+)
-- State management (component, service, NgRx)
-- Performance optimization techniques
-- Testing strategies
-
-#### `nestjs-expert.md`
-
-**Activates when**: Building NestJS backends, designing APIs, or reviewing Node.js server code
+**Activates when**: Building Angular 16+ applications with signals, standalone components
 
 **Provides**:
 
-- Module structure and organization
+- Signals, computed, effect patterns
+- Signal-based inputs/outputs
+- Standalone components (no NgModules)
+- Control flow syntax (@if, @for, @switch)
+- Resource API for data loading
+
+#### `angular-legacy.md`
+
+**Activates when**: Maintaining pre-Angular 16 applications
+
+**Provides**:
+
+- NgModule architecture
+- Lifecycle hooks (ngOnInit, ngOnDestroy)
+- @Input/@Output decorators
+- Structural directives (*ngIf, *ngFor)
+- RxJS subscription management
+
+#### `nestjs-backend.md`
+
+**Activates when**: Building NestJS backends, designing APIs
+
+**Provides**:
+
+- Module architecture and organization
 - Dependency injection patterns
-- Controllers, providers, guards, interceptors
+- Controllers, guards, interceptors
 - Exception handling and validation
 - Testing patterns (unit and E2E)
-- Avoiding circular dependencies
-- Best practices and anti-patterns
 
-#### `nx-monorepo-expert.md`
+#### `nx-monorepo.md`
 
-**Activates when**: Working in Nx workspaces, discussing monorepo structure, or optimizing builds
+**Activates when**: Working in Nx workspaces, monorepo structure
 
 **Provides**:
 
 - Workspace organization and project boundaries
 - Dependency constraints and module boundaries
-- Build caching and computation caching
+- Computation caching strategies
 - Task orchestration and affected commands
-- Library vs application architecture
-- Module federation patterns
 - CI/CD optimization for monorepos
 
 ## How Skills Work
@@ -66,40 +74,32 @@ description: Brief description of when this skill should activate
 Detailed knowledge and patterns...
 ```
 
-When Claude detects context matching the skill's description, it automatically activates that skill's knowledge without requiring manual invocation.
+When Claude detects context matching the skill's description, it automatically activates that skill's knowledge.
 
-## Relationship to Context Packs
+## Installation
 
-These skills are generated from the context packs in `lib/context-packs/`. The context packs serve as the source of truth for framework-specific knowledge, while skills provide that knowledge in a format optimized for Claude Code's automatic activation.
-
-- **Context Packs** (`lib/context-packs/`) - Source of truth, installable via CLI
-- **Skills** (`.claude/skills/`) - Claude Code format for automatic activation
-
-## Using Skills
-
-Skills activate automatically when relevant - you don't need to do anything! Just work on your code, and Claude will invoke the appropriate skill knowledge when needed.
-
-To see which skills are available:
+Skills are installed from `lib/skills/` using the CLI:
 
 ```bash
-ls -la .claude/skills/
+# Install as Claude Code skill
+hit install skill/angular-modern --as-skill
+
+# Install as GitHub Copilot instructions
+hit install skill/angular-modern --as-copilot
 ```
 
 ## Creating New Skills
 
-Skills should be created from context packs in `lib/context-packs/`. To add a new skill:
+1. Create the skill in `lib/skills/{name}/`
+2. Include: `README.md`, `claude-skill.md`, `copilot-instructions.md`
+3. Copy `claude-skill.md` to `.claude/skills/{name}.md`
 
-1. Create the context pack in `lib/context-packs/{framework}/`
-2. Write comprehensive documentation in the context pack README
-3. Generate the skill file in `.claude/skills/{framework}-expert.md`
-4. Include YAML frontmatter with `name` and `description`
-5. Ensure the description clearly defines when the skill should activate
+See `lib/skills/README.md` for full documentation.
 
 ## References
 
 - [Claude Code Skills Documentation](https://docs.anthropic.com/en/docs/claude-code/skills)
-- [Context Packs Documentation](../../lib/context-packs/README.md)
-- [Claude Code Guide](https://docs.anthropic.com/en/docs/claude-code)
+- [Skills Source Directory](../../lib/skills/README.md)
 
 ---
 
