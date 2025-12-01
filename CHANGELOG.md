@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.0...v3.0.1) (2025-12-01)
+
 ## [3.0.0](https://github.com/codewizwit/human-in-the-loop/compare/v1.3.2...v3.0.0) (2025-12-01)
 
 ### ⚠ BREAKING CHANGES
