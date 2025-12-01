@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.2...v3.0.3) (2025-12-01)
+
+
+### Bug Fixes
+
+* use root README for npm package ([e267652](https://github.com/codewizwit/human-in-the-loop/commit/e267652f0690260f74b3f0ab9ddd9eb0071c0dd3))
+
 ### [3.0.2](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.1...v3.0.2) (2025-12-01)
 
 ### [3.0.1](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.0...v3.0.1) (2025-12-01)
