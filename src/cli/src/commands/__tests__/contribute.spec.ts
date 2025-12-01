@@ -528,7 +528,7 @@ Test example
       expect(consoleMock.contains('README.md is very short')).toBe(true);
     });
 
-    it('should fail if v2.0.0 format has What You\'ll Be Asked but missing Usage Examples', async () => {
+    it("should fail if v2.0.0 format has What You'll Be Asked but missing Usage Examples", async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
         const pathStr = path?.toString() || '';
         if (pathStr.endsWith('prompt.md')) {
@@ -569,7 +569,7 @@ Test example
       ).toBe(true);
     });
 
-    it('should fail if v2.0.0 format has What You\'ll Be Asked but missing Related Resources', async () => {
+    it("should fail if v2.0.0 format has What You'll Be Asked but missing Related Resources", async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
         const pathStr = path?.toString() || '';
         if (pathStr.endsWith('prompt.md')) {

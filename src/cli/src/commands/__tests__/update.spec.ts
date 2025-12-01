@@ -6,7 +6,9 @@ jest.mock('child_process');
 jest.mock('fs');
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
-const mockReadFileSync = readFileSync as jest.MockedFunction<typeof readFileSync>;
+const mockReadFileSync = readFileSync as jest.MockedFunction<
+  typeof readFileSync
+>;
 
 describe('update command', () => {
   beforeEach(() => {
