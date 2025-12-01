@@ -4,9 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Your AI toolkit for building better software, faster—without losing your humanity** ✨
-
-Stop copy-pasting prompts from Slack. Stop reinventing the wheel. Get production-ready AI tools with built-in quality gates, Claude Code integration, and developer-first accountability.
+A curated prompt library for Claude Code. Install versioned, CI-validated prompts as slash commands. Prompts analyze your workspace automatically using Claude's tools—no copy-pasting code.
 
 ---
 
@@ -20,44 +18,24 @@ npm install -g @human-in-the-loop/cli
 npx hit search "security review"
 ```
 
-**That's it.** 🎉 Now you have access to 12+ production-tested prompts.
-
 ### 🚀 Try it now
 
 ```bash
 # Find what you need
 hit search "code review"
 
-# Install with automatic Claude Code integration
+# Install a prompt (creates slash command automatically)
 hit install prompt/security-review
 
 # Use in Claude Code
 /security-review
 ```
 
-Claude will automatically analyze your workspace—no copy-pasting code required.
-
----
-
-## 🎯 Why This Exists
-
-**The problem:** AI prompts are scattered everywhere—Slack threads, Notion docs, random .txt files. Every team reinvents the same patterns. Quality is all over the place.
-
-**The solution:** One npm package. Versioned tools. Quality gates. Claude Code integration. Done.
-
-### 🪄 What makes this different
-
-- **🔌 Claude Code native** - Auto-creates `/slash-commands` when you install
-- **🤖 Tool-based analysis** - Prompts use Read/Grep/Glob, not copy-paste
-- **✅ Quality gates** - Every tool passes governance checks before merge
-- **📦 One install** - Everything you need: `npm i -g @human-in-the-loop/cli`
-- **🎓 Developer-first** - Built by devs, for devs, with empathy baked in
-
 ---
 
 ## 🧰 What's Inside
 
-### 📚 12 Production-Ready Prompts
+### 📚 12 Prompts
 
 **Code Quality**
 
@@ -80,12 +58,12 @@ Claude will automatically analyze your workspace—no copy-pasting code required
 
 **Governance**
 
-- 🛡️ `responsible-ai-audit` - Developer-first AI accountability checks
-- ⚖️ `bias-detection` - Identify bias in AI outputs
+- 🛡️ `responsible-ai-audit` - Audit AI outputs for accuracy, fairness, transparency
+- ⚖️ `bias-detection` - Identify bias in AI-generated content
 
-### 🎓 Skills for Claude Code
+### 🎓 Skills
 
-**Framework Expertise**
+Skills are persistent context files (not slash commands) that give Claude framework expertise. Copy them to your `.claude/` directory.
 
 - ⚡ **Angular Modern** - Signals, standalone, control flow (16+)
 - 🏛️ **Angular Legacy** - NgModules, RxJS, lifecycle hooks (pre-16)
@@ -101,40 +79,26 @@ Claude will automatically analyze your workspace—no copy-pasting code required
 
 ## 💡 How It Works
 
-### Old way (copy-paste hell)
+### What `hit install` does
 
-```
-1. Find a prompt somewhere
-2. Copy code from your IDE
-3. Paste into ChatGPT
-4. Copy response back
-5. Repeat for every file
-```
+1. **Copies files** to `~/.claude/tools/` (prompt.md + README)
+2. **Creates a slash command** at `~/.claude/commands/{id}.md`
+3. **Registers it** in `~/.hit/registry.json` for version tracking
 
-### New way (automated workspace analysis)
-
-```bash
-hit install prompt/security-review
-# Creates /security-review in Claude Code
-
-# In Claude:
-/security-review
-```
-
-Claude uses **Read**, **Grep**, and **Glob** to analyze your workspace automatically. No copy-paste. Just natural conversation.
+Now you can use `/security-review` directly in Claude Code.
 
 ---
 
 ## 🎨 CLI Commands
 
 ```bash
-hit search [query]              # Find tools (fuzzy search)
-hit install <tool>              # Install with Claude Code integration
+hit search [query]              # Find tools
+hit install <tool>              # Install + create slash command
 hit list                        # Show installed tools
-hit update --all                # Update everything
+hit update                      # Update CLI to latest version
 hit doctor                      # Validate setup
 hit contribute <type> <path>    # Submit new tools
-hit stats                       # Usage analytics
+hit stats                       # Installation info
 ```
 
 **Pro tip:** Use `--no-claude-command` to skip slash command creation if you want manual setup.
@@ -187,50 +151,21 @@ hit install prompt/unit-test-generator
 
 ---
 
-## 🛡️ Developer-First AI
+## 🛡️ Responsible AI
 
-**We believe AI should enhance developers, not replace them.**
+This project includes a [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) that guides prompt design:
 
-Every tool is evaluated through our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md):
+- Prompts should enhance developer judgment, not replace it
+- Outputs should be transparent and explainable
+- Tools should support learning, not create dependency
 
-- ✨ **Enhance** happiness & creativity, not replace judgment
-- 📚 **Support** learning & growth, not create dependency
-- 🤝 **Strengthen** collaboration, not erode connection
-- 🔍 **Maintain** transparency, not obscure decisions
-
-No black boxes. No "trust the AI." Just thoughtful tools that make you better at your job.
-
-[Read the full playbook →](./RESPONSIBLE-AI-PLAYBOOK.md)
+The `responsible-ai-audit` and `bias-detection` prompts help you apply these principles to your own AI workflows.
 
 ---
 
 ## 🤝 Contributing
 
-We'd love your help! Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-### Quick workflow
-
-```bash
-# 1. Create your feature
-git checkout -b feature/my-awesome-prompt
-
-# 2. Follow the standards
-pnpm format && pnpm lint && pnpm typecheck
-
-# 3. Commit with conventional commits
-git commit -m "feat: add my awesome prompt"
-
-# 4. Push and create PR
-git push origin feature/my-awesome-prompt
-gh pr create
-```
-
-**Standards:**
-
-- ✅ TypeDoc comments above functions (no inline `//` comments)
-- ✅ TypeScript strict mode
-- ✅ All tests passing
-- ✅ Conventional commits (`feat:`, `fix:`, `docs:`)
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding prompts, reporting issues, and submitting PRs.
 
 ---
 
@@ -246,13 +181,10 @@ gh pr create
 
 ## 🏗️ Tech Stack
 
-Built with the good stuff:
-
 - **Build**: Nx monorepo
 - **Language**: TypeScript (strict mode)
 - **Package Manager**: pnpm
 - **CLI**: Commander.js
-- **Prompts**: Inquirer.js
 - **Testing**: Jest
 
 ---
@@ -261,42 +193,30 @@ Built with the good stuff:
 
 ```
 human-in-the-loop/
-├── lib/                         # 🧰 Reusable AI tools
-│   ├── prompts/                 # 📚 12 production-ready prompts
-│   │   ├── architecture/        # 🏗️ System & API design
-│   │   ├── ci-cd/               # ⚡ Pipeline optimization
-│   │   ├── governance/          # 🛡️ Security, bias, audits
-│   │   ├── testing/             # 🧪 E2E, unit test generation
-│   │   └── culture/             # 💬 Team & communication
-│   ├── skills/                  # 🎓 Framework expertise
-│   │   ├── angular-modern/      # ⚡ Angular 16+ (signals)
-│   │   └── angular-legacy/      # 🏛️ Pre-16 (NgModules)
-│   ├── agents/                  # 🤖 Coming soon
-│   ├── context-packs/           # 🎯 Coming soon
-│   ├── evaluators/              # ✅ Coming soon
-│   └── guardrails/              # 🛡️ Coming soon
+├── lib/
+│   ├── prompts/           # 12 prompts (code review, security, testing, etc.)
+│   ├── skills/            # Framework expertise (Angular)
+│   ├── agents/            # Coming soon
+│   ├── context-packs/     # Coming soon
+│   ├── evaluators/        # Coming soon
+│   └── guardrails/        # Coming soon
 ├── src/
-│   ├── cli/                     # 🎨 CLI tool
-│   └── governance/              # ✅ Quality validation
-└── docs/                        # 📚 Documentation
+│   ├── cli/               # CLI source code
+│   └── governance/        # CI validation scripts
+└── docs/                  # Documentation
 ```
 
 ---
 
 ## 🎉 What's New
 
-**v2.0.0** - XML Template Migration & Claude Code Integration
+**v2.0.0** - Pure XML Prompts & Claude Code Integration
 
-- 🔌 Automatic `/slash-command` creation in Claude Code
-- 🤖 Tool-based workspace analysis (no more copy-paste!)
-- 📝 Markdown format with YAML frontmatter
-- ✨ Pure XML structure for prompts
+- 🔌 Automatic slash command creation on install
+- 🤖 Tool-based workspace analysis (Read/Grep/Glob)
+- ✨ Pure XML prompt format for better structure
 
-**v1.2.0** - Update Command
-
-- ⬆️ `hit update --all` batch updates
-- 🔄 Semantic versioning with automatic backups
-- 📊 Version change summaries
+See [CHANGELOG.md](./CHANGELOG.md) for full history.
 
 ---
 
