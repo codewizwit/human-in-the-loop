@@ -46,7 +46,7 @@ describe('contributeCommand', () => {
     it('should exit with error if path does not exist', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      await contributeCommand('prompt', 'non-existent-path.yaml');
+      await contributeCommand('prompt', 'non-existent-path.md');
 
       expect(consoleMock.contains('Path does not exist')).toBe(true);
       expect(mockExit).toHaveBeenCalledWith(1);
@@ -54,141 +54,294 @@ describe('contributeCommand', () => {
 
     it('should continue if path exists', async () => {
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(`
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-examples:
-  - example 1
-  - example 2
-      `);
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+- Test input
+
+## Usage Examples
+
+Test example
+
+## Related Resources
+
+- [Link](http://example.com)`;
+      });
 
       mockChildProcess.execSync.mockReturnValue(
         'https://github.com/test/issues/1'
       );
 
-      await contributeCommand('prompt', 'test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('Path does not exist')).toBe(false);
     });
   });
 
-  describe('YAML validation', () => {
+  describe('Pure XML validation (v2.0.0 format)', () => {
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true);
     });
 
-    it('should pass validation for valid YAML', async () => {
+    it('should pass validation for valid pure XML prompt', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test-prompt
-name: Test Prompt
-version: 1.0.0
-description: A test prompt
-category: testing
-metadata:
-  author: test-author
-  license: MIT
-template: Test template
-examples:
-  - example 1
-  - example 2
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test-prompt</id>
+    <name>Test Prompt</name>
+    <version>2.0.0</version>
+    <description>Test description</description>
+    <category>testing</category>
+    <author>test-author</author>
+    <license>MIT</license>
+  </metadata>
+
+  <examples>
+    <example>
+      <description>Example 1</description>
+    </example>
+  </examples>
+
+  <context>
+Test context
+  </context>
+
+  <instructions>
+Test instructions
+  </instructions>
+
+  <constraints>
+Test constraints
+  </constraints>
+
+  <output_format>
+Test output format
+  </output_format>
+</prompt>`;
         }
-        return '## Usage\n\nSome usage docs here with enough content to pass validation.';
+        return `# Test Prompt
+
+## What You'll Be Asked
+
+- Test input
+
+## Usage Examples
+
+### Example 1
+
+Test example
+
+## Related Resources
+
+- [Link](http://example.com)`;
       });
 
       mockChildProcess.execSync.mockReturnValue(
         'https://github.com/test/issues/1'
       );
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
-      expect(consoleMock.contains('✅ YAML validation passed')).toBe(true);
-    });
-
-    it('should fail validation for missing required fields', async () => {
-      mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-          `;
-        }
-        return '## Usage\n\nDocs';
-      });
-
-      mockChildProcess.execSync.mockReturnValue(
-        'https://github.com/test/issues/1'
-      );
-
-      await contributeCommand('prompt', 'test/test.yaml');
-
-      expect(consoleMock.contains('❌ YAML validation failed')).toBe(true);
-      expect(consoleMock.contains('Missing required field')).toBe(true);
-    });
-
-    it('should fail validation if prompt missing template', async () => {
-      mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-          `;
-        }
-        return '## Usage\n\nDocs';
-      });
-
-      mockChildProcess.execSync.mockReturnValue(
-        'https://github.com/test/issues/1'
-      );
-
-      await contributeCommand('prompt', 'test/test.yaml');
-
-      expect(consoleMock.contains('Prompts must have a template field')).toBe(
+      expect(consoleMock.contains('✅ Pure XML validation passed')).toBe(true);
+      expect(consoleMock.contains('✅ Documentation validation passed')).toBe(
         true
       );
     });
 
-    it('should warn if no examples provided', async () => {
+    it('should fail validation for missing <prompt> root element', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-template: Template
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<metadata>
+  <id>test</id>
+</metadata>`;
         }
-        return '## Usage\n\nSome usage documentation here.';
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+
+`;
       });
 
       mockChildProcess.execSync.mockReturnValue(
         'https://github.com/test/issues/1'
       );
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
+      expect(consoleMock.contains('❌ Pure XML validation failed')).toBe(true);
       expect(
-        consoleMock.contains('No examples provided (recommended: at least 2)')
+        consoleMock.contains('must start with <prompt> root element')
       ).toBe(true);
+    });
+
+    it('should fail validation for missing required metadata fields', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+  </metadata>
+
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('❌ Pure XML validation failed')).toBe(true);
+      expect(consoleMock.contains('Missing required metadata field')).toBe(
+        true
+      );
+    });
+
+    it('should fail validation for missing required sections', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('❌ Pure XML validation failed')).toBe(true);
+      expect(consoleMock.contains('Missing <context> section')).toBe(true);
+      expect(consoleMock.contains('Missing <instructions> section')).toBe(true);
+      expect(consoleMock.contains('Missing <output_format> section')).toBe(
+        true
+      );
+    });
+
+    it('should warn for missing <constraints> and <examples>', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+
+`;
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('⚠️  Warnings:')).toBe(true);
+      expect(consoleMock.contains('Missing <constraints> section')).toBe(true);
+      expect(consoleMock.contains('Missing <examples> section')).toBe(true);
+    });
+
+    it('should accept legacy ## Usage format for backwards compatibility', async () => {
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return '## Usage\n\nLegacy format with enough content to pass the length check for the minimum.';
+      });
+
+      mockChildProcess.execSync.mockReturnValue(
+        'https://github.com/test/issues/1'
+      );
+
+      await contributeCommand('prompt', 'test/prompt.md');
+
+      expect(consoleMock.contains('✅ Documentation validation passed')).toBe(
+        true
+      );
     });
   });
 
@@ -199,19 +352,22 @@ template: Template
 
     it('should fail if README.md is missing', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-template: Template
-examples: [1, 2]
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
         }
         throw new Error('File not found');
       });
@@ -224,56 +380,64 @@ examples: [1, 2]
         'https://github.com/test/issues/1'
       );
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('Missing README.md file')).toBe(true);
     });
 
-    it('should fail if README missing Usage section', async () => {
+    it('should fail if README missing required sections', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-template: Template
-examples: [1, 2]
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
         }
-        return 'Some README content without Usage section';
+        return 'Some README content without required sections';
       });
 
       mockChildProcess.execSync.mockReturnValue(
         'https://github.com/test/issues/1'
       );
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(
-        consoleMock.contains('README.md missing required "## Usage" section')
+        consoleMock.contains(
+          'README.md missing required "## What You\'ll Be Asked" or "## Usage" section'
+        )
       ).toBe(true);
     });
 
     it('should warn if README is too short', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-template: Template
-examples: [1, 2]
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
         }
         return '## Usage\nShort';
       });
@@ -282,7 +446,7 @@ examples: [1, 2]
         'https://github.com/test/issues/1'
       );
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('README.md is very short')).toBe(true);
     });
@@ -292,21 +456,34 @@ examples: [1, 2]
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-template: Template
-examples: [1, 2]
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
         }
-        return '## Usage\n\nSome documentation here with enough content.';
+        return `## What You'll Be Asked
+
+- Test input
+
+## Usage Examples
+
+Test example
+
+## Related Resources
+
+- [Link](http://example.com)`;
       });
     });
 
@@ -315,7 +492,7 @@ examples: [1, 2]
         'https://github.com/test/repo/issues/42'
       );
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('Creating GitHub issue')).toBe(true);
       expect(
@@ -331,7 +508,7 @@ examples: [1, 2]
         throw new Error('gh not authenticated');
       });
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('Failed to create issue')).toBe(true);
       expect(consoleMock.contains('gh auth login')).toBe(true);
@@ -342,22 +519,37 @@ examples: [1, 2]
   describe('tool type detection', () => {
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(`
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-examples: [1, 2]
-      `);
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md') || pathStr.endsWith('agent.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
+
+## Usage Examples
+
+## Related Resources
+
+`;
+      });
       mockChildProcess.execSync.mockReturnValue('https://github.com/test/1');
     });
 
     it('should detect prompt type from path', async () => {
-      await contributeCommand('agent', 'lib/prompts/test/prompt.yaml');
+      await contributeCommand('agent', 'lib/prompts/test/prompt.md');
 
       expect(consoleMock.contains('Detected type from path: prompt')).toBe(
         true
@@ -365,13 +557,13 @@ examples: [1, 2]
     });
 
     it('should detect agent type from path', async () => {
-      await contributeCommand('prompt', 'lib/agents/test/agent.yaml');
+      await contributeCommand('prompt', 'lib/agents/test/agent.md');
 
       expect(consoleMock.contains('Detected type from path: agent')).toBe(true);
     });
 
     it('should detect context-pack type from path', async () => {
-      await contributeCommand('prompt', 'lib/context-packs/test/config.yaml');
+      await contributeCommand('prompt', 'lib/context-packs/test/config.md');
 
       expect(
         consoleMock.contains('Detected type from path: context-pack')
@@ -387,24 +579,37 @@ examples: [1, 2]
 
     it('should show PR steps when validation passes', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-template: Template
-examples: [1, 2]
-          `;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
         }
-        return '## Usage\n\nDocumentation content here.';
+        return `## What You'll Be Asked
+
+- Test input
+
+## Usage Examples
+
+Test example
+
+## Related Resources
+
+- [Link](http://example.com)`;
       });
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(
         consoleMock.contains('Create a pull request with your changes')
@@ -414,32 +619,50 @@ examples: [1, 2]
 
     it('should show fix steps when validation fails', async () => {
       mockFs.readFileSync.mockImplementation((path: unknown) => {
-        if (path?.toString().endsWith('.yaml')) {
-          return `id: test`;
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<metadata>
+  <id>test</id>
+</metadata>`;
         }
-        return 'No usage section';
+        return 'No required sections';
       });
 
-      await contributeCommand('prompt', 'test/test.yaml');
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('Fix the validation errors')).toBe(true);
       expect(consoleMock.contains('Run validation again')).toBe(true);
     });
 
     it('should reference CONTRIBUTING.md', async () => {
-      mockFs.readFileSync.mockReturnValue(`
-id: test
-name: Test
-version: 1.0.0
-description: Test
-category: test
-metadata:
-  author: test
-  license: MIT
-examples: [1]
-      `);
+      mockFs.readFileSync.mockImplementation((path: unknown) => {
+        const pathStr = path?.toString() || '';
+        if (pathStr.endsWith('prompt.md')) {
+          return `<prompt>
+  <metadata>
+    <id>test</id>
+    <name>Test</name>
+    <version>1.0.0</version>
+    <description>Test</description>
+    <category>test</category>
+    <author>test</author>
+    <license>MIT</license>
+  </metadata>
+  <context>Test</context>
+  <instructions>Test</instructions>
+  <output_format>Test</output_format>
+</prompt>`;
+        }
+        return `## What You'll Be Asked
 
-      await contributeCommand('prompt', 'test/test.yaml');
+## Usage Examples
+
+## Related Resources
+
+`;
+      });
+
+      await contributeCommand('prompt', 'test/prompt.md');
 
       expect(consoleMock.contains('CONTRIBUTING.md')).toBe(true);
     });

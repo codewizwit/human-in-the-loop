@@ -329,57 +329,6 @@ Template`;
       });
     });
 
-    describe('with YAML files', () => {
-      it('should create command from YAML prompt', () => {
-        const yamlContent = `id: yaml-prompt
-name: YAML Prompt
-description: A YAML prompt
-template: |
-  YAML template content
-variables:
-  - name: input
-    description: YAML input
-    required: true`;
-
-        mockReadFileSync.mockReturnValue(yamlContent);
-        mockExistsSync.mockReturnValue(true);
-
-        const result = createClaudeCommand('/path/to/prompt.yaml');
-
-        expect(mockWriteFileSync).toHaveBeenCalledWith(
-          join(homeDir, '.claude', 'commands', 'yaml-prompt.md'),
-          expect.stringContaining('# YAML Prompt'),
-          'utf-8'
-        );
-        expect(mockWriteFileSync).toHaveBeenCalledWith(
-          expect.any(String),
-          expect.stringContaining('YAML template content'),
-          'utf-8'
-        );
-        expect(result).toBe(
-          join(homeDir, '.claude', 'commands', 'yaml-prompt.md')
-        );
-      });
-
-      it('should handle YAML without variables', () => {
-        const yamlContent = `id: simple-yaml
-name: Simple YAML
-description: Simple YAML prompt
-template: Simple template`;
-
-        mockReadFileSync.mockReturnValue(yamlContent);
-        mockExistsSync.mockReturnValue(true);
-
-        createClaudeCommand('/path/to/prompt.yaml');
-
-        expect(mockWriteFileSync).toHaveBeenCalledWith(
-          expect.any(String),
-          expect.not.stringContaining('# Variables:'),
-          'utf-8'
-        );
-      });
-    });
-
     describe('directory creation', () => {
       it('should create .claude directory if it does not exist', () => {
         const markdownContent = `---

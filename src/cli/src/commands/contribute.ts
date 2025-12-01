@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join, basename, dirname } from 'path';
 import { execSync } from 'child_process';
 import { parse } from 'yaml';
+import { XMLParser } from 'fast-xml-parser';
 import {
   logInfo,
   logStep,
@@ -156,6 +157,117 @@ function validateYAML(yamlPath: string, type: string): ValidationResult {
 }
 
 /**
+ * Validates pure XML .md file structure (v2.0.0 format)
+ * @param xmlPath - Path to the pure XML prompt.md file
+ * @param type - Type of tool being validated
+ * @returns Validation result with errors and warnings
+ */
+function validatePureXML(xmlPath: string, _type: string): ValidationResult {
+  const result: ValidationResult = { pass: true, errors: [], warnings: [] };
+
+  try {
+    const content = readFileSync(xmlPath, 'utf-8');
+
+    if (!content.trim().startsWith('<prompt>')) {
+      result.errors.push('File must start with <prompt> root element');
+      result.pass = false;
+      return result;
+    }
+
+    if (!content.trim().endsWith('</prompt>')) {
+      result.errors.push('File must end with </prompt> closing tag');
+      result.pass = false;
+      return result;
+    }
+
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      preserveOrder: false,
+      trimValues: true,
+    });
+
+    let parsed: { prompt?: Record<string, unknown> };
+    try {
+      parsed = parser.parse(content) as { prompt?: Record<string, unknown> };
+    } catch (parseError) {
+      result.errors.push(
+        `Invalid XML structure: ${(parseError as Error).message}`
+      );
+      result.pass = false;
+      return result;
+    }
+
+    if (!parsed.prompt) {
+      result.errors.push('Missing <prompt> root element');
+      result.pass = false;
+      return result;
+    }
+
+    const prompt = parsed.prompt;
+
+    if (!prompt.metadata) {
+      result.errors.push('Missing <metadata> section');
+      result.pass = false;
+    } else {
+      const metadata = prompt.metadata as Record<string, unknown>;
+      const requiredMetadataFields = [
+        'id',
+        'name',
+        'version',
+        'description',
+        'category',
+        'author',
+        'license',
+      ];
+
+      for (const field of requiredMetadataFields) {
+        if (!metadata[field]) {
+          result.errors.push(`Missing required metadata field: <${field}>`);
+          result.pass = false;
+        }
+      }
+    }
+
+    if (!prompt.context) {
+      result.errors.push('Missing <context> section (required)');
+      result.pass = false;
+    }
+
+    if (!prompt.instructions) {
+      result.errors.push('Missing <instructions> section (required)');
+      result.pass = false;
+    }
+
+    if (!prompt.output_format) {
+      result.errors.push('Missing <output_format> section (required)');
+      result.pass = false;
+    }
+
+    if (!prompt.constraints) {
+      result.warnings.push('Missing <constraints> section (recommended)');
+    }
+
+    if (!prompt.examples) {
+      result.warnings.push(
+        'Missing <examples> section (recommended: at least 2 examples)'
+      );
+    }
+
+    const xmlValidation = validateTemplateXML(content);
+    result.errors.push(...xmlValidation.errors);
+    result.warnings.push(...xmlValidation.warnings);
+    if (!xmlValidation.pass) {
+      result.pass = false;
+    }
+  } catch (error) {
+    result.errors.push(`Failed to read XML file: ${(error as Error).message}`);
+    result.pass = false;
+  }
+
+  return result;
+}
+
+/**
  * Validates README documentation
  */
 function validateDocumentation(dirPath: string): ValidationResult {
@@ -170,14 +282,37 @@ function validateDocumentation(dirPath: string): ValidationResult {
 
   const content = readFileSync(readmePath, 'utf-8');
 
-  if (!content.includes('## Usage')) {
-    result.errors.push('README.md missing required "## Usage" section');
+  const hasUsageSection = content.includes('## Usage');
+  const hasWhatYoullBeAsked =
+    content.includes("## What You'll Be Asked") ||
+    content.includes("## What You'll Be Asked");
+  const hasUsageExamples = content.includes('## Usage Examples');
+  const hasRelatedResources = content.includes('## Related Resources');
+
+  if (!hasUsageSection && !hasWhatYoullBeAsked) {
+    result.errors.push(
+      'README.md missing required "## What You\'ll Be Asked" or "## Usage" section'
+    );
     result.pass = false;
   }
 
-  if (content.length < 200) {
+  if (!hasUsageExamples && hasWhatYoullBeAsked) {
+    result.errors.push(
+      'README.md missing required "## Usage Examples" section (v2.0.0 format)'
+    );
+    result.pass = false;
+  }
+
+  if (!hasRelatedResources && hasWhatYoullBeAsked) {
+    result.errors.push(
+      'README.md missing required "## Related Resources" section (v2.0.0 format)'
+    );
+    result.pass = false;
+  }
+
+  if (content.length < 185) {
     result.warnings.push(
-      'README.md is very short (recommended: detailed documentation)'
+      'README.md is very short (recommended: 185-233 words for v2.0.0 format)'
     );
   }
 
@@ -190,7 +325,8 @@ function validateDocumentation(dirPath: string): ValidationResult {
 function createGitHubIssue(
   type: string,
   toolName: string,
-  validation: { yaml: ValidationResult; docs: ValidationResult }
+  validation: { yaml: ValidationResult; docs: ValidationResult },
+  formatLabel = 'YAML'
 ): string {
   const allPassed = validation.yaml.pass && validation.docs.pass;
   const title = `[Contribution] New ${type}: ${toolName}`;
@@ -199,6 +335,7 @@ function createGitHubIssue(
 
 **Type:** ${type}
 **Name:** ${toolName}
+**Format:** ${formatLabel}
 **Status:** ${
     allPassed ? '✅ All validations passed' : '⚠️ Validation issues found'
   }
@@ -207,7 +344,7 @@ function createGitHubIssue(
 
 ### Validation Results
 
-#### YAML Structure
+#### ${formatLabel} Structure
 ${validation.yaml.pass ? '✅ Passed' : '❌ Failed'}
 
 ${
@@ -309,16 +446,20 @@ export async function contributeCommand(
 
   logStep('Running quality checks...');
 
-  const yamlValidation = validateYAML(path, type);
+  const isPureXML = path.endsWith('.md');
+  const fileValidation = isPureXML
+    ? validatePureXML(path, type)
+    : validateYAML(path, type);
   const docsValidation = validateDocumentation(toolDir);
 
   logNewLine();
 
-  if (yamlValidation.pass) {
-    logSuccess('✅ YAML validation passed');
+  const formatLabel = isPureXML ? 'Pure XML' : 'YAML';
+  if (fileValidation.pass) {
+    logSuccess(`✅ ${formatLabel} validation passed`);
   } else {
-    logError('❌ YAML validation failed');
-    yamlValidation.errors.forEach((err) => log(`  - ${err}`));
+    logError(`❌ ${formatLabel} validation failed`);
+    fileValidation.errors.forEach((err) => log(`  - ${err}`));
   }
 
   if (docsValidation.pass) {
@@ -329,12 +470,12 @@ export async function contributeCommand(
   }
 
   if (
-    yamlValidation.warnings.length > 0 ||
+    fileValidation.warnings.length > 0 ||
     docsValidation.warnings.length > 0
   ) {
     logNewLine();
     logInfo('⚠️  Warnings:');
-    [...yamlValidation.warnings, ...docsValidation.warnings].forEach((warn) =>
+    [...fileValidation.warnings, ...docsValidation.warnings].forEach((warn) =>
       log(`  - ${warn}`)
     );
   }
@@ -343,10 +484,15 @@ export async function contributeCommand(
   logStep('Creating GitHub issue...');
 
   try {
-    const issueUrl = createGitHubIssue(type, toolName, {
-      yaml: yamlValidation,
-      docs: docsValidation,
-    });
+    const issueUrl = createGitHubIssue(
+      type,
+      toolName,
+      {
+        yaml: fileValidation,
+        docs: docsValidation,
+      },
+      formatLabel
+    );
 
     logNewLine();
     logSuccess('Contribution issue created successfully!');
@@ -354,7 +500,7 @@ export async function contributeCommand(
 
     logNewLine();
     logHeader('Next steps:');
-    if (yamlValidation.pass && docsValidation.pass) {
+    if (fileValidation.pass && docsValidation.pass) {
       log('  1. Create a pull request with your changes');
       log('  2. Link the PR to the issue above');
       log('  3. Wait for peer review (typically 3-5 days)');
