@@ -4,13 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [3.0.0](https://github.com/codewizwit/human-in-the-loop/compare/v1.3.2...v3.0.0) (2025-12-01)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Prompt file format migrated from YAML frontmatter + XML
-to pure XML structure following Anthropic best practices.
+- Prompt file format migrated from YAML frontmatter + XML
+  to pure XML structure following Anthropic best practices.
 
 Changes:
+
 - Convert all 12 prompts to pure XML with <prompt><metadata>...</metadata></prompt>
 - Update CLI to parse XML and strip metadata/examples before sending to Claude
 - Add fast-xml-parser dependency for XML parsing
@@ -19,12 +19,14 @@ Changes:
 - Ensure all outputs explicitly write to markdown files in workspace
 
 Benefits:
+
 - Follows Anthropic XML best practices (no comment pollution)
 - Better developer experience with scannable READMEs
 - Cleaner separation: XML for Claude, README for humans
 - Industry-aligned format without YAML frontmatter pollution
 
 Technical Implementation:
+
 - parsePromptXml() function strips <metadata> and <examples> sections
 - Only <context>, <instructions>, <constraints>, <output_format> sent to Claude
 - generateXmlCommandContent() creates clean slash commands
@@ -38,24 +40,22 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ### Features
 
-* add Claude Code slash command integration ([d42d229](https://github.com/codewizwit/human-in-the-loop/commit/d42d2293a0f0b5ac580908adbe042196abe505f3))
-* migrate prompts from YAML to Markdown with frontmatter ([5ade24a](https://github.com/codewizwit/human-in-the-loop/commit/5ade24af809aa0a70485bf881505fe57d6015207))
-* refactor prompts to pure XML format with concise READMEs ([8ef001a](https://github.com/codewizwit/human-in-the-loop/commit/8ef001aab587c0d593654c75578373e0a1b438d2))
-
+- add Claude Code slash command integration ([d42d229](https://github.com/codewizwit/human-in-the-loop/commit/d42d2293a0f0b5ac580908adbe042196abe505f3))
+- migrate prompts from YAML to Markdown with frontmatter ([5ade24a](https://github.com/codewizwit/human-in-the-loop/commit/5ade24af809aa0a70485bf881505fe57d6015207))
+- refactor prompts to pure XML format with concise READMEs ([8ef001a](https://github.com/codewizwit/human-in-the-loop/commit/8ef001aab587c0d593654c75578373e0a1b438d2))
 
 ### Bug Fixes
 
-* add return type to mock function ([7bd6ec1](https://github.com/codewizwit/human-in-the-loop/commit/7bd6ec14c684e08bed8f6d345ed7ade11f0f8eb0))
-* add variable documentation to markdown command files ([92fd55b](https://github.com/codewizwit/human-in-the-loop/commit/92fd55be068c4d0fd3034b0006d67b3ec6870a5b))
-* add XML parsing support to lib-scanner for pure XML prompts ([86e7ed1](https://github.com/codewizwit/human-in-the-loop/commit/86e7ed128e05f1e3367f3c84b9ebdc94859b0da7))
-* complete XML migration and update governance checks ([74e7948](https://github.com/codewizwit/human-in-the-loop/commit/74e79486a496c6776d165b6981c94ff8823a7230))
-
+- add return type to mock function ([7bd6ec1](https://github.com/codewizwit/human-in-the-loop/commit/7bd6ec14c684e08bed8f6d345ed7ade11f0f8eb0))
+- add variable documentation to markdown command files ([92fd55b](https://github.com/codewizwit/human-in-the-loop/commit/92fd55be068c4d0fd3034b0006d67b3ec6870a5b))
+- add XML parsing support to lib-scanner for pure XML prompts ([86e7ed1](https://github.com/codewizwit/human-in-the-loop/commit/86e7ed128e05f1e3367f3c84b9ebdc94859b0da7))
+- complete XML migration and update governance checks ([74e7948](https://github.com/codewizwit/human-in-the-loop/commit/74e79486a496c6776d165b6981c94ff8823a7230))
 
 ### Code Refactoring
 
-* make Claude Code integration default for prompts ([6ac9bc8](https://github.com/codewizwit/human-in-the-loop/commit/6ac9bc8bb35833196d7ee49608bbb450e5aaeaeb))
-* remove all inline comments from production code ([7fe4283](https://github.com/codewizwit/human-in-the-loop/commit/7fe428386ef119e3fb2f9bb31edcc82b0da486b7))
-* simplify update command to update CLI package only ([ae5a60e](https://github.com/codewizwit/human-in-the-loop/commit/ae5a60ef3943c96070bdf6b36a53ce7bb86e149a))
+- make Claude Code integration default for prompts ([6ac9bc8](https://github.com/codewizwit/human-in-the-loop/commit/6ac9bc8bb35833196d7ee49608bbb450e5aaeaeb))
+- remove all inline comments from production code ([7fe4283](https://github.com/codewizwit/human-in-the-loop/commit/7fe428386ef119e3fb2f9bb31edcc82b0da486b7))
+- simplify update command to update CLI package only ([ae5a60e](https://github.com/codewizwit/human-in-the-loop/commit/ae5a60ef3943c96070bdf6b36a53ce7bb86e149a))
 
 ## [2.0.0] - 2025-11-20
 
