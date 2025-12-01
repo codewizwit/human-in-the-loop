@@ -17,7 +17,7 @@
         "tsConfig": "src/cli/tsconfig.app.json",
         "assets": [
           "src/cli/src/assets",
-          "src/cli/README.md",
+          "README.md",
           "LICENSE",
           {
             "input": "lib",
