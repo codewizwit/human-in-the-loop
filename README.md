@@ -10,7 +10,7 @@ A curated prompt library that keeps developers in the loop. Every prompt is desi
 
 - **You stay in control** - Prompts guide AI analysis, you make the decisions
 - **Transparent outputs** - Clear reasoning, no black-box recommendations
-- **Quality gates built-in** - Security reviews, bias detection, and governance checks
+- **Quality gates built-in** - Security reviews, quality checks
 - **Learn as you go** - Prompts explain the "why," not just the "what"
 
 ---
@@ -180,20 +180,10 @@ hit install prompt/unit-test-generator
 
 Every prompt in this toolkit is built on the principle that **AI should augment human expertise, not replace it**.
 
-### Our Commitments
-
-| Principle               | How We Apply It                                                    |
-| ----------------------- | ------------------------------------------------------------------ |
-| **Human Oversight**     | Prompts surface information and options—you decide what to do      |
-| **Transparency**        | Outputs explain reasoning, trade-offs, and confidence levels       |
-| **Accountability**      | Clear audit trails, no hidden logic or unexplained recommendations |
-| **Continuous Learning** | Prompts teach patterns and principles, building your expertise     |
-
-### Built-in Governance
-
-- `responsible-ai-audit` - Audit any AI output for accuracy, fairness, and transparency
-- `bias-detection` - Identify potential bias in AI-generated content
-- `security-review` - Catch vulnerabilities before they ship
+- `responsible-ai-audit` - Evaluate AI outputs for accuracy, completeness, and potential harm
+- `code-review-empathy` - Transform critical feedback into constructive coaching
+- `learning-path` - Build personalized skill development roadmaps
+- `codebase-explainer` - Understand unfamiliar repos without getting lost
 
 See our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) for the full framework.
 
