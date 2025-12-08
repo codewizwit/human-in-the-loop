@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human-in-the-Loop | AI Summit NY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cream: #F5F3EE;
+      --black: #1A1A1A;
+      --gray: #6B6B6B;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      overflow: hidden;
+    }
+
+    /* Subtle grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+      z-index: 1000;
+    }
+
+    .slide {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      padding: 60px 80px;
+      position: relative;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Logo - bottom right on every slide */
+    .logo {
+      position: absolute;
+      bottom: 40px;
+      right: 50px;
+      width: 60px;
+      height: auto;
+      opacity: 0.9;
+    }
+
+    /* Slide counter */
+    .counter {
+      position: absolute;
+      bottom: 45px;
+      left: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 30px;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--gray);
+      margin-bottom: 40px;
+    }
+
+    p {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-top: 10px;
+    }
+
+    /* Code blocks */
+    code, .code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--black);
+      color: var(--cream);
+      padding: 20px 30px;
+      border-radius: 8px;
+      display: inline-block;
+      font-size: 1.3rem;
+      margin-top: 30px;
+    }
+
+    /* Lists */
+    ul {
+      list-style: none;
+      font-size: 1.4rem;
+      line-height: 2;
+    }
+
+    ul li::before {
+      content: "—";
+      margin-right: 15px;
+      color: var(--gray);
+    }
+
+    /* Demo slide - GIF container */
+    .demo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      padding: 40px;
+    }
+
+    .demo-container img {
+      max-width: 90%;
+      max-height: 70vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .demo-placeholder {
+      border: 3px dashed var(--gray);
+      border-radius: 12px;
+      padding: 80px;
+      text-align: center;
+      color: var(--gray);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Two column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* Emphasis */
+    .highlight {
+      background: linear-gradient(transparent 60%, rgba(26,26,26,0.1) 60%);
+    }
+
+    /* Navigation hint */
+    .nav-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--gray);
+      opacity: 0.5;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide.active > * {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .slide.active > *:nth-child(2) { animation-delay: 0.1s; }
+    .slide.active > *:nth-child(3) { animation-delay: 0.2s; }
+    .slide.active > *:nth-child(4) { animation-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Title -->
+  <section class="slide active" id="slide-1">
+    <h1>Human-in-the-Loop</h1>
+    <h3>Responsible AI in Engineering Practice</h3>
+    <p><strong>Alexandra Kelstrom</strong><br>
+    <span class="subtitle">Software Engineer & Responsible AI Advocate</span></p>
+    <code>npm install -g @human-in-the-loop/cli</code>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">1 / 7</div>
+  </section>
+
+  <!-- SLIDE 2: Demo -->
+  <section class="slide" id="slide-2">
+    <h2>In Action</h2>
+    <div class="demo-container">
+      <!-- Replace with your GIF: <img src="assets/demo.gif" alt="CLI Demo" loop> -->
+      <div class="demo-placeholder">
+        Replace with demo.gif<br><br>
+        <code style="font-size: 0.9rem; padding: 10px 15px;">assets/demo.gif</code>
+      </div>
+    </div>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">2 / 7</div>
+  </section>
+
+  <!-- SLIDE 3: Infrastructure First -->
+  <section class="slide" id="slide-3">
+    <h2>Infrastructure First</h2>
+    <h3>Standards before automation</h3>
+    <ul>
+      <li>Automated code standards & quality checks</li>
+      <li>Static testing & coverage thresholds</li>
+      <li>Architecture patterns & validation pipelines</li>
+      <li>Claude instruction files & context packs</li>
+    </ul>
+    <p class="subtitle" style="margin-top: 40px;">The infrastructure preserves intent.</p>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">3 / 7</div>
+  </section>
+
+  <!-- SLIDE 4: The Planning Prompt -->
+  <section class="slide" id="slide-4">
+    <h2>Encoding Intent</h2>
+    <h3>The planning prompt</h3>
+    <p>A detailed prompt describing exactly what to build—<br>
+    including my resume, code examples, and responsible AI principles.</p>
+    <p style="margin-top: 30px;">The model reflects <span class="highlight">my skill set</span>, <span class="highlight">my style</span>, and <span class="highlight">my values</span>.</p>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">4 / 7</div>
+  </section>
+
+  <!-- SLIDE 5: Claude's Output -->
+  <section class="slide" id="slide-5">
+    <h2>Structured Output</h2>
+    <h3>Roadmap • Issues • Priorities • Metrics</h3>
+    <ul>
+      <li>Full project roadmap with execution steps</li>
+      <li>GitHub issues labeled by priority</li>
+      <li>Success metrics and checklists</li>
+      <li>CI/CD patterns & agile best practices</li>
+    </ul>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">5 / 7</div>
+  </section>
+
+  <!-- SLIDE 6: Human-Guided Execution -->
+  <section class="slide" id="slide-6">
+    <h2>Human-Guided Execution</h2>
+    <h3>Iteration • Validation • Self-Correction</h3>
+    <ul>
+      <li>Incremental task execution with validation</li>
+      <li>Self-updating instructions on correction</li>
+      <li>Quality improves as checks mature</li>
+      <li>Human-directed, not autonomous</li>
+    </ul>
+    <p style="margin-top: 40px;"><em>"The model improves, but only through human-directed adjustments."</em></p>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">6 / 7</div>
+  </section>
+
+  <!-- SLIDE 7: The Future We Build -->
+  <section class="slide" id="slide-7">
+    <h2>The Future We Build</h2>
+    <h3>Responsible AI • Infrastructure • No Human Left Behind</h3>
+    <p style="font-size: 1.6rem; line-height: 1.8; max-width: 700px;">
+      AI can extend our capabilities,<br>
+      but it should never fully replace them.
+    </p>
+    <p style="margin-top: 40px; font-size: 1.2rem; color: var(--gray);">
+      Technology serves people. Ethics and engineering evolve together.<br>
+      <strong>No human left behind.</strong>
+    </p>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="counter">7 / 7</div>
+  </section>
+
+  <div class="nav-hint">← → or Space to navigate</div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        document.documentElement.requestFullscreen?.();
+      }
+    });
+
+    // Touch support for mobile
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+    document.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? prevSlide() : nextSlide();
+      }
+    });
+  </script>
+</body>
+</html>
