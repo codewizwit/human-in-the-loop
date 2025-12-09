@@ -139,7 +139,7 @@
       right: 0;
       font-size: 11px;
       color: var(--gray);
-      opacity: 0;
+      opacity: 0.6;
       transition: opacity 0.2s;
     }
 
@@ -208,7 +208,7 @@
 
     .code-header {
       background: #333;
-      color: var(--gray);
+      color: #ccc;
       padding: 12px 20px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
@@ -262,6 +262,13 @@
       animation: fadeIn 0.3s ease-out forwards;
     }
 
+    /* Keep logo and counter fixed (no animation) */
+    .slide.active > .logo,
+    .slide.active > .counter {
+      animation: none;
+      opacity: 1;
+    }
+
     /* Links */
     a {
       color: var(--black);
@@ -280,7 +287,7 @@
   <!-- SLIDE 1: Title -->
   <section class="slide active" id="slide-1">
     <h1>Human-in-the-Loop</h1>
-    <h3>Responsible Prompt Engineering in Practice</h3>
+    <h3>Responsible AI Engineering in Practice</h3>
     <p><strong>Alexandra Kelstrom</strong><br>
     <span class="subtitle">Software Engineer & Responsible AI Advocate</span></p>
     <code>npm install -g @human-in-the-loop/cli</code>
@@ -289,14 +296,18 @@
   </section>
 
   <!-- SLIDE 2: Demo -->
-  <section class="slide" id="slide-2">
-    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How It Works</p>
-    <h2>@human-in-the-loop/cli in action</h2>
-    <div class="demo-container">
-      <!-- Replace with your GIF: <img src="assets/demo.gif" alt="CLI Demo" loop> -->
-      <div class="demo-placeholder">
-        Replace with demo.gif<br><br>
-        <code style="font-size: 0.9rem; padding: 10px 15px;">assets/demo.gif</code>
+  <section class="slide" id="slide-2" style="padding: 80px 60px 40px 60px;">
+    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 380px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How It Works</p>
+        <h2 style="font-size: 2rem;">@human-in-the-loop/cli</h2>
+        <ul style="font-size: 1.1rem; margin-top: 20px; line-height: 1.8;">
+          <li>Install prompts and context packs</li>
+          <li>Installed prompts become Claude commands automatically</li>
+        </ul>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <img src="assets/demo.gif" alt="CLI Demo" style="max-width: 100%; max-height: 70vh; border-radius: 4px;">
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
@@ -322,7 +333,7 @@
   <!-- SLIDE 4: The Planning Prompt -->
   <section class="slide" id="slide-4" style="padding: 80px 60px 40px 60px;">
     <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 280px;">
+      <div style="flex: 0 0 380px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Encoding Intent</h2>
         <h3 style="font-size: 1.1rem;">CLAUDE.md</h3>
@@ -394,7 +405,7 @@ For each missing item identified:
   <!-- SLIDE 5: Claude's Output -->
   <section class="slide" id="slide-5" style="padding: 80px 60px 40px 60px;">
     <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 280px;">
+      <div style="flex: 0 0 380px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Structured Output</h2>
         <h3 style="font-size: 1.1rem;">roadmap.md</h3>
@@ -471,17 +482,57 @@ For each missing item identified:
   </section>
 
   <!-- SLIDE 6: Human-Guided Execution -->
-  <section class="slide" id="slide-6">
-    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
-    <h2>Human-Guided Execution</h2>
-    <h3>Iteration • Validation • Self-Correction</h3>
-    <ul>
-      <li>Incremental task execution with validation</li>
-      <li>Self-updating instructions on correction</li>
-      <li>Quality improves as checks mature</li>
-      <li>Human-directed, not autonomous</li>
-    </ul>
-    <p style="margin-top: 40px; font-size: 1.2rem; color: var(--gray);">The model improves, but only through human-directed adjustments.</p>
+  <section class="slide" id="slide-6" style="padding: 80px 60px 40px 60px;">
+    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 380px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
+        <h2 style="font-size: 2rem;">Human-Guided Execution</h2>
+        <h3 style="font-size: 1.1rem;">Iteration • Validation • Self-Correction</h3>
+        <ul style="font-size: 1.1rem; line-height: 1.8;">
+          <li>Incremental task execution</li>
+          <li>Self-updating instructions</li>
+          <li>Quality gates enforce standards</li>
+          <li>Human-directed, not autonomous</li>
+        </ul>
+        <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The model improves through human-directed adjustments.</p>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh;">
+        <div class="code-header">CLAUDE.md — Validation Checks</div>
+        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Before Every Commit</span>
+
+<strong>Pre-Commit Checklist:</strong>
+```bash
+pnpm format          # ✅ All files formatted
+pnpm lint            # ✅ ESLint rules pass
+pnpm typecheck       # ✅ TypeScript succeeds
+pnpm build           # ✅ Build completes
+pnpm test            # ✅ All tests pass
+```
+
+<strong>Common Issues to Check:</strong>
+- [ ] No `any` types without justification
+- [ ] All exported functions have TypeDoc comments
+- [ ] No inline comments in source files
+- [ ] No hardcoded secrets or credentials
+- [ ] All imports are used
+- [ ] Error handling is present
+
+---
+
+<span class="md-h2">### Validation Checks</span>
+
+These automated checks run in CI and <strong>must pass</strong>:
+
+1. <strong>TypeScript Compilation</strong> - No type errors
+2. <strong>Linting</strong> - ESLint rules enforced
+3. <strong>Formatting</strong> - Prettier applied
+4. <strong>Documentation Links</strong> - All links valid
+5. <strong>TypeDoc Comments</strong> - All functions documented
+6. <strong>No Inline Comments</strong> - Clean source code
+7. <strong>Prompt Validation</strong> - YAML fields required
+8. <strong>Security Scan</strong> - No secrets in code</pre>
+      </div>
+    </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">6 / 8</div>
   </section>
@@ -504,6 +555,9 @@ For each missing item identified:
       <li><strong>GitHub</strong>: <a href="https://github.com/codewizwit/human-in-the-loop" target="_blank">github.com/codewizwit/human-in-the-loop</a></li>
       <li><strong>Planning Prompt</strong>: <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a></li>
       <li><strong>Roadmap</strong>: <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/planning/roadmap.md" target="_blank">github.com/.../planning/roadmap.md</a></li>
+      <li><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/akelstrom/" target="_blank">linkedin.com/in/akelstrom</a></li>
+      <li><strong>Medium</strong>: <a href="https://medium.com/@codewizwit" target="_blank">medium.com/@codewizwit</a></li>
+      <li><strong>My GitHub README</strong>: <a href="https://github.com/codewizwit" target="_blank">github.com/codewizwit</a></li>
     </ul>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">8 / 8</div>
