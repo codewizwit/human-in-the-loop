@@ -194,7 +194,7 @@
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 80px;
       align-items: center;
     }
 
@@ -227,6 +227,15 @@
 
     .code-preview pre strong {
       color: #7dd3fc;
+    }
+
+    .code-preview pre a {
+      color: var(--cream);
+      border-bottom-color: var(--gray);
+    }
+
+    .code-preview pre a:hover {
+      border-bottom-color: var(--cream);
     }
 
     .code-preview pre .md-h1,
@@ -296,9 +305,9 @@
   </section>
 
   <!-- SLIDE 2: Demo -->
-  <section class="slide" id="slide-2" style="padding: 80px 60px 40px 60px;">
-    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 380px;">
+  <section class="slide" id="slide-2" style="padding: 80px 120px 40px 120px;">
+    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How It Works</p>
         <h2 style="font-size: 2rem;">@human-in-the-loop/cli</h2>
         <ul style="font-size: 1.1rem; margin-top: 20px; line-height: 1.8;">
@@ -315,25 +324,44 @@
   </section>
 
   <!-- SLIDE 3: Infrastructure First -->
-  <section class="slide" id="slide-3">
-    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
-    <h2>Infrastructure First</h2>
-    <h3>Standards before automation</h3>
-    <ul>
-      <li>Automated code standards & quality checks</li>
-      <li>Static testing & coverage thresholds</li>
-      <li>Architecture patterns & validation pipelines</li>
-      <li>Claude instruction files & context packs</li>
-    </ul>
-    <p class="subtitle" style="margin-top: 40px;">The infrastructure preserves intent.</p>
+  <section class="slide" id="slide-3" style="padding: 80px 120px 40px 120px;">
+    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 400px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
+        <h2 style="font-size: 2rem;">Infrastructure First</h2>
+        <h3 style="font-size: 1.1rem;">Standards before automation</h3>
+        <ul style="font-size: 1.1rem; line-height: 1.8;">
+          <li>Automated code standards & quality checks</li>
+          <li>Static testing & coverage thresholds</li>
+          <li>Architecture patterns & validation pipelines</li>
+          <li>Claude instruction files & context packs</li>
+        </ul>
+        <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The infrastructure preserves intent.</p>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh;">
+        <div class="code-header">CLAUDE.md — Validation Checks</div>
+        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Validation Checks</span>
+
+These automated checks run in CI and <strong>must pass</strong>:
+
+1. <strong>TypeScript Compilation</strong> - No type errors
+2. <strong>Linting</strong> - ESLint rules enforced
+3. <strong>Formatting</strong> - Prettier applied
+4. <strong>Documentation Links</strong> - All links valid
+5. <strong>TypeDoc Comments</strong> - All functions documented
+6. <strong>No Inline Comments</strong> - Clean source code
+7. <strong>Prompt Validation</strong> - XML structure required
+8. <strong>Security Scan</strong> - No secrets in code</pre>
+      </div>
+    </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">3 / 8</div>
   </section>
 
   <!-- SLIDE 4: The Planning Prompt -->
-  <section class="slide" id="slide-4" style="padding: 80px 60px 40px 60px;">
-    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 380px;">
+  <section class="slide" id="slide-4" style="padding: 80px 120px 40px 120px;">
+    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Encoding Intent</h2>
         <h3 style="font-size: 1.1rem;">CLAUDE.md</h3>
@@ -349,53 +377,28 @@ in reusable prompt templates, context packs, and governance specs.
 ---
 
 <span class="md-h2">### 🧩 Step 1: Generate a Coverage Checklist</span>
-Create a markdown checklist organized by category:
-
-- Engineering & Architecture
-- Testing & CI/CD
-- Planning & Documentation
-- AI Governance & Responsible Engineering
-- Framework Context Packs
-- Culture, Mentorship & Communication
-- AI Productivity Layer (prompt registry, context packs, CLI)
-- Creative/Community & Campaign Impact
-
-For each category:
-- List the planned prompt templates or tools
-- Add a "✅ Covered" or "❌ Missing" status
-- Include a short rationale (why it matters, what outcome it supports)
-
----
+Create a markdown checklist by category with ✅/❌ status...
 
 <span class="md-h2">### 🛠️ Step 2: Create a Plan for Missing Areas</span>
-For each ❌ Missing item:
-- Suggest a filename (e.g., `/prompts/testing/generate-bdd-scenarios.md`)
-- Include a 2–3 sentence description of its purpose
-- Add a "priority" tag: `high`, `medium`, `low`
-- Suggest initial issue title + body for GitHub
-
----
+Suggest filenames, descriptions, and priority tags...
 
 <span class="md-h2">### 🧾 Step 3: Generate GitHub Issues (JSON Block)</span>
-Each issue should include:
-- `title`: short actionable issue name
-- `body`: purpose + acceptance criteria
-- `labels`: ["prompt", "context-pack", "governance", "documentation", etc.]
-- `priority`: high/medium/low
-
----
+Output structured issues with title, body, labels, priority...
 
 <span class="md-h2">### 🔁 Step 4: Cross-Check for Resume Alignment</span>
-Include a summary that confirms which resume skill areas are fully represented,
-partially covered, or missing.
+Confirm which skill areas are fully covered, partial, or missing...
+
+<span class="md-h2">### ⚙️ Step 5: Auto-Commit Planner</span>
+Generate sequential GitHub flow to scaffold the project...
 
 ---
 
-<span class="md-h2">### ⚙️ Step 5: Auto-Commit Planner</span>
-For each missing item identified:
-1. Create a new branch from `main` with naming convention `feature/&lt;filename&gt;`
-2. Commit a stub markdown file or template placeholder
-3. Push the branch and open a draft PR back to `main`</pre>
+<span class="md-h2">### ✅ Expected Output Summary</span>
+- Markdown checklist for coverage across categories
+- Missing item table with rationale and file plan
+- JSON issue list for direct import
+- Auto-commit plan with GitHub CLI commands
+- Resume coverage summary for quality assurance</pre>
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
@@ -403,9 +406,9 @@ For each missing item identified:
   </section>
 
   <!-- SLIDE 5: Claude's Output -->
-  <section class="slide" id="slide-5" style="padding: 80px 60px 40px 60px;">
-    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 380px;">
+  <section class="slide" id="slide-5" style="padding: 80px 120px 40px 120px;">
+    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Structured Output</h2>
         <h3 style="font-size: 1.1rem;">roadmap.md</h3>
@@ -482,9 +485,9 @@ For each missing item identified:
   </section>
 
   <!-- SLIDE 6: Human-Guided Execution -->
-  <section class="slide" id="slide-6" style="padding: 80px 60px 40px 60px;">
-    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 380px;">
+  <section class="slide" id="slide-6" style="padding: 80px 120px 40px 120px;">
+    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Human-Guided Execution</h2>
         <h3 style="font-size: 1.1rem;">Iteration • Validation • Self-Correction</h3>
@@ -497,7 +500,7 @@ For each missing item identified:
         <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The model improves through human-directed adjustments.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — Validation Checks</div>
+        <div class="code-header">CLAUDE.md — Pre-Commit Workflow</div>
         <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Before Every Commit</span>
 
 <strong>Pre-Commit Checklist:</strong>
@@ -517,20 +520,14 @@ pnpm test            # ✅ All tests pass
 - [ ] All imports are used
 - [ ] Error handling is present
 
----
+<span class="md-h2">### Self-Correction Pattern</span>
 
-<span class="md-h2">### Validation Checks</span>
+When I correct Claude, it updates its own instructions:
+- Adds new validation rules
+- Refines code patterns
+- Improves documentation standards
 
-These automated checks run in CI and <strong>must pass</strong>:
-
-1. <strong>TypeScript Compilation</strong> - No type errors
-2. <strong>Linting</strong> - ESLint rules enforced
-3. <strong>Formatting</strong> - Prettier applied
-4. <strong>Documentation Links</strong> - All links valid
-5. <strong>TypeDoc Comments</strong> - All functions documented
-6. <strong>No Inline Comments</strong> - Clean source code
-7. <strong>Prompt Validation</strong> - YAML fields required
-8. <strong>Security Scan</strong> - No secrets in code</pre>
+<strong>Result:</strong> Quality improves with each iteration.</pre>
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
@@ -547,18 +544,28 @@ These automated checks run in CI and <strong>must pass</strong>:
   </section>
 
   <!-- SLIDE 8: Resources -->
-  <section class="slide" id="slide-8">
-    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">Resources</p>
-    <h2>Links</h2>
-    <ul style="margin-top: 40px; font-size: 1.3rem;">
-      <li><strong>npm</strong>: <a href="https://www.npmjs.com/package/@human-in-the-loop/cli" target="_blank">npmjs.com/package/@human-in-the-loop/cli</a></li>
-      <li><strong>GitHub</strong>: <a href="https://github.com/codewizwit/human-in-the-loop" target="_blank">github.com/codewizwit/human-in-the-loop</a></li>
-      <li><strong>Planning Prompt</strong>: <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a></li>
-      <li><strong>Roadmap</strong>: <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/planning/roadmap.md" target="_blank">github.com/.../planning/roadmap.md</a></li>
-      <li><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/akelstrom/" target="_blank">linkedin.com/in/akelstrom</a></li>
-      <li><strong>Medium</strong>: <a href="https://medium.com/@codewizwit" target="_blank">medium.com/@codewizwit</a></li>
-      <li><strong>My GitHub README</strong>: <a href="https://github.com/codewizwit" target="_blank">github.com/codewizwit</a></li>
-    </ul>
+  <section class="slide" id="slide-8" style="padding: 80px 120px 40px 120px;">
+    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 400px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">Resources</p>
+        <h2 style="font-size: 2rem;">Links</h2>
+        <p style="font-size: 1.3rem; margin-top: 30px; font-weight: 700;">Let's build a responsible future together.</p>
+        <p style="font-size: 1rem; margin-top: 20px; color: var(--gray);">Click any link to open in a new tab.</p>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh;">
+        <div class="code-header">Connect & Explore</div>
+        <pre style="max-height: 75vh; font-size: 0.9rem; line-height: 2;"><span class="md-h2">Human-in-the-Loop</span>
+<strong>npm</strong>        <a href="https://www.npmjs.com/package/@human-in-the-loop/cli" target="_blank">npmjs.com/package/@human-in-the-loop/cli</a>
+<strong>GitHub</strong>     <a href="https://github.com/codewizwit/human-in-the-loop" target="_blank">github.com/codewizwit/human-in-the-loop</a>
+<strong>CLAUDE.md</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a>
+<strong>Roadmap</strong>    <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/planning/roadmap.md" target="_blank">github.com/.../roadmap.md</a>
+
+<span class="md-h2">Connect With Me</span>
+<strong>LinkedIn</strong>   <a href="https://www.linkedin.com/in/akelstrom/" target="_blank">linkedin.com/in/akelstrom</a>
+<strong>My Blog</strong>    <a href="https://medium.com/@codewizwit" target="_blank">medium.com/@codewizwit</a>
+<strong>About Me</strong>   <a href="https://github.com/codewizwit" target="_blank">github.com/codewizwit</a></pre>
+      </div>
+    </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">8 / 8</div>
   </section>

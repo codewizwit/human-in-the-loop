@@ -307,7 +307,7 @@ These automated checks run in CI and must pass:
 4. **Documentation Links** - All markdown links valid
 5. **TypeDoc Comments** - All functions documented
 6. **No Inline Comments** - No `//` style comments in source
-7. **Prompt/Agent Validation** - YAML files have required fields
+7. **Prompt/Agent Validation** - XML structure required
 8. **Security Scan** - No secrets in code
 
 ### Quick Reference
