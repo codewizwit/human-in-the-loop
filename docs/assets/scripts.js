@@ -38,17 +38,19 @@ INSTALL
 npm install -g @human-in-the-loop/cli
 
 LINKS
-npm:       https://www.npmjs.com/package/@human-in-the-loop/cli
-GitHub:    https://github.com/codewizwit/human-in-the-loop
-Docs:      https://github.com/codewizwit/human-in-the-loop/tree/main/docs
-CLAUDE.md: https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md
-Planning:  https://github.com/codewizwit/human-in-the-loop/tree/main/planning
-Prompts:   https://github.com/codewizwit/human-in-the-loop#-whats-inside
+npm:        https://www.npmjs.com/package/@human-in-the-loop/cli
+GitHub:     https://github.com/codewizwit/human-in-the-loop
+Docs:       https://github.com/codewizwit/human-in-the-loop/tree/main/docs
+CLAUDE.md:  https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md (main prompt)
+Planning:   https://github.com/codewizwit/human-in-the-loop/tree/main/planning (Claude's output)
+Prompts:    https://github.com/codewizwit/human-in-the-loop#-whats-inside (all 21 prompts)
+Workflows:  https://github.com/codewizwit/human-in-the-loop/tree/main/.github/workflows (CI/CD)
+Contribute: https://github.com/codewizwit/human-in-the-loop/blob/main/CONTRIBUTING.md
 
 CONNECT
-LinkedIn:  https://www.linkedin.com/in/akelstrom
-Blog:      https://medium.com/@codewizwit
-GitHub:    https://github.com/codewizwit`;
+LinkedIn:   https://www.linkedin.com/in/akelstrom
+Blog:       https://medium.com/@codewizwit
+GitHub:     https://github.com/codewizwit`;
 
 async function copyLinks() {
   await navigator.clipboard.writeText(linksText);
