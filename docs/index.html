@@ -159,7 +159,9 @@ Generate sequential GitHub flow to scaffold the project...
 - Framework Context Packs
 - Culture, Mentorship & Communication
 - AI Productivity Layer (CLI, prompts, registry)
-- Creative/Community & Campaign Impact</pre>
+- Creative/Community & Campaign Impact
+
+At the end, provide a single command summary list for all planned items.</pre>
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
@@ -176,51 +178,37 @@ Generate sequential GitHub flow to scaffold the project...
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
         <div class="code-header">planning/ — output snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.8rem; line-height: 1.35;"><span class="md-h1"># Resume Coverage Checklist</span>
+        <pre style="max-height: 75vh; font-size: 0.8rem; line-height: 1.35;"><span class="md-h1"># 1. Coverage Checklist</span>
 
 <span class="md-h2">## ✅ Engineering & Architecture</span>
 - [x] <strong>Covered</strong>: system-design-review
 - [x] <strong>Covered</strong>: api-design patterns
 - [ ] <strong>Missing</strong>: microservices-pattern
-<strong>Rationale</strong>: Strong architecture skills (Nx, AWS, microservices)
 
 <span class="md-h2">## ✅ Testing & CI/CD</span>
-- [x] <strong>Covered</strong>: e2e-strategy (Playwright/Cypress)
-- [x] <strong>Covered</strong>: unit-test-generator
-- [x] <strong>Covered</strong>: bdd-scenarios
-- [x] <strong>Covered</strong>: pipeline-optimization
-- [x] <strong>Covered</strong>: aws-deployment-strategy
-<strong>Rationale</strong>: GitHub Actions, AWS, Cypress, Jest expertise
+- [x] <strong>Covered</strong>: e2e-strategy, unit-test-generator
+- [x] <strong>Covered</strong>: bdd-scenarios, pipeline-optimization
 
 <span class="md-h2">## ✅ AI Governance</span>
-- [x] <strong>Covered</strong>: responsible-ai-audit
-- [x] <strong>Covered</strong>: bias-detection
-- [x] <strong>Covered</strong>: security-review
-<strong>Rationale</strong>: Responsible AI is a core differentiator
+- [x] <strong>Covered</strong>: responsible-ai-audit, bias-detection, security-review
 
 <span class="md-h2">## ✅ Culture & Mentorship</span>
-- [x] <strong>Covered</strong>: code-review-empathy
-- [x] <strong>Covered</strong>: 1-on-1-prep
-- [x] <strong>Covered</strong>: learning-path
-<strong>Rationale</strong>: Systematize leadership with empathy
+- [x] <strong>Covered</strong>: code-review-empathy, 1-on-1-prep, learning-path
 
 ---
 
-<span class="md-h2">## Coverage Summary</span>
+<span class="md-h1"># 2. Missing Items Table</span>
 
-| Category                   | Coverage |
-|----------------------------|----------|
-| Engineering & Architecture | <strong>67%</strong>      |
-| Testing & CI/CD            | <strong>100%</strong>     |
-| AI Governance              | <strong>78%</strong>      |
-| Culture & Mentorship       | <strong>80%</strong>      |
-| AI Productivity Layer      | <strong>100%</strong>     |
-
-<strong>Overall Resume Alignment: ~75% complete</strong>
+| Item                  | Rationale                | File                     | Priority |
+|-----------------------|--------------------------|--------------------------|----------|
+| microservices-pattern | Architecture guidance    | prompts/architecture/... | 🟡 Med   |
+| technical-debt-audit  | Tech debt identification | prompts/refactoring/...  | 🟡 Med   |
+| code-quality-evaluator| Code metrics validation  | lib/evaluators/...       | 🔴 High  |
+| blog-post-outline     | Community engagement     | prompts/community/...    | 🟢 Low   |
 
 ---
 
-<span class="md-h2">## GitHub Issues (JSON)</span>
+<span class="md-h1"># 3. GitHub Issues (JSON)</span>
 [
   {
     "title": "Add System Design Review Prompt",
@@ -233,21 +221,29 @@ Generate sequential GitHub flow to scaffold the project...
 
 ---
 
-<span class="md-h2">## Success Metrics</span>
-- 21 high-priority templates completed
-- Used in real engineering projects
-- Zero critical vulnerabilities in AI-generated code
-- Context packs reduce AI hallucinations by 40%
-- Documentation always up-to-date
-
----
-
-<span class="md-h2">## Auto-Scaffold Script</span>
+<span class="md-h1"># 4. Auto-Commit Plan</span>
 <strong>#!/bin/bash</strong>
 git checkout -b feature/system-design-review
 mkdir -p lib/prompts/architecture
 git commit -m "feat: add system-design-review"
 <strong>gh pr create</strong> --title "Add System Design Review"
+
+---
+
+<span class="md-h1"># 5. Resume Coverage Summary</span>
+
+| Category                   | Coverage |
+|----------------------------|----------|
+| Engineering & Architecture | <strong>67%</strong>      |
+| Testing & CI/CD            | <strong>100%</strong>     |
+| Planning & Documentation   | <strong>50%</strong>      |
+| AI Governance              | <strong>78%</strong>      |
+| Framework Context Packs    | <strong>75%</strong>      |
+| Culture & Mentorship       | <strong>80%</strong>      |
+| AI Productivity Layer      | <strong>100%</strong>     |
+| Creative/Community         | <strong>0%</strong>       |
+
+<strong>Overall Resume Alignment: ~75% complete</strong>
 </pre>
       </div>
     </div>
