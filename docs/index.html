@@ -70,21 +70,18 @@
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
         <div class="code-header">CLAUDE.md — validation snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h1">## Code Quality Standards</span>
+        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Validation Checks</span>
 
-<span class="md-h2">### Validation Checks (CI)</span>
-pnpm typecheck    # No type errors
-pnpm lint         # ESLint enforced
-pnpm format       # Prettier applied
-pnpm build        # Build succeeds
-pnpm test         # All tests pass
+These automated checks run in CI and must pass:
 
-<span class="md-h2">### Additional Checks</span>
-- Docs - All links valid
-- TypeDoc - Functions documented
-- Comments - No inline `//`
-- Prompts - XML structure required
-- Security - No secrets in code
+1. <strong>TypeScript Compilation</strong> - No type errors
+2. <strong>Linting</strong> - ESLint rules enforced
+3. <strong>Formatting</strong> - Prettier formatting applied
+4. <strong>Documentation Links</strong> - All markdown links valid
+5. <strong>TypeDoc Comments</strong> - All functions documented
+6. <strong>No Inline Comments</strong> - No `//` style comments in source
+7. <strong>Prompt/Agent Validation</strong> - XML structure required
+8. <strong>Security Scan</strong> - No secrets in code
 
 <span class="md-h2">### TypeScript Requirements</span>
 - TypeScript strict mode
