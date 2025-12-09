@@ -309,6 +309,7 @@ These automated checks run in CI and must pass:
 6. **No Inline Comments** - No `//` style comments in source
 7. **Prompt/Agent Validation** - XML structure required
 8. **Security Scan** - No secrets in code
+9. **Testing** - All tests pass, minimum 85% code coverage
 
 ### Quick Reference
 
