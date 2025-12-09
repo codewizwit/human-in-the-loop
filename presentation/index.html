@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human-in-the-Loop | AI Summit NY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cream: #F5F3EE;
+      --black: #1A1A1A;
+      --gray: #6B6B6B;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      overflow: hidden;
+    }
+
+    /* Subtle grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+      z-index: 1000;
+    }
+
+    .slide {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      padding: 60px 80px;
+      position: relative;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 80px;
+    }
+
+    /* Logo - bottom right on every slide */
+    .logo {
+      position: absolute;
+      bottom: 40px;
+      right: 50px;
+      width: 60px;
+      height: auto;
+      opacity: 0.9;
+    }
+
+    /* Slide counter */
+    .counter {
+      position: absolute;
+      bottom: 45px;
+      left: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 30px;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--gray);
+      margin-bottom: 40px;
+    }
+
+    p {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-top: 10px;
+    }
+
+    /* Code blocks */
+    code, .code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--black);
+      color: var(--cream);
+      padding: 20px 30px;
+      border-radius: 8px;
+      display: inline-block;
+      font-size: 1.3rem;
+      margin-top: 30px;
+      position: relative;
+      cursor: pointer;
+      user-select: all;
+      transition: opacity 0.2s;
+    }
+
+    code:hover {
+      opacity: 0.9;
+    }
+
+    code::after {
+      content: 'click to copy';
+      position: absolute;
+      top: -25px;
+      right: 0;
+      font-size: 11px;
+      color: var(--gray);
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    code:hover::after {
+      opacity: 1;
+    }
+
+    code.copied::after {
+      content: 'copied!';
+      opacity: 1;
+    }
+
+    /* Lists */
+    ul {
+      list-style: none;
+      font-size: 1.4rem;
+      line-height: 2;
+    }
+
+    ul li::before {
+      content: "—";
+      margin-right: 15px;
+      color: var(--gray);
+    }
+
+    /* Demo slide - GIF container */
+    .demo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      padding: 40px;
+    }
+
+    .demo-container img {
+      max-width: 90%;
+      max-height: 70vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .demo-placeholder {
+      border: 3px dashed var(--gray);
+      border-radius: 12px;
+      padding: 80px;
+      text-align: center;
+      color: var(--gray);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Two column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* Code preview box */
+    .code-preview {
+      background: var(--black);
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: 70vh;
+    }
+
+    .code-header {
+      background: #333;
+      color: #ccc;
+      padding: 12px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    .code-preview pre {
+      color: var(--cream);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      padding: 20px;
+      margin: 0;
+      overflow-y: auto;
+      max-height: 55vh;
+    }
+
+    .code-preview pre strong {
+      color: #7dd3fc;
+    }
+
+    .code-preview pre .md-h1,
+    .code-preview pre .md-h2 {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Emphasis */
+    .highlight {
+      background: linear-gradient(transparent 60%, rgba(26,26,26,0.1) 60%);
+    }
+
+    /* Navigation hint */
+    .nav-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--gray);
+      opacity: 0.5;
+    }
+
+    /* Animations - subtle fade only */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .slide.active > * {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    /* Keep logo and counter fixed (no animation) */
+    .slide.active > .logo,
+    .slide.active > .counter {
+      animation: none;
+      opacity: 1;
+    }
+
+    /* Links */
+    a {
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 2px solid var(--gray);
+      transition: border-color 0.2s;
+    }
+
+    a:hover {
+      border-color: var(--black);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Title -->
+  <section class="slide active" id="slide-1">
+    <h1>Human-in-the-Loop</h1>
+    <h3>Responsible AI Engineering in Practice</h3>
+    <p><strong>Alexandra Kelstrom</strong><br>
+    <span class="subtitle">Software Engineer & Responsible AI Advocate</span></p>
+    <code>npm install -g @human-in-the-loop/cli</code>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">1 / 8</div>
+  </section>
+
+  <!-- SLIDE 2: Demo -->
+  <section class="slide" id="slide-2" style="padding: 80px 60px 40px 60px;">
+    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 380px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How It Works</p>
+        <h2 style="font-size: 2rem;">@human-in-the-loop/cli</h2>
+        <ul style="font-size: 1.1rem; margin-top: 20px; line-height: 1.8;">
+          <li>Install prompts and context packs</li>
+          <li>Installed prompts become Claude commands automatically</li>
+        </ul>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <img src="assets/demo.gif" alt="CLI Demo" style="max-width: 100%; max-height: 70vh; border-radius: 4px;">
+      </div>
+    </div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">2 / 8</div>
+  </section>
+
+  <!-- SLIDE 3: Infrastructure First -->
+  <section class="slide" id="slide-3">
+    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
+    <h2>Infrastructure First</h2>
+    <h3>Standards before automation</h3>
+    <ul>
+      <li>Automated code standards & quality checks</li>
+      <li>Static testing & coverage thresholds</li>
+      <li>Architecture patterns & validation pipelines</li>
+      <li>Claude instruction files & context packs</li>
+    </ul>
+    <p class="subtitle" style="margin-top: 40px;">The infrastructure preserves intent.</p>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">3 / 8</div>
+  </section>
+
+  <!-- SLIDE 4: The Planning Prompt -->
+  <section class="slide" id="slide-4" style="padding: 80px 60px 40px 60px;">
+    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 380px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
+        <h2 style="font-size: 2rem;">Encoding Intent</h2>
+        <h3 style="font-size: 1.1rem;">CLAUDE.md</h3>
+        <p style="font-size: 1.1rem;">The planning prompt that shaped the entire project.</p>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh;">
+        <div class="code-header">CLAUDE.md — The Planning Prompt</div>
+        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;">You are acting as a responsible AI project planner for the <strong>Human-in-the-Loop AI Hub</strong> repo.
+
+Your goal is to ensure all major skill areas from <strong>Alexandra Kelstrom's resume</strong> are reflected
+in reusable prompt templates, context packs, and governance specs.
+
+---
+
+<span class="md-h2">### 🧩 Step 1: Generate a Coverage Checklist</span>
+Create a markdown checklist organized by category:
+
+- Engineering & Architecture
+- Testing & CI/CD
+- Planning & Documentation
+- AI Governance & Responsible Engineering
+- Framework Context Packs
+- Culture, Mentorship & Communication
+- AI Productivity Layer (prompt registry, context packs, CLI)
+- Creative/Community & Campaign Impact
+
+For each category:
+- List the planned prompt templates or tools
+- Add a "✅ Covered" or "❌ Missing" status
+- Include a short rationale (why it matters, what outcome it supports)
+
+---
+
+<span class="md-h2">### 🛠️ Step 2: Create a Plan for Missing Areas</span>
+For each ❌ Missing item:
+- Suggest a filename (e.g., `/prompts/testing/generate-bdd-scenarios.md`)
+- Include a 2–3 sentence description of its purpose
+- Add a "priority" tag: `high`, `medium`, `low`
+- Suggest initial issue title + body for GitHub
+
+---
+
+<span class="md-h2">### 🧾 Step 3: Generate GitHub Issues (JSON Block)</span>
+Each issue should include:
+- `title`: short actionable issue name
+- `body`: purpose + acceptance criteria
+- `labels`: ["prompt", "context-pack", "governance", "documentation", etc.]
+- `priority`: high/medium/low
+
+---
+
+<span class="md-h2">### 🔁 Step 4: Cross-Check for Resume Alignment</span>
+Include a summary that confirms which resume skill areas are fully represented,
+partially covered, or missing.
+
+---
+
+<span class="md-h2">### ⚙️ Step 5: Auto-Commit Planner</span>
+For each missing item identified:
+1. Create a new branch from `main` with naming convention `feature/&lt;filename&gt;`
+2. Commit a stub markdown file or template placeholder
+3. Push the branch and open a draft PR back to `main`</pre>
+      </div>
+    </div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">4 / 8</div>
+  </section>
+
+  <!-- SLIDE 5: Claude's Output -->
+  <section class="slide" id="slide-5" style="padding: 80px 60px 40px 60px;">
+    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 380px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
+        <h2 style="font-size: 2rem;">Structured Output</h2>
+        <h3 style="font-size: 1.1rem;">roadmap.md</h3>
+        <p style="font-size: 1.1rem;">Claude generated a full project roadmap with priorities, issues, and success metrics.</p>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh;">
+        <div class="code-header">roadmap.md — Project Roadmap</div>
+        <pre style="max-height: 75vh; font-size: 0.8rem; line-height: 1.35;"><span class="md-h1"># Human-in-the-Loop: Project Roadmap</span>
+
+<span class="md-h2">## Items Plan</span>
+
+| Category      | Item                   | Status     | Priority  |
+|---------------|------------------------|------------|-----------|
+| Architecture  | System design review   | <strong>✅ Done</strong>    | 🔴 High   |
+| Architecture  | API design patterns    | <strong>✅ Done</strong>    | 🔴 High   |
+| Architecture  | Microservices patterns | ❌ Missing | 🟡 Medium |
+| Testing       | E2E strategy generator | <strong>✅ Done</strong>    | 🔴 High   |
+| Testing       | Unit test generator    | <strong>✅ Done</strong>    | 🔴 High   |
+| Testing       | BDD scenarios          | <strong>✅ Done</strong>    | 🟡 Medium |
+| Testing       | Test coverage analysis | <strong>✅ Done</strong>    | 🟡 Medium |
+| CI/CD         | Pipeline optimization  | <strong>✅ Done</strong>    | 🔴 High   |
+| CI/CD         | AWS deployment         | <strong>✅ Done</strong>    | 🔴 High   |
+| Planning      | User story breakdown   | <strong>✅ Done</strong>    | 🔴 High   |
+| Documentation | API documentation      | <strong>✅ Done</strong>    | 🔴 High   |
+| Documentation | Codebase explainer     | <strong>✅ Done</strong>    | 🟡 Medium |
+| Governance    | Responsible AI audit   | <strong>✅ Done</strong>    | 🔴 High   |
+| Governance    | Bias detection         | <strong>✅ Done</strong>    | 🔴 High   |
+| Governance    | Security review        | <strong>✅ Done</strong>    | 🔴 High   |
+| Context Packs | Angular components     | <strong>✅ Done</strong>    | 🔴 High   |
+| Context Packs | NestJS modules         | <strong>✅ Done</strong>    | 🔴 High   |
+| Context Packs | Nx monorepo            | <strong>✅ Done</strong>    | 🔴 High   |
+| Culture       | Review empathy         | <strong>✅ Done</strong>    | 🔴 High   |
+| Culture       | Team retrospective     | <strong>✅ Done</strong>    | 🟢 Low    |
+| Mentorship    | Learning path          | <strong>✅ Done</strong>    | 🟡 Medium |
+| Meta          | Prompt optimization    | <strong>✅ Done</strong>    | 🟡 Medium |
+| Meta          | Context pack builder   | <strong>✅ Done</strong>    | 🟡 Medium |
+
+---
+
+<span class="md-h2">## Resume Alignment Summary</span>
+
+<span class="md-h2">### ✅ Fully Covered (6 areas)</span>
+1. TypeScript/JavaScript Expertise
+2. Governance Framework
+3. CLI Tooling
+4. Monorepo Experience
+5. Testing & CI/CD
+6. Meta-tooling
+
+<span class="md-h2">### 🟡 Partially Covered (4 areas)</span>
+1. Angular/NestJS
+2. Planning & Documentation
+3. Culture & Mentorship
+4. Architecture
+
+<span class="md-h2">### ❌ Not Covered (2 areas)</span>
+1. Community Engagement
+2. Evaluators
+
+---
+
+<span class="md-h2">## Success Metrics</span>
+
+- 21 high-priority templates completed
+- Used in real engineering projects
+- Zero critical vulnerabilities in AI-generated code
+- Context packs reduce AI hallucinations
+- Documentation always up-to-date
+</pre>
+      </div>
+    </div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">5 / 8</div>
+  </section>
+
+  <!-- SLIDE 6: Human-Guided Execution -->
+  <section class="slide" id="slide-6" style="padding: 80px 60px 40px 60px;">
+    <div style="display: flex; gap: 40px; align-items: flex-start; height: 100%;">
+      <div style="flex: 0 0 380px;">
+        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
+        <h2 style="font-size: 2rem;">Human-Guided Execution</h2>
+        <h3 style="font-size: 1.1rem;">Iteration • Validation • Self-Correction</h3>
+        <ul style="font-size: 1.1rem; line-height: 1.8;">
+          <li>Incremental task execution</li>
+          <li>Self-updating instructions</li>
+          <li>Quality gates enforce standards</li>
+          <li>Human-directed, not autonomous</li>
+        </ul>
+        <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The model improves through human-directed adjustments.</p>
+      </div>
+      <div class="code-preview" style="flex: 1; max-height: 85vh;">
+        <div class="code-header">CLAUDE.md — Validation Checks</div>
+        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Before Every Commit</span>
+
+<strong>Pre-Commit Checklist:</strong>
+```bash
+pnpm format          # ✅ All files formatted
+pnpm lint            # ✅ ESLint rules pass
+pnpm typecheck       # ✅ TypeScript succeeds
+pnpm build           # ✅ Build completes
+pnpm test            # ✅ All tests pass
+```
+
+<strong>Common Issues to Check:</strong>
+- [ ] No `any` types without justification
+- [ ] All exported functions have TypeDoc comments
+- [ ] No inline comments in source files
+- [ ] No hardcoded secrets or credentials
+- [ ] All imports are used
+- [ ] Error handling is present
+
+---
+
+<span class="md-h2">### Validation Checks</span>
+
+These automated checks run in CI and <strong>must pass</strong>:
+
+1. <strong>TypeScript Compilation</strong> - No type errors
+2. <strong>Linting</strong> - ESLint rules enforced
+3. <strong>Formatting</strong> - Prettier applied
+4. <strong>Documentation Links</strong> - All links valid
+5. <strong>TypeDoc Comments</strong> - All functions documented
+6. <strong>No Inline Comments</strong> - Clean source code
+7. <strong>Prompt Validation</strong> - YAML fields required
+8. <strong>Security Scan</strong> - No secrets in code</pre>
+      </div>
+    </div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">6 / 8</div>
+  </section>
+
+  <!-- SLIDE 7: The Future We Build -->
+  <section class="slide" id="slide-7" style="justify-content: center !important; align-items: center; text-align: center; padding-top: 0 !important;">
+    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.1em;">The Future We Build</p>
+    <p style="font-size: 1.5rem; color: var(--gray); margin-bottom: 30px;">Technology, humanity, and ethics evolve together with</p>
+    <h2 style="font-size: 4rem; font-weight: 900; line-height: 1.1;">No human left behind.</h2>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">7 / 8</div>
+  </section>
+
+  <!-- SLIDE 8: Resources -->
+  <section class="slide" id="slide-8">
+    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">Resources</p>
+    <h2>Links</h2>
+    <ul style="margin-top: 40px; font-size: 1.3rem;">
+      <li><strong>npm</strong>: <a href="https://www.npmjs.com/package/@human-in-the-loop/cli" target="_blank">npmjs.com/package/@human-in-the-loop/cli</a></li>
+      <li><strong>GitHub</strong>: <a href="https://github.com/codewizwit/human-in-the-loop" target="_blank">github.com/codewizwit/human-in-the-loop</a></li>
+      <li><strong>Planning Prompt</strong>: <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a></li>
+      <li><strong>Roadmap</strong>: <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/planning/roadmap.md" target="_blank">github.com/.../planning/roadmap.md</a></li>
+      <li><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/akelstrom/" target="_blank">linkedin.com/in/akelstrom</a></li>
+      <li><strong>Medium</strong>: <a href="https://medium.com/@codewizwit" target="_blank">medium.com/@codewizwit</a></li>
+      <li><strong>My GitHub README</strong>: <a href="https://github.com/codewizwit" target="_blank">github.com/codewizwit</a></li>
+    </ul>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <div class="counter">8 / 8</div>
+  </section>
+
+  <div class="nav-hint">← → or Space to navigate</div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    // Copy code on click
+    document.querySelectorAll('code').forEach(block => {
+      block.addEventListener('click', async () => {
+        const text = block.textContent;
+        await navigator.clipboard.writeText(text);
+        block.classList.add('copied');
+        setTimeout(() => block.classList.remove('copied'), 1500);
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        document.documentElement.requestFullscreen?.();
+      }
+    });
+
+    // Touch support for mobile
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+    document.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? prevSlide() : nextSlide();
+      }
+    });
+  </script>
+</body>
+</html>
