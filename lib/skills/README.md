@@ -35,15 +35,22 @@ Each skill directory contains four files:
 
 ```
 skills/
-├── angular-modern/
-│   ├── README.md                    # Overview and usage instructions
-│   ├── metadata.json                # Skill metadata (id, version, platforms)
-│   ├── claude-skill.md              # Claude Code skill content
-│   └── copilot-instructions.md      # GitHub Copilot instructions
-│
-└── angular-legacy/
+├── angular-modern/                  # Angular 16+ with signals, standalone
+│   ├── README.md
+│   ├── metadata.json
+│   ├── claude-skill.md
+│   └── copilot-instructions.md
+├── angular-legacy/                  # Pre-Angular 16 with NgModules, RxJS
+│   ├── README.md
+│   ├── metadata.json
+│   ├── claude-skill.md
+│   └── copilot-instructions.md
+├── nestjs-backend/                  # NestJS backend patterns
+│   ├── README.md
+│   ├── claude-skill.md
+│   └── copilot-instructions.md
+└── nx-monorepo/                     # Nx monorepo best practices
     ├── README.md
-    ├── metadata.json
     ├── claude-skill.md
     └── copilot-instructions.md
 ```

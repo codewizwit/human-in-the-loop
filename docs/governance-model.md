@@ -28,7 +28,7 @@ All pull requests trigger automated validation:
 
 All validation scripts located in `src/governance/checks/`:
 
-- `validate-prompts.sh` - YAML structure and required metadata
+- `validate-prompts.sh` - XML structure and required metadata
 - `check-docs.sh` - README presence and completeness
 - `check-inline-comments.sh` - TypeDoc-only enforcement
 - `check-links.sh` - Documentation link validation

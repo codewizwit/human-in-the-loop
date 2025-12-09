@@ -555,7 +555,7 @@ hit contribute skill lib/skills/my-skill/metadata.json
 - Required sections: `<context>`, `<instructions>`, `<output_format>`
 - Recommended sections: `<constraints>`, `<examples>`
 
-✅ **Documentation (v2.0.0 format):**
+✅ **Documentation (v3.0.0 format):**
 
 - README.md exists in tool directory
 - README contains "## What You'll Be Asked" or "## Usage" section

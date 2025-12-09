@@ -148,58 +148,55 @@ lib/prompts/[prompt-name]/
 
 ### prompt.md Schema
 
-Prompts use **Markdown with YAML frontmatter** format. The frontmatter (between `---` delimiters) contains metadata, and the body contains the prompt template.
+Prompts use **pure XML format** (as of v3.0.0). See [Pure XML Template Format Guide](./xml-template-migration.md) for details.
 
-```markdown
----
-id: prompt-name
-name: Human-Readable Name
-description: Brief description of what this prompt does
-version: 1.0.0
-category: code-review | testing | documentation | refactoring | other
+```xml
+<prompt>
+  <metadata>
+    <id>prompt-name</id>
+    <name>Human-Readable Name</name>
+    <version>1.0.0</version>
+    <description>Brief description of what this prompt does</description>
+    <category>code-review</category>
+    <author>your-github-username</author>
+    <license>MIT</license>
+    <tags>
+      <tag>typescript</tag>
+      <tag>code-review</tag>
+    </tags>
+  </metadata>
 
-# Variables for customization
-variables:
-  - name: code
-    description: Code to review
-    required: true
-  - name: focus_areas
-    description: Specific areas to focus on
-    required: false
-    defaultValue: general best practices
+  <examples>
+    <example>
+      <description>TypeScript Component Review</description>
+      <input>
+        <user_message>Review my React component for best practices</user_message>
+      </input>
+    </example>
+  </examples>
 
-# Context packs that provide domain knowledge
-contextPacks:
-  - typescript
-  - testing
+  <context>
+You are an expert code reviewer with deep knowledge of TypeScript and software engineering best practices.
+  </context>
 
-# Examples of usage
-examples:
-  - name: TypeScript Component Review
-    input:
-      code: |
-        [example code]
-      focus_areas: performance, security
-    output: |
-      [example output]
+  <instructions>
+Review the code and provide structured feedback:
 
-# Metadata
-metadata:
-  author: your-github-username
-  license: MIT
-  tags: [typescript, code-review, security]
-  estimatedTokens: 500
----
+1. **Issues Found** - Problems that need fixing
+2. **Recommendations** - Suggestions for improvement
+3. **Positive Patterns** - Good practices to continue
+  </instructions>
 
-Review this code with focus on {{focus_areas}}:
+  <constraints>
+- Use Read, Grep, and Glob tools to analyze code
+- Focus on critical issues over style preferences
+- Provide specific line references for issues
+  </constraints>
 
-{{code}}
-
-Provide structured feedback with:
-
-1. Issues found
-2. Recommendations
-3. Positive patterns
+  <output_format>
+Structure your review with clear headings and code examples for each finding.
+  </output_format>
+</prompt>
 ```
 
 ### README Template

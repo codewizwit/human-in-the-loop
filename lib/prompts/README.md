@@ -6,13 +6,37 @@ Production-ready Claude prompts for common software development tasks. Each prom
 
 ```
 prompts/
+├── architecture/
+│   ├── api-design/                    # REST/GraphQL API design patterns
+│   └── system-design-review/          # Architecture & scalability analysis
+├── ci-cd/
+│   ├── aws-deployment-strategy/       # Lambda, ECS, CDK patterns
+│   └── pipeline-optimization/         # GitHub Actions optimization
 ├── code-review-ts/                    # TypeScript code review
-│   ├── prompt.yaml
-│   └── README.md
-└── culture/
-    └── code-review-empathy/           # Empathetic feedback transformation
-        ├── prompt.yaml
-        └── README.md
+├── culture/
+│   ├── 1-on-1-prep/                   # Meeting preparation
+│   ├── code-review-empathy/           # Empathetic feedback
+│   └── team-retrospective/            # Retrospective facilitation
+├── documentation/
+│   ├── api-documentation/             # API docs from code
+│   └── codebase-explainer/            # Repository architecture analysis
+├── governance/
+│   ├── bias-detection/                # AI bias and fairness analysis
+│   ├── responsible-ai-audit/          # AI output quality audit
+│   └── security-review/               # OWASP Top 10, vulnerability detection
+├── mentorship/
+│   └── learning-path/                 # Personalized learning roadmaps
+├── meta/
+│   ├── context-pack-builder/          # Create context packs
+│   └── prompt-optimization/           # Improve existing prompts
+├── planning/
+│   └── user-story-breakdown/          # Epic → INVEST stories
+├── refactoring/                       # (coming soon)
+└── testing/
+    ├── bdd-scenarios/                 # Gherkin scenarios
+    ├── e2e-strategy/                  # Playwright/Cypress planning
+    ├── test-coverage-analysis/        # Coverage gap analysis
+    └── unit-test-generator/           # Jest/Vitest test generation
 ```
 
 ## What's a Prompt?
@@ -67,25 +91,48 @@ metadata:
   tags: [typescript, code-review]
 ```
 
-## Available Prompts
+## Available Prompts (21 total)
 
-### code-review-ts
+### Architecture
+- **api-design** - REST/GraphQL API design patterns and best practices
+- **system-design-review** - Architecture & scalability analysis
 
-Comprehensive TypeScript code review covering type safety, best practices, performance, and security.
+### CI/CD
+- **aws-deployment-strategy** - Lambda, ECS, CDK infrastructure patterns
+- **pipeline-optimization** - GitHub Actions cost & speed optimization
 
-**Version:** 1.2.0
-**Use when:** Reviewing TypeScript code for quality and best practices
+### Code Quality
+- **code-review-ts** - TypeScript code review with constructive feedback
 
-[See code-review-ts prompt](./code-review-ts/README.md)
+### Culture
+- **1-on-1-prep** - Structured meeting preparation
+- **code-review-empathy** - Transform feedback into helpful coaching
+- **team-retrospective** - Facilitate effective team retros
 
-### code-review-empathy
+### Documentation
+- **api-documentation** - Generate API docs from code
+- **codebase-explainer** - Analyze and document repository architecture
 
-Transform harsh or unclear code review feedback into empathetic, constructive communication.
+### Governance
+- **bias-detection** - Identify bias in AI-generated content
+- **responsible-ai-audit** - Audit AI outputs for accuracy, fairness, transparency
+- **security-review** - OWASP Top 10, auth flaws, injection detection
 
-**Version:** 1.0.0
-**Use when:** Before posting PR comments, when giving feedback to team members
+### Mentorship
+- **learning-path** - Personalized learning roadmaps
 
-[See code-review-empathy prompt](./culture/code-review-empathy/README.md)
+### Meta
+- **context-pack-builder** - Generate framework context packs
+- **prompt-optimization** - Analyze and improve existing prompts
+
+### Planning
+- **user-story-breakdown** - Break epics into INVEST stories with acceptance criteria
+
+### Testing
+- **bdd-scenarios** - Gherkin scenarios from user stories
+- **e2e-strategy** - Playwright/Cypress test planning
+- **test-coverage-analysis** - Coverage gap analysis and risk assessment
+- **unit-test-generator** - Generate Jest/Vitest tests with edge cases
 
 ## Contributing a New Prompt
 
