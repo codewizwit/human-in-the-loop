@@ -198,29 +198,102 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding prompts, repor
 
 ## 📦 Repository Structure
 
+<!-- docs:start TREE -->
 ```
-human-in-the-loop/
-├── lib/
-│   ├── prompts/              # 21 prompts organized by category
-│   │   ├── architecture/     # API design, system design review
-│   │   ├── ci-cd/            # Pipeline optimization, AWS deployment
-│   │   ├── culture/          # 1-on-1 prep, code review empathy, retros
-│   │   ├── documentation/    # API docs, codebase explainer
-│   │   ├── governance/       # AI audit, bias detection, security review
-│   │   ├── mentorship/       # Learning paths
-│   │   ├── meta/             # Prompt optimization, context pack builder
-│   │   ├── planning/         # User story breakdown
-│   │   └── testing/          # Unit tests, E2E, BDD, coverage analysis
-│   ├── skills/               # Framework expertise (Angular, NestJS, Nx)
-│   ├── agents/               # Coming soon
-│   ├── context-packs/        # CI/CD patterns
-│   ├── evaluators/           # Coming soon
-│   └── guardrails/           # Coming soon
-├── src/
-│   ├── cli/                  # CLI source code
-│   └── governance/           # CI validation scripts
-└── docs/                     # Documentation
+human-in-the-loop
+├── docs
+│   ├── assets
+│   │   ├── HITL-DEMO.gif
+│   │   ├── codewizwit-logo.jpg
+│   │   └── hitl-summit-demo.gif
+│   ├── README.md
+│   ├── ai-best-practices.md
+│   ├── architecture.md
+│   ├── cli-reference.md
+│   ├── contributing-guidelines.md
+│   ├── getting-started.md
+│   ├── governance-model.md
+│   ├── index.html
+│   ├── publishing.md
+│   ├── toolkit-usage.md
+│   └── xml-template-migration.md
+├── lib
+│   ├── agents
+│   │   └── README.md
+│   ├── context-packs
+│   │   ├── ci-cd
+│   │   └── README.md
+│   ├── evaluators
+│   │   └── README.md
+│   ├── guardrails
+│   │   ├── pii-filtering
+│   │   └── README.md
+│   ├── prompts
+│   │   ├── architecture
+│   │   ├── ci-cd
+│   │   ├── code-review-ts
+│   │   ├── culture
+│   │   ├── documentation
+│   │   ├── governance
+│   │   ├── mentorship
+│   │   ├── meta
+│   │   ├── planning
+│   │   ├── refactoring
+│   │   ├── testing
+│   │   └── README.md
+│   ├── skills
+│   │   ├── angular-legacy
+│   │   ├── angular-modern
+│   │   ├── nestjs-backend
+│   │   └── README.md
+│   └── README.md
+├── planning
+│   ├── README.md
+│   ├── roadmap.md
+│   ├── scaffold-high-priority.sh
+│   └── scaffold-remaining.sh
+├── scripts
+│   ├── build
+│   │   └── add-shebang.sh
+│   ├── publish
+│   │   └── prepare-release.sh
+│   ├── release
+│   │   └── README.md
+│   ├── setup
+│   │   ├── create-labels.sh
+│   │   └── import-issues.sh
+│   ├── migrate-to-markdown.js
+│   └── test-cli-regression.sh
+├── src
+│   ├── cli
+│   │   ├── __mocks__
+│   │   ├── src
+│   │   ├── README.md
+│   │   ├── jest.config.ts
+│   │   ├── package.json
+│   │   ├── project.json
+│   │   ├── tsconfig.app.json
+│   │   ├── tsconfig.json
+│   │   └── tsconfig.spec.json
+│   ├── governance
+│   │   ├── checks
+│   │   └── README.md
+│   └── README.md
+├── CHANGELOG.md
+├── CLAUDE.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── PLANNING.md
+├── README.md
+├── RESPONSIBLE-AI-PLAYBOOK.md
+├── jest.preset.js
+├── markdown.config.js
+├── nx.json
+├── package.json
+├── pnpm-lock.yaml
+└── tsconfig.base.json
 ```
+<!-- docs:end -->
 
 ---
 
