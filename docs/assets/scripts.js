@@ -21,11 +21,17 @@ function prevSlide() {
 // Copy code on click
 document.querySelectorAll('code').forEach(block => {
   block.addEventListener('click', async () => {
-    let text = block.textContent;
+    await navigator.clipboard.writeText(block.textContent);
+    block.classList.add('copied');
+    setTimeout(() => block.classList.remove('copied'), 1500);
+  });
+});
 
-    // Special handling for Copy Links button
-    if (block.id === 'copy-links') {
-      text = `Human-in-the-Loop
+// Copy links box on click
+const linksBox = document.getElementById('links-box');
+const copyHint = document.getElementById('copy-hint');
+
+const linksText = `Human-in-the-Loop
 by Alexandra Kelstrom
 
 INSTALL
@@ -43,13 +49,19 @@ CONNECT
 LinkedIn:  https://www.linkedin.com/in/akelstrom
 Blog:      https://medium.com/@codewizwit
 GitHub:    https://github.com/codewizwit`;
-    }
 
-    await navigator.clipboard.writeText(text);
-    block.classList.add('copied');
-    setTimeout(() => block.classList.remove('copied'), 1500);
-  });
-});
+async function copyLinks() {
+  await navigator.clipboard.writeText(linksText);
+  copyHint.textContent = 'copied!';
+  copyHint.style.opacity = '1';
+  setTimeout(() => {
+    copyHint.textContent = 'click to copy';
+    copyHint.style.opacity = '0.6';
+  }, 1500);
+}
+
+if (linksBox) linksBox.addEventListener('click', (e) => { e.preventDefault(); copyLinks(); });
+if (copyHint) copyHint.addEventListener('click', copyLinks);
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight' || e.key === ' ') {
