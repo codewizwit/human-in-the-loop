@@ -1,4 +1,4 @@
-
+o
 
 Human:
 You are acting as a responsible AI project planner for the **Human-in-the-Loop AI Hub** repo.
@@ -24,7 +24,7 @@ For each category:
 - Include a short rationale (why it matters, what outcome it supports)
 
 ---
-
+x
 ### 🛠️ Step 2: Create a Plan for Missing Areas
 For each ❌ Missing item:
 - Suggest a filename (e.g., `/prompts/testing/generate-bdd-scenarios.md`)
