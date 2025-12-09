@@ -4,6 +4,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> 🎤 **[View the AI Summit NY Presentation](https://codewizwit.github.io/human-in-the-loop/)** - Responsible AI Engineering in Practice
+
 **AI-assisted development with humans in control.**
 
 A curated prompt library that keeps developers in the loop. Every prompt is designed to enhance your judgment—not replace it. Built on responsible AI principles: transparency, accountability, and human oversight at every step.
