@@ -21,7 +21,30 @@ function prevSlide() {
 // Copy code on click
 document.querySelectorAll('code').forEach(block => {
   block.addEventListener('click', async () => {
-    const text = block.textContent;
+    let text = block.textContent;
+
+    // Special handling for Copy Links button
+    if (block.id === 'copy-links') {
+      text = `Human-in-the-Loop
+by Alexandra Kelstrom
+
+INSTALL
+npm install -g @human-in-the-loop/cli
+
+LINKS
+npm:       https://www.npmjs.com/package/@human-in-the-loop/cli
+GitHub:    https://github.com/codewizwit/human-in-the-loop
+Docs:      https://github.com/codewizwit/human-in-the-loop/tree/main/docs
+CLAUDE.md: https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md
+Planning:  https://github.com/codewizwit/human-in-the-loop/tree/main/planning
+Prompts:   https://github.com/codewizwit/human-in-the-loop#-whats-inside
+
+CONNECT
+LinkedIn:  https://www.linkedin.com/in/akelstrom
+Blog:      https://medium.com/@codewizwit
+GitHub:    https://github.com/codewizwit`;
+    }
+
     await navigator.clipboard.writeText(text);
     block.classList.add('copied');
     setTimeout(() => block.classList.remove('copied'), 1500);
