@@ -339,19 +339,35 @@
         <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The infrastructure preserves intent.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — Validation Checks</div>
-        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Validation Checks</span>
+        <div class="code-header">CLAUDE.md — Code Quality Standards</div>
+        <pre style="max-height: 75vh; font-size: 0.75rem; line-height: 1.3;"><span class="md-h1">## Code Quality Standards</span>
 
-These automated checks run in CI and <strong>must pass</strong>:
+<span class="md-h2">### TypeScript Requirements</span>
+- TypeScript strict mode
+- No `any` types without justification
+- Properly typed parameters & return values
+- Use interfaces for object shapes
+- TypeDoc comments on all exports
 
-1. <strong>TypeScript Compilation</strong> - No type errors
-2. <strong>Linting</strong> - ESLint rules enforced
+<span class="md-h2">### Comment Style</span>
+- ❌ NO inline comments in production code
+- ✅ TypeDoc comments above functions
+- ✅ Self-documenting through clear naming
+
+<span class="md-h2">### Code Organization</span>
+- One primary export per file
+- Keep files under 300 lines
+- camelCase, PascalCase, SCREAMING_SNAKE_CASE
+
+<span class="md-h2">### Validation Checks (CI)</span>
+1. <strong>TypeScript</strong> - No type errors
+2. <strong>Linting</strong> - ESLint enforced
 3. <strong>Formatting</strong> - Prettier applied
-4. <strong>Documentation Links</strong> - All links valid
-5. <strong>TypeDoc Comments</strong> - All functions documented
-6. <strong>No Inline Comments</strong> - Clean source code
-7. <strong>Prompt Validation</strong> - XML structure required
-8. <strong>Security Scan</strong> - No secrets in code</pre>
+4. <strong>Docs</strong> - All links valid
+5. <strong>TypeDoc</strong> - Functions documented
+6. <strong>Comments</strong> - No inline `//`
+7. <strong>Prompts</strong> - XML structure required
+8. <strong>Security</strong> - No secrets in code</pre>
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
