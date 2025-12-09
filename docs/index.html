@@ -164,88 +164,69 @@ Generate sequential GitHub flow to scaffold the project...
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
         <div class="code-header">planning/ — output snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.8rem; line-height: 1.35;"><span class="md-h1"># Human-in-the-Loop: Project Roadmap</span>
+        <pre style="max-height: 75vh; font-size: 0.8rem; line-height: 1.35;"><span class="md-h1"># Resume Coverage Checklist</span>
 
-<span class="md-h2">## Items Plan</span>
+<span class="md-h2">## ✅ Engineering & Architecture</span>
+- [x] <strong>Covered</strong>: system-design-review
+- [x] <strong>Covered</strong>: api-design patterns
+- [ ] <strong>Missing</strong>: microservices-pattern
+<strong>Rationale</strong>: Strong architecture skills (Nx, AWS, microservices)
 
-| Category      | Item                   | Status     | Priority  |
-|---------------|------------------------|------------|-----------|
-| Architecture  | System design review   | <strong>✅ Done</strong>    | 🔴 High   |
-| Testing       | E2E strategy generator | <strong>✅ Done</strong>    | 🔴 High   |
-| Testing       | Unit test generator    | <strong>✅ Done</strong>    | 🔴 High   |
-| Testing       | BDD scenarios          | <strong>✅ Done</strong>    | 🟡 Medium |
-| Testing       | Test coverage analysis | <strong>✅ Done</strong>    | 🟡 Medium |
-| CI/CD         | Pipeline optimization  | <strong>✅ Done</strong>    | 🔴 High   |
-| CI/CD         | AWS deployment         | <strong>✅ Done</strong>    | 🔴 High   |
-| Documentation | API documentation      | <strong>✅ Done</strong>    | 🔴 High   |
-| Governance    | Responsible AI audit   | <strong>✅ Done</strong>    | 🔴 High   |
-| Governance    | Security review        | <strong>✅ Done</strong>    | 🔴 High   |
-| Context Packs | Angular components     | <strong>✅ Done</strong>    | 🔴 High   |
-| Culture       | Review empathy         | <strong>✅ Done</strong>    | 🔴 High   |
-| Mentorship    | Learning path          | <strong>✅ Done</strong>    | 🟡 Medium |
-| Meta          | Prompt optimization    | <strong>✅ Done</strong>    | 🟡 Medium |
+<span class="md-h2">## ✅ Testing & CI/CD</span>
+- [x] <strong>Covered</strong>: e2e-strategy (Playwright/Cypress)
+- [x] <strong>Covered</strong>: unit-test-generator
+- [x] <strong>Covered</strong>: bdd-scenarios
+- [x] <strong>Covered</strong>: pipeline-optimization
+- [x] <strong>Covered</strong>: aws-deployment-strategy
+<strong>Rationale</strong>: GitHub Actions, AWS, Cypress, Jest expertise
 
----
+<span class="md-h2">## ✅ AI Governance</span>
+- [x] <strong>Covered</strong>: responsible-ai-audit
+- [x] <strong>Covered</strong>: bias-detection
+- [x] <strong>Covered</strong>: security-review
+<strong>Rationale</strong>: Responsible AI is a core differentiator
 
-<span class="md-h2">## Resume Alignment Summary</span>
-
-<span class="md-h2">### ✅ Fully Covered (6 areas)</span>
-1. TypeScript/JavaScript Expertise
-2. Governance Framework
-3. CLI Tooling
-4. Monorepo Experience
-5. Testing & CI/CD
-6. Meta-tooling
-
-<span class="md-h2">### 🟡 Partially Covered (4 areas)</span>
-1. Angular/NestJS
-2. Planning & Documentation
-3. Culture & Mentorship
-4. Architecture
-
-<span class="md-h2">### ❌ Not Covered (2 areas)</span>
-1. Community Engagement
-2. Evaluators
+<span class="md-h2">## ✅ Culture & Mentorship</span>
+- [x] <strong>Covered</strong>: code-review-empathy
+- [x] <strong>Covered</strong>: 1-on-1-prep
+- [x] <strong>Covered</strong>: learning-path
+<strong>Rationale</strong>: Systematize leadership with empathy
 
 ---
 
-<span class="md-h2">## Milestones</span>
+<span class="md-h2">## Coverage Summary</span>
 
-<span class="md-h2">### Milestone 1: Core Architecture & Testing (Q1)</span>
-- System Design Review Prompt
-- E2E Strategy Generator
-- Unit Test Generator
-- Pipeline Optimization
-<strong>Success</strong>: 6 templates, used in 3+ projects
+| Category                   | Coverage |
+|----------------------------|----------|
+| Engineering & Architecture | <strong>67%</strong>      |
+| Testing & CI/CD            | <strong>100%</strong>     |
+| AI Governance              | <strong>78%</strong>      |
+| Culture & Mentorship       | <strong>80%</strong>      |
+| AI Productivity Layer      | <strong>100%</strong>     |
 
-<span class="md-h2">### Milestone 2: Governance & Quality (Q1-Q2)</span>
-- Responsible AI Audit
-- Bias Detection
-- Security Review
-<strong>Success</strong>: Zero critical vulnerabilities
-
-<span class="md-h2">### Milestone 3: Context Packs (Q2)</span>
-- Angular, NestJS, Nx patterns
-<strong>Success</strong>: 40% fewer AI hallucinations
+<strong>Overall Resume Alignment: ~75% complete</strong>
 
 ---
 
-<span class="md-h2">## Success Metrics</span>
-
-- 21 high-priority templates completed
-- Used in real engineering projects
-- Zero critical vulnerabilities in AI-generated code
-- Context packs reduce AI hallucinations
-- Documentation always up-to-date
+<span class="md-h2">## GitHub Issues (JSON)</span>
+[
+  {
+    "title": "Add System Design Review Prompt",
+    "labels": ["prompt", "architecture"],
+    "priority": "high"
+  },
+  { "title": "Add E2E Strategy Generator"... },
+  ...21 total issues
+]
 
 ---
 
-<span class="md-h2">## Next Steps</span>
-
-1. Import GitHub issues from `planning/github-issues.json`
-2. Begin Milestone 1 implementation
-3. Set up tracking dashboard for metrics
-4. Schedule quarterly roadmap reviews
+<span class="md-h2">## Auto-Scaffold Script</span>
+<strong>#!/bin/bash</strong>
+git checkout -b feature/system-design-review
+mkdir -p lib/prompts/architecture
+git commit -m "feat: add system-design-review"
+<strong>gh pr create</strong> --title "Add System Design Review"
 </pre>
       </div>
     </div>
