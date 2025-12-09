@@ -240,7 +240,7 @@
 
     .code-preview pre .md-h1,
     .code-preview pre .md-h2 {
-      color: #fff;
+      color: #7dd3fc;
       font-weight: 700;
     }
 
@@ -310,10 +310,22 @@
       <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How It Works</p>
         <h2 style="font-size: 2rem;">@human-in-the-loop/cli</h2>
-        <ul style="font-size: 1.1rem; margin-top: 20px; line-height: 1.8;">
-          <li>Install prompts and context packs</li>
-          <li>Installed prompts become Claude commands automatically</li>
-        </ul>
+        <h3 style="font-size: 1rem; font-weight: 700; margin-top: 25px; margin-bottom: 10px; color: var(--black);">Prompt Categories</h3>
+        <p style="font-size: 0.85rem; color: var(--gray); line-height: 1.8;">Code Quality • Architecture • Testing • CI/CD<br>Docs • Planning & Culture • Governance</p>
+
+        <h3 style="font-size: 1rem; font-weight: 700; margin-top: 25px; margin-bottom: 10px; color: var(--black);">Commands</h3>
+        <div style="font-family: 'JetBrains Mono', monospace;">
+          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit doctor</strong></p>
+          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Validate your setup</p>
+          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit search</strong></p>
+          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Find prompts and tools</p>
+          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit list</strong></p>
+          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Show installed tools</p>
+          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit install &lt;tool&gt;</strong></p>
+          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Install + create slash command</p>
+          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit contribute</strong></p>
+          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 0;">Submit new tools</p>
+        </div>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden;">
         <img src="assets/hitl-summit-demo.gif" alt="CLI Demo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 0;">
@@ -329,7 +341,7 @@
       <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Infrastructure First</h2>
-        <h3 style="font-size: 1.1rem;">Standards before automation</h3>
+        <h3 style="font-size: 1.1rem; margin-bottom: 15px;">Standards before automation</h3>
         <ul style="font-size: 1.1rem; line-height: 1.8;">
           <li>Automated code standards & quality checks</li>
           <li>Static testing & coverage thresholds</li>
@@ -339,8 +351,22 @@
         <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The infrastructure preserves intent.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — Code Quality Standards</div>
+        <div class="code-header">CLAUDE.md — validation snippets</div>
         <pre style="max-height: 75vh; font-size: 0.75rem; line-height: 1.3;"><span class="md-h1">## Code Quality Standards</span>
+
+<span class="md-h2">### Validation Checks (CI)</span>
+pnpm typecheck    # No type errors
+pnpm lint         # ESLint enforced
+pnpm format       # Prettier applied
+pnpm build        # Build succeeds
+pnpm test         # All tests pass
+
+<span class="md-h2">### Additional Checks</span>
+- Docs - All links valid
+- TypeDoc - Functions documented
+- Comments - No inline `//`
+- Prompts - XML structure required
+- Security - No secrets in code
 
 <span class="md-h2">### TypeScript Requirements</span>
 - TypeScript strict mode
@@ -357,17 +383,7 @@
 <span class="md-h2">### Code Organization</span>
 - One primary export per file
 - Keep files under 300 lines
-- camelCase, PascalCase, SCREAMING_SNAKE_CASE
-
-<span class="md-h2">### Validation Checks (CI)</span>
-1. <strong>TypeScript</strong> - No type errors
-2. <strong>Linting</strong> - ESLint enforced
-3. <strong>Formatting</strong> - Prettier applied
-4. <strong>Docs</strong> - All links valid
-5. <strong>TypeDoc</strong> - Functions documented
-6. <strong>Comments</strong> - No inline `//`
-7. <strong>Prompts</strong> - XML structure required
-8. <strong>Security</strong> - No secrets in code</pre>
+- camelCase, PascalCase, SCREAMING_SNAKE_CASE</pre>
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
@@ -380,11 +396,10 @@
       <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Encoding Intent</h2>
-        <h3 style="font-size: 1.1rem;">CLAUDE.md</h3>
-        <p style="font-size: 1.1rem;">The planning prompt that shaped the entire project.</p>
+        <p style="font-size: 1.1rem;"><span style="color: var(--gray);">CLAUDE.md</span> The planning prompt that shaped the entire project.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — The Planning Prompt</div>
+        <div class="code-header">CLAUDE.md — planning snippets</div>
         <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;">You are acting as a responsible AI project planner for the <strong>Human-in-the-Loop AI Hub</strong> repo.
 
 Your goal is to ensure all major skill areas from <strong>Alexandra Kelstrom's resume</strong> are reflected
@@ -427,11 +442,10 @@ Generate sequential GitHub flow to scaffold the project...
       <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
         <h2 style="font-size: 2rem;">Structured Output</h2>
-        <h3 style="font-size: 1.1rem;">roadmap.md</h3>
-        <p style="font-size: 1.1rem;">Claude generated a full project roadmap with priorities, issues, and success metrics.</p>
+        <p style="font-size: 1.1rem;"><span style="color: var(--gray);">planning/</span> Claude generated a full project roadmap with priorities, issues, and success metrics.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">roadmap.md — Project Roadmap</div>
+        <div class="code-header">planning/ — output snippets</div>
         <pre style="max-height: 75vh; font-size: 0.8rem; line-height: 1.35;"><span class="md-h1"># Human-in-the-Loop: Project Roadmap</span>
 
 <span class="md-h2">## Items Plan</span>
@@ -516,7 +530,7 @@ Generate sequential GitHub flow to scaffold the project...
         <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The model improves through human-directed adjustments.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — Pre-Commit Workflow</div>
+        <div class="code-header">CLAUDE.md — workflow snippets</div>
         <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Before Every Commit</span>
 
 <strong>Pre-Commit Checklist:</strong>
@@ -536,14 +550,16 @@ pnpm test            # ✅ All tests pass
 - [ ] All imports are used
 - [ ] Error handling is present
 
-<span class="md-h2">### Self-Correction Pattern</span>
+<span class="md-h2">## 🔄 Self-Correction Protocol</span>
 
-When I correct Claude, it updates its own instructions:
-- Adds new validation rules
-- Refines code patterns
-- Improves documentation standards
+When the user corrects your output or provides feedback,
+update this CLAUDE.md file to prevent the same issue:
 
-<strong>Result:</strong> Quality improves with each iteration.</pre>
+- <strong>Add new validation rules</strong> - If a pattern caused errors
+- <strong>Refine code patterns</strong> - If a style was rejected
+- <strong>Improve documentation</strong> - If output was unclear
+
+This ensures continuous improvement through human-guided iteration.</pre>
       </div>
     </div>
     <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
@@ -564,18 +580,21 @@ When I correct Claude, it updates its own instructions:
     <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
       <div style="flex: 0 0 400px;">
         <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">Resources</p>
-        <h2 style="font-size: 2rem;">Links</h2>
+        <h2 style="font-size: 2rem;">Explore & Connect</h2>
         <p style="font-size: 1.3rem; margin-top: 30px; font-weight: 700;">Let's build a responsible future together.</p>
-        <p style="font-size: 1rem; margin-top: 20px; color: var(--gray);">Click any link to open in a new tab.</p>
+        <p style="font-size: 1rem; margin-top: 20px; color: var(--gray);">Explore the infrastructure in detail.</p>
       </div>
       <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">Connect & Explore</div>
+        <div class="code-header">Explore & Connect</div>
         <pre style="max-height: 75vh; font-size: 0.9rem; line-height: 2;"><span class="md-h2">Human-in-the-Loop</span>
 <strong>npm</strong>        <a href="https://www.npmjs.com/package/@human-in-the-loop/cli" target="_blank">npmjs.com/package/@human-in-the-loop/cli</a>
 <strong>GitHub</strong>     <a href="https://github.com/codewizwit/human-in-the-loop" target="_blank">github.com/codewizwit/human-in-the-loop</a>
 <strong>Docs</strong>       <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/docs" target="_blank">github.com/.../docs</a>
 <strong>CLAUDE.md</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a> <span style="color: #666;">// main prompt</span>
 <strong>Planning</strong>   <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/planning" target="_blank">github.com/.../planning</a> <span style="color: #666;">// Claude's planning output</span>
+<strong>Prompts</strong>    <a href="https://github.com/codewizwit/human-in-the-loop#-whats-inside" target="_blank">github.com/...#whats-inside</a> <span style="color: #666;">// all 21 prompts</span>
+<strong>Workflows</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/.github/workflows" target="_blank">github.com/.../.github/workflows</a> <span style="color: #666;">// CI/CD</span>
+<strong>Contribute</strong> <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CONTRIBUTING.md" target="_blank">github.com/.../CONTRIBUTING.md</a>
 
 <span class="md-h2">Connect With Me</span>
 <strong>LinkedIn</strong>   <a href="https://www.linkedin.com/in/akelstrom/" target="_blank">linkedin.com/in/akelstrom</a>

@@ -320,3 +320,15 @@ These automated checks run in CI and must pass:
 | Build | `pnpm build` | ✅ Always |
 | Test | `pnpm test` | ✅ If applicable |
 | Links | `pnpm check-links` | ✅ For docs changes |
+
+---
+
+## 🔄 Self-Correction Protocol
+
+When the user corrects your output or provides feedback, update this CLAUDE.md file to prevent the same issue:
+
+- **Add new validation rules** - If a pattern caused errors, document it
+- **Refine code patterns** - If a style was rejected, update the standards
+- **Improve documentation standards** - If output was unclear, add examples
+
+This ensures continuous improvement through human-guided iteration.
