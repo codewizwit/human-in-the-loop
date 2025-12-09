@@ -87,3 +87,56 @@ document.addEventListener('touchend', (e) => {
     diff > 0 ? prevSlide() : nextSlide();
   }
 });
+
+// Auto-scroll animation for code previews
+let scrollAnimations = [];
+
+function startAutoScroll() {
+  stopAutoScroll();
+  const activeSlide = document.querySelector('.slide.active');
+  if (!activeSlide) return;
+
+  const pres = activeSlide.querySelectorAll('.code-preview pre');
+  pres.forEach(pre => {
+    if (pre.scrollHeight <= pre.clientHeight) return;
+
+    let scrollingDown = true;
+    const scrollSpeed = 0.5;
+    const pauseDuration = 2000;
+    let isPaused = false;
+
+    const animate = () => {
+      if (isPaused) return;
+
+      if (scrollingDown) {
+        pre.scrollTop += scrollSpeed;
+        if (pre.scrollTop >= pre.scrollHeight - pre.clientHeight) {
+          isPaused = true;
+          setTimeout(() => { scrollingDown = false; isPaused = false; }, pauseDuration);
+        }
+      } else {
+        pre.scrollTop -= scrollSpeed;
+        if (pre.scrollTop <= 0) {
+          isPaused = true;
+          setTimeout(() => { scrollingDown = true; isPaused = false; }, pauseDuration);
+        }
+      }
+    };
+
+    const intervalId = setInterval(animate, 16);
+    scrollAnimations.push(intervalId);
+  });
+}
+
+function stopAutoScroll() {
+  scrollAnimations.forEach(id => clearInterval(id));
+  scrollAnimations = [];
+}
+
+const originalShowSlide = showSlide;
+showSlide = function(index) {
+  originalShowSlide(index);
+  setTimeout(startAutoScroll, 500);
+};
+
+setTimeout(startAutoScroll, 1000);
