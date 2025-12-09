@@ -6,7 +6,7 @@ Thank you for your interest in contributing! This document outlines the process 
 
 ## How to Contribute
 
-> **Note**: As of v2.0.0, all prompts use **pure XML format** (no YAML frontmatter). See the [Pure XML Template Format Guide](./docs/xml-template-migration.md) for details.
+> **Note**: As of v3.0.0, all prompts use **pure XML format** (no YAML frontmatter). See the [Pure XML Template Format Guide](./docs/xml-template-migration.md) for details.
 
 ### 1. Types of Contributions
 
