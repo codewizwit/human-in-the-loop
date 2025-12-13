@@ -8,6 +8,32 @@
   --cream: #F5F3EE;
   --black: #1A1A1A;
   --gray: #6B6B6B;
+
+  /* Spacing system */
+  --spacing-xs: 10px;
+  --spacing-sm: 20px;
+  --spacing-md: 40px;
+  --spacing-lg: 60px;
+  --spacing-xl: 80px;
+
+  /* Typography scale */
+  --font-size-h1: 3.5rem;
+  --font-size-h2: 2rem;
+  --font-size-h3: 1.5rem;
+  --font-size-body: 1.4rem;
+  --font-size-small: 1.1rem;
+  --font-size-xs: 0.9rem;
+  --font-size-code: 0.85rem;
+
+  /* Layout dimensions */
+  --slide-padding-y: 80px;
+  --slide-padding-x: 120px;
+  --sidebar-width: 400px;
+  --grid-gap: 80px;
+  --logo-size: 60px;
+  --logo-bottom: 40px;
+  --logo-right: 40px;
+  --footer-clearance: 80px;
 }
 
 body {
@@ -31,48 +57,291 @@ body::before {
   z-index: 1000;
 }
 
+/* Base slide */
 .slide {
   display: none;
   width: 100vw;
   height: 100vh;
-  padding: 60px 80px;
+  padding: var(--slide-padding-y) var(--slide-padding-x) 40px;
   position: relative;
+  overflow-y: auto;
 }
 
 .slide.active {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 80px;
+  padding-top: var(--slide-padding-y);
 }
 
-/* Logo - bottom right on every slide */
+/* ======================================
+   SEMANTIC LAYOUT CLASSES
+   ====================================== */
+
+/* Two-column layout container */
+.slide-layout {
+  display: flex;
+  gap: var(--grid-gap);
+  align-items: stretch;
+  height: calc(100% - var(--footer-clearance));
+  max-height: calc(100% - var(--footer-clearance));
+  padding-bottom: var(--spacing-sm);
+}
+
+/* Left sidebar */
+.slide-sidebar {
+  flex: 0 0 var(--sidebar-width);
+  min-width: 0;
+}
+
+/* Right content area */
+.slide-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+}
+
+/* Centered title slide */
+.slide.slide-title {
+  justify-content: center !important;
+  align-items: center;
+  text-align: center;
+  padding-top: 0 !important;
+}
+
+.slide-centered {
+  padding-bottom: var(--slide-padding-y);
+}
+
+/* ======================================
+   TYPOGRAPHY CLASSES
+   ====================================== */
+
+/* Small uppercase label */
+.slide-header {
+  font-size: var(--font-size-xs);
+  color: var(--gray);
+  margin-bottom: var(--spacing-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Main heading */
+.slide-heading {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Subheading */
+.slide-subheading {
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  color: var(--black);
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Description text */
+.slide-description {
+  font-size: var(--font-size-small);
+  line-height: 1.6;
+}
+
+/* Path prefix (gray) */
+.path-prefix {
+  color: var(--gray);
+}
+
+/* Slide list */
+.slide-list {
+  font-size: var(--font-size-small);
+  line-height: 1.8;
+}
+
+/* Note text */
+.slide-note {
+  margin-top: var(--spacing-md);
+  font-size: 1rem;
+  color: var(--gray);
+}
+
+/* Category list (slide 2) */
+.category-list {
+  font-size: var(--font-size-code);
+  color: var(--gray);
+  line-height: 1.8;
+}
+
+/* ======================================
+   COMMANDS (Slide 2)
+   ====================================== */
+
+.slide-commands {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.command-name {
+  font-size: var(--font-size-xs);
+  margin-bottom: 2px;
+}
+
+.command-description {
+  font-size: 0.75rem;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.command-description-last {
+  margin-bottom: 0;
+}
+
+/* ======================================
+   DEMO GIF (Slide 2)
+   ====================================== */
+
+/* Desktop: prioritize GIF size, smaller text */
+#slide-2 .slide-layout {
+  align-items: stretch;
+}
+
+#slide-2 .slide-sidebar {
+  flex: 0 0 320px;
+}
+
+#slide-2 .slide-heading {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+#slide-2 .slide-subheading {
+  font-size: 0.95rem;
+  margin-top: var(--spacing-sm);
+  margin-bottom: 6px;
+}
+
+#slide-2 .category-list {
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+#slide-2 .command-name {
+  font-size: 0.8rem;
+}
+
+#slide-2 .command-description {
+  font-size: 0.7rem;
+  margin-bottom: 6px;
+}
+
+#slide-2 .demo-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#slide-2 .demo-gif {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* ======================================
+   VISION SLIDE (Slide 7)
+   ====================================== */
+
+.vision-intro {
+  font-size: 1.5rem;
+  color: var(--gray);
+  margin-bottom: var(--spacing-md);
+}
+
+.vision-statement {
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+/* ======================================
+   RESOURCES (Slide 8)
+   ====================================== */
+
+.cta-primary {
+  font-size: 1.3rem;
+  margin-top: var(--spacing-md);
+  font-weight: 700;
+}
+
+.cta-secondary {
+  font-size: 1rem;
+  margin-top: var(--spacing-sm);
+  color: var(--gray);
+}
+
+.resources-content {
+  position: relative;
+}
+
+.copy-hint {
+  position: absolute;
+  top: -22px;
+  right: 0;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--gray);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.links-preview {
+  cursor: pointer;
+}
+
+.links-pre {
+  line-height: 2;
+}
+
+/* ======================================
+   SLIDE FOOTER (Logo & Counter)
+   ====================================== */
+
 .logo {
   position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: 60px;
+  bottom: var(--logo-bottom);
+  right: var(--logo-right);
+  width: var(--logo-size);
   height: auto;
   opacity: 0.9;
   transform: rotate(-30deg);
 }
 
-/* Slide counter */
 .counter {
   position: absolute;
-  bottom: 45px;
-  left: 50px;
+  bottom: var(--logo-bottom);
+  left: var(--slide-padding-x);
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   color: var(--gray);
 }
 
-/* Typography */
+/* ======================================
+   TYPOGRAPHY
+   ====================================== */
+
 h1 {
-  font-size: 3.5rem;
+  font-size: var(--font-size-h1);
   font-weight: 900;
   line-height: 1.1;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-sm);
   letter-spacing: -0.02em;
 }
 
@@ -80,19 +349,19 @@ h2 {
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 30px;
+  margin-bottom: var(--spacing-md);
   letter-spacing: -0.01em;
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-h3);
   font-weight: 400;
   color: var(--gray);
-  margin-bottom: 40px;
+  margin-bottom: var(--spacing-md);
 }
 
 p {
-  font-size: 1.4rem;
+  font-size: var(--font-size-body);
   line-height: 1.6;
   max-width: 800px;
 }
@@ -100,23 +369,32 @@ p {
 .subtitle {
   font-size: 1.2rem;
   color: var(--gray);
-  margin-top: 10px;
+  margin-top: var(--spacing-xs);
 }
 
-/* Code blocks */
+/* ======================================
+   CODE BLOCKS
+   ====================================== */
+
 code, .code {
   font-family: 'JetBrains Mono', monospace;
   background: var(--black);
   color: var(--cream);
-  padding: 20px 30px;
+  padding: var(--spacing-sm) var(--spacing-md);
   border-radius: 8px;
   display: inline-block;
   font-size: 1.3rem;
-  margin-top: 30px;
+  margin-top: var(--spacing-md);
   position: relative;
   cursor: pointer;
   user-select: all;
   transition: opacity 0.2s;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.install-command {
+  margin-top: var(--spacing-lg);
 }
 
 code:hover {
@@ -143,10 +421,13 @@ code.copied::after {
   opacity: 1;
 }
 
-/* Lists */
+/* ======================================
+   LISTS
+   ====================================== */
+
 ul {
   list-style: none;
-  font-size: 1.4rem;
+  font-size: var(--font-size-body);
   line-height: 2;
 }
 
@@ -156,45 +437,18 @@ ul li::before {
   color: var(--gray);
 }
 
-/* Demo slide - GIF container */
-.demo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  padding: 40px;
-}
+/* ======================================
+   CODE PREVIEW BOX
+   ====================================== */
 
-.demo-container img {
-  max-width: 90%;
-  max-height: 70vh;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
-
-.demo-placeholder {
-  border: 3px dashed var(--gray);
-  border-radius: 12px;
-  padding: 80px;
-  text-align: center;
-  color: var(--gray);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Two column layout */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-
-/* Code preview box */
 .code-preview {
   background: var(--black);
   border-radius: 12px;
   overflow: hidden;
-  max-height: 70vh;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .code-header {
@@ -202,18 +456,23 @@ ul li::before {
   color: #ccc;
   padding: 12px 20px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
+  font-size: var(--font-size-code);
+  flex-shrink: 0;
 }
 
 .code-preview pre {
   color: var(--cream);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  padding: 20px;
+  font-size: var(--font-size-code);
+  line-height: 1.4;
+  padding: var(--spacing-sm);
   margin: 0;
   overflow-y: auto;
-  max-height: 55vh;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  flex: 1;
+  min-height: 0;
 }
 
 .code-preview pre strong {
@@ -235,15 +494,41 @@ ul li::before {
   font-weight: 700;
 }
 
-/* Emphasis */
-.highlight {
-  background: linear-gradient(transparent 60%, rgba(26,26,26,0.1) 60%);
+/* ======================================
+   DEMO CONTAINERS
+   ====================================== */
+
+.demo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: var(--spacing-md);
 }
 
-/* Navigation hint */
+.demo-container img {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.demo-placeholder {
+  border: 3px dashed var(--gray);
+  border-radius: 12px;
+  padding: var(--spacing-xl);
+  text-align: center;
+  color: var(--gray);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ======================================
+   NAVIGATION
+   ====================================== */
+
 .nav-hint {
   position: fixed;
-  bottom: 20px;
+  bottom: var(--spacing-sm);
   left: 50%;
   transform: translateX(-50%);
   font-family: 'JetBrains Mono', monospace;
@@ -252,7 +537,10 @@ ul li::before {
   opacity: 0.5;
 }
 
-/* Animations - subtle fade only */
+/* ======================================
+   ANIMATIONS
+   ====================================== */
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -262,14 +550,16 @@ ul li::before {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-/* Keep logo and counter fixed (no animation) */
 .slide.active > .logo,
 .slide.active > .counter {
   animation: none;
   opacity: 1;
 }
 
-/* Links */
+/* ======================================
+   LINKS
+   ====================================== */
+
 a {
   color: var(--black);
   text-decoration: none;
@@ -279,4 +569,477 @@ a {
 
 a:hover {
   border-color: var(--black);
+}
+
+/* ======================================
+   RESPONSIVE: TABLET (max-width 1024px)
+   ====================================== */
+
+@media screen and (max-width: 1024px) {
+  :root {
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 32px;
+    --spacing-lg: 48px;
+    --spacing-xl: 60px;
+
+    --font-size-h1: 2.8rem;
+    --font-size-h2: 1.8rem;
+    --font-size-h3: 1.3rem;
+    --font-size-body: 1.2rem;
+    --font-size-small: 1rem;
+    --font-size-xs: 0.85rem;
+    --font-size-code: 0.8rem;
+
+    --slide-padding-y: 60px;
+    --slide-padding-x: 60px;
+    --sidebar-width: 100%;
+    --grid-gap: 40px;
+    --logo-size: 50px;
+    --logo-bottom: 30px;
+    --logo-right: 30px;
+    --footer-clearance: 70px;
+  }
+
+  .slide-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .slide-sidebar {
+    flex: 0 0 auto;
+  }
+
+  .slide-content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Slide 2: side-by-side with smaller text, bigger GIF */
+  #slide-2 .slide-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  #slide-2 .slide-sidebar {
+    flex: 0 0 35%;
+  }
+
+  #slide-2 .slide-heading {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  #slide-2 .slide-subheading {
+    font-size: 0.8rem;
+    margin-top: var(--spacing-xs);
+    margin-bottom: 4px;
+  }
+
+  #slide-2 .category-list {
+    font-size: 0.65rem;
+    line-height: 1.4;
+  }
+
+  #slide-2 .command-name {
+    font-size: 0.7rem;
+  }
+
+  #slide-2 .command-description {
+    font-size: 0.6rem;
+    margin-bottom: 4px;
+  }
+
+  #slide-2 .slide-content {
+    flex: 1;
+  }
+
+  #slide-2 .demo-content {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  #slide-2 .demo-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+
+  h3 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .slide-subheading {
+    margin-top: var(--spacing-sm);
+  }
+
+  .slide-note {
+    margin-top: var(--spacing-sm);
+  }
+
+  .cta-primary {
+    margin-top: var(--spacing-sm);
+  }
+
+  .code-preview pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: hidden;
+  }
+
+  .demo-content {
+    padding: var(--spacing-sm);
+    border-radius: 10px;
+  }
+
+  .demo-gif {
+    border-radius: 6px;
+  }
+
+  .vision-statement {
+    font-size: 3rem;
+  }
+
+  .vision-intro {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .counter {
+    font-size: 12px;
+  }
+}
+
+/* ======================================
+   RESPONSIVE: MOBILE (max-width 768px)
+   ====================================== */
+
+@media screen and (max-width: 768px) {
+  :root {
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 24px;
+    --spacing-lg: 36px;
+    --spacing-xl: 48px;
+
+    --font-size-h1: 2rem;
+    --font-size-h2: 1.5rem;
+    --font-size-h3: 1.1rem;
+    --font-size-body: 1rem;
+    --font-size-small: 0.95rem;
+    --font-size-xs: 0.8rem;
+    --font-size-code: 0.7rem;
+
+    --slide-padding-y: 40px;
+    --slide-padding-x: 24px;
+    --grid-gap: 24px;
+    --logo-size: 40px;
+    --logo-bottom: 20px;
+    --logo-right: 20px;
+    --footer-clearance: 60px;
+  }
+
+  h2 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  h3 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  p {
+    max-width: 100%;
+  }
+
+  code, .code {
+    padding: var(--spacing-sm);
+    font-size: 1rem;
+    margin-top: var(--spacing-sm);
+  }
+
+  code::after {
+    font-size: 10px;
+    top: -18px;
+  }
+
+  .install-command {
+    margin-top: var(--spacing-md);
+  }
+
+  .code-header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-code);
+  }
+
+  /* Slide 2: Stack on mobile */
+  #slide-2 .slide-layout {
+    flex-direction: column;
+  }
+
+  #slide-2 .slide-sidebar {
+    flex: 0 0 auto;
+  }
+
+  #slide-2 .slide-heading {
+    font-size: var(--font-size-h2);
+  }
+
+  #slide-2 .slide-subheading {
+    font-size: var(--font-size-small);
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  #slide-2 .category-list {
+    font-size: var(--font-size-code);
+    line-height: 1.6;
+  }
+
+  #slide-2 .command-name {
+    font-size: var(--font-size-xs);
+  }
+
+  #slide-2 .command-description {
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+  }
+
+  #slide-2 .slide-content {
+    flex: 1;
+    min-height: 200px;
+  }
+
+  #slide-2 .demo-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  #slide-2 .demo-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .vision-statement {
+    font-size: 2rem;
+  }
+
+  .vision-intro {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cta-primary {
+    font-size: 1.1rem;
+    margin-top: var(--spacing-sm);
+  }
+
+  .cta-secondary {
+    margin-top: var(--spacing-xs);
+  }
+
+  .code-preview {
+    border-radius: 8px;
+  }
+
+  .code-preview pre {
+    padding: var(--spacing-sm);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: hidden;
+  }
+
+  .slide-subheading {
+    margin-top: var(--spacing-sm);
+  }
+
+  .slide-note {
+    margin-top: var(--spacing-sm);
+  }
+
+  .category-list {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  ul {
+    line-height: 1.8;
+  }
+
+  .counter {
+    font-size: 11px;
+  }
+
+  .nav-hint {
+    font-size: 11px;
+    bottom: var(--spacing-sm);
+  }
+}
+
+/* ======================================
+   RESPONSIVE: SMALL MOBILE (max-width 480px)
+   ====================================== */
+
+@media screen and (max-width: 480px) {
+  :root {
+    --spacing-xs: 6px;
+    --spacing-sm: 10px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    --font-size-h1: 1.6rem;
+    --font-size-h2: 1.3rem;
+    --font-size-h3: 1rem;
+    --font-size-body: 0.95rem;
+    --font-size-small: 0.9rem;
+    --font-size-xs: 0.75rem;
+    --font-size-code: 0.65rem;
+
+    --slide-padding-y: 24px;
+    --slide-padding-x: 16px;
+    --grid-gap: 16px;
+    --logo-size: 32px;
+    --logo-bottom: 16px;
+    --logo-right: 16px;
+    --footer-clearance: 50px;
+  }
+
+  h1 {
+    line-height: 1.15;
+  }
+
+  h2 {
+    line-height: 1.25;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  h3 {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  code, .code {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+
+  code::after {
+    display: none;
+  }
+
+  .install-command {
+    margin-top: var(--spacing-sm);
+  }
+
+  .code-header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .code-preview {
+    border-radius: 6px;
+  }
+
+  .code-preview pre {
+    padding: var(--spacing-sm);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: hidden;
+  }
+
+  .demo-content {
+    border-radius: 6px;
+  }
+
+  .demo-gif {
+    border-radius: 6px;
+  }
+
+  .vision-statement {
+    font-size: 1.5rem;
+  }
+
+  .vision-intro {
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .cta-primary {
+    margin-top: var(--spacing-sm);
+  }
+
+  .cta-secondary {
+    margin-top: var(--spacing-xs);
+  }
+
+  .slide-subheading {
+    margin-top: var(--spacing-sm);
+  }
+
+  .slide-note {
+    margin-top: var(--spacing-sm);
+  }
+
+  .slide-list {
+    font-size: var(--font-size-small);
+  }
+
+  ul {
+    line-height: 1.6;
+  }
+
+  ul li::before {
+    margin-right: var(--spacing-xs);
+  }
+
+  a {
+    border-bottom-width: 1px;
+  }
+
+  .counter {
+    font-size: 10px;
+  }
+
+  .nav-hint {
+    font-size: 10px;
+    bottom: var(--spacing-sm);
+  }
+}
+
+/* ======================================
+   RESPONSIVE: LANDSCAPE MOBILE
+   ====================================== */
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --spacing-xs: 6px;
+    --spacing-sm: 10px;
+    --spacing-md: 16px;
+    --slide-padding-y: 20px;
+    --slide-padding-x: 40px;
+    --footer-clearance: 50px;
+  }
+
+  .slide-layout {
+    flex-direction: row;
+    gap: var(--spacing-md);
+  }
+
+  .slide-sidebar {
+    flex: 0 0 40%;
+  }
+
+  .vision-statement {
+    font-size: 2rem;
+  }
+
+  .vision-intro {
+    margin-bottom: var(--spacing-sm);
+  }
 }

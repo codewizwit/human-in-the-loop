@@ -12,65 +12,66 @@
 <body>
 
   <!-- SLIDE 1: Title -->
-  <section class="slide active" id="slide-1" style="justify-content: center !important; align-items: center; text-align: center; padding-top: 0 !important;">
+  <section class="slide active slide-title" id="slide-1">
     <h1>Human-in-the-Loop</h1>
     <h3>Responsible AI Engineering in Practice</h3>
     <p><strong>Alexandra Kelstrom</strong><br>
     <span class="subtitle">Software Engineer & Responsible AI Advocate</span></p>
-    <code style="margin-top: 50px;">npm install -g @human-in-the-loop/cli</code>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+    <code class="install-command">npm install -g @human-in-the-loop/cli</code>
     <div class="counter">1 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 2: Demo -->
-  <section class="slide" id="slide-2" style="padding: 80px 120px 40px 120px;">
-    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 400px;">
-        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How It Works</p>
-        <h2 style="font-size: 2rem;">@human-in-the-loop/cli</h2>
-        <h3 style="font-size: 1rem; font-weight: 700; margin-top: 25px; margin-bottom: 10px; color: var(--black);">Prompt Categories</h3>
-        <p style="font-size: 0.85rem; color: var(--gray); line-height: 1.8;">Code Quality • Architecture • Testing • CI/CD<br>Docs • Planning & Culture • Governance</p>
+  <section class="slide" id="slide-2">
+    <div class="slide-layout">
+      <div class="slide-sidebar">
+        <p class="slide-header">How It Works</p>
+        <h2 class="slide-heading">@human-in-the-loop/cli</h2>
+        <h3 class="slide-subheading">Prompt Categories</h3>
+        <p class="category-list">Code Quality • Architecture • Testing • CI/CD<br>Docs • Planning & Culture • Governance</p>
 
-        <h3 style="font-size: 1rem; font-weight: 700; margin-top: 25px; margin-bottom: 10px; color: var(--black);">Commands</h3>
-        <div style="font-family: 'JetBrains Mono', monospace;">
-          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit doctor</strong></p>
-          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Validate your setup</p>
-          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit search</strong></p>
-          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Find prompts and tools</p>
-          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit list</strong></p>
-          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Show installed tools</p>
-          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit install &lt;tool&gt;</strong></p>
-          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Install + create slash command</p>
-          <p style="font-size: 0.9rem; margin-bottom: 2px;"><strong>hit contribute</strong></p>
-          <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 0;">Submit new tools</p>
+        <h3 class="slide-subheading">Commands</h3>
+        <div class="slide-commands">
+          <p class="command-name"><strong>hit doctor</strong></p>
+          <p class="command-description">Validate your setup</p>
+          <p class="command-name"><strong>hit search</strong></p>
+          <p class="command-description">Find prompts and tools</p>
+          <p class="command-name"><strong>hit list</strong></p>
+          <p class="command-description">Show installed tools</p>
+          <p class="command-name"><strong>hit install &lt;tool&gt;</strong></p>
+          <p class="command-description">Install + create slash command</p>
+          <p class="command-name"><strong>hit contribute</strong></p>
+          <p class="command-description command-description-last">Submit new tools</p>
         </div>
       </div>
-      <div class="code-preview" style="flex: 1; max-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden;">
-        <img src="assets/HITL-DEMO.gif" alt="CLI Demo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 0;">
+      <div class="slide-content code-preview demo-content">
+        <img src="assets/HITL-DEMO.gif" alt="CLI Demo" class="demo-gif">
       </div>
     </div>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">2 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 3: Infrastructure First -->
-  <section class="slide" id="slide-3" style="padding: 80px 120px 40px 120px;">
-    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 400px;">
-        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
-        <h2 style="font-size: 2rem;">Infrastructure First</h2>
-        <h3 style="font-size: 1.1rem; margin-bottom: 15px;">Standards before automation</h3>
-        <ul style="font-size: 1.1rem; line-height: 1.8;">
+  <section class="slide" id="slide-3">
+    <div class="slide-layout">
+      <div class="slide-sidebar">
+        <p class="slide-header">How I Built This</p>
+        <h2 class="slide-heading">Infrastructure First</h2>
+        <h3 class="slide-subheading">Standards before automation</h3>
+        <ul class="slide-list">
           <li>Automated code standards & quality checks</li>
           <li>Static testing & coverage thresholds</li>
           <li>Architecture patterns & validation pipelines</li>
           <li>Claude instruction files & context packs</li>
         </ul>
-        <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The infrastructure preserves intent.</p>
+        <p class="slide-note">The infrastructure preserves intent.</p>
       </div>
-      <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — validation snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Validation Checks</span>
+      <div class="slide-content">
+        <div class="code-preview">
+          <div class="code-header">CLAUDE.md — validation snippets</div>
+          <pre><span class="md-h2">### Validation Checks</span>
 
 These automated checks run in CI and must pass:
 
@@ -100,23 +101,25 @@ These automated checks run in CI and must pass:
 - One primary export per file
 - Keep files under 300 lines
 - camelCase, PascalCase, SCREAMING_SNAKE_CASE</pre>
+        </div>
       </div>
     </div>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">3 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 4: The Planning Prompt -->
-  <section class="slide" id="slide-4" style="padding: 80px 120px 40px 120px;">
-    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 400px;">
-        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
-        <h2 style="font-size: 2rem;">Encoding Intent</h2>
-        <p style="font-size: 1.1rem;"><span style="color: var(--gray);">CLAUDE.md</span> The planning prompt that shaped the entire project.</p>
+  <section class="slide" id="slide-4">
+    <div class="slide-layout">
+      <div class="slide-sidebar">
+        <p class="slide-header">How I Built This</p>
+        <h2 class="slide-heading">Encoding Intent</h2>
+        <p class="slide-description"><span class="path-prefix">CLAUDE.md</span> The planning prompt that shaped the entire project.</p>
       </div>
-      <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — planning snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;">You are acting as a responsible AI project planner for the <strong>Human-in-the-Loop AI Hub</strong> repo.
+      <div class="slide-content">
+        <div class="code-preview">
+          <div class="code-header">CLAUDE.md — planning snippets</div>
+          <pre>You are acting as a responsible AI project planner for the <strong>Human-in-the-Loop AI Hub</strong> repo.
 
 Your goal is to ensure all major skill areas from <strong>Alexandra Kelstrom's resume</strong> are reflected
 in reusable prompt templates, context packs, and governance specs.
@@ -185,23 +188,25 @@ human-in-the-loop/
 ├── libs/guardrails/    # Safety & governance rules
 ├── context-packs/      # Framework-specific knowledge
 └── apps/cli/           # TypeScript CLI tool</pre>
+        </div>
       </div>
     </div>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">4 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 5: Claude's Output -->
-  <section class="slide" id="slide-5" style="padding: 80px 120px 40px 120px;">
-    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 400px;">
-        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
-        <h2 style="font-size: 2rem;">Structured Output</h2>
-        <p style="font-size: 1.1rem;"><span style="color: var(--gray);">planning/</span> Claude generated a full project roadmap with priorities, issues, and success metrics.</p>
+  <section class="slide" id="slide-5">
+    <div class="slide-layout">
+      <div class="slide-sidebar">
+        <p class="slide-header">How I Built This</p>
+        <h2 class="slide-heading">Structured Output</h2>
+        <p class="slide-description"><span class="path-prefix">planning/</span> Claude generated a full project roadmap with priorities, issues, and success metrics.</p>
       </div>
-      <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">planning/ — output snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h1"># 1. Items Plan</span>
+      <div class="slide-content">
+        <div class="code-preview">
+          <div class="code-header">planning/ — output snippets</div>
+          <pre><span class="md-h1"># 1. Items Plan</span>
 
 | Category      | Item                   | Status     | Priority  |
 |---------------|------------------------|------------|-----------|
@@ -255,30 +260,32 @@ git commit -m "feat: add system-design-review"
 
 <strong>Overall Resume Alignment: ~75% complete</strong>
 </pre>
+        </div>
       </div>
     </div>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">5 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 6: Human-Guided Execution -->
-  <section class="slide" id="slide-6" style="padding: 80px 120px 40px 120px;">
-    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 400px;">
-        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">How I Built This</p>
-        <h2 style="font-size: 2rem;">Human-Guided Execution</h2>
-        <h3 style="font-size: 1.1rem;">Iteration • Validation • Self-Correction</h3>
-        <ul style="font-size: 1.1rem; line-height: 1.8;">
+  <section class="slide" id="slide-6">
+    <div class="slide-layout">
+      <div class="slide-sidebar">
+        <p class="slide-header">How I Built This</p>
+        <h2 class="slide-heading">Human-Guided Execution</h2>
+        <h3 class="slide-subheading">Iteration • Validation • Self-Correction</h3>
+        <ul class="slide-list">
           <li>Incremental task execution</li>
           <li>Self-updating instructions</li>
           <li>Quality gates enforce standards</li>
           <li>Human-directed, not autonomous</li>
         </ul>
-        <p style="margin-top: 30px; font-size: 1rem; color: var(--gray);">The model improves through human-directed adjustments.</p>
+        <p class="slide-note">The model improves through human-directed adjustments.</p>
       </div>
-      <div class="code-preview" style="flex: 1; max-height: 85vh;">
-        <div class="code-header">CLAUDE.md — workflow snippets</div>
-        <pre style="max-height: 75vh; font-size: 0.85rem; line-height: 1.4;"><span class="md-h2">### Before Every Commit</span>
+      <div class="slide-content">
+        <div class="code-preview">
+          <div class="code-header">CLAUDE.md — workflow snippets</div>
+          <pre><span class="md-h2">### Before Every Commit</span>
 
 <strong>Pre-Commit Checklist:</strong>
 ```bash
@@ -307,42 +314,43 @@ update this CLAUDE.md file to prevent the same issue:
 - <strong>Improve documentation</strong> - If output was unclear
 
 This ensures continuous improvement through human-guided iteration.</pre>
+        </div>
       </div>
     </div>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">6 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 7: The Future I'm Building -->
-  <section class="slide" id="slide-7" style="justify-content: center !important; align-items: center; text-align: center; padding-top: 0 !important; padding-bottom: 80px;">
-    <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.1em;">The Future I'm Building</p>
-    <p style="font-size: 1.5rem; color: var(--gray); margin-bottom: 30px;">Technology, humanity, and ethics evolve together with</p>
-    <h2 style="font-size: 4rem; font-weight: 900; line-height: 1.1;">No human left behind.</h2>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
+  <section class="slide slide-title slide-centered" id="slide-7">
+    <p class="slide-header">The Future I'm Building</p>
+    <p class="vision-intro">Technology, humanity, and ethics evolve together with</p>
+    <h2 class="vision-statement">No human left behind.</h2>
     <div class="counter">7 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <!-- SLIDE 8: Resources -->
-  <section class="slide" id="slide-8" style="padding: 80px 120px 40px 120px;">
-    <div style="display: flex; gap: 80px; align-items: flex-start; height: 100%;">
-      <div style="flex: 0 0 400px;">
-        <p style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">Resources</p>
-        <h2 style="font-size: 2rem;">Explore & Connect</h2>
-        <p style="font-size: 1.3rem; margin-top: 30px; font-weight: 700;">Let's build a responsible future together.</p>
-        <p style="font-size: 1rem; margin-top: 20px; color: var(--gray);">Explore the infrastructure in detail.</p>
+  <section class="slide" id="slide-8">
+    <div class="slide-layout">
+      <div class="slide-sidebar">
+        <p class="slide-header">Resources</p>
+        <h2 class="slide-heading">Explore & Connect</h2>
+        <p class="cta-primary">Let's build a responsible future together.</p>
+        <p class="cta-secondary">Explore the infrastructure in detail.</p>
       </div>
-      <div style="flex: 1; position: relative;">
-        <span id="copy-hint" style="position: absolute; top: -22px; right: 0; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #6B6B6B; opacity: 0.6; cursor: pointer;">click to copy</span>
-        <div id="links-box" class="code-preview" style="max-height: 85vh; cursor: pointer;">
+      <div class="slide-content resources-content">
+        <span id="copy-hint" class="copy-hint">click to copy</span>
+        <div id="links-box" class="code-preview links-preview">
           <div class="code-header">Explore & Connect</div>
-        <pre id="links-content" style="max-height: 75vh; font-size: 0.9rem; line-height: 2;"><span class="md-h2">Human-in-the-Loop</span>
+        <pre id="links-content" class="links-pre"><span class="md-h2">Human-in-the-Loop</span>
 <strong>npm</strong>        <a href="https://www.npmjs.com/package/@human-in-the-loop/cli" target="_blank">npmjs.com/package/@human-in-the-loop/cli</a>
 <strong>GitHub</strong>     <a href="https://github.com/codewizwit/human-in-the-loop" target="_blank">github.com/codewizwit/human-in-the-loop</a>
 <strong>Docs</strong>       <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/docs" target="_blank">github.com/.../docs</a>
-<strong>CLAUDE.md</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a> <span style="color: #666;">// main prompt</span>
-<strong>Planning</strong>   <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/planning" target="_blank">github.com/.../planning</a> <span style="color: #666;">// Claude's planning output</span>
-<strong>Prompts</strong>    <a href="https://github.com/codewizwit/human-in-the-loop#-whats-inside" target="_blank">github.com/...#whats-inside</a> <span style="color: #666;">// all 21 prompts</span>
-<strong>Workflows</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/.github/workflows" target="_blank">github.com/.../.github/workflows</a> <span style="color: #666;">// CI/CD</span>
+<strong>CLAUDE.md</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CLAUDE.md" target="_blank">github.com/.../CLAUDE.md</a> <span class="path-prefix">// main prompt</span>
+<strong>Planning</strong>   <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/planning" target="_blank">github.com/.../planning</a> <span class="path-prefix">// Claude's planning output</span>
+<strong>Prompts</strong>    <a href="https://github.com/codewizwit/human-in-the-loop#-whats-inside" target="_blank">github.com/...#whats-inside</a> <span class="path-prefix">// all 21 prompts</span>
+<strong>Workflows</strong>  <a href="https://github.com/codewizwit/human-in-the-loop/tree/main/.github/workflows" target="_blank">github.com/.../.github/workflows</a> <span class="path-prefix">// CI/CD</span>
 <strong>Contribute</strong> <a href="https://github.com/codewizwit/human-in-the-loop/blob/main/CONTRIBUTING.md" target="_blank">github.com/.../CONTRIBUTING.md</a>
 
 <span class="md-h2">Connect With Me</span>
@@ -352,8 +360,8 @@ This ensures continuous improvement through human-guided iteration.</pre>
         </div>
       </div>
     </div>
-    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
     <div class="counter">8 / 8</div>
+    <img src="assets/codewizwit-logo.jpg" alt="Logo" class="logo">
   </section>
 
   <div class="nav-hint">← → or Space to navigate</div>
