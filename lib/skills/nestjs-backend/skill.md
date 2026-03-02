@@ -1,15 +1,24 @@
 ---
 name: nestjs-backend
-description: Apply NestJS best practices for building scalable Node.js backends with dependency injection, modules, microservices, and clean architecture patterns. Use this when building or reviewing NestJS applications.
+description: >-
+  Apply NestJS best practices for building scalable Node.js backends with
+  dependency injection, modules, microservices, and clean architecture.
+  Use when user asks to "build a NestJS API", "create a NestJS module",
+  or mentions "NestJS patterns".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - AskUserQuestion
 ---
 
 # NestJS Backend Skill
 
 Use this skill when working with **NestJS** applications. NestJS is a progressive Node.js framework for building efficient, reliable, and scalable server-side applications using TypeScript.
 
-## When to Activate This Skill
-
-Activate automatically when:
+## When to Activate
 
 - Building new NestJS applications
 - Working with NestJS modules, controllers, or services
@@ -18,6 +27,35 @@ Activate automatically when:
 - Setting up microservices or message queues
 - Configuring guards, interceptors, or pipes
 - Writing tests for NestJS applications
+
+## Interactive Flow
+
+### Step 1: Gather Context
+
+<ask_user_question>
+<question>What NestJS task would you like help with?</question>
+<options>
+
+  <option value="new-module">Create a new module/feature</option>
+  <option value="api-endpoint">Build REST or GraphQL endpoints</option>
+  <option value="auth">Set up authentication and authorization</option>
+  <option value="testing">Write tests for NestJS code</option>
+  <option value="review">Review existing NestJS code</option>
+  <option value="other">Something else</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+### Step 2: Analyze Codebase
+
+1. Use Glob to find NestJS files (`*.module.ts`, `*.controller.ts`, `*.service.ts`, `*.guard.ts`)
+2. Use Read to examine existing modules and architecture
+3. Use Grep to identify patterns (decorators, providers, imports)
+4. Check `package.json` for NestJS version and installed packages
+
+### Step 3: Execute
+
+Apply NestJS best practices based on the task. See detailed guidance below.
 
 ## Module Architecture
 
@@ -40,16 +78,15 @@ export class UsersModule {}
 
 **Module Best Practices**:
 
-- ✅ One module per domain/feature (Users, Orders, Products)
-- ✅ Keep modules focused and cohesive
-- ✅ Export only what other modules need
-- ✅ Use `forRoot()` / `forRootAsync()` for configurable modules
-- ✅ Use `forFeature()` for feature-specific configuration
+- One module per domain/feature (Users, Orders, Products)
+- Keep modules focused and cohesive
+- Export only what other modules need
+- Use `forRoot()` / `forRootAsync()` for configurable modules
+- Use `forFeature()` for feature-specific configuration
 
 ### Feature Module Pattern
 
 ```typescript
-// users/users.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -123,7 +160,6 @@ export class DatabaseModule {
 **Usage**:
 
 ```typescript
-// app.module.ts
 @Module({
   imports: [
     DatabaseModule.forRootAsync({
@@ -151,16 +187,13 @@ import { Module } from '@nestjs/common';
 
 @Module({
   providers: [
-    // ✅ Standard class provider (most common)
     UsersService,
 
-    // ✅ Value provider - for configuration or constants
     {
       provide: 'API_KEY',
       useValue: 'my-api-key-12345',
     },
 
-    // ✅ Factory provider - for dynamic creation
     {
       provide: 'ASYNC_CONNECTION',
       useFactory: async (config: ConfigService) => {
@@ -170,14 +203,12 @@ import { Module } from '@nestjs/common';
       inject: [ConfigService],
     },
 
-    // ✅ Class provider - for substitution/aliasing
     {
       provide: 'IUsersService',
       useClass:
         process.env.NODE_ENV === 'test' ? MockUsersService : UsersService,
     },
 
-    // ✅ Existing provider - alias to another provider
     {
       provide: 'AliasedService',
       useExisting: UsersService,
@@ -192,33 +223,29 @@ export class UsersModule {}
 ```typescript
 import { Injectable, Scope } from '@nestjs/common';
 
-// ✅ DEFAULT (Singleton) - One instance shared across entire app
 @Injectable()
 export class SingletonService {}
 
-// ✅ REQUEST - New instance per request
 @Injectable({ scope: Scope.REQUEST })
 export class RequestScopedService {
   constructor(@Inject(REQUEST) private request: Request) {}
 }
 
-// ✅ TRANSIENT - New instance each time it's injected
 @Injectable({ scope: Scope.TRANSIENT })
 export class TransientService {}
 ```
 
 **Scope Best Practices**:
 
-- ✅ Use DEFAULT (singleton) for stateless services
-- ✅ Use REQUEST scope when you need request context
-- ✅ Use TRANSIENT for services with internal state per consumer
-- ⚠️ REQUEST and TRANSIENT scopes have performance overhead
-- ⚠️ Scope bubbles up - if A depends on REQUEST-scoped B, A becomes REQUEST-scoped
+- Use DEFAULT (singleton) for stateless services
+- Use REQUEST scope when you need request context
+- Use TRANSIENT for services with internal state per consumer
+- REQUEST and TRANSIENT scopes have performance overhead
+- Scope bubbles up - if A depends on REQUEST-scoped B, A becomes REQUEST-scoped
 
 ### Custom Providers with Interfaces
 
 ```typescript
-// interfaces/users-service.interface.ts
 export interface IUsersService {
   findAll(): Promise<User[]>;
   findById(id: string): Promise<User>;
@@ -227,7 +254,6 @@ export interface IUsersService {
 
 export const USERS_SERVICE = Symbol('USERS_SERVICE');
 
-// users.service.ts
 @Injectable()
 export class UsersService implements IUsersService {
   async findAll(): Promise<User[]> {
@@ -244,7 +270,6 @@ export class UsersService implements IUsersService {
   }
 }
 
-// users.module.ts
 @Module({
   providers: [
     {
@@ -256,7 +281,6 @@ export class UsersService implements IUsersService {
 })
 export class UsersModule {}
 
-// Injection usage
 @Injectable()
 export class OrdersService {
   constructor(
@@ -268,11 +292,6 @@ export class OrdersService {
 ### Circular Dependency Resolution
 
 ```typescript
-// ❌ PROBLEM: Circular dependency
-// users.service.ts imports orders.service.ts
-// orders.service.ts imports users.service.ts
-
-// ✅ SOLUTION 1: Forward reference
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { OrdersService } from '../orders/orders.service';
 
@@ -284,7 +303,6 @@ export class UsersService {
   ) {}
 }
 
-// orders.service.ts
 @Injectable()
 export class OrdersService {
   constructor(
@@ -293,7 +311,6 @@ export class OrdersService {
   ) {}
 }
 
-// Also update modules
 @Module({
   imports: [forwardRef(() => OrdersModule)],
   providers: [UsersService],
@@ -303,7 +320,6 @@ export class UsersModule {}
 ```
 
 ```typescript
-// ✅ SOLUTION 2: Event-based (preferred for loose coupling)
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
@@ -313,7 +329,6 @@ export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     const user = await this.usersRepository.save(dto);
 
-    // Emit event instead of direct service call
     this.eventEmitter.emit('user.created', { userId: user.id });
 
     return user;
@@ -528,7 +543,6 @@ import { SetMetadata } from '@nestjs/common';
 export const ROLES_KEY = 'roles';
 export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
 
-// roles.guard.ts
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
@@ -548,7 +562,6 @@ export class RolesGuard implements CanActivate {
   }
 }
 
-// Usage
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('admin')
@@ -882,7 +895,6 @@ describe('UsersController (e2e)', () => {
 ### Environment-Based Configuration
 
 ```typescript
-// config/configuration.ts
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
@@ -902,10 +914,6 @@ export default () => ({
   },
 });
 
-// app.module.ts
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from './config/configuration';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -924,7 +932,6 @@ import configuration from './config/configuration';
 })
 export class AppModule {}
 
-// Usage in service
 @Injectable()
 export class AppService {
   constructor(private config: ConfigService) {}
@@ -935,47 +942,78 @@ export class AppService {
 }
 ```
 
-## Best Practices Checklist
+## Output Format
+
+<output_format>
+When generating NestJS code, follow the modular architecture pattern:
+
+- One module per domain/feature
+- Controller handles HTTP layer only
+- Service contains business logic
+- Repository handles data access
+- DTOs for request/response validation
+- Guards for authentication/authorization
+- Interceptors for response transformation
+- Pipes for input validation
+
+Provide complete, working code examples with proper imports and decorators.
+</output_format>
+
+## Best Practices
 
 ### Architecture
 
-- ✅ One module per domain/feature
-- ✅ Keep modules cohesive and focused
-- ✅ Use DTOs for request/response validation
-- ✅ Separate business logic into services
-- ✅ Use repositories for data access
-- ✅ Implement proper error handling
+- One module per domain/feature
+- Keep modules cohesive and focused
+- Use DTOs for request/response validation
+- Separate business logic into services
+- Use repositories for data access
+- Implement proper error handling
 
 ### Dependency Injection
 
-- ✅ Use constructor injection
-- ✅ Program to interfaces, not implementations
-- ✅ Use appropriate scopes (DEFAULT for stateless)
-- ✅ Avoid circular dependencies (use events or forwardRef)
-- ✅ Use custom providers for flexibility
+- Use constructor injection
+- Program to interfaces, not implementations
+- Use appropriate scopes (DEFAULT for stateless)
+- Avoid circular dependencies (use events or forwardRef)
+- Use custom providers for flexibility
 
 ### Security
 
-- ✅ Validate all inputs with class-validator
-- ✅ Use Guards for authentication/authorization
-- ✅ Implement rate limiting
-- ✅ Use Helmet for security headers
-- ✅ Never expose internal errors to clients
+- Validate all inputs with class-validator
+- Use Guards for authentication/authorization
+- Implement rate limiting
+- Use Helmet for security headers
+- Never expose internal errors to clients
 
 ### Testing
 
-- ✅ Unit test services with mocked dependencies
-- ✅ E2E test controllers with supertest
-- ✅ Use TestingModule for dependency setup
-- ✅ Mock external services and databases
+- Unit test services with mocked dependencies
+- E2E test controllers with supertest
+- Use TestingModule for dependency setup
+- Mock external services and databases
 
-### Anti-Patterns to Avoid
+## Anti-Patterns
 
-- ❌ Don't put business logic in controllers
-- ❌ Don't use circular dependencies without resolution
-- ❌ Don't skip input validation
-- ❌ Don't expose stack traces in production
-- ❌ Don't hardcode configuration values
+- Don't put business logic in controllers
+- Don't use circular dependencies without resolution
+- Don't skip input validation
+- Don't expose stack traces in production
+- Don't hardcode configuration values
+
+## Examples
+
+**Create a new module:**
+
+> Create a NestJS products module with CRUD endpoints, DTOs, and validation
+
+**Set up authentication:**
+
+> Add JWT authentication with guards and role-based access control to my NestJS app
+
+**Write tests:**
+
+> Write unit tests for the UsersService and E2E tests for the UsersController
 
 ## References
 

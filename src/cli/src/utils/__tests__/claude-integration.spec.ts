@@ -1,4 +1,16 @@
-import { createClaudeCommand, isClaudeAvailable } from '../claude-integration';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from '@jest/globals';
+import {
+  createClaudeCommand,
+  isClaudeAvailable,
+  installSkillFile,
+} from '../claude-integration';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
 
@@ -153,7 +165,6 @@ Template with {{input}}
 
         const result = createClaudeCommand('/path/to/prompt.xml');
 
-        // Should still work but use default metadata values
         expect(result).toBe(join(homeDir, '.claude', 'commands', 'unknown.md'));
         expect(mockWriteFileSync).toHaveBeenCalledWith(
           expect.any(String),
@@ -445,6 +456,115 @@ Content`;
       expect(isClaudeAvailable()).toBe(true);
       expect(mockExistsSync).toHaveBeenCalledWith(
         expect.stringContaining('.claude')
+      );
+    });
+  });
+
+  describe('installSkillFile', () => {
+    it('should copy skill.md to destination path', () => {
+      const skillContent = `---
+name: test-skill
+description: A test skill
+version: 1.0.0
+allowed-tools:
+  - Read
+---
+
+## When to Activate
+Testing scenarios.`;
+
+      mockExistsSync.mockReturnValue(true);
+      mockReadFileSync.mockReturnValue(skillContent);
+
+      const result = installSkillFile(
+        '/lib/skills/test-skill/skill.md',
+        '/home/user/.claude/skills/test-skill.md'
+      );
+
+      expect(mockReadFileSync).toHaveBeenCalledWith(
+        '/lib/skills/test-skill/skill.md',
+        'utf-8'
+      );
+      expect(mockWriteFileSync).toHaveBeenCalledWith(
+        '/home/user/.claude/skills/test-skill.md',
+        skillContent,
+        'utf-8'
+      );
+      expect(result).toBe('/home/user/.claude/skills/test-skill.md');
+    });
+
+    it('should create destination directory if it does not exist', () => {
+      mockMkdirSync.mockReset();
+      mockExistsSync.mockReturnValue(false);
+      mockReadFileSync.mockReturnValue('skill content');
+
+      installSkillFile(
+        '/lib/skills/test/skill.md',
+        '/home/user/.claude/skills/test.md'
+      );
+
+      expect(mockMkdirSync).toHaveBeenCalledWith('/home/user/.claude/skills', {
+        recursive: true,
+      });
+    });
+
+    it('should not create directory if it already exists', () => {
+      mockExistsSync.mockReturnValue(true);
+      mockReadFileSync.mockReturnValue('skill content');
+
+      installSkillFile(
+        '/lib/skills/test/skill.md',
+        '/home/user/.claude/skills/test.md'
+      );
+
+      expect(mockMkdirSync).not.toHaveBeenCalled();
+    });
+
+    it('should return the destination file path', () => {
+      mockExistsSync.mockReturnValue(true);
+      mockReadFileSync.mockReturnValue('skill content');
+
+      const result = installSkillFile(
+        '/lib/skills/code-review/skill.md',
+        '/home/user/.claude/skills/code-review.md'
+      );
+
+      expect(result).toBe('/home/user/.claude/skills/code-review.md');
+    });
+
+    it('should preserve the skill file content exactly', () => {
+      const complexContent = `---
+name: complex-skill
+description: A complex skill with special chars & symbols
+version: 2.1.0
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+---
+
+## When to Activate
+When working with complex patterns.
+
+## Output Format
+Use structured markdown.
+
+### Additional Notes
+- Item 1
+- Item 2`;
+
+      mockExistsSync.mockReturnValue(true);
+      mockReadFileSync.mockReturnValue(complexContent);
+
+      installSkillFile(
+        '/lib/skills/complex/skill.md',
+        '/home/user/.claude/skills/complex-skill.md'
+      );
+
+      expect(mockWriteFileSync).toHaveBeenCalledWith(
+        '/home/user/.claude/skills/complex-skill.md',
+        complexContent,
+        'utf-8'
       );
     });
   });

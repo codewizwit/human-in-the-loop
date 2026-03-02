@@ -24,8 +24,8 @@ npx @human-in-the-loop/cli --version
 # Search for tools
 hit search "code review"
 
-# Install a prompt
-hit install prompt/code-review-ts
+# Install a skill by id
+hit install code-review-ts
 
 # List installed tools
 hit list
@@ -66,35 +66,45 @@ hit search "angular"
 hit search "security"
 ```
 
-### `hit install <tool>`
+### `hit install [skill-id]`
 
-Install a tool from the library to your local system.
+Install a unified skill from the library to your local system.
+
+When no skill-id is provided, an interactive skill browser launches so you can explore and select from available skills.
+
+```bash
+# Browse all skills interactively
+hit install
+
+# Install a specific skill by id
+hit install code-review-ts
+
+# Install with a specific destination
+hit install code-review-ts --destination project-skill
+
+# Install to a custom path
+hit install code-review-ts --path ~/my-tools/skills
+```
 
 **What does installing mean?**
 
-Installing copies a prompt, agent, or tool from the library to a location where your AI tools can access it. When you install:
+Installing copies the skill's `skill.md` file to a destination where Claude Code can access it. When you install:
 
-1. **Files are copied** - All prompt/agent files (prompt.md, READMEs, etc.) are copied to your chosen location
+1. **The skill file is copied** - The `skill.md` file (not the whole directory) is placed in your chosen destination
 2. **Registration** - The installation is tracked in `~/.hit/registry.json` for easy management
-3. **Ready to use** - AI tools like Claude Code can now access and use the prompt
+3. **Ready to use** - Claude Code can now access and use the skill in your sessions
 
 **Common install locations:**
 
-- `~/.claude/prompts/` - For Claude Code slash commands
-- `~/.claude/tools/` - For general AI tool integration
-- Custom paths for your specific workflow
-
-```bash
-# Interactive install (prompts for path)
-hit install prompt/code-review-ts
-
-# Non-interactive with custom path
-hit install prompt/code-review-ts --path ~/.claude/tools/prompts
-```
+- `~/.claude/skills/` - Global skills, available in all projects
+- `.claude/skills/` - Project-scoped skills, available in the current project
+- `~/.claude/commands/` - Global slash commands, available in all projects
+- `.claude/commands/` - Project-scoped slash commands, available in the current project
 
 **Options:**
 
 - `--path, -p <path>` - Installation path (skips interactive prompt)
+- `--destination, -d <type>` - Destination type: `global-skill`, `project-skill`, `global-command`, `project-command`, or `custom`
 
 ### `hit list`
 
@@ -158,7 +168,7 @@ View usage analytics and metrics.
 hit stats
 
 # Tool-specific stats
-hit stats --tool prompt/code-review-ts
+hit stats --tool code-review-ts
 ```
 
 ## Configuration
@@ -214,11 +224,11 @@ The CLI maintains a local registry at `~/.hit/registry.json` to track:
 ### Code Review Workflow
 
 ```bash
-# Install TypeScript code review prompt
-hit install prompt/code-review-ts
+# Install TypeScript code review skill
+hit install code-review-ts
 
 # Install empathy guide for feedback
-hit install prompt/code-review-empathy
+hit install code-review-empathy
 
 # List installed tools
 hit list
@@ -226,14 +236,14 @@ hit list
 
 ### Using with Claude Code
 
-After installing a prompt, it automatically creates a Claude Code slash command:
+After installing a skill, Claude Code can access it in your sessions:
 
 ```bash
-# Install the prompt
-hit install prompt/security-review
+# Install the skill
+hit install security-review
 
-# In Claude Code, use the slash command:
-# /security-review
+# Claude Code now has access to the security review skill
+# Use it by referencing the skill in your conversations
 ```
 
 ## Requirements

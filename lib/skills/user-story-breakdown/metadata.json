@@ -1,0 +1,14 @@
+{
+  "id": "user-story-breakdown",
+  "name": "User Story Breakdown",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Breaks down epics and features into actionable, testable user stories. Use when user asks to \"break down this epic\", \"create user stories\", \"plan sprint stories\", or mentions \"story breakdown\".",
+  "category": "planning",
+  "tags": ["planning", "agile", "user-stories", "sprint-planning"],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

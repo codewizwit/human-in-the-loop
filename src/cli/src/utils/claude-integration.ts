@@ -378,6 +378,33 @@ function generateCommandContent(prompt: PromptYaml): string {
 }
 
 /**
+ * Installs a unified skill.md file to the target destination by copying it directly.
+ * Unified skill files are already valid Claude Code skill/command files and need
+ * no transformation.
+ * @param skillPath - Absolute path to the source skill.md file
+ * @param destinationPath - Absolute path to the destination file (e.g., ~/.claude/skills/my-skill.md)
+ * @returns The destination path where the file was installed
+ */
+export function installSkillFile(
+  skillPath: string,
+  destinationPath: string
+): string {
+  const destDir = destinationPath.substring(
+    0,
+    destinationPath.lastIndexOf('/')
+  );
+
+  if (!existsSync(destDir)) {
+    mkdirSync(destDir, { recursive: true });
+  }
+
+  const content = readFileSync(skillPath, 'utf-8');
+  writeFileSync(destinationPath, content, 'utf-8');
+
+  return destinationPath;
+}
+
+/**
  * Checks if Claude Code integration is available
  * @returns true if .claude directory exists or can be created
  */

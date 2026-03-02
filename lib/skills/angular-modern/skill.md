@@ -1,15 +1,24 @@
 ---
 name: angular-modern
-description: Apply modern Angular patterns with signals, computed, effect, standalone components, and signal-based inputs/outputs when building or reviewing Angular 16+ applications. Use this for new Angular projects using the latest reactive primitives.
+description: >-
+  Apply modern Angular patterns with signals, computed, effect, standalone
+  components, and signal-based inputs/outputs when building or reviewing
+  Angular 16+ applications. Use when user asks to "build an Angular app",
+  "use Angular signals", or mentions "modern Angular patterns".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - AskUserQuestion
 ---
 
 # Angular Modern Skill
 
 Use this skill when working with **modern Angular (16+)** using signals, computed values, effects, and standalone components. This represents the current and future direction of Angular development.
 
-## When to Activate This Skill
-
-Activate automatically when:
+## When to Activate
 
 - Building new Angular 16+ applications
 - Working with signals, computed, or effect
@@ -17,6 +26,34 @@ Activate automatically when:
 - Implementing signal-based inputs and outputs
 - Discussing modern Angular reactive patterns
 - Migrating from RxJS/NgOnInit to signals
+
+## Interactive Flow
+
+### Step 1: Gather Context
+
+<ask_user_question>
+<question>What Angular task would you like help with?</question>
+<options>
+
+  <option value="new-component">Build a new component with signals</option>
+  <option value="migration">Migrate legacy Angular to modern patterns</option>
+  <option value="state-management">Set up state management with signals</option>
+  <option value="review">Review existing Angular code for modern patterns</option>
+  <option value="other">Something else</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+### Step 2: Analyze Codebase
+
+1. Use Glob to find Angular files (`*.component.ts`, `*.service.ts`, `*.module.ts`)
+2. Use Read to examine existing components and services
+3. Use Grep to identify legacy patterns (`@Input`, `@Output`, `ngOnInit`, `*ngIf`, `*ngFor`)
+4. Determine Angular version from `package.json`
+
+### Step 3: Execute
+
+Apply modern Angular patterns based on the task. See detailed guidance below.
 
 ## Core Reactive Primitives
 
@@ -56,11 +93,11 @@ export class CounterComponent {
 
 **Signal Best Practices**:
 
-- ✅ Use `signal()` for writable state
-- ✅ Use `.set()` to replace value
-- ✅ Use `.update()` for transformations based on current value
-- ✅ Call signals as functions to read: `count()`
-- ✅ Signals automatically track dependencies
+- Use `signal()` for writable state
+- Use `.set()` to replace value
+- Use `.update()` for transformations based on current value
+- Call signals as functions to read: `count()`
+- Signals automatically track dependencies
 
 ### Computed - Derived State
 
@@ -90,12 +127,10 @@ export class ShoppingCartComponent {
 
   taxRate = signal(8.5);
 
-  // ✅ Computed automatically updates when items change
   itemCount = computed(() =>
     this.items().reduce((sum, item) => sum + item.quantity, 0)
   );
 
-  // ✅ Computed values are cached and only recalculate when dependencies change
   subtotal = computed(() =>
     this.items().reduce((sum, item) => sum + item.price * item.quantity, 0)
   );
@@ -108,11 +143,11 @@ export class ShoppingCartComponent {
 
 **Computed Best Practices**:
 
-- ✅ Use `computed()` for derived state
-- ✅ Computed values are read-only
-- ✅ Automatically recalculates when dependencies change
-- ✅ Results are cached (memoized)
-- ✅ Can depend on other computed signals
+- Use `computed()` for derived state
+- Computed values are read-only
+- Automatically recalculates when dependencies change
+- Results are cached (memoized)
+- Can depend on other computed signals
 
 ### Effect - Side Effects
 
@@ -154,23 +189,19 @@ export class UserPreferencesComponent {
   fontSize = signal(16);
 
   constructor() {
-    // ✅ Effect runs when signals change
     effect(() => {
       const currentTheme = this.theme();
       const currentFontSize = this.fontSize();
 
-      // Persist to localStorage
       localStorage.setItem('theme', currentTheme);
       localStorage.setItem('fontSize', currentFontSize.toString());
 
-      // Apply to document
       document.documentElement.setAttribute('data-theme', currentTheme);
       document.documentElement.style.fontSize = `${currentFontSize}px`;
 
       console.log(`Preferences updated: ${currentTheme}, ${currentFontSize}px`);
     });
 
-    // Load saved preferences
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const savedFontSize = localStorage.getItem('fontSize');
 
@@ -182,11 +213,11 @@ export class UserPreferencesComponent {
 
 **Effect Best Practices**:
 
-- ✅ Use `effect()` for side effects (DOM, localStorage, logging)
-- ✅ Effects run automatically when tracked signals change
-- ✅ Avoid using effects for derived state (use `computed` instead)
-- ✅ Effects run in injection context (constructor, field initializer)
-- ❌ Don't use effects to update other signals (creates circular dependencies)
+- Use `effect()` for side effects (DOM, localStorage, logging)
+- Effects run automatically when tracked signals change
+- Avoid using effects for derived state (use `computed` instead)
+- Effects run in injection context (constructor, field initializer)
+- Don't use effects to update other signals (creates circular dependencies)
 
 ## Signal-Based Inputs and Outputs
 
@@ -203,18 +234,15 @@ import { Component, input, computed } from '@angular/core';
       <h3>{{ user().name }}</h3>
       <p>{{ user().email }}</p>
       <p>{{ displayName() }}</p>
-      <span *ngIf="highlighted()">⭐ Featured</span>
+      <span *ngIf="highlighted()">Featured</span>
     </div>
   `,
 })
 export class UserCardComponent {
-  // ✅ Signal-based required input
   user = input.required<User>();
 
-  // ✅ Signal-based optional input with default
   highlighted = input(false);
 
-  // ✅ Computed from signal inputs
   displayName = computed(() => {
     const u = this.user();
     return `${u.name} <${u.email}>`;
@@ -258,7 +286,6 @@ import { Component, input, output } from '@angular/core';
 export class ProductCardComponent {
   product = input.required<Product>();
 
-  // ✅ Signal-based outputs
   addToCart = output<Product>();
   viewDetails = output<string>();
 
@@ -313,11 +340,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    // Import other standalone components directly
-  ],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="dashboard">
       <h1>Dashboard</h1>
@@ -334,7 +357,6 @@ export class DashboardComponent {}
 ### Standalone Main Application
 
 ```typescript
-// main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
@@ -342,18 +364,13 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-    provideHttpClient(),
-    // Other providers
-  ],
+  providers: [provideRouter(routes), provideHttpClient()],
 });
 ```
 
 ### Lazy Loading with Standalone Components
 
 ```typescript
-// app.routes.ts
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -402,7 +419,6 @@ import { Component, resource, signal } from '@angular/core';
 export class UserProfileComponent {
   userId = signal('123');
 
-  // ✅ Resource automatically fetches when userId changes
   userResource = resource({
     request: () => ({ id: this.userId() }),
     loader: async ({ request }) => {
@@ -420,11 +436,11 @@ export class UserProfileComponent {
 
 **Resource Benefits**:
 
-- ✅ Automatic loading states (`isLoading`, `hasValue`, `error`)
-- ✅ Reactive - reloads when request signal changes
-- ✅ Built-in error handling
-- ✅ Manual refresh with `.reload()`
-- ✅ No need for RxJS or manual state management
+- Automatic loading states (`isLoading`, `hasValue`, `error`)
+- Reactive - reloads when request signal changes
+- Built-in error handling
+- Manual refresh with `.reload()`
+- No need for RxJS or manual state management
 
 ## Control Flow Syntax (Angular 17+)
 
@@ -579,10 +595,8 @@ interface CartItem {
 export class CartService {
   private items = signal<CartItem[]>([]);
 
-  // ✅ Expose read-only signals
   readonly allItems = this.items.asReadonly();
 
-  // ✅ Computed values
   readonly itemCount = computed(() =>
     this.items().reduce((sum, item) => sum + item.quantity, 0)
   );
@@ -735,45 +749,57 @@ describe('CartService', () => {
 });
 ```
 
-## Best Practices Checklist
+## Output Format
+
+<output_format>
+
+<section name="summary">Brief description of what was built or reviewed</section>
+<section name="components">
+  <component>
+    <file>path/to/component.ts</file>
+    <pattern>signal | computed | effect | input | output | resource</pattern>
+    <description>What it does and which modern patterns it uses</description>
+  </component>
+</section>
+<section name="migrations">
+  <migration>
+    <from>Legacy pattern (e.g., @Input decorator, NgModule)</from>
+    <to>Modern pattern (e.g., input(), standalone)</to>
+    <file>affected file path</file>
+  </migration>
+</section>
+<section name="next-steps">Recommended follow-up actions</section>
+</output_format>
+
+## Best Practices
 
 ### Modern Angular Patterns
 
-- ✅ Use `signal()` for all component state
-- ✅ Use `computed()` for derived values
-- ✅ Use `effect()` only for side effects (DOM, localStorage, logging)
-- ✅ Use signal-based `input()` and `output()` for component APIs
-- ✅ Use `resource()` for async data loading (Angular 19+)
-- ✅ Use `@if`, `@for`, `@switch` control flow syntax
-- ✅ Make all components `standalone: true`
-- ✅ Use `provideRouter`, `provideHttpClient` in `bootstrapApplication`
-- ✅ Lazy load with `loadComponent` and `loadChildren`
+- Use `signal()` for all component state
+- Use `computed()` for derived values
+- Use `effect()` only for side effects (DOM, localStorage, logging)
+- Use signal-based `input()` and `output()` for component APIs
+- Use `resource()` for async data loading (Angular 19+)
+- Use `@if`, `@for`, `@switch` control flow syntax
+- Make all components `standalone: true`
+- Use `provideRouter`, `provideHttpClient` in `bootstrapApplication`
+- Lazy load with `loadComponent` and `loadChildren`
 
-### Anti-Patterns to Avoid
+## Anti-Patterns
 
-- ❌ Don't use `ngOnInit` - initialize in constructor or field initializers
-- ❌ Don't use RxJS for component state - use signals
-- ❌ Don't use `@Input()` / `@Output()` decorators - use `input()` / `output()`
-- ❌ Don't create NgModules - use standalone components
-- ❌ Don't use `*ngIf`, `*ngFor`, `*ngSwitch` - use `@if`, `@for`, `@switch`
-- ❌ Don't manually manage subscriptions - use `resource()` or async pipe if needed
-- ❌ Don't use effects to update other signals - use `computed()`
+- Don't use `ngOnInit` - initialize in constructor or field initializers
+- Don't use RxJS for component state - use signals
+- Don't use `@Input()` / `@Output()` decorators - use `input()` / `output()`
+- Don't create NgModules - use standalone components
+- Don't use `*ngIf`, `*ngFor`, `*ngSwitch` - use `@if`, `@for`, `@switch`
+- Don't manually manage subscriptions - use `resource()` or async pipe if needed
+- Don't use effects to update other signals - use `computed()`
 
 ## Migration from Legacy Angular
 
-### NgOnInit → Constructor/Field Initializer
+### NgOnInit to Constructor/Field Initializer
 
 ```typescript
-// ❌ Legacy
-export class UserComponent implements OnInit {
-  user?: User;
-
-  ngOnInit() {
-    this.user = this.loadUser();
-  }
-}
-
-// ✅ Modern
 export class UserComponent {
   userId = signal('123');
 
@@ -787,42 +813,36 @@ export class UserComponent {
 }
 ```
 
-### @Input/@Output → input()/output()
+### @Input/@Output to input()/output()
 
 ```typescript
-// ❌ Legacy
-export class ProductCard {
-  @Input() product!: Product;
-  @Output() addToCart = new EventEmitter<Product>();
-}
-
-// ✅ Modern
 export class ProductCard {
   product = input.required<Product>();
   addToCart = output<Product>();
 }
 ```
 
-### RxJS Observables → Signals
+### RxJS Observables to Signals
 
 ```typescript
-// ❌ Legacy
-export class CartComponent {
-  total$: Observable<number>;
-
-  constructor(private cart: CartService) {
-    this.total$ = this.cart.items$.pipe(
-      map((items) => items.reduce((sum, i) => sum + i.price * i.quantity, 0))
-    );
-  }
-}
-
-// ✅ Modern
 export class CartComponent {
   constructor(protected cart: CartService) {}
-  // Access cart.total() signal directly in template
 }
 ```
+
+## Examples
+
+**Build a new component:**
+
+> Create an Angular component with signals for a user profile editor
+
+**Migrate legacy code:**
+
+> Convert this NgModule-based component to standalone with signals
+
+**State management:**
+
+> Set up a signal-based cart service for our e-commerce app
 
 ## References
 

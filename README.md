@@ -33,8 +33,8 @@ npx @human-in-the-loop/cli search "security review"
 # Find what you need
 hit search "code review"
 
-# Install a prompt (creates slash command automatically)
-hit install prompt/security-review
+# Install a skill (copies to Claude Code skills directory)
+hit install security-review
 
 # Use in Claude Code
 /security-review
@@ -88,12 +88,23 @@ hit install prompt/security-review
 - ✨ `prompt-optimization` - Analyze and improve existing prompts
 - 📦 `context-pack-builder` - Generate framework context packs
 
-### 🎓 Skills
+### 🎓 Skills (10+ Unified Skills)
 
-Skills are persistent context files (not slash commands) that give Claude framework expertise. Copy them to your `.claude/` directory.
+Skills are persistent context files that give Claude deep expertise across frameworks, workflows, and best practices. Install them with `hit install` and they are copied directly to your `.claude/skills/` directory.
 
+- 🔍 **Code Review TS** - TypeScript review with constructive feedback
+- 🔒 **Security Review** - OWASP Top 10, auth flaws, injection detection
+- 🏗️ **API Design** - REST/GraphQL best practices
+- 🧪 **Unit Test Generator** - Generate Jest/Vitest tests with edge cases
+- 🎬 **E2E Strategy** - Playwright/Cypress test planning
+- ⚡ **Pipeline Optimization** - GitHub Actions cost & speed optimization
+- 🗺️ **Codebase Explainer** - Analyze and document repository architecture
+- 🛡️ **Responsible AI Audit** - Audit AI outputs for accuracy, fairness, transparency
+- 📋 **User Story Breakdown** - Epic to INVEST stories with acceptance criteria
 - ⚡ **Angular Modern** - Signals, standalone, control flow (16+)
 - 🏛️ **Angular Legacy** - NgModules, RxJS, lifecycle hooks (pre-16)
+- 🏗️ **NestJS Backend** - NestJS patterns and best practices
+- 📦 **Nx Monorepo** - Nx workspace management and configuration
 
 ### 🔜 Coming Soon
 
@@ -108,11 +119,15 @@ Skills are persistent context files (not slash commands) that give Claude framew
 
 ### What `hit install` does
 
-1. **Copies files** to `~/.claude/tools/` (prompt.md + README)
-2. **Creates a slash command** at `~/.claude/commands/{id}.md`
-3. **Registers it** in `~/.hit/registry.json` for version tracking
+1. **Copies the skill file** (`skill.md`) to one of 5 destination types:
+   - `global-skill` - `~/.claude/skills/` (available in all projects)
+   - `project-skill` - `.claude/skills/` (scoped to current project)
+   - `global-command` - `~/.claude/commands/` (slash command, all projects)
+   - `project-command` - `.claude/commands/` (slash command, current project)
+   - `custom` - any path you specify
+2. **Registers it** in `~/.hit/registry.json` for version tracking
 
-Now you can use `/security-review` directly in Claude Code.
+Now Claude Code can access the skill automatically in your sessions.
 
 ---
 
@@ -120,7 +135,7 @@ Now you can use `/security-review` directly in Claude Code.
 
 ```bash
 hit search [query]              # Find tools
-hit install <tool>              # Install + create slash command
+hit install [skill-id]          # Install a skill (interactive browser if no id)
 hit list                        # Show installed tools
 hit update                      # Update CLI to latest version
 hit doctor                      # Validate setup
@@ -128,7 +143,7 @@ hit contribute <type> <path>    # Submit new tools
 hit stats                       # Installation info
 ```
 
-**Pro tip:** Use `--no-claude-command` to skip slash command creation if you want manual setup.
+**Pro tip:** Use `--destination` to choose where the skill is installed (e.g., `--destination project-skill`).
 
 ---
 
@@ -139,8 +154,7 @@ Every prompt is designed to **augment your expertise, not replace it**. Here are
 ### 🗺️ Understand an Unfamiliar Codebase
 
 ```bash
-hit install prompt/codebase-explainer
-/codebase-explainer
+hit install codebase-explainer
 
 # Get architecture diagrams, directory breakdowns,
 # and a getting-started guide—you decide what to explore next
@@ -149,8 +163,7 @@ hit install prompt/codebase-explainer
 ### 💙 Give Better Code Review Feedback
 
 ```bash
-hit install prompt/code-review-empathy
-/code-review-empathy
+hit install code-review-empathy
 
 # Transform "This is wrong" into "Consider this approach because..."
 # Keep the technical substance, improve the delivery
@@ -159,8 +172,7 @@ hit install prompt/code-review-empathy
 ### 🛡️ Audit AI-Generated Code
 
 ```bash
-hit install prompt/responsible-ai-audit
-/responsible-ai-audit
+hit install responsible-ai-audit
 
 # Before shipping AI output: check accuracy, bias, security, transparency
 # You validate, you decide, you ship
@@ -199,6 +211,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding prompts, repor
 ## 📦 Repository Structure
 
 <!-- docs:start TREE -->
+
 ```
 human-in-the-loop
 ├── docs
@@ -215,6 +228,7 @@ human-in-the-loop
 │   ├── governance-model.md
 │   ├── index.html
 │   ├── publishing.md
+│   ├── skill-template.md
 │   ├── toolkit-usage.md
 │   └── xml-template-migration.md
 ├── lib
@@ -244,7 +258,16 @@ human-in-the-loop
 │   ├── skills
 │   │   ├── angular-legacy
 │   │   ├── angular-modern
+│   │   ├── api-design
+│   │   ├── code-review-ts
+│   │   ├── codebase-explainer
+│   │   ├── e2e-strategy
 │   │   ├── nestjs-backend
+│   │   ├── nx-monorepo
+│   │   ├── pipeline-optimization
+│   │   ├── responsible-ai-audit
+│   │   ├── unit-test-generator
+│   │   ├── user-story-breakdown
 │   │   └── README.md
 │   └── README.md
 ├── planning
@@ -293,11 +316,19 @@ human-in-the-loop
 ├── pnpm-lock.yaml
 └── tsconfig.base.json
 ```
+
 <!-- docs:end -->
 
 ---
 
 ## 🎉 What's New
+
+**v4.0.0** - Unified Skill Refactor
+
+- 🎓 10+ unified skills with standardized `skill.md` format
+- 🎯 5 destination types: global-skill, project-skill, global-command, project-command, custom
+- 🔍 Interactive skill browser when running `hit install` with no arguments
+- 📦 Bare skill-id syntax: `hit install security-review`
 
 **v3.0.0** - Pure XML Prompts & Claude Code Integration
 

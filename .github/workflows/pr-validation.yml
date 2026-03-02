@@ -89,6 +89,9 @@ jobs:
       - name: Validate prompt YAML files
         run: ./src/governance/checks/validate-prompts.sh
 
+      - name: Validate skill format
+        run: npx ts-node src/governance/checks/validate-skills.ts
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

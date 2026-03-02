@@ -1,9 +1,9 @@
 {
   "id": "angular-modern",
   "name": "Angular Modern",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "type": "skill",
-  "description": "Modern Angular development with signals, computed, effect, standalone components, and latest patterns (Angular 16+)",
+  "description": "Apply modern Angular patterns with signals, computed, effect, standalone components, and signal-based inputs/outputs when building or reviewing Angular 16+ applications. Use when user asks to \"build an Angular app\", \"use Angular signals\", or mentions \"modern Angular patterns\".",
   "category": "framework",
   "tags": [
     "angular",
@@ -13,11 +13,9 @@
     "typescript",
     "frontend"
   ],
-  "platforms": ["claude-code", "github-copilot"],
+  "platforms": ["claude-code"],
   "metadata": {
     "author": "Human-in-the-Loop",
-    "license": "MIT",
-    "frameworks": ["angular"]
-  },
-  "minAngularVersion": "16.0.0"
+    "license": "MIT"
+  }
 }

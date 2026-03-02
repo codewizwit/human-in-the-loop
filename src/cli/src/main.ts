@@ -31,12 +31,16 @@ program
 
 program
   .command('install')
-  .description('Install a prompt or agent')
-  .argument('<tool>', 'Tool identifier (e.g., prompt/code-review-ts)')
-  .option('-p, --path <path>', 'Installation path')
+  .description('Install a skill or prompt')
+  .argument('[skill-id]', 'Skill identifier (e.g., code-review-ts)')
+  .option('-p, --path <path>', 'Custom installation path')
+  .option(
+    '-d, --destination <dest>',
+    'Destination: global-skill, project-skill, global-command, project-command'
+  )
   .option(
     '--no-claude-command',
-    'Skip creating Claude Code slash command (prompts only)'
+    'Skip creating Claude Code slash command (legacy)'
   )
   .action(installCommand);
 

@@ -147,6 +147,7 @@ function scanDirectory(
  */
 function findConfigFile(toolDir: string): string | null {
   const possibleFiles = [
+    'skill.md',
     'prompt.md',
     'prompt.yaml',
     'prompt.yml',
@@ -280,28 +281,33 @@ function parseToolConfig(
       config = parse(content);
     }
 
-    if (
-      !config ||
-      typeof config !== 'object' ||
-      !('id' in config) ||
-      !('name' in config) ||
-      !('version' in config)
-    ) {
+    if (!config || typeof config !== 'object') {
+      return null;
+    }
+
+    const hasId = 'id' in config;
+    const hasName = 'name' in config;
+    const hasVersion = 'version' in config;
+
+    if (!hasVersion || (!hasId && !hasName)) {
       return null;
     }
 
     const typedConfig = config as {
-      id: string;
-      name: string;
+      id?: string;
+      name?: string;
       version: string;
       description?: string;
       category?: string;
       metadata?: Tool['metadata'];
     };
 
+    const toolId = typedConfig.id || typedConfig.name || '';
+    const toolName = typedConfig.name || typedConfig.id || '';
+
     return {
-      id: typedConfig.id,
-      name: typedConfig.name,
+      id: toolId,
+      name: toolName,
       version: typedConfig.version,
       description: typedConfig.description || '',
       category: typedConfig.category || 'general',

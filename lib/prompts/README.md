@@ -2,6 +2,8 @@
 
 Production-ready Claude prompts for common software development tasks. Each prompt is versioned, well-documented, and includes usage examples.
 
+> **Note**: Several prompts listed below have been upgraded to the unified skill format under [`lib/skills/`](../../lib/skills/). The prompts here remain for backward compatibility. New contributions should consider using the unified skill format—see [`docs/skill-template.md`](../../docs/skill-template.md).
+
 ## Structure
 
 ```
@@ -65,79 +67,96 @@ hit list
 
 ### Direct Use
 
-Each prompt is defined in a `prompt.yaml` file:
+Each prompt is defined in a `prompt.md` file (XML format):
 
-```yaml
-id: my-prompt
-name: My Prompt
-version: 1.0.0
-description: What this prompt does
-category: code-review
+```xml
+<claude_prompt version="1.0">
+  <id>my-prompt</id>
+  <name>My Prompt</name>
+  <version>1.0.0</version>
+  <description>What this prompt does</description>
+  <category>code-review</category>
 
-variables:
-  - name: code
-    description: The code to analyze
-    required: true
+  <variables>
+    <variable>
+      <name>code</name>
+      <description>The code to analyze</description>
+      <required>true</required>
+    </variable>
+  </variables>
 
-template: |
-  Review the following code:
-  {{code}}
+  <template>
+Review the following code:
+{{code}}
 
-  Provide feedback on...
+Provide feedback on...
+  </template>
 
-metadata:
-  author: yourname
-  license: MIT
-  tags: [typescript, code-review]
+  <metadata>
+    <author>yourname</author>
+    <license>MIT</license>
+    <tags>typescript, code-review</tags>
+  </metadata>
+</claude_prompt>
 ```
 
 ## Available Prompts (21 total)
 
 ### Architecture
-- **api-design** - REST/GraphQL API design patterns and best practices
+
+- **api-design** - REST/GraphQL API design patterns and best practices _(also available as unified skill)_
 - **system-design-review** - Architecture & scalability analysis
 
 ### CI/CD
+
 - **aws-deployment-strategy** - Lambda, ECS, CDK infrastructure patterns
-- **pipeline-optimization** - GitHub Actions cost & speed optimization
+- **pipeline-optimization** - GitHub Actions cost & speed optimization _(also available as unified skill)_
 
 ### Code Quality
-- **code-review-ts** - TypeScript code review with constructive feedback
+
+- **code-review-ts** - TypeScript code review with constructive feedback _(also available as unified skill)_
 
 ### Culture
+
 - **1-on-1-prep** - Structured meeting preparation
 - **code-review-empathy** - Transform feedback into helpful coaching
 - **team-retrospective** - Facilitate effective team retros
 
 ### Documentation
+
 - **api-documentation** - Generate API docs from code
-- **codebase-explainer** - Analyze and document repository architecture
+- **codebase-explainer** - Analyze and document repository architecture _(also available as unified skill)_
 
 ### Governance
+
 - **bias-detection** - Identify bias in AI-generated content
-- **responsible-ai-audit** - Audit AI outputs for accuracy, fairness, transparency
+- **responsible-ai-audit** - Audit AI outputs for accuracy, fairness, transparency _(also available as unified skill)_
 - **security-review** - OWASP Top 10, auth flaws, injection detection
 
 ### Mentorship
+
 - **learning-path** - Personalized learning roadmaps
 
 ### Meta
+
 - **context-pack-builder** - Generate framework context packs
 - **prompt-optimization** - Analyze and improve existing prompts
 
 ### Planning
-- **user-story-breakdown** - Break epics into INVEST stories with acceptance criteria
+
+- **user-story-breakdown** - Break epics into INVEST stories with acceptance criteria _(also available as unified skill)_
 
 ### Testing
+
 - **bdd-scenarios** - Gherkin scenarios from user stories
-- **e2e-strategy** - Playwright/Cypress test planning
+- **e2e-strategy** - Playwright/Cypress test planning _(also available as unified skill)_
 - **test-coverage-analysis** - Coverage gap analysis and risk assessment
-- **unit-test-generator** - Generate Jest/Vitest tests with edge cases
+- **unit-test-generator** - Generate Jest/Vitest tests with edge cases _(also available as unified skill)_
 
 ## Contributing a New Prompt
 
 1. Create a new directory: `prompts/your-prompt-name/`
-2. Add `prompt.yaml` with prompt definition
+2. Add `prompt.md` with prompt definition (XML format)
 3. Add `README.md` with:
    - Description
    - Usage examples
