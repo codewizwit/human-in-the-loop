@@ -100,9 +100,9 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('prompt/code-review-ts');
-      expect(output).toContain('agent/test-generator');
-      expect(output).toContain('prompt/api-docs-generator');
+      expect(output).toContain('code-review-ts');
+      expect(output).toContain('test-generator');
+      expect(output).toContain('api-docs-generator');
     });
   });
 
@@ -120,7 +120,7 @@ describe('searchCommand', () => {
       const output = consoleMock.getOutput();
 
       expect(output).toContain('Found 3 tools');
-      expect(output).toContain('prompt/code-review-ts');
+      expect(output).toContain('code-review-ts');
     });
   });
 
@@ -130,7 +130,7 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('agent/test-generator');
+      expect(output).toContain('test-generator');
       expect(output).toContain('Generate comprehensive test suites');
       expect(output).toContain('Version: 1.0.0');
     });
@@ -146,7 +146,7 @@ describe('searchCommand', () => {
     it('should show install tip at the end', () => {
       searchCommand();
 
-      expect(consoleMock.contains('hit install <type>/<id>')).toBe(true);
+      expect(consoleMock.contains('hit install <id>')).toBe(true);
     });
 
     it('should number the results', () => {
@@ -249,7 +249,7 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('prompt/no-tags-tool');
+      expect(output).toContain('no-tags-tool');
       expect(output).not.toContain('Tags:');
     });
 
@@ -271,7 +271,7 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('prompt/empty-tags-tool');
+      expect(output).toContain('empty-tags-tool');
       expect(output).not.toContain('Tags:');
     });
   });

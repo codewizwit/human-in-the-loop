@@ -45,9 +45,7 @@ export async function statsCommand(options: { tool?: string }): Promise<void> {
       logWarning('No tools installed yet');
       logNewLine();
       logStep('Use ' + chalk.bold('hit search') + ' to find tools');
-      logStep(
-        'Use ' + chalk.bold('hit install <type>/<id>') + ' to install a tool'
-      );
+      logStep('Use ' + chalk.bold('hit install <id>') + ' to install a skill');
       return;
     }
 

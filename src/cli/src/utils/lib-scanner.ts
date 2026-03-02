@@ -75,6 +75,26 @@ function getDefaultLibPath(): string {
 }
 
 /**
+ * Deduplicates tools by id, preferring skill type over prompt type
+ * @param tools - Array of tools that may contain duplicates
+ * @returns Array of tools with duplicates removed
+ */
+function deduplicateTools(tools: Tool[]): Tool[] {
+  const seen = new Map<string, Tool>();
+
+  for (const tool of tools) {
+    const existing = seen.get(tool.id);
+    if (!existing) {
+      seen.set(tool.id, tool);
+    } else if (tool.type === 'skill' && existing.type !== 'skill') {
+      seen.set(tool.id, tool);
+    }
+  }
+
+  return Array.from(seen.values());
+}
+
+/**
  * Scans the lib directory and returns all available tools
  * @param toolkitPath - The root path to the lib directory containing prompts, agents, etc. Defaults to auto-detected lib directory
  * @returns Array of Tool objects found in the lib directory and its subdirectories
@@ -105,7 +125,7 @@ export function scanToolkit(toolkitPath?: string): Tool[] {
     scanDirectory(typePath, type, tools);
   }
 
-  return tools;
+  return deduplicateTools(tools);
 }
 
 /**

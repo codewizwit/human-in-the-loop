@@ -10,6 +10,7 @@ import { doctorCommand } from './commands/doctor';
 import { contributeCommand } from './commands/contribute';
 import { statsCommand } from './commands/stats';
 import { listCommand } from './commands/list';
+import { upgradeCommand } from './commands/upgrade';
 
 const program = new Command();
 
@@ -25,22 +26,18 @@ program
 
 program
   .command('search')
-  .description('Search for prompts and agents')
+  .description('Search for skills')
   .argument('[query]', 'Search query')
   .action(searchCommand);
 
 program
   .command('install')
-  .description('Install a skill or prompt')
+  .description('Install a skill')
   .argument('[skill-id]', 'Skill identifier (e.g., code-review-ts)')
   .option('-p, --path <path>', 'Custom installation path')
   .option(
     '-d, --destination <dest>',
     'Destination: global-skill, project-skill, global-command, project-command'
-  )
-  .option(
-    '--no-claude-command',
-    'Skip creating Claude Code slash command (legacy)'
   )
   .action(installCommand);
 
@@ -71,5 +68,11 @@ program
   .description('View usage analytics and metrics')
   .option('--tool <tool>', 'Show stats for specific tool')
   .action(statsCommand);
+
+program
+  .command('upgrade')
+  .description('Upgrade installed skills to latest bundled versions')
+  .option('--skill <id>', 'Upgrade a specific skill')
+  .action(upgradeCommand);
 
 program.parse();
