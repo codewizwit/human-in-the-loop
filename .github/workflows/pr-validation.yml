@@ -86,11 +86,8 @@ jobs:
           done
           echo "✅ All new features have proper READMEs"
 
-      - name: Validate prompt YAML files
+      - name: Validate prompts and skills
         run: ./src/governance/checks/validate-prompts.sh
-
-      - name: Validate skill format
-        run: npx ts-node src/governance/checks/validate-skills.ts
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

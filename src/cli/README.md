@@ -1,6 +1,6 @@
 # @human-in-the-loop/cli
 
-> Command-line tool for managing AI prompts, agents, and productivity tools with built-in governance and quality standards.
+> Command-line tool for installing and managing AI skills for Claude Code with built-in governance and quality standards.
 
 [![npm version](https://badge.fury.io/js/@human-in-the-loop%2Fcli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
@@ -39,20 +39,18 @@ hit doctor
 
 ## What is Human in the Loop?
 
-Human in the Loop is a centralized repository and governance system for AI productivity tools. It provides:
+Human in the Loop is a curated skill library for Claude Code with 25 unified skills covering code review, testing, architecture, governance, and more. It provides:
 
-- **Prompt Library**: Production-ready prompts for code review, documentation, testing, and more
-- **Agent Registry**: Autonomous AI agents with defined capabilities and constraints
-- **Context Packs**: Framework-specific knowledge bases (Angular, NestJS, CI/CD)
-- **Evaluators**: Quality assurance tools for validating AI outputs
-- **Guardrails**: Safety mechanisms enforcing responsible AI usage
+- **25 Unified Skills**: Production-ready skills in standardized `skill.md` format
+- **5 Install Destinations**: Global/project skills, global/project commands, or custom paths
+- **Interactive Browser**: Browse and install skills without memorizing IDs
 - **Governance**: Contribution validation and quality control
 
 ## Commands
 
 ### `hit search [query]`
 
-Search for prompts, agents, and other tools by keyword.
+Search for skills by keyword.
 
 ```bash
 # Show all tools
@@ -150,11 +148,8 @@ Checks for:
 Submit a new tool for review and inclusion in the library.
 
 ```bash
-# Contribute a prompt
-hit contribute prompt lib/prompts/my-prompt/prompt.md
-
-# Contribute an agent
-hit contribute agent lib/agents/my-agent/agent.yaml
+# Contribute a skill
+hit contribute skill lib/skills/my-skill/skill.md
 ```
 
 **Types:** `prompt`, `agent`, `evaluator`, `guardrail`, `context-pack`, `skill`
@@ -204,7 +199,7 @@ Every tool is evaluated through our [Developer-First Responsible AI Playbook](ht
 
 ### Quality Standards
 
-- All prompts and agents are versioned and reviewed
+- All skills are versioned and reviewed
 - Comprehensive test coverage requirements
 - Documentation standards enforced
 - Security scanning and validation
@@ -261,11 +256,11 @@ hit install security-review
 
 ## Contributing
 
-We welcome contributions! To submit a new prompt, agent, or tool:
+We welcome contributions! To submit a new skill:
 
 1. Fork the repository
-2. Create your tool following our templates
-3. Test with `hit contribute <type> <path>`
+2. Create your skill using the [skill template](https://github.com/codewizwit/human-in-the-loop/blob/main/docs/skill-template.md)
+3. Test with `hit contribute skill <path>`
 4. Submit a pull request
 
 See [CONTRIBUTING.md](https://github.com/codewizwit/human-in-the-loop/blob/main/CONTRIBUTING.md) for detailed guidelines.
@@ -279,13 +274,6 @@ See [CONTRIBUTING.md](https://github.com/codewizwit/human-in-the-loop/blob/main/
 
 MIT © [codewizwit](https://github.com/codewizwit)
 
-## Related Packages
-
-- `@human-in-the-loop/prompts` - Prompt library (coming soon)
-- `@human-in-the-loop/agents` - Agent definitions (coming soon)
-- `@human-in-the-loop/evaluators` - Quality evaluators (coming soon)
-
 ---
 
-**Human-in-the-Loop by codewizwit**
-Build with care. Ship with purpose.
+**Human-in-the-Loop by codewizwit** - Build with care. Ship with purpose.

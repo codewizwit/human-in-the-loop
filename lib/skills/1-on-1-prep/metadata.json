@@ -1,0 +1,23 @@
+{
+  "id": "1-on-1-prep",
+  "name": "1-on-1 Pre-Read Email Generator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates structured pre-read emails for 1-on-1 meetings with highlights, current work, and support needed sections. Use when user asks to \"prepare for my 1-on-1\", \"write a pre-read\", or mentions \"1-on-1 prep\".",
+  "category": "culture",
+  "tags": [
+    "culture",
+    "1-on-1",
+    "communication",
+    "management",
+    "mentorship",
+    "async",
+    "team-dynamics",
+    "career-development"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

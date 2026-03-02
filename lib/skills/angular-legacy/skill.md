@@ -1,24 +1,106 @@
 ---
 name: angular-legacy
-description: Apply traditional Angular patterns with NgModules, lifecycle hooks, @Input()/@Output() decorators, structural directives (*ngIf, *ngFor, *ngSwitch), RxJS observables for state management, and manual subscription management when maintaining or extending pre-Angular 16 applications.
+description: >-
+  Applies traditional Angular patterns with NgModules, lifecycle hooks,
+  decorators, structural directives, and RxJS observables. Use when user asks to
+  "maintain legacy Angular", "work with NgModules", "use lifecycle hooks", or
+  mentions "pre-Angular 16 patterns".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - Edit
+  - AskUserQuestion
+  - EnterPlanMode
 ---
 
 # Angular Legacy Skill
 
-Use this skill when working with **traditional Angular (pre-16)** using NgModules, lifecycle hooks, decorators, and RxJS observables. This represents the established patterns for maintaining and extending legacy Angular applications.
+Provides comprehensive guidance for maintaining and extending Angular applications built before Angular 16. Covers traditional patterns including NgModules, lifecycle hooks, @Input()/@Output() decorators, structural directives (*ngIf, *ngFor, \*ngSwitch), RxJS-based state management, change detection strategies, and subscription cleanup.
 
-## When to Activate This Skill
+## When to Activate
 
-Activate automatically when:
+- User is maintaining or extending Angular applications using NgModules
+- User is working with @Input() and @Output() decorators (pre-Angular 17)
+- User is using traditional lifecycle hooks: ngOnInit, ngOnDestroy, ngOnChanges
+- User is implementing *ngIf, *ngFor, \*ngSwitch structural directives
+- User is managing state with RxJS observables and subjects
+- User is working with change detection strategies (Default vs OnPush)
+- User is using the takeUntil pattern for subscription cleanup
+- User is reviewing or updating Angular applications before version 16
 
-- Maintaining or extending Angular applications using NgModules
-- Working with `@Input()` and `@Output()` decorators (pre-Angular 17)
-- Using traditional lifecycle hooks: `ngOnInit`, `ngOnDestroy`, `ngOnChanges`
-- Implementing `*ngIf`, `*ngFor`, `*ngSwitch` structural directives
-- Managing state with RxJS observables and subjects
-- Working with change detection strategies (Default vs OnPush)
-- Using `takeUntil` pattern for subscription cleanup
-- Reviewing or updating Angular applications before version 16
+## Interactive Flow
+
+### Step 1: Gather Context
+
+<ask_user_question>
+<question>What type of Angular legacy work are you doing?</question>
+<options>
+
+  <option value="maintain">Maintaining an existing feature</option>
+  <option value="extend">Extending with new functionality</option>
+  <option value="fix">Fixing a bug in legacy code</option>
+  <option value="review">Reviewing legacy code for quality</option>
+  <option value="migrate-prep">Preparing for migration to modern Angular</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+<ask_user_question>
+<question>What Angular version is the project using?</question>
+<options>
+
+  <option value="12">Angular 12 or earlier</option>
+  <option value="13">Angular 13</option>
+  <option value="14">Angular 14</option>
+  <option value="15">Angular 15</option>
+  <option value="unknown">Not sure</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+<ask_user_question>
+<question>Which areas of legacy Angular do you need help with?</question>
+<options>
+
+  <option value="modules">NgModule architecture (feature, shared, core modules)</option>
+  <option value="lifecycle">Lifecycle hooks and subscription management</option>
+  <option value="io">@Input/@Output and component communication</option>
+  <option value="directives">Structural directives (*ngIf, *ngFor, *ngSwitch)</option>
+  <option value="rxjs">RxJS state management and observables</option>
+  <option value="change-detection">Change detection (OnPush, markForCheck)</option>
+  <option value="testing">Testing legacy components and services</option>
+  <option value="all">All of the above</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+### Step 2: Discovery
+
+1. Use Glob to find Angular module files, component files, and service files
+2. Use Read to examine the NgModule structure and component patterns
+3. Use Grep to identify subscription management patterns and potential memory leaks
+
+### Step 3: Plan (if complex)
+
+For large refactoring or migration preparation tasks, enter plan mode:
+
+<EnterPlanMode>
+<summary>
+Outline the scope of legacy Angular work, identify affected modules
+and components, and confirm the approach with the user.
+</summary>
+</EnterPlanMode>
+
+### Step 4: Apply Legacy Patterns
+
+Apply the appropriate patterns from the reference sections below based on the user's needs.
+
+### Step 5: Deliver Results
+
+Provide code following legacy Angular conventions with proper module structure, lifecycle management, and subscription cleanup.
 
 ## NgModule Architecture
 
@@ -48,12 +130,12 @@ export class UsersModule {}
 
 **NgModule Best Practices**:
 
-- ✅ Use feature modules to organize features by domain
-- ✅ Use `forChild()` for feature module routes
-- ✅ Declare all components, directives, and pipes used in the module
-- ✅ Import shared modules for reusable dependencies
-- ✅ Provide services at the appropriate level (root or feature)
-- ❌ Don't declare components in multiple modules
+- Use feature modules to organize features by domain
+- Use `forChild()` for feature module routes
+- Declare all components, directives, and pipes used in the module
+- Import shared modules for reusable dependencies
+- Provide services at the appropriate level (root or feature)
+- Never declare components in multiple modules
 
 ### App Module Pattern
 
@@ -80,14 +162,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-// Shared components
 import { LoadingSpinnerComponent } from './loading-spinner.component';
 import { ModalComponent } from './modal.component';
-
-// Shared directives
 import { HighlightDirective } from './highlight.directive';
-
-// Shared pipes
 import { SafePipe } from './safe.pipe';
 
 @NgModule({
@@ -146,35 +223,29 @@ export class UserEditorComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    // Called once after component initialization
-    // ✅ Good: Initialize data, setup subscriptions
+    /* Called once after component initialization */
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Called before ngOnInit and whenever inputs change
     if (changes['user']) {
       const { currentValue, previousValue, firstChange } = changes['user'];
       if (!firstChange) {
-        console.log('User changed from:', previousValue, 'to:', currentValue);
         this.onUserChange(currentValue);
       }
     }
   }
 
   ngOnDestroy(): void {
-    // Called before component is destroyed
-    // ✅ Good: Clean up subscriptions, unsubscribe from observables
     this.destroy$.next();
     this.destroy$.complete();
   }
 
   private onUserChange(user: any): void {
-    // Handle user changes with automatic unsubscribe
     this.userService
       .validateUser(user)
       .pipe(takeUntil(this.destroy$))
       .subscribe((isValid) => {
-        console.log('User valid:', isValid);
+        /* handle validation result */
       });
   }
 
@@ -216,33 +287,28 @@ import { Component, Input } from '@angular/core';
     <div class="card">
       <h3>{{ user.name }}</h3>
       <p>{{ user.email }}</p>
-      <span [class.featured]="featured">⭐</span>
     </div>
   `,
 })
 export class UserCardComponent {
-  // ✅ Required input (Angular 16+)
   @Input({ required: true }) user!: User;
 
-  // ✅ Optional input with default value
   @Input() featured = false;
 
-  // ✅ Input with alias
   @Input('userStatus') status = 'active';
 
-  // ✅ Input with transform (Angular 16+)
   @Input({ transform: booleanAttribute }) highlighted = false;
 }
 ```
 
 **Input Best Practices**:
 
-- ✅ Use `@Input()` decorator to receive data from parent
-- ✅ Use `required: true` for mandatory inputs (Angular 16+)
-- ✅ Provide default values for optional inputs
-- ✅ Use transform functions for type conversion
-- ✅ Detect input changes in `ngOnChanges()`
-- ❌ Don't mutate input values directly
+- Use `@Input()` decorator to receive data from parent
+- Use `required: true` for mandatory inputs (Angular 16+)
+- Provide default values for optional inputs
+- Use transform functions for type conversion
+- Detect input changes in `ngOnChanges()`
+- Never mutate input values directly
 
 ### Output Decorator Pattern
 
@@ -260,13 +326,10 @@ import { Component, Output, EventEmitter } from '@angular/core';
   `,
 })
 export class UserFormComponent {
-  // ✅ Output event emitter
   @Output() saved = new EventEmitter<User>();
 
-  // ✅ Output with alias
   @Output('userCreated') created = new EventEmitter<User>();
 
-  // ✅ Output with different event name
   @Output() cancelled = new EventEmitter<void>();
 
   formData: User = { id: '', name: '', email: '' };
@@ -284,12 +347,12 @@ export class UserFormComponent {
 
 **Output Best Practices**:
 
-- ✅ Use `@Output()` decorator to emit events
-- ✅ Use descriptive names: saved, deleted, selected
-- ✅ Emit data with the event: `.emit(data)`
-- ✅ Use `EventEmitter<T>` with specific types
-- ✅ Document expected event payloads
-- ❌ Don't use outputs for data binding (use inputs instead)
+- Use `@Output()` decorator to emit events
+- Use descriptive names: saved, deleted, selected
+- Emit data with the event: `.emit(data)`
+- Use `EventEmitter<T>` with specific types
+- Document expected event payloads
+- Never use outputs for data binding (use inputs instead)
 
 ### Two-Way Binding Pattern
 
@@ -307,7 +370,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   `,
 })
 export class CounterComponent {
-  // ✅ Two-way binding: [value]="x" (value)="x = $event"
   @Input() value = 0;
   @Output() valueChange = new EventEmitter<number>();
 
@@ -321,9 +383,9 @@ export class CounterComponent {
     this.valueChange.emit(this.value);
   }
 }
-
-// Usage: <app-counter [(value)]="count"></app-counter>
 ```
+
+Usage: `<app-counter [(value)]="count"></app-counter>`
 
 ## Structural Directives
 
@@ -333,7 +395,6 @@ export class CounterComponent {
 @Component({
   selector: 'app-profile',
   template: `
-    <!-- Simple if/else -->
     <div *ngIf="isLoggedIn; else notLoggedIn">
       <p>Welcome, {{ username }}!</p>
       <button (click)="logout()">Logout</button>
@@ -344,7 +405,6 @@ export class CounterComponent {
       <button (click)="login()">Login</button>
     </ng-template>
 
-    <!-- Multiple conditions -->
     <div *ngIf="isLoading">Loading...</div>
     <div *ngIf="!isLoading && hasError">Error: {{ errorMessage }}</div>
     <div *ngIf="!isLoading && !hasError && data">{{ data | json }}</div>
@@ -370,11 +430,11 @@ export class ProfileComponent {
 
 **ngIf Best Practices**:
 
-- ✅ Use for simple boolean conditions
-- ✅ Use `else` template for false branch
-- ✅ Avoid complex expressions in `*ngIf`
-- ✅ Extract conditions to component methods
-- ❌ Don't use multiple nested `*ngIf`
+- Use for simple boolean conditions
+- Use `else` template for false branch
+- Avoid complex expressions in `*ngIf`
+- Extract conditions to component methods
+- Never use multiple nested `*ngIf`
 
 ### \*ngFor - List Rendering
 
@@ -382,26 +442,18 @@ export class ProfileComponent {
 @Component({
   selector: 'app-user-list',
   template: `
-    <!-- Basic ngFor -->
-    <ul>
-      <li *ngFor="let user of users">{{ user.name }}</li>
-    </ul>
-
-    <!-- With index and even/odd -->
     <ul>
       <li *ngFor="let user of users; let i = index; let isEven = even">
         {{ i + 1 }}. {{ user.name }} <span *ngIf="isEven">(even)</span>
       </li>
     </ul>
 
-    <!-- With trackBy for performance -->
     <ul>
       <li *ngFor="let user of users; trackBy: trackByUserId">
         {{ user.name }}
       </li>
     </ul>
 
-    <!-- With empty state -->
     <ul *ngIf="users.length > 0; else emptyState">
       <li *ngFor="let user of users">{{ user.name }}</li>
     </ul>
@@ -417,25 +469,20 @@ export class UserListComponent {
     { id: '2', name: 'Bob' },
   ];
 
-  // ✅ GOOD: trackBy prevents unnecessary DOM re-renders
   trackByUserId(_index: number, user: User): string {
     return user.id;
   }
-
-  // ❌ BAD: No trackBy - re-renders all items
-  // <li *ngFor="let user of users">{{ user.name }}</li>
 }
 ```
 
 **ngFor Best Practices**:
 
-- ✅ Always use `trackBy` for performance
-- ✅ Use index and other local variables as needed
-- ✅ Combine with `*ngIf` for empty states
-- ✅ Avoid complex expressions in loop
-- ✅ Use `let` syntax for readability
-- ❌ Don't use array index as trackBy (causes re-renders)
-- ❌ Don't use pipe inside ngFor (recalculates on every change)
+- Always use `trackBy` for performance
+- Use index and other local variables as needed
+- Combine with `*ngIf` for empty states
+- Avoid complex expressions in loop
+- Never use array index as trackBy (causes re-renders)
+- Never use pipe inside ngFor (recalculates on every change)
 
 ### \*ngSwitch - Switch Statement
 
@@ -458,12 +505,12 @@ export class StatusBadgeComponent {
 
 **ngSwitch Best Practices**:
 
-- ✅ Use for multiple mutually exclusive conditions
-- ✅ Provide `*ngSwitchDefault` for fallback
-- ✅ Keep case logic simple
-- ✅ Use for rendering different component states
-- ❌ Don't use for simple true/false (use `*ngIf`)
-- ❌ Don't nest multiple switch statements
+- Use for multiple mutually exclusive conditions
+- Provide `*ngSwitchDefault` for fallback
+- Keep case logic simple
+- Use for rendering different component states
+- Never use for simple true/false (use `*ngIf`)
+- Never nest multiple switch statements
 
 ## RxJS Observable Patterns
 
@@ -481,7 +528,6 @@ interface User {
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  // ✅ GOOD: BehaviorSubject for state management
   private usersSubject = new BehaviorSubject<User[]>([]);
   users$ = this.usersSubject.asObservable();
 
@@ -546,25 +592,21 @@ import { takeUntil } from 'rxjs/operators';
 export class UserProfileComponent implements OnInit, OnDestroy {
   user$!: Observable<User>;
 
-  // ✅ GOOD: Subject for managing component destruction
   private destroy$ = new Subject<void>();
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    // ✅ GOOD: Use takeUntil pattern for automatic cleanup
     this.user$ = this.userService.currentUser$.pipe(takeUntil(this.destroy$));
 
-    // Multiple subscriptions with same cleanup
     this.userService.notifications$
       .pipe(takeUntil(this.destroy$))
       .subscribe((notification) => {
-        console.log('Notification:', notification);
+        /* handle notification */
       });
   }
 
   ngOnDestroy(): void {
-    // ✅ GOOD: Trigger all takeUntil subscriptions
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -573,14 +615,14 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
 **RxJS Best Practices**:
 
-- ✅ Use `BehaviorSubject` for state that components subscribe to
-- ✅ Use `Subject` for events without initial value
-- ✅ Use `takeUntil()` with destroy subject for cleanup
-- ✅ Unsubscribe in `ngOnDestroy()`
-- ✅ Use `async` pipe to avoid manual subscriptions
-- ✅ Use operators for data transformation
-- ❌ Don't forget to unsubscribe (memory leaks)
-- ❌ Don't nest subscriptions (subscribe in subscribe)
+- Use `BehaviorSubject` for state that components subscribe to
+- Use `Subject` for events without initial value
+- Use `takeUntil()` with destroy subject for cleanup
+- Unsubscribe in `ngOnDestroy()`
+- Use `async` pipe to avoid manual subscriptions
+- Use operators for data transformation
+- Never forget to unsubscribe (memory leaks)
+- Never nest subscriptions (subscribe in subscribe)
 
 ### Combining Observables
 
@@ -606,7 +648,6 @@ export class UserPostsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // ✅ Combine multiple observables
     this.vm$ = combineLatest({
       user: this.route.params.pipe(
         switchMap((params) => this.userService.getUser(params['id']))
@@ -635,23 +676,16 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
       <button (click)="onEdit()">Edit</button>
     </div>
   `,
-  // ✅ GOOD: OnPush for better performance
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserCardComponent {
   @Input() user!: User;
   @Output() edit = new EventEmitter<User>();
 
-  // ✅ GOOD: Immutable update
   onEdit(): void {
     const updated = { ...this.user, name: 'Updated' };
     this.edit.emit(updated);
   }
-
-  // ❌ BAD: Mutation doesn't trigger OnPush
-  // badEdit(): void {
-  //   this.user.name = 'Updated'; // Won't detect change
-  // }
 }
 ```
 
@@ -685,7 +719,6 @@ export class PollingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.data = data;
-        // ✅ GOOD: Manually mark for change detection
         this.cdr.markForCheck();
       });
   }
@@ -699,13 +732,13 @@ export class PollingComponent implements OnInit, OnDestroy {
 
 **Change Detection Best Practices**:
 
-- ✅ Use `OnPush` for presentational components
-- ✅ Keep inputs immutable
-- ✅ Use `async` pipe for observables
-- ✅ Use `markForCheck()` when needed
-- ✅ Separate smart and dumb components
-- ❌ Don't mutate input values
-- ❌ Don't use Default change detection for all components
+- Use `OnPush` for presentational components
+- Keep inputs immutable
+- Use `async` pipe for observables
+- Use `markForCheck()` when needed
+- Separate smart and dumb components
+- Never mutate input values
+- Never use Default change detection for all components
 
 ## Testing Legacy Angular
 
@@ -796,64 +829,72 @@ describe('UserService', () => {
 });
 ```
 
-## Best Practices Checklist
+## Output Format
 
-### Architecture
+<output_format>
+When providing legacy Angular code, structure the output as follows:
 
-- ✅ Organize code with feature modules
-- ✅ Separate smart and dumb components
-- ✅ Use services for business logic and data
-- ✅ Use dependency injection for all dependencies
-- ✅ Keep components small and focused (< 200 lines)
+**Module Structure**
+[NgModule declarations, imports, exports, and providers]
 
-### Lifecycle & Cleanup
+**Component Implementation**
+[Component class with lifecycle hooks, decorators, and template]
 
-- ✅ Initialize in `ngOnInit()`
-- ✅ Detect input changes in `ngOnChanges()`
-- ✅ Clean up subscriptions in `ngOnDestroy()`
-- ✅ Use `takeUntil` pattern for automatic cleanup
-- ✅ Always unsubscribe from observables
+**Service Layer**
+[Injectable services with RxJS state management]
 
-### Performance
+**Template Patterns**
+[Structural directives and data binding]
 
-- ✅ Use `OnPush` change detection for dumb components
-- ✅ Use `trackBy` with `*ngFor`
-- ✅ Use `async` pipe to avoid manual subscriptions
-- ✅ Lazy load feature modules
-- ✅ Use virtual scrolling for large lists
-- ✅ Avoid function calls in templates
+**Testing**
+[TestBed configuration and test cases]
+</output_format>
 
-### Reactive Programming
+## Best Practices
 
-- ✅ Use RxJS observables for async data
-- ✅ Use `BehaviorSubject` for state
-- ✅ Use operators for data transformation
-- ✅ Use `combineLatest` for multiple observables
-- ✅ Use `switchMap` for dependent observables
+- Organize code with feature modules to maintain clear domain boundaries
+- Separate smart (container) and dumb (presentational) components
+- Use services for business logic and data access
+- Use dependency injection for all dependencies
+- Keep components small and focused (under 200 lines)
+- Initialize in `ngOnInit()`, not the constructor
+- Clean up subscriptions in `ngOnDestroy()` using the takeUntil pattern
+- Use `OnPush` change detection for presentational components
+- Always use `trackBy` with `*ngFor`
+- Use `async` pipe to avoid manual subscriptions
+- Lazy load feature modules for better performance
+- Use Reactive Forms (FormGroup, FormControl) over template-driven forms
 
-### Forms
+## Anti-Patterns
 
-- ✅ Use Reactive Forms (FormGroup, FormControl)
-- ✅ Implement custom validators
-- ✅ Handle form errors gracefully
-- ✅ Disable submit while form is invalid
+- Do not call `ngOnInit()` manually from other methods
+- Do not forget to unsubscribe from observables (causes memory leaks)
+- Do not use `*ngFor` without `trackBy` (causes unnecessary DOM re-renders)
+- Do not mutate @Input values when using OnPush change detection
+- Do not nest subscriptions (use RxJS operators like switchMap instead)
+- Do not declare components in multiple modules
+- Do not use Default change detection strategy for all components
+- Do not put business logic in components (use services)
 
-## Anti-Patterns to Avoid
+## Examples
 
-- ❌ Don't call `ngOnInit()` manually
-- ❌ Don't forget to unsubscribe (memory leaks)
-- ❌ Don't use `*ngFor` without `trackBy`
-- ❌ Don't mutate inputs (with OnPush)
-- ❌ Don't nest subscriptions (use operators instead)
-- ❌ Don't declare components in multiple modules
-- ❌ Don't use Default change detection everywhere
+### Example 1: Adding a Feature Module
 
-## References
+**Input**: "Create a new users feature module with list and detail views"
 
-- [Angular Official Documentation](https://angular.io/docs)
-- [RxJS Documentation](https://rxjs.dev/)
-- [Angular Style Guide](https://angular.io/guide/styleguide)
-- [Angular Performance Guide](https://angular.io/guide/performance-best-practices)
+**Output**: Complete NgModule with route configuration, component declarations, service provider, and lazy loading setup in the app routing module.
+
+### Example 2: Fixing Memory Leaks
+
+**Input**: "Review this component for memory leaks - it subscribes to multiple observables"
+
+**Output**: Analysis of missing unsubscribe calls, addition of destroy$ Subject with takeUntil pattern, and replacement of manual subscriptions with async pipe where possible.
+
+### Example 3: Implementing OnPush Change Detection
+
+**Input**: "Convert this component to use OnPush change detection"
+
+**Output**: Component refactored with OnPush strategy, immutable input handling, markForCheck() for imperative updates, and async pipe for observable data.
 
 ---
 

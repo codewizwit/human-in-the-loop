@@ -1,24 +1,97 @@
 ---
-name: nx-monorepo-expert
-description: Apply Nx monorepo best practices including workspace organization, project boundaries, dependency constraints, computation caching, task orchestration, and module federation when building or reviewing Nx-based projects.
+name: nx-monorepo
+description: >-
+  Applies Nx monorepo best practices including workspace organization, project
+  boundaries, dependency constraints, caching, and task orchestration. Use when
+  user asks to "set up Nx workspace", "configure module boundaries", "optimize
+  monorepo builds", or mentions "Nx monorepo patterns".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - Edit
+  - AskUserQuestion
+  - EnterPlanMode
 ---
 
-# Nx Monorepo Expert Skill
+# Nx Monorepo Expert
 
-Use this skill when working with Nx monorepos, designing workspace structure, reviewing build configurations, or discussing monorepo patterns.
+Provides comprehensive guidance for building and maintaining Nx monorepos. Covers workspace structure, project boundaries, dependency constraints, computation caching, task orchestration, module federation, CI/CD optimization, custom generators, and dependency graph analysis.
 
-## When to Activate This Skill
+## When to Activate
 
-Activate automatically when:
+- User is reviewing Nx workspace configuration
+- User is designing monorepo structure and project boundaries
+- User is implementing module boundaries and dependency constraints
+- User is optimizing build performance with caching
+- User is setting up task orchestration and affected commands
+- User is discussing library vs application architecture
+- User is implementing module federation patterns
+- User is optimizing CI/CD pipelines for monorepos
 
-- Reviewing Nx workspace configuration
-- Designing monorepo structure and project boundaries
-- Implementing module boundaries and dependency constraints
-- Optimizing build performance with caching
-- Setting up task orchestration and affected commands
-- Discussing library vs application architecture
-- Implementing module federation patterns
-- Optimizing CI/CD pipelines for monorepos
+## Interactive Flow
+
+### Step 1: Gather Context
+
+<ask_user_question>
+<question>What type of Nx monorepo work are you doing?</question>
+<options>
+
+  <option value="setup">Setting up a new Nx workspace</option>
+  <option value="structure">Organizing workspace structure and libraries</option>
+  <option value="boundaries">Configuring module boundaries and dependency constraints</option>
+  <option value="caching">Optimizing build caching and task orchestration</option>
+  <option value="cicd">Setting up CI/CD for the monorepo</option>
+  <option value="federation">Implementing module federation</option>
+  <option value="review">Reviewing existing workspace configuration</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+<ask_user_question>
+<question>What frameworks are used in the monorepo?</question>
+<options>
+
+  <option value="angular">Angular</option>
+  <option value="react">React</option>
+  <option value="nestjs">Angular + NestJS</option>
+  <option value="multi">Multiple frameworks</option>
+  <option value="other">Other</option>
+</options>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+<ask_user_question>
+<question>How many applications and libraries are in the workspace? Provide approximate numbers or type "new" for a new workspace.</question>
+<allow_custom>true</allow_custom>
+</ask_user_question>
+
+### Step 2: Discovery
+
+1. Use Glob to find workspace configuration files (nx.json, project.json, workspace.json)
+2. Use Read to examine the current workspace structure and configuration
+3. Use Grep to identify existing project tags, dependency constraints, and caching configuration
+
+### Step 3: Plan (if complex)
+
+For large workspaces or significant restructuring, enter plan mode:
+
+<EnterPlanMode>
+<summary>
+Outline the workspace changes, identify affected projects,
+and confirm the approach with the user before implementation.
+</summary>
+</EnterPlanMode>
+
+### Step 4: Apply Nx Patterns
+
+Apply the appropriate patterns from the reference sections below based on the user's needs.
+
+### Step 5: Deliver Results
+
+Provide configuration and code following Nx conventions with proper boundary enforcement, caching strategy, and CI optimization.
 
 ## Workspace Structure Best Practices
 
@@ -176,64 +249,51 @@ Configure in `nx.json`:
 ### Remote Caching with Nx Cloud
 
 ```bash
-# Connect to Nx Cloud
 npx nx connect-to-nx-cloud
 
-# Set access token
 export NX_CLOUD_ACCESS_TOKEN=your-token
 ```
 
 **Benefits**:
 
-- ✅ Share cache across team and CI
-- ✅ Distributed task execution
-- ✅ Build analytics and insights
-- ✅ Faster CI pipelines
+- Share cache across team and CI
+- Distributed task execution
+- Build analytics and insights
+- Faster CI pipelines
 
 ## Task Orchestration
 
 ### Run Tasks Efficiently
 
 ```bash
-# Run task for single project
 nx build web-app
 
-# Run task for all projects
 nx run-many --target=build --all
 
-# Run task for affected projects only
 nx affected --target=build
 
-# Run multiple tasks in sequence
 nx run-many --target=lint,test,build --all
 
-# Parallel execution (default: 3)
 nx run-many --target=test --all --parallel=5
 
-# Skip cache
 nx build web-app --skip-nx-cache
 ```
 
 ### Affected Command Optimization
 
 ```bash
-# Test only affected projects
 nx affected --target=test --base=main
 
-# Build affected projects for deployment
 nx affected --target=build --base=origin/main --head=HEAD
 
-# See what's affected (dry run)
 nx affected:graph
 
-# Print affected project names
 nx print-affected --target=build --select=projects
 ```
 
 **CI Pipeline Usage**:
 
 ```yaml
-# .github/workflows/ci.yml
 - name: Test affected
   run: npx nx affected --target=test --base=origin/main --head=HEAD --parallel=3
 ```
@@ -242,40 +302,36 @@ nx print-affected --target=build --select=projects
 
 ### When to Create a Library
 
-**✅ Create a library when:**
+**Create a library when:**
 
 - Code is shared across multiple apps
 - Code represents a distinct domain or feature
 - You want to enforce boundaries and prevent circular dependencies
 - Code should be independently testable and publishable
 
-**❌ Don't create a library when:**
+**Do not create a library when:**
 
 - Code is only used in one place
-- Overhead of library structure isn't worth it
+- Overhead of library structure is not worth it
 - Code is experimental or temporary
 
 ### Generating Libraries
 
 ```bash
-# Feature library (Angular example)
 nx g @nx/angular:library feature-home \
   --directory=libs/web-app/feature-home \
   --tags=scope:web-app,type:feature \
   --routing
 
-# Data access library
 nx g @nx/angular:library data-access \
   --directory=libs/shared/data-access \
   --tags=scope:shared,type:data-access
 
-# UI component library
 nx g @nx/angular:library ui \
   --directory=libs/shared/ui \
   --tags=scope:shared,type:ui \
   --buildable
 
-# Utility library (TypeScript)
 nx g @nx/js:library utils \
   --directory=libs/shared/utils \
   --tags=scope:shared,type:util \
@@ -292,7 +348,6 @@ nx g @nx/js:library utils \
 ### Buildable Libraries for Better Performance
 
 ```json
-// libs/shared/ui/project.json
 {
   "name": "shared-ui",
   "targets": {
@@ -309,10 +364,10 @@ nx g @nx/js:library utils \
 
 **Benefits**:
 
-- ✅ Incremental builds - only rebuild changed libraries
-- ✅ Better caching granularity
-- ✅ Can be published independently
-- ✅ Faster CI pipelines
+- Incremental builds - only rebuild changed libraries
+- Better caching granularity
+- Can be published independently
+- Faster CI pipelines
 
 ## Module Federation Patterns
 
@@ -341,7 +396,6 @@ module.exports = {
 ### Lazy Loading Remote Modules
 
 ```typescript
-// apps/shell/src/app/app.routes.ts
 import { Route } from '@angular/router';
 import { loadRemoteModule } from '@nx/angular/mf';
 
@@ -364,7 +418,6 @@ export const appRoutes: Route[] = [
 ### Shared Dependencies
 
 ```javascript
-// module-federation.config.js
 module.exports = {
   name: 'home',
   exposes: {
@@ -386,11 +439,11 @@ module.exports = {
 
 **Shared Library Best Practices**:
 
-- ✅ Share framework dependencies (`@angular/core`, `react`, `vue`)
-- ✅ Use `singleton: true` for frameworks
-- ✅ Share common libraries to reduce bundle size
-- ❌ Don't share libraries that change frequently
-- ❌ Don't over-share - increases coordination overhead
+- Share framework dependencies (`@angular/core`, `react`, `vue`)
+- Use `singleton: true` for frameworks
+- Share common libraries to reduce bundle size
+- Do not share libraries that change frequently
+- Do not over-share as it increases coordination overhead
 
 ## CI/CD Optimization for Monorepos
 
@@ -452,10 +505,10 @@ jobs:
 
 **Benefits**:
 
-- ✅ Split tasks across multiple agents
-- ✅ Dramatically faster CI times
-- ✅ Automatic task distribution
-- ✅ Remote caching shared across agents
+- Split tasks across multiple agents
+- Dramatically faster CI times
+- Automatic task distribution
+- Remote caching shared across agents
 
 ### Selective Deployment
 
@@ -476,42 +529,35 @@ jobs:
 ### View Project Dependencies
 
 ```bash
-# Interactive dependency graph
 nx graph
 
-# Focus on specific project
 nx graph --focus=web-app
 
-# Show affected projects
 nx affected:graph
 
-# Export as JSON
 nx graph --file=output.json
 ```
 
 ### Analyze Circular Dependencies
 
 ```bash
-# Check for circular dependencies
 nx graph --affected --with-deps
 
-# Lint for circular dependencies
 nx lint --fix
 ```
 
 **Circular Dependency Prevention**:
 
-- ✅ Use `@nx/enforce-module-boundaries` ESLint rule
-- ✅ Define clear dependency constraints with tags
-- ✅ Follow unidirectional dependency flow
-- ✅ Use events or shared services to break cycles
+- Use `@nx/enforce-module-boundaries` ESLint rule
+- Define clear dependency constraints with tags
+- Follow unidirectional dependency flow
+- Use events or shared services to break cycles
 
 ## Nx Generators for Consistency
 
 ### Create Custom Generators
 
 ```bash
-# Generate a new generator
 nx g @nx/plugin:generator my-generator --project=tools
 ```
 
@@ -550,127 +596,75 @@ nx g @my-org/tools:feature my-feature --app=web-app
 
 **Benefits**:
 
-- ✅ Enforce consistent project structure
-- ✅ Automate boilerplate code generation
-- ✅ Codify architectural patterns
-- ✅ Reduce human error
+- Enforce consistent project structure
+- Automate boilerplate code generation
+- Codify architectural patterns
+- Reduce human error
 
-## Best Practices Checklist
+## Output Format
 
-When reviewing or working with Nx monorepos, ensure:
+<output_format>
+When providing Nx monorepo guidance, structure the output as follows:
 
-### Workspace Organization
+**Workspace Configuration**
+[nx.json, project.json, and tsconfig.base.json changes]
 
-- ✅ Clear separation between apps and libs
-- ✅ Consistent naming convention (scope:app, type:feature)
-- ✅ Libraries organized by scope and type
-- ✅ Shared libraries in `libs/shared/`
-- ✅ App-specific libraries in `libs/{app-name}/`
+**Project Structure**
+[Directory organization and library generation commands]
 
-### Dependency Management
+**Boundary Rules**
+[ESLint configuration with module boundary constraints]
 
-- ✅ Module boundaries enforced with ESLint
-- ✅ Tags applied to all projects
-- ✅ Dependency constraints defined
-- ✅ No circular dependencies
-- ✅ Unidirectional dependency flow
+**CI/CD Configuration**
+[GitHub Actions or other CI pipeline configuration]
 
-### Performance
+**Task Commands**
+[Nx CLI commands for building, testing, and deploying]
+</output_format>
 
-- ✅ Computation caching enabled
-- ✅ Remote caching with Nx Cloud
-- ✅ Buildable libraries for large projects
-- ✅ Parallel execution in CI
-- ✅ Affected commands for incremental builds
+## Best Practices
 
-### CI/CD
+- Maintain clear separation between apps and libs directories
+- Use consistent naming conventions (scope:app, type:feature)
+- Organize libraries by scope and type
+- Enforce module boundaries with ESLint rules and project tags
+- Enable computation caching for build, test, lint, and e2e targets
+- Use affected commands in CI to only build and test changed projects
+- Create buildable libraries for large projects with many dependencies
+- Use parallel execution to speed up task orchestration
+- Configure remote caching with Nx Cloud for team-wide cache sharing
+- Create custom generators to codify architectural patterns
 
-- ✅ Only test/build/deploy affected projects
-- ✅ Distributed task execution enabled
-- ✅ Remote cache shared across CI agents
-- ✅ Selective deployment based on affected apps
-- ✅ Code coverage tracked per project
+## Anti-Patterns
 
-### Module Federation
+- Do not create too many small libraries (over-segmentation adds overhead)
+- Do not ignore module boundaries by using relative path imports
+- Do not skip affected commands in CI (running all tests wastes resources)
+- Do not create circular dependencies between libraries
+- Do not make all libraries buildable (simple utilities do not need separate builds)
+- Do not use `latest` tags for action versions in CI pipelines
+- Do not bypass boundary rules with ESLint disable comments
 
-- ✅ Clear host/remote separation
-- ✅ Shared dependencies configured
-- ✅ Singleton for framework dependencies
-- ✅ Lazy loading for remote modules
-- ✅ Version compatibility ensured
+## Examples
 
-## Common Anti-Patterns to Avoid
+### Example 1: New Workspace Setup
 
-❌ **Don't create too many small libraries**
+**Input**: "Set up an Nx workspace for an Angular frontend with NestJS API"
 
-```
-// BAD - Over-segmented
-libs/web-app/feature-home/component-header/
-libs/web-app/feature-home/component-footer/
-libs/web-app/feature-home/service-home/
+**Output**: Complete workspace structure with apps/web-app and apps/api, shared libraries for UI, data-access, and utils, project tags, module boundary rules, and GitHub Actions CI pipeline.
 
-// GOOD - Cohesive feature module
-libs/web-app/feature-home/
-```
+### Example 2: Adding Module Boundaries
 
-❌ **Don't ignore module boundaries**
+**Input**: "Configure module boundaries so feature libraries cannot import from other features"
 
-```typescript
-// BAD - Direct import bypasses boundaries
-import { UserService } from '../../../api/feature-users/src/lib/user.service';
+**Output**: ESLint configuration with depConstraints ensuring feature libs only depend on data-access, ui, and util libs. Project.json updates with appropriate scope and type tags.
 
-// GOOD - Use barrel exports with enforced boundaries
-import { UserService } from '@my-org/api/feature-users';
-```
+### Example 3: CI/CD Pipeline Optimization
 
-❌ **Don't skip affected commands in CI**
+**Input**: "Our CI pipeline runs all tests on every PR even when only one lib changed"
 
-```yaml
-# BAD - Always run all tests
-- run: nx run-many --target=test --all
+**Output**: GitHub Actions workflow using nx affected with nrwl/nx-set-shas, parallel execution, and Nx Cloud remote caching configuration for faster builds.
 
-# GOOD - Only test affected
-- run: nx affected --target=test --base=origin/main
-```
+---
 
-❌ **Don't create circular dependencies**
-
-```
-// BAD - Circular dependency
-libs/web-app/feature-home → libs/web-app/feature-auth
-libs/web-app/feature-auth → libs/web-app/feature-home
-
-// GOOD - Extract shared code
-libs/web-app/feature-home → libs/shared/ui
-libs/web-app/feature-auth → libs/shared/ui
-```
-
-❌ **Don't make all libraries buildable**
-
-```json
-// BAD - Buildable library for simple utilities
-{
-  "name": "shared-utils",
-  "targets": {
-    "build": { ... }  // Unnecessary overhead
-  }
-}
-
-// GOOD - Only make libraries buildable when needed
-// Simple utility libraries don't need separate builds
-```
-
-## Related Skills
-
-- **Angular Expert** - For Angular-specific Nx patterns
-- **NestJS Expert** - For NestJS backend monorepo structure
-- **CI/CD Pipelines** - For optimizing Nx in continuous integration
-- **TypeScript Expert** - For shared library development
-- **Testing Automation** - For comprehensive test strategies in monorepos
-
-## References
-
-- [Nx Official Documentation](https://nx.dev)
-- [Module Boundaries](https://nx.dev/core-features/enforce-module-boundaries)
-- [Module Federation](https://nx.dev/concepts/module-federation)
-- [Nx Cloud](https://nx.app)
+**Human-in-the-Loop by codewizwit**

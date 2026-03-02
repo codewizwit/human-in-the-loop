@@ -1,0 +1,23 @@
+{
+  "id": "bdd-scenarios",
+  "name": "BDD Scenario Generator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates behavior-driven development scenarios in Gherkin syntax from user stories or feature descriptions. Use when user asks to \"generate BDD scenarios\", \"write Gherkin tests\", or mentions \"Cucumber testing\".",
+  "category": "testing",
+  "tags": [
+    "testing",
+    "bdd",
+    "gherkin",
+    "cucumber",
+    "jest-cucumber",
+    "cypress",
+    "acceptance-testing",
+    "angular"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

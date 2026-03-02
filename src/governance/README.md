@@ -14,7 +14,8 @@ governance/
     ├── check-links.sh       # Validate markdown links
     ├── check-docs.sh        # Ensure proper documentation
     ├── check-inline-comments.sh  # Enforce TypeDoc-only comments
-    └── validate-prompts.sh  # Validate prompt YAML structure
+    ├── validate-prompts.sh  # Validate prompt YAML structure
+    └── validate-skills.ts   # Validate unified skill format
 ```
 
 ## Available Checks
@@ -101,6 +102,25 @@ Validates prompt YAML files have required metadata.
 
 ---
 
+### validate-skills.ts
+
+Validates all skills in `lib/skills/` conform to the unified skill format.
+
+**Usage:**
+
+```bash
+npx tsx src/governance/checks/validate-skills.ts
+```
+
+**What it checks:**
+
+- Each skill directory contains `skill.md`, `metadata.json`, and `README.md`
+- `skill.md` has valid YAML frontmatter with required fields (id, name, version, description, category)
+- `metadata.json` matches the skill ID and contains required metadata
+- Skill IDs are consistent across files
+
+---
+
 ## Running Checks Locally
 
 ### Run all checks
@@ -117,6 +137,7 @@ pnpm validate
 ./src/governance/checks/validate-prompts.sh
 ./src/governance/checks/check-links.sh
 ./src/governance/checks/check-inline-comments.sh
+npx tsx src/governance/checks/validate-skills.ts
 ```
 
 ### Release validation

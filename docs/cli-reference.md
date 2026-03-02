@@ -21,7 +21,7 @@ hit [command] [options]
 
 ### `hit search [query]`
 
-Search the toolkit for available prompts, agents, and other tools.
+Search the toolkit for available skills.
 
 **Usage:**
 
@@ -52,176 +52,128 @@ hit search security
 **Output:**
 
 ```
-🔍 Searching for: "testing"
+Searching for: "testing"
 
-Found 3 tools:
+Found 3 skills:
 
-1. agent/test-generator
-   Generate comprehensive test suites
-   Version: 1.0.0
-   Tags: testing, automation
+1. unit-test-generator
+   Generate comprehensive unit test suites
+   Version: 3.0.0
 
-2. prompt/unit-test-writer
-   Write unit tests with best practices
-   Version: 2.1.0
-   Tags: testing, unit-tests
+2. test-coverage-analysis
+   Analyze and improve test coverage
+   Version: 3.0.0
 
-3. evaluator/test-coverage
-   Evaluate test coverage quality
-   Version: 1.5.0
-   Tags: testing, quality
+3. bdd-scenarios
+   Generate BDD test scenarios
+   Version: 3.0.0
 
-💡 Tip: Use hit install <type>/<id> to install a tool
+Tip: Use hit install <skill-id> to install a skill
 ```
 
 ---
 
-### `hit install <tool>`
+### `hit install [skill-id]`
 
-Install a prompt, agent, or other tool from the toolkit to your local system.
+Install a skill from the toolkit to your local system.
 
 **What does installing mean?**
 
-Installing copies a tool from the library to a location where your AI applications can access it. The installation process:
+Installing copies a skill from the library to a location where your AI applications can access it. The installation process:
 
-1. **Copies Files** - All tool files (prompt.md, READMEs, examples) are copied to your chosen directory
-2. **Registers Installation** - The tool is tracked in `~/.hit/registry.json` for version management
-3. **Makes Available** - AI tools like Claude Code can now discover and use the installed prompts/agents
-
-**Common install locations:**
-
-- `~/.claude/prompts/` - For Claude Code slash commands and prompts
-- `~/.claude/tools/` - For general AI tool integration and agents
-- Custom paths for your specific AI workflow or team setup
+1. **Copies Files** - All skill files (`skill.md`, `metadata.json`, `README.md`) are copied to your chosen destination
+2. **Registers Installation** - The skill is tracked in `~/.hit/registry.json` for version management
+3. **Makes Available** - AI tools like Claude Code can now discover and use the installed skill
 
 **Usage:**
 
 ```bash
-hit install <tool> [options]
+hit install [skill-id] [options]
 ```
 
 **Arguments:**
 
-- `tool` (required) - Tool identifier in format `<type>/<id>`
-  - Example: `prompt/code-review-ts`
-  - Example: `agent/test-generator`
+- `skill-id` (optional) - Skill identifier in kebab-case format
+  - Example: `code-review-ts`
+  - Example: `security-review`
+  - When omitted, launches an interactive browser to browse and select skills
 
 **Options:**
 
-- `--path, -p <path>` - Installation path (skips interactive prompt)
-- `--no-claude-command` - Skip creating Claude Code slash command (prompts only)
-
-**Default Behavior:**
-
-When installing **prompts**, Claude Code slash commands are **automatically created** by default. Use `--no-claude-command` to skip this step.
+- `--destination, -d <destination>` - Where to install the skill. Choices:
+  - `global-skill` - Install as a global Claude Code skill (`~/.claude/skills/`)
+  - `project-skill` - Install as a project-level skill (`.claude/skills/`)
+  - `global-command` - Install as a global Claude Code slash command (`~/.claude/commands/`)
+  - `project-command` - Install as a project-level slash command (`.claude/commands/`)
+  - `custom` - Prompt for a custom path
 
 **Examples:**
 
 ```bash
-# Interactive install - creates slash command automatically for prompts
-hit install prompt/code-review-ts
+# Launch interactive browser to browse all 25 skills
+hit install
 
-# Non-interactive with custom path - still creates slash command
-hit install prompt/code-review-ts --path ~/my-tools/prompts
+# Install a skill by ID (prompts for destination)
+hit install code-review-ts
 
-# Install agent (no slash command - agents don't support this)
-hit install agent/test-generator -p ~/.claude/tools/agent/test-generator
+# Install as a global skill
+hit install code-review-ts --destination global-skill
 
-# Install prompt WITHOUT creating slash command
-hit install prompt/security-review --no-claude-command
+# Install as a project-level command
+hit install security-review --destination project-command
 
-# Install prompt with custom path, skip slash command
-hit install prompt/security-review --path ~/.claude/tools/prompt/security-review --no-claude-command
+# Install to a custom location
+hit install unit-test-generator --destination custom
+```
+
+**Interactive Browser:**
+
+When `hit install` is run with no arguments, an interactive browser launches:
+
+```
+? Browse skills (Use arrow keys)
+  1-on-1-prep          - Prepare for 1-on-1 meetings
+  angular-legacy       - Angular legacy migration guidance
+  angular-modern       - Modern Angular development
+  api-design           - API design review
+  ...
+  (25 skills available)
 ```
 
 **Interactive Flow:**
 
-When `--path` is not provided, the CLI prompts for installation location:
+When `--destination` is not provided, the CLI prompts for installation location:
 
 ```
-📦 Installing prompt/code-review-ts...
+Installing code-review-ts...
 
-  → Looking up tool...
+  → Looking up skill...
 
-? Where would you like to install this tool? (~/.claude/tools/prompt/code-review-ts)
+? Where would you like to install this skill?
+  > global-skill
+    project-skill
+    global-command
+    project-command
+    custom
 
-  → Copying tool files...
+  → Copying skill files...
   → Registering installation...
 
-✓ Successfully installed Code Review TypeScript (v1.2.0)
-  → Installed to: ~/.claude/tools/prompt/code-review-ts
+Successfully installed code-review-ts (v3.0.0)
+  → Installed to: ~/.claude/skills/code-review-ts
 
-💡 Tip: Use hit list to see all installed tools
+Tip: Use hit list to see all installed tools
 ```
 
 **Reinstall Flow:**
 
-If a tool is already installed, the CLI prompts for confirmation:
+If a skill is already installed, the CLI prompts for confirmation:
 
 ```
-⚠ Tool "code-review-ts" is already installed at: ~/.claude/tools/prompt/code-review-ts
+Tool "code-review-ts" is already installed at: ~/.claude/skills/code-review-ts
 
 ? Do you want to reinstall? (y/N)
 ```
-
-**Claude Code Integration:**
-
-When installing **prompts**, a Claude Code slash command is **automatically created** by default:
-
-```bash
-hit install prompt/security-review
-```
-
-**Output:**
-
-```
-📦 Installing prompt/security-review...
-
-  → Looking up tool...
-  → Copying tool files...
-  → Registering installation...
-
-✓ Successfully installed Security Review (v1.1.0)
-  → Installed to: ~/.claude/tools/prompt/security-review
-
-  → Creating Claude Code slash command...
-✓ Created slash command: /security-review
-  → Command file: ~/.claude/commands/security-review.md
-  → Use /security-review in Claude Code to activate this prompt
-
-💡 Tip: Use hit list to see all installed tools
-```
-
-**How it works:**
-
-1. Extracts the prompt template from `prompt.md`
-2. Creates `~/.claude/commands/{prompt-id}.md`
-3. Includes variable documentation as comments
-4. Makes the prompt available as a slash command in Claude Code
-
-**Usage in Claude Code:**
-
-After installing a prompt, open Claude Code and type:
-
-```
-/security-review
-```
-
-The prompt will be activated and ready to use with your code.
-
-**Opt-Out:**
-
-To install a prompt WITHOUT creating a slash command:
-
-```bash
-hit install prompt/security-review --no-claude-command
-```
-
-**Limitations:**
-
-- Only works for **prompt** type tools (not agents, skills, or context packs)
-- Requires `~/.claude` directory to exist or be creatable
-- If Claude Code integration fails, installation still succeeds (shows warning)
 
 ---
 
@@ -238,32 +190,27 @@ hit list
 **Output:**
 
 ```
-📚 Installed Tools
+Installed Skills
 
-Prompts:
-  • code-review-ts v1.2.0
-   Installed at: ~/.claude/tools/prompt/code-review-ts
+Skills:
+  * code-review-ts v3.0.0
+   Installed at: ~/.claude/skills/code-review-ts
 
-  • api-docs-generator v2.1.0
-   Installed at: ~/.claude/tools/prompt/api-docs-generator
+  * security-review v3.0.0
+   Installed at: ~/.claude/skills/security-review
 
-Agents:
-  • test-generator v1.0.0
-   Installed at: ~/.claude/tools/agent/test-generator
+  * unit-test-generator v3.0.0
+   Installed at: ~/.claude/skills/unit-test-generator
 
-Context Packs:
-  • angular v3.0.0
-   Installed at: ~/.claude/tools/context-pack/angular
-
-💡 Tip: Use hit search to find more tools
+Tip: Use hit search to find more skills
 ```
 
 **Empty State:**
 
 ```
-⚠ No tools installed yet
+No skills installed yet
 
-Use hit search to discover available tools, then hit install to add them.
+Use hit search to discover available skills, then hit install <skill-id> to add them.
 ```
 
 ---
@@ -428,31 +375,26 @@ hit stats [options]
 **Examples:**
 
 ```bash
-# Overall stats for all installed tools
+# Overall stats for all installed skills
 hit stats
 
-# Stats for a specific tool
+# Stats for a specific skill
 hit stats --tool code-review-ts
 ```
 
 **Overall Stats Output:**
 
-Shows summary of all installed tools:
+Shows summary of all installed skills:
 
 ```
-📊 Overall Stats:
+Overall Stats:
 
-Tools Installed: 5
-
-By Type:
-  prompt: 3
-  agent: 1
-  context-pack: 1
+Skills Installed: 3
 
 Recently Installed:
   1. code-review-ts (2 days ago)
-  2. api-design (1 week ago)
-  3. angular (2 weeks ago)
+  2. security-review (1 week ago)
+  3. unit-test-generator (2 weeks ago)
 
 Note: Usage tracking (time saved, uses, etc.) is not yet implemented.
 Currently showing installation data only. Use --tool=<id> for details.
@@ -460,37 +402,36 @@ Currently showing installation data only. Use --tool=<id> for details.
 
 **Tool-Specific Stats Output:**
 
-Shows detailed information about a single installed tool:
+Shows detailed information about a single installed skill:
 
 ```
-📊 Stats for Code Review TypeScript:
+Stats for code-review-ts:
 
 Installation Info:
   ID: code-review-ts
-  Type: prompt
-  Version: 1.2.0
-  Installed: 1/15/2024
-  Path: ~/.claude/tools/prompt/code-review-ts
+  Version: 3.0.0
+  Installed: 1/15/2025
+  Path: ~/.claude/skills/code-review-ts
 
 Note: Usage tracking is not yet implemented. This shows installation data only.
 ```
 
-**When No Tools Installed:**
+**When No Skills Installed:**
 
 ```
-📊 Overall Stats:
+Overall Stats:
 
-⚠ No tools installed yet
+No skills installed yet
 
-Use hit search to find tools
-Use hit install <type>/<id> to install a tool
+Use hit search to find skills
+Use hit install <skill-id> to install a skill
 ```
 
-**When Tool Not Found:**
+**When Skill Not Found:**
 
 ```
-⚠ Tool "nonexistent" not found in installed tools
-Use hit list to see installed tools
+Tool "nonexistent" not found in installed skills
+Use hit list to see installed skills
 ```
 
 **Current Limitations:**
@@ -501,22 +442,21 @@ Use hit list to see installed tools
 
 ---
 
-### `hit contribute <type> <path>`
+### `hit contribute <path>`
 
-Validate a contribution and automatically create a GitHub issue for review.
+Validate a skill contribution and automatically create a GitHub issue for review.
 
 **What it does:**
 
-1. **Validates** your tool against quality standards:
+1. **Validates** your skill against quality standards:
 
-   - Pure XML structure with required metadata fields (for prompts)
-   - README.md presence with required sections
-   - Examples provided (warns if missing)
-   - Type-specific requirements
+   - Unified `skill.md` format with YAML frontmatter and markdown body
+   - Required frontmatter fields: `name` (kebab-case), `description`, `version` (semver), `allowed-tools` (array)
+   - Required sections: "When to Activate", "Output Format" (or "Output")
+   - README.md and metadata.json presence
+   - No deprecated XML `<prompt>` format
 
-2. **Auto-detects** tool type from directory path (verifies it matches specified type)
-
-3. **Creates GitHub issue** automatically with:
+2. **Creates GitHub issue** automatically with:
    - All validation results (pass/fail for each check)
    - List of errors that need fixing
    - Review checklist for maintainers
@@ -525,58 +465,51 @@ Validate a contribution and automatically create a GitHub issue for review.
 **Usage:**
 
 ```bash
-hit contribute <type> <path>
+hit contribute <path>
 ```
 
 **Arguments:**
 
-- `type` (required) - Tool type: `prompt`, `agent`, `evaluator`, `guardrail`, `context-pack`, or `skill`
-- `path` (required) - Path to tool definition file (e.g., `prompt.md`)
+- `path` (required) - Path to skill directory or `skill.md` file (e.g., `lib/skills/my-skill/skill.md`)
 
 **Examples:**
 
 ```bash
-# Contribute a prompt (pure XML format)
-hit contribute prompt lib/prompts/my-prompt/prompt.md
-
-# Contribute an agent
-hit contribute agent lib/agents/my-agent/agent.yaml
-
 # Contribute a skill
-hit contribute skill lib/skills/my-skill/metadata.json
+hit contribute lib/skills/my-skill/skill.md
 ```
 
 **Validation Checks:**
 
-✅ **Pure XML Structure (for prompts):**
+The `validate-skills.ts` script (`src/governance/checks/validate-skills.ts`) enforces:
 
-- Root `<prompt>` element required
-- Required metadata: `<id>`, `<name>`, `<version>`, `<description>`, `<category>`, `<author>`, `<license>`
-- Required sections: `<context>`, `<instructions>`, `<output_format>`
-- Recommended sections: `<constraints>`, `<examples>`
+- YAML frontmatter delimited by `---` lines
+- Required frontmatter fields: `name`, `description`, `version`, `allowed-tools`
+- `name` must be kebab-case
+- `version` must be valid semver
+- `allowed-tools` must be an array of strings
+- Required markdown sections: "When to Activate", "Output Format" (or "Output")
+- No legacy XML `<prompt>` wrapper detected
 
-✅ **Documentation (v3.0.0 format):**
+**Documentation checks:**
 
-- README.md exists in tool directory
-- README contains "## What You'll Be Asked" or "## Usage" section
-- README contains "## Usage Examples" section
-- README contains "## Related Resources" section
-- Sufficient content (warns if too short)
+- README.md exists in skill directory
+- README contains usage and example sections
+- metadata.json exists alongside skill.md
 
 **Success Output:**
 
 ```
-📤 Submitting prompt for review...
+Submitting skill for review...
 
-  → Validating lib/prompts/my-prompt/prompt.md...
+  → Validating lib/skills/my-skill/skill.md...
   → Running quality checks...
 
-✓ ✅ Pure XML validation passed
-✓ ✅ Documentation validation passed
+[PASS] my-skill
 
   → Creating GitHub issue...
 
-✓ Contribution issue created successfully!
+Contribution issue created successfully!
   → https://github.com/codewizwit/human-in-the-loop/issues/123
 
 Next steps:
@@ -590,53 +523,32 @@ Next steps:
 **Validation Failure Output:**
 
 ```
-📤 Submitting prompt for review...
+Submitting skill for review...
 
-  → Validating lib/prompts/my-prompt/prompt.md...
+  → Validating lib/skills/my-skill/skill.md...
   → Running quality checks...
 
-✗ ❌ Pure XML validation failed
-  - File must start with <prompt> root element
-  - Missing required metadata field: version
-  - Missing <context> section
-
-✗ ❌ Documentation validation failed
-  - Missing README.md file
-
-⚠️  Warnings:
-  - Missing <constraints> section (recommended)
-  - Missing <examples> section (recommended)
-
-  → Creating GitHub issue...
-
-✓ Contribution issue created successfully!
-  → https://github.com/codewizwit/human-in-the-loop/issues/124
+[FAIL] my-skill
+  ERROR: Missing required frontmatter field: "version"
+  ERROR: Missing required section: "When to Activate"
+  ERROR: Missing required section: "Output Format" (or "Output")
 
 Next steps:
   1. Fix the validation errors listed above
-  2. Run validation again: hit contribute <type> <path>
+  2. Run validation again: hit contribute <path>
   3. Create PR once all checks pass
 ```
 
 **Requirements:**
 
-Before running `hit contribute`, ensure your prompt has:
+Before running `hit contribute`, ensure your skill has:
 
-- ✅ Valid pure XML format starting with `<prompt>` root element
-- ✅ All required metadata fields in `<metadata>` section
-- ✅ Required sections: `<context>`, `<instructions>`, `<output_format>`
-- ✅ README.md in the same directory
-- ✅ README with required sections (What You'll Be Asked, Usage Examples, Related Resources)
-- ✅ Semantic version number
-
-**GitHub Issue:**
-
-The created issue includes:
-
-- 📊 Validation status (all passed / issues found)
-- 📝 Detailed error messages and warnings
-- ✅ Review checklist for maintainers
-- 📋 Contextual next steps
+- Valid `skill.md` with YAML frontmatter (name, description, version, allowed-tools)
+- Required markdown sections: "When to Activate", "Output Format" (or "Output")
+- `README.md` in the same directory
+- `metadata.json` in the same directory
+- Semantic version number (e.g., 3.0.0)
+- No legacy XML format
 
 **Prerequisites:**
 
@@ -689,11 +601,11 @@ The CLI maintains an installation registry at `~/.hit/registry.json` to track in
   "installations": [
     {
       "id": "code-review-ts",
-      "name": "Code Review TypeScript",
-      "version": "1.2.0",
-      "type": "prompt",
-      "installedPath": "/Users/you/.claude/tools/prompt/code-review-ts",
-      "installedAt": "2024-01-15T10:30:00.000Z"
+      "name": "code-review-ts",
+      "version": "3.0.0",
+      "type": "skill",
+      "installedPath": "/Users/you/.claude/skills/code-review-ts",
+      "installedAt": "2025-01-15T10:30:00.000Z"
     }
   ]
 }
@@ -732,10 +644,10 @@ The CLI maintains an installation registry at `~/.hit/registry.json` to track in
 ### Tool Not Found
 
 ```
-✗ Tool "prompt/nonexistent" not found in toolkit
+Tool "nonexistent" not found in toolkit
 ```
 
-**Solution:** Run `hit search` to see available tools, or check the toolkit directory exists.
+**Solution:** Run `hit search` to see available skills, or check the `lib/skills/` directory exists.
 
 ### Installation Failed
 

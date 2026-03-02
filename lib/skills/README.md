@@ -25,44 +25,15 @@ Skills are comprehensive knowledge bases that teach AI models the best practices
 
 ## File Structure
 
-Each skill directory contains three files:
+Each skill directory contains three files in the unified format:
 
 ```
 skills/
-├── angular-modern/              # Angular 16+ with signals, standalone
+├── 1-on-1-prep/
 │   ├── skill.md                 # Primary skill definition (YAML frontmatter + body)
 │   ├── metadata.json            # Registry metadata for CLI and search
 │   └── README.md                # Usage documentation for humans
-├── angular-legacy/              # Pre-Angular 16 (old format, pending migration)
-│   ├── claude-skill.md
-│   ├── copilot-instructions.md
-│   ├── metadata.json
-│   └── README.md
-├── nestjs-backend/
-│   ├── skill.md
-│   ├── metadata.json
-│   └── README.md
-├── nx-monorepo/                 # Old format, pending migration
-│   ├── claude-skill.md
-│   ├── copilot-instructions.md
-│   └── README.md
-├── code-review-ts/
-│   ├── skill.md
-│   ├── metadata.json
-│   └── README.md
-├── e2e-strategy/
-│   ├── skill.md
-│   ├── metadata.json
-│   └── README.md
-├── responsible-ai-audit/
-│   ├── skill.md
-│   ├── metadata.json
-│   └── README.md
-├── unit-test-generator/
-│   ├── skill.md
-│   ├── metadata.json
-│   └── README.md
-├── codebase-explainer/
+├── angular-modern/
 │   ├── skill.md
 │   ├── metadata.json
 │   └── README.md
@@ -70,7 +41,31 @@ skills/
 │   ├── skill.md
 │   ├── metadata.json
 │   └── README.md
-├── pipeline-optimization/
+├── bdd-scenarios/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── code-review-ts/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── context-pack-builder/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── learning-path/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── responsible-ai-audit/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── security-review/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── system-design-review/
 │   ├── skill.md
 │   ├── metadata.json
 │   └── README.md
@@ -79,6 +74,8 @@ skills/
     ├── metadata.json
     └── README.md
 ```
+
+All 25 skills follow this unified structure.
 
 ### skill.md
 
@@ -149,13 +146,15 @@ Human-readable documentation for the skill, including overview, installation ins
 
 ## Installation
 
-Install a skill using the bare skill ID:
+Install a skill using the skill ID:
 
 ```bash
 hit install code-review-ts
 ```
 
 ### Install Destinations
+
+Specify where to install the skill using the `--destination` flag:
 
 | Destination       | Path                  | Description                           |
 | ----------------- | --------------------- | ------------------------------------- |
@@ -166,134 +165,44 @@ hit install code-review-ts
 | `custom`          | User-specified path   | Install to any directory              |
 
 ```bash
-hit install code-review-ts --dest global-skill
-hit install code-review-ts --dest project-skill
-hit install code-review-ts --dest global-command
-hit install code-review-ts --dest project-command
-hit install code-review-ts --dest custom --path ./my-skills/
+hit install code-review-ts --destination global-skill
+hit install code-review-ts --destination project-skill
+hit install code-review-ts --destination global-command
+hit install code-review-ts --destination project-command
+hit install code-review-ts --destination custom --path ./my-skills/
 ```
 
 ## Available Skills
 
-### angular-modern
+All 25 unified skills are available for installation. Each skill directory contains `skill.md`, `metadata.json`, and `README.md`.
 
-**Version**: 1.0.0 | **Category**: framework
-
-Modern Angular 16+ development with signals, computed values, effects, and standalone components. Covers signal-based inputs/outputs, Resource API, control flow syntax, and component testing patterns.
-
-```bash
-hit install angular-modern
-```
-
-### angular-legacy
-
-**Version**: 1.0.0 | **Category**: framework | **Status**: Old format (pending migration)
-
-Pre-Angular 16 development with NgModules, lifecycle hooks, decorators, and RxJS observables.
-
-```bash
-hit install angular-legacy
-```
-
-### nestjs-backend
-
-**Version**: 3.0.0 | **Category**: framework
-
-NestJS backend development patterns including modules, controllers, services, guards, pipes, and interceptors.
-
-```bash
-hit install nestjs-backend
-```
-
-### nx-monorepo
-
-**Category**: tool | **Status**: Old format (pending migration)
-
-Nx monorepo best practices for workspace configuration, library boundaries, and build optimization.
-
-```bash
-hit install nx-monorepo
-```
-
-### code-review-ts
-
-**Version**: 3.0.0 | **Category**: code-review
-
-Automated TypeScript code review analyzing type safety, code quality, best practices, performance, and security. Produces structured reports with severity-rated findings.
-
-```bash
-hit install code-review-ts
-```
-
-### e2e-strategy
-
-**Version**: 3.0.0 | **Category**: testing
-
-End-to-end test strategy generation for web applications. Produces test plans, scenario definitions, and framework-specific implementation guidance.
-
-```bash
-hit install e2e-strategy
-```
-
-### responsible-ai-audit
-
-**Version**: 3.0.0 | **Category**: governance
-
-Responsible AI audit for prompts, agent configurations, and AI-integrated codebases. Evaluates bias, safety, transparency, and compliance.
-
-```bash
-hit install responsible-ai-audit
-```
-
-### unit-test-generator
-
-**Version**: 3.0.0 | **Category**: testing
-
-Generates comprehensive unit test suites for TypeScript codebases with proper mocking, assertion patterns, and coverage targets.
-
-```bash
-hit install unit-test-generator
-```
-
-### codebase-explainer
-
-**Version**: 3.0.0 | **Category**: documentation
-
-Analyzes and explains codebase architecture, module relationships, and key patterns. Produces structured walkthroughs for onboarding or documentation.
-
-```bash
-hit install codebase-explainer
-```
-
-### api-design
-
-**Version**: 3.0.0 | **Category**: design
-
-REST API design review and generation. Covers endpoint conventions, request/response schemas, error handling, and OpenAPI spec alignment.
-
-```bash
-hit install api-design
-```
-
-### pipeline-optimization
-
-**Version**: 3.0.0 | **Category**: devops
-
-CI/CD pipeline analysis and optimization for GitHub Actions, Azure DevOps, and similar platforms. Identifies bottlenecks and recommends improvements.
-
-```bash
-hit install pipeline-optimization
-```
-
-### user-story-breakdown
-
-**Version**: 3.0.0 | **Category**: planning
-
-Breaks down epics and features into well-structured user stories with acceptance criteria, story points, and dependency mapping.
-
-```bash
-hit install user-story-breakdown
-```
+| Skill ID                | Description                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1-on-1-prep             | Prepare for one-on-one meetings with structured agendas, talking points, and feedback frameworks       |
+| angular-legacy          | Pre-Angular 16 development with NgModules, lifecycle hooks, decorators, and RxJS observables           |
+| angular-modern          | Modern Angular 16+ with signals, computed values, effects, and standalone components                   |
+| api-design              | REST API design review and generation covering endpoint conventions, schemas, and OpenAPI specs        |
+| api-documentation       | Generate comprehensive API documentation with examples, error codes, and client SDKs                   |
+| aws-deployment-strategy | AWS infrastructure deployment patterns for serverless, containerized, and traditional workloads        |
+| bdd-scenarios           | Behavior-driven development scenario generation with Given-When-Then structure and acceptance criteria |
+| bias-detection          | Analyze AI prompts and systems for bias, fairness issues, and inclusive language patterns              |
+| code-review-empathy     | Empathy-focused code review guidance emphasizing constructive feedback and psychological safety        |
+| code-review-ts          | TypeScript code review analyzing type safety, quality, best practices, performance, and security       |
+| codebase-explainer      | Analyze and explain codebase architecture, module relationships, and key patterns                      |
+| context-pack-builder    | Create reusable context packs for domain-specific knowledge and documentation                          |
+| e2e-strategy            | End-to-end test strategy generation with test plans, scenarios, and framework-specific guidance        |
+| learning-path           | Create personalized learning paths with milestones, resources, and progress tracking                   |
+| nestjs-backend          | NestJS backend development patterns including modules, controllers, services, guards, pipes            |
+| nx-monorepo             | Nx monorepo best practices for workspace configuration, library boundaries, and build optimization     |
+| pipeline-optimization   | CI/CD pipeline analysis and optimization for GitHub Actions, Azure DevOps, and similar platforms       |
+| prompt-optimization     | Improve prompt quality, clarity, and effectiveness through iterative refinement analysis               |
+| responsible-ai-audit    | Responsible AI audit evaluating bias, safety, transparency, and compliance in AI systems               |
+| security-review         | Code security analysis identifying vulnerabilities, OWASP issues, and compliance concerns              |
+| system-design-review    | Evaluate system architecture for scalability, reliability, maintainability, and performance            |
+| team-retrospective      | Facilitate team retrospectives with structured prompts, action items, and psychological safety         |
+| test-coverage-analysis  | Analyze test coverage gaps and recommend test strategies to improve coverage metrics                   |
+| unit-test-generator     | Generate comprehensive unit test suites with proper mocking, assertions, and coverage targets          |
+| user-story-breakdown    | Break down epics and features into well-structured user stories with acceptance criteria               |
 
 ## How to Create a New Skill
 

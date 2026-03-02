@@ -16,7 +16,7 @@ export interface ValidationResult {
 }
 
 const SEMVER_REGEX = /^\d+\.\d+\.\d+(-[\w.]+)?(\+[\w.]+)?$/;
-const KEBAB_CASE_REGEX = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
+const KEBAB_CASE_REGEX = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 const REQUIRED_FRONTMATTER_FIELDS = [
   'name',
