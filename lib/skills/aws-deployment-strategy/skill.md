@@ -5,14 +5,7 @@ description: >-
   containerized applications. Use when user asks to "deploy to AWS",
   "create deployment strategy", or mentions "AWS infrastructure".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # AWS Deployment Strategy

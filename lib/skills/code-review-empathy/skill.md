@@ -5,13 +5,7 @@ description: >-
   comments that balance critique with appreciation. Use when user asks to
   "rewrite review feedback", "make feedback nicer", or mentions "empathetic review".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # Code Review Empathy Guide

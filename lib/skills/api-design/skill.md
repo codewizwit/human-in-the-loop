@@ -5,13 +5,7 @@ description: >-
   Use when user asks to "review my API design", "design a REST API",
   "optimize API endpoints", or mentions "API best practices".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # API Design Best Practices

@@ -5,13 +5,7 @@ description: >-
   user asks to "create E2E tests", "generate a testing strategy", or mentions
   "end-to-end testing".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # E2E Testing Strategy Generator

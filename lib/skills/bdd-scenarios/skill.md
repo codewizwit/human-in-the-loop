@@ -5,14 +5,7 @@ description: >-
   stories or feature descriptions. Use when user asks to "generate BDD scenarios",
   "write Gherkin tests", "create feature files", or mentions "Cucumber testing".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # BDD Scenario Generator

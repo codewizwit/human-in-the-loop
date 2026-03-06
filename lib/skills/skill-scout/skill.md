@@ -7,14 +7,7 @@ description: >-
   opportunities", "what skills should I create", "analyze my
   workflow for automation", or "scout for skills".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
-  - Write
-  - Agent
-  - AskUserQuestion
+allowed-tools: Read, Glob, Grep, Bash, Write, Agent, AskUserQuestion
 ---
 
 # Skill Scout

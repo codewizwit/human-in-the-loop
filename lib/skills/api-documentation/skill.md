@@ -6,14 +6,7 @@ description: >-
   "generate API docs", "document API endpoints", "create OpenAPI spec", or
   mentions "Swagger documentation".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # API Documentation Generator

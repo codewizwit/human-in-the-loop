@@ -5,13 +5,7 @@ description: >-
   with actionable improvement plans. Use when user asks to "run a retro",
   "facilitate a retrospective", or mentions "sprint retrospective".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # Team Retrospective Facilitator

@@ -5,13 +5,7 @@ description: >-
   Use when user asks to "optimize my pipeline", "speed up CI",
   "reduce build times", or mentions "GitHub Actions optimization".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # Pipeline Optimization

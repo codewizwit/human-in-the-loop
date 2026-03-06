@@ -5,14 +5,7 @@ description: >-
   testing efforts. Use when user asks to "analyze test coverage", "find coverage
   gaps", "improve test quality", or mentions "Istanbul coverage report".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # Test Coverage Analysis

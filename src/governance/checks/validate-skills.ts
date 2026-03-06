@@ -143,17 +143,25 @@ export function validateSkillFile(filePath: string): ValidationResult {
   }
 
   if ('allowed-tools' in data) {
-    if (!Array.isArray(data['allowed-tools'])) {
-      result.valid = false;
-      result.errors.push(`Field "allowed-tools" must be an array of strings`);
-    } else {
-      const nonStringItems = data['allowed-tools'].filter(
+    const tools = data['allowed-tools'];
+    if (typeof tools === 'string') {
+      if (tools.trim().length === 0) {
+        result.valid = false;
+        result.errors.push(`Field "allowed-tools" must not be empty`);
+      }
+    } else if (Array.isArray(tools)) {
+      const nonStringItems = tools.filter(
         (item: unknown) => typeof item !== 'string'
       );
       if (nonStringItems.length > 0) {
         result.valid = false;
         result.errors.push(`Field "allowed-tools" must contain only strings`);
       }
+    } else {
+      result.valid = false;
+      result.errors.push(
+        `Field "allowed-tools" must be a comma-separated string or array of strings`
+      );
     }
   }
 

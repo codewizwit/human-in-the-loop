@@ -5,13 +5,7 @@ description: >-
   paths, edge cases, and error scenarios. Use when user asks to "generate tests",
   "write unit tests", or mentions "test coverage".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
 ---
 
 # Unit Test Generator

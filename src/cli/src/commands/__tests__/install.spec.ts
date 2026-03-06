@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 import {
   describe,
   it,
@@ -59,7 +59,7 @@ describe('installCommand', () => {
     version: '1.2.0',
     description: 'TypeScript code review',
     category: 'code-quality',
-    type: 'prompt',
+    type: 'skill',
     path: '/lib/prompts/code-review-ts',
     metadata: {},
   };
@@ -85,14 +85,8 @@ describe('installCommand', () => {
     });
 
     mockClaudeIntegration.isClaudeAvailable.mockReturnValue(true);
-    mockClaudeIntegration.createClaudeCommand.mockReturnValue(
-      '/home/user/.claude/commands/code-review-ts.md'
-    );
-    mockClaudeIntegration.installSkillFile.mockReturnValue(
-      '/home/user/.claude/skills/code-review-ts.md'
-    );
 
-    mockFs.existsSync.mockReturnValue(false);
+    mockFs.readdirSync.mockReturnValue([] as any);
   });
 
   afterEach(() => {
@@ -178,7 +172,7 @@ describe('installCommand', () => {
           version: '1.2.0',
           description: 'TS review',
           category: 'code-quality',
-          type: 'prompt',
+          type: 'skill',
           path: '/lib/prompts/code-review-ts',
           metadata: {},
         },
@@ -273,25 +267,19 @@ describe('installCommand', () => {
     });
   });
 
-  describe('unified skill file installation', () => {
-    it('should copy skill.md via installSkillFile for unified skills', async () => {
-      mockFs.existsSync.mockImplementation((p: unknown) => {
-        const pathStr = String(p);
-        // skill.md exists in the tool directory
-        if (pathStr.endsWith('/skill.md')) return true;
-        return false;
-      });
-
+  describe('skill directory installation', () => {
+    it('should copy skill directory via copyDirectory', async () => {
       await installCommand('code-review-ts', {
         destination: 'global-skill',
       });
 
-      expect(mockClaudeIntegration.installSkillFile).toHaveBeenCalled();
+      expect(mockFileOps.copyDirectory).toHaveBeenCalledWith(
+        '/lib/prompts/code-review-ts',
+        expect.stringContaining('code-review-ts')
+      );
     });
 
-    it('should register installation after skill copy', async () => {
-      mockFs.existsSync.mockReturnValue(false);
-
+    it('should register installation after directory copy', async () => {
       await installCommand('code-review-ts', {
         destination: 'global-skill',
       });
@@ -301,7 +289,7 @@ describe('installCommand', () => {
           id: 'code-review-ts',
           name: 'Code Review TypeScript',
           version: '1.2.0',
-          type: 'prompt',
+          type: 'skill',
         })
       );
     });
@@ -316,27 +304,20 @@ describe('installCommand', () => {
     });
   });
 
-  describe('command destination (non-unified)', () => {
-    it('should use createClaudeCommand for global-command destination', async () => {
-      mockFs.existsSync.mockImplementation((p: unknown) => {
-        const pathStr = String(p);
-        // No skill.md, so not unified
-        if (pathStr.endsWith('/skill.md')) return false;
-        // prompt.md exists
-        if (pathStr.endsWith('/prompt.md')) return true;
-        return false;
-      });
-
+  describe('command destination', () => {
+    it('should copy skill directory for global-command destination', async () => {
       await installCommand('code-review-ts', {
         destination: 'global-command',
       });
 
-      expect(mockClaudeIntegration.createClaudeCommand).toHaveBeenCalled();
+      expect(mockFileOps.copyDirectory).toHaveBeenCalledWith(
+        '/lib/prompts/code-review-ts',
+        expect.stringContaining('code-review-ts')
+      );
     });
 
-    it('should warn when Claude is not available for command destinations', async () => {
+    it('should warn when Claude is not available', async () => {
       mockClaudeIntegration.isClaudeAvailable.mockReturnValue(false);
-      mockFs.existsSync.mockReturnValue(false);
 
       await installCommand('code-review-ts', {
         destination: 'global-command',
@@ -355,8 +336,8 @@ describe('installCommand', () => {
         id: 'code-review-ts',
         name: 'Code Review TypeScript',
         version: '1.0.0',
-        type: 'prompt',
-        installedPath: '~/.claude/skills/code-review-ts.md',
+        type: 'skill',
+        installedPath: '~/.claude/skills/code-review-ts',
         installedAt: '2024-01-01T00:00:00Z',
       });
     });
@@ -412,14 +393,9 @@ describe('installCommand', () => {
 
   describe('error handling', () => {
     it('should handle installation failure gracefully', async () => {
-      mockClaudeIntegration.installSkillFile.mockImplementation(() => {
-        throw new Error('Permission denied');
-      });
-
-      mockFs.existsSync.mockImplementation((p: unknown) => {
-        if (String(p).endsWith('/skill.md')) return true;
-        return false;
-      });
+      mockFileOps.copyDirectory.mockRejectedValue(
+        new Error('Permission denied')
+      );
 
       await installCommand('code-review-ts', {
         destination: 'global-skill',
@@ -452,14 +428,10 @@ describe('installCommand', () => {
     });
 
     it('should show slash command tip for command destinations', async () => {
-      mockFs.existsSync.mockReturnValue(false);
-
       await installCommand('code-review-ts', {
         destination: 'global-command',
       });
 
-      // When claude is available and prompt file exists, should show command tip
-      // The exact behavior depends on whether file-operations mock succeeds
       expect(consoleMock.getOutput()).toBeDefined();
     });
   });

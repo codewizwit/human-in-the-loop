@@ -6,14 +6,7 @@ description: >-
   a skill", "write a SKILL.md", "make a custom skill", or
   "scaffold a new skill".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Write
-  - Glob
-  - Grep
-  - Bash
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion, EnterPlanMode
 ---
 
 # Skill Builder

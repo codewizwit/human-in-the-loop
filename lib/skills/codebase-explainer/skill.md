@@ -5,13 +5,7 @@ description: >-
   conventions. Use when user asks to "explain this codebase", "document the
   architecture", or mentions "codebase overview".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # Codebase Explainer

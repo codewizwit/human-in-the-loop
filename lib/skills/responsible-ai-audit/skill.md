@@ -5,13 +5,7 @@ description: >-
   principles. Use when user asks to "audit an AI system", "review AI ethics", or
   mentions "responsible AI".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # Responsible AI Audit

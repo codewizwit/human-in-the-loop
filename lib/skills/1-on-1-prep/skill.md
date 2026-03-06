@@ -5,13 +5,7 @@ description: >-
   current work, and support needed sections. Use when user asks to "prepare
   for my 1-on-1", "write a pre-read", or mentions "1-on-1 prep".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # 1-on-1 Pre-Read Email Generator

@@ -2,21 +2,12 @@ import { z } from 'zod';
 
 const KEBAB_CASE_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const SEMVER_PATTERN = /^\d+\.\d+\.\d+$/;
-const VALID_TOOLS = [
-  'Read',
-  'Glob',
-  'Grep',
-  'Write',
-  'Edit',
-  'AskUserQuestion',
-  'EnterPlanMode',
-] as const;
-
 /**
  * Zod schema for validating the YAML frontmatter of a unified skill file.
  *
  * Enforces kebab-case naming, semver versioning, trigger phrase presence
- * in the description, and a minimum of one allowed tool.
+ * in the description, and a non-empty allowed-tools field (comma-separated
+ * string or array of strings).
  */
 export const skillFrontmatterSchema = z.object({
   name: z
@@ -36,9 +27,10 @@ export const skillFrontmatterSchema = z.object({
   version: z
     .string()
     .regex(SEMVER_PATTERN, 'version must follow semver format (e.g., 3.0.0)'),
-  'allowed-tools': z
-    .array(z.enum(VALID_TOOLS))
-    .min(1, 'allowed-tools must contain at least one tool'),
+  'allowed-tools': z.union([
+    z.string().min(1, 'allowed-tools must not be empty'),
+    z.array(z.string()).min(1, 'allowed-tools must contain at least one tool'),
+  ]),
 });
 
 /**

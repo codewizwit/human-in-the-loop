@@ -6,14 +6,7 @@ description: >-
   when user asks to "security review", "security audit", "find vulnerabilities",
   or mentions "OWASP" or "penetration testing".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # Security Review

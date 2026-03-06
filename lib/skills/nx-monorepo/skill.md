@@ -6,14 +6,7 @@ description: >-
   user asks to "set up Nx workspace", "configure module boundaries", "optimize
   monorepo builds", or mentions "Nx monorepo patterns".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # Nx Monorepo Expert
@@ -87,519 +80,57 @@ and confirm the approach with the user before implementation.
 
 ### Step 4: Apply Nx Patterns
 
-Apply the appropriate patterns from the reference sections below based on the user's needs.
+Apply the appropriate patterns based on the user's needs. For detailed Nx patterns, see [context.md](context.md). For configuration templates, see [templates.md](templates.md).
 
 ### Step 5: Deliver Results
 
 Provide configuration and code following Nx conventions with proper boundary enforcement, caching strategy, and CI optimization.
 
-## Workspace Structure Best Practices
+## Core Methodology
 
-### Optimal Directory Organization
+### Workspace Organization
 
-```
-my-workspace/
-├── apps/
-│   ├── web-app/              # Main web application
-│   ├── mobile-app/           # Mobile application
-│   └── api/                  # Backend API
-├── libs/
-│   ├── shared/
-│   │   ├── ui/               # Shared UI components
-│   │   ├── data-access/      # Shared data access layer
-│   │   └── utils/            # Shared utilities
-│   ├── web-app/
-│   │   ├── feature-home/     # Feature-specific modules
-│   │   ├── feature-auth/
-│   │   └── data-access/      # App-specific data access
-│   └── api/
-│       ├── feature-users/
-│       └── data-access/
-├── tools/                     # Custom workspace tools
-├── nx.json                    # Nx configuration
-├── package.json
-└── tsconfig.base.json         # Base TypeScript config
-```
+- Separate `apps/` (deployable) from `libs/` (shared code)
+- Group libraries by scope (`shared/`, `{app-name}/`) and type (`feature-*`, `data-access`, `ui`, `utils`)
+- Follow unidirectional dependency flow: apps -> features -> data-access/ui -> utils
 
-**Naming Convention**:
+### Module Boundaries
 
-- `apps/` - Deployable applications
-- `libs/shared/` - Code shared across all apps
-- `libs/{app-name}/` - App-specific libraries
-- `libs/{app-name}/feature-*` - Feature modules
-- `libs/{app-name}/data-access` - State management and API calls
-- `libs/{app-name}/ui` - Presentational components
-- `libs/{app-name}/utils` - Helper functions
+- Tag every project with scope and type tags
+- Enforce boundaries via `@nx/enforce-module-boundaries` ESLint rule
+- Scope tags control cross-app access; type tags control architectural layering
+- Never bypass boundary rules with ESLint disable comments
 
-## Project Boundaries and Dependency Constraints
+### Computation Caching
 
-### Enforce Module Boundaries
+- Define cacheable operations in `nx.json` (build, test, lint, e2e)
+- Configure `inputs` and `outputs` per target for accurate cache keys
+- Use `dependsOn: ["^build"]` to ensure dependencies build first
+- Enable Nx Cloud for remote caching shared across team and CI
 
-Configure in `.eslintrc.json`:
+### Task Orchestration
 
-```json
-{
-  "overrides": [
-    {
-      "files": ["*.ts"],
-      "rules": {
-        "@nx/enforce-module-boundaries": [
-          "error",
-          {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "scope:shared",
-                "onlyDependOnLibsWithTags": ["scope:shared"]
-              },
-              {
-                "sourceTag": "scope:web-app",
-                "onlyDependOnLibsWithTags": ["scope:web-app", "scope:shared"]
-              },
-              {
-                "sourceTag": "scope:api",
-                "onlyDependOnLibsWithTags": ["scope:api", "scope:shared"]
-              },
-              {
-                "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": [
-                  "type:feature",
-                  "type:ui",
-                  "type:data-access",
-                  "type:util"
-                ]
-              },
-              {
-                "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:ui", "type:util"]
-              },
-              {
-                "sourceTag": "type:data-access",
-                "onlyDependOnLibsWithTags": ["type:data-access", "type:util"]
-              },
-              {
-                "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": ["type:util"]
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]
-}
-```
+- Use `nx affected` in CI to only build/test what changed
+- Use `nx run-many --parallel` for local development speed
+- Use `nrwl/nx-set-shas` in GitHub Actions to determine the correct base SHA
 
-### Tagging Projects
+### Library Architecture
 
-In `project.json`:
+- Create libraries when code is shared, represents a domain, or needs boundary enforcement
+- Use buildable libraries for large projects (incremental builds, better caching)
+- Use publishable libraries when npm distribution is needed
+- Avoid over-segmentation; keep library count proportional to complexity
 
-```json
-{
-  "name": "web-app-feature-home",
-  "tags": ["scope:web-app", "type:feature"]
-}
-```
+### CI/CD Optimization
 
-**Dependency Flow**:
+- Use `nx affected` with `--parallel` for efficient CI runs
+- Configure Nx Cloud distributed task execution for large workspaces
+- Use selective deployment based on `nx print-affected`
+- Cache `node_modules` and Nx cache in CI for faster pipeline execution
 
-```
-apps → feature libs → data-access/ui libs → util libs
-```
+For detailed patterns including module federation, dependency graph analysis, and custom generators, see [context.md](context.md).
 
-## Build Caching and Computation Caching
-
-### Enable Computation Caching
-
-Configure in `nx.json`:
-
-```json
-{
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "test", "lint", "e2e"],
-        "parallel": 3,
-        "cacheDirectory": "node_modules/.cache/nx"
-      }
-    }
-  },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
-      "outputs": ["{workspaceRoot}/dist/{projectName}"]
-    },
-    "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"]
-    }
-  }
-}
-```
-
-**Cache Inputs**:
-
-- `production` - Source files, configs, dependencies
-- `default` - Includes test files
-- `^production` - Production inputs of dependencies
-
-### Remote Caching with Nx Cloud
-
-```bash
-npx nx connect-to-nx-cloud
-
-export NX_CLOUD_ACCESS_TOKEN=your-token
-```
-
-**Benefits**:
-
-- Share cache across team and CI
-- Distributed task execution
-- Build analytics and insights
-- Faster CI pipelines
-
-## Task Orchestration
-
-### Run Tasks Efficiently
-
-```bash
-nx build web-app
-
-nx run-many --target=build --all
-
-nx affected --target=build
-
-nx run-many --target=lint,test,build --all
-
-nx run-many --target=test --all --parallel=5
-
-nx build web-app --skip-nx-cache
-```
-
-### Affected Command Optimization
-
-```bash
-nx affected --target=test --base=main
-
-nx affected --target=build --base=origin/main --head=HEAD
-
-nx affected:graph
-
-nx print-affected --target=build --select=projects
-```
-
-**CI Pipeline Usage**:
-
-```yaml
-- name: Test affected
-  run: npx nx affected --target=test --base=origin/main --head=HEAD --parallel=3
-```
-
-## Library vs Application Architecture
-
-### When to Create a Library
-
-**Create a library when:**
-
-- Code is shared across multiple apps
-- Code represents a distinct domain or feature
-- You want to enforce boundaries and prevent circular dependencies
-- Code should be independently testable and publishable
-
-**Do not create a library when:**
-
-- Code is only used in one place
-- Overhead of library structure is not worth it
-- Code is experimental or temporary
-
-### Generating Libraries
-
-```bash
-nx g @nx/angular:library feature-home \
-  --directory=libs/web-app/feature-home \
-  --tags=scope:web-app,type:feature \
-  --routing
-
-nx g @nx/angular:library data-access \
-  --directory=libs/shared/data-access \
-  --tags=scope:shared,type:data-access
-
-nx g @nx/angular:library ui \
-  --directory=libs/shared/ui \
-  --tags=scope:shared,type:ui \
-  --buildable
-
-nx g @nx/js:library utils \
-  --directory=libs/shared/utils \
-  --tags=scope:shared,type:util \
-  --publishable \
-  --importPath=@my-org/utils
-```
-
-**Library Types**:
-
-- **Buildable** (`--buildable`) - Can be built independently, faster incremental builds
-- **Publishable** (`--publishable`) - Can be published to npm, includes package.json
-- **Routing** (`--routing`) - Includes routing configuration for lazy loading
-
-### Buildable Libraries for Better Performance
-
-```json
-{
-  "name": "shared-ui",
-  "targets": {
-    "build": {
-      "executor": "@nx/angular:ng-packagr-lite",
-      "outputs": ["{workspaceRoot}/dist/libs/shared/ui"],
-      "options": {
-        "project": "libs/shared/ui/ng-package.json"
-      }
-    }
-  }
-}
-```
-
-**Benefits**:
-
-- Incremental builds - only rebuild changed libraries
-- Better caching granularity
-- Can be published independently
-- Faster CI pipelines
-
-## Module Federation Patterns
-
-### Host and Remote Configuration
-
-**Host Application** (`apps/shell/module-federation.config.js`):
-
-```javascript
-module.exports = {
-  name: 'shell',
-  remotes: ['home', 'about', 'dashboard'],
-};
-```
-
-**Remote Application** (`apps/home/module-federation.config.js`):
-
-```javascript
-module.exports = {
-  name: 'home',
-  exposes: {
-    './Module': 'apps/home/src/app/remote-entry/entry.module.ts',
-  },
-};
-```
-
-### Lazy Loading Remote Modules
-
-```typescript
-import { Route } from '@angular/router';
-import { loadRemoteModule } from '@nx/angular/mf';
-
-export const appRoutes: Route[] = [
-  {
-    path: 'home',
-    loadChildren: () =>
-      loadRemoteModule('home', './Module').then((m) => m.RemoteEntryModule),
-  },
-  {
-    path: 'dashboard',
-    loadChildren: () =>
-      loadRemoteModule('dashboard', './Module').then(
-        (m) => m.RemoteEntryModule
-      ),
-  },
-];
-```
-
-### Shared Dependencies
-
-```javascript
-module.exports = {
-  name: 'home',
-  exposes: {
-    './Module': 'apps/home/src/app/remote-entry/entry.module.ts',
-  },
-  shared: (libraryName, defaultConfig) => {
-    if (libraryName === '@angular/core') {
-      return {
-        ...defaultConfig,
-        singleton: true,
-        strictVersion: true,
-        requiredVersion: defaultConfig.requiredVersion,
-      };
-    }
-    return defaultConfig;
-  },
-};
-```
-
-**Shared Library Best Practices**:
-
-- Share framework dependencies (`@angular/core`, `react`, `vue`)
-- Use `singleton: true` for frameworks
-- Share common libraries to reduce bundle size
-- Do not share libraries that change frequently
-- Do not over-share as it increases coordination overhead
-
-## CI/CD Optimization for Monorepos
-
-### GitHub Actions with Nx
-
-```yaml
-name: CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  main:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Set SHAs for Nx
-        uses: nrwl/nx-set-shas@v3
-
-      - name: Lint affected
-        run: npx nx affected --target=lint --parallel=3
-
-      - name: Test affected
-        run: npx nx affected --target=test --parallel=3 --ci --code-coverage
-
-      - name: Build affected
-        run: npx nx affected --target=build --parallel=3
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          directory: ./coverage
-```
-
-### Distributed Task Execution with Nx Cloud
-
-```yaml
-- name: Distributed task execution
-  run: |
-    npx nx affected --target=test --parallel=3 \
-      --configuration=ci \
-      --distributed
-```
-
-**Benefits**:
-
-- Split tasks across multiple agents
-- Dramatically faster CI times
-- Automatic task distribution
-- Remote caching shared across agents
-
-### Selective Deployment
-
-```yaml
-- name: Deploy affected apps
-  run: |
-    AFFECTED=$(npx nx print-affected --target=build --select=projects | tr ',' '\n')
-    for app in $AFFECTED; do
-      if [[ $app == *"web-app"* ]]; then
-        echo "Deploying $app to production"
-        npx nx deploy $app --configuration=production
-      fi
-    done
-```
-
-## Dependency Graph Visualization
-
-### View Project Dependencies
-
-```bash
-nx graph
-
-nx graph --focus=web-app
-
-nx affected:graph
-
-nx graph --file=output.json
-```
-
-### Analyze Circular Dependencies
-
-```bash
-nx graph --affected --with-deps
-
-nx lint --fix
-```
-
-**Circular Dependency Prevention**:
-
-- Use `@nx/enforce-module-boundaries` ESLint rule
-- Define clear dependency constraints with tags
-- Follow unidirectional dependency flow
-- Use events or shared services to break cycles
-
-## Nx Generators for Consistency
-
-### Create Custom Generators
-
-```bash
-nx g @nx/plugin:generator my-generator --project=tools
-```
-
-**Example Custom Generator** (`tools/generators/feature/index.ts`):
-
-```typescript
-import {
-  Tree,
-  formatFiles,
-  generateFiles,
-  joinPathFragments,
-} from '@nx/devkit';
-
-export interface FeatureGeneratorSchema {
-  name: string;
-  app: string;
-}
-
-export default async function (tree: Tree, options: FeatureGeneratorSchema) {
-  const projectRoot = `libs/${options.app}/feature-${options.name}`;
-
-  generateFiles(tree, joinPathFragments(__dirname, 'files'), projectRoot, {
-    ...options,
-    tmpl: '',
-  });
-
-  await formatFiles(tree);
-}
-```
-
-**Usage**:
-
-```bash
-nx g @my-org/tools:feature my-feature --app=web-app
-```
-
-**Benefits**:
-
-- Enforce consistent project structure
-- Automate boilerplate code generation
-- Codify architectural patterns
-- Reduce human error
+For complete configuration templates including ESLint rules, nx.json, project.json, CI/CD workflows, and generator code, see [templates.md](templates.md).
 
 ## Output Format
 
@@ -664,6 +195,14 @@ When providing Nx monorepo guidance, structure the output as follows:
 **Input**: "Our CI pipeline runs all tests on every PR even when only one lib changed"
 
 **Output**: GitHub Actions workflow using nx affected with nrwl/nx-set-shas, parallel execution, and Nx Cloud remote caching configuration for faster builds.
+
+## References
+
+- [Nx Documentation](https://nx.dev)
+- [Module Boundaries](https://nx.dev/core-features/enforce-module-boundaries)
+- [Computation Caching](https://nx.dev/concepts/how-caching-works)
+- [Affected Commands](https://nx.dev/concepts/affected)
+- [Module Federation](https://nx.dev/recipes/module-federation)
 
 ---
 

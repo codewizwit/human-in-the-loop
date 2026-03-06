@@ -5,13 +5,7 @@ description: >-
   Use when user asks to "break down this epic", "create user stories",
   "plan sprint stories", or mentions "story breakdown".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # User Story Breakdown

@@ -5,14 +5,7 @@ description: >-
   characteristics. Use when user asks to "check for bias", "detect bias",
   "review for fairness", or mentions "inclusivity audit".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Edit
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, EnterPlanMode
 ---
 
 # Bias Detection Analyzer

@@ -15,14 +15,11 @@ import {
   isToolInstalled,
   getInstalledTool,
 } from '../utils/registry';
-import {
-  createClaudeCommand,
-  isClaudeAvailable,
-  installSkillFile,
-} from '../utils/claude-integration';
+import { isClaudeAvailable } from '../utils/claude-integration';
+import { copyDirectory } from '../utils/file-operations';
 import inquirer from 'inquirer';
 import { join } from 'path';
-import { existsSync } from 'fs';
+import { readdirSync } from 'fs';
 
 /**
  * Destination types for skill installation
@@ -44,11 +41,13 @@ interface InstallOptions {
 }
 
 /**
- * Resolves the installation path for a given destination type and skill ID
+ * Resolves the installation directory for a given destination type and skill ID.
+ * Skills are installed as directories (e.g., ~/.claude/skills/code-review-ts/)
+ * following the official Claude Code skill directory structure.
  * @param destination - The destination type (global-skill, project-skill, etc.)
  * @param skillId - The skill identifier
  * @param customPath - Optional custom path when destination is 'custom'
- * @returns The resolved installation file path
+ * @returns The resolved installation directory path
  */
 function resolveDestinationPath(
   destination: DestinationType,
@@ -59,15 +58,31 @@ function resolveDestinationPath(
 
   switch (destination) {
     case 'global-skill':
-      return resolvePath(join(homeDir, '.claude', 'skills', `${skillId}.md`));
+      return resolvePath(join(homeDir, '.claude', 'skills', skillId));
     case 'project-skill':
-      return join(process.cwd(), '.claude', 'skills', `${skillId}.md`);
+      return join(process.cwd(), '.claude', 'skills', skillId);
     case 'global-command':
-      return resolvePath(join(homeDir, '.claude', 'commands', `${skillId}.md`));
+      return resolvePath(join(homeDir, '.claude', 'commands', skillId));
     case 'project-command':
-      return join(process.cwd(), '.claude', 'commands', `${skillId}.md`);
+      return join(process.cwd(), '.claude', 'commands', skillId);
     case 'custom':
-      return join(resolvePath(customPath || '.'), `${skillId}.md`);
+      return join(resolvePath(customPath || '.'), skillId);
+  }
+}
+
+/**
+ * Counts installable files in a skill directory (excludes metadata.json and README.md)
+ * @param skillDir - Path to the skill source directory
+ * @returns Number of installable files
+ */
+function countSkillFiles(skillDir: string): number {
+  try {
+    const entries = readdirSync(skillDir, { withFileTypes: true });
+    return entries.filter(
+      (e) => e.isFile() && e.name !== 'metadata.json' && e.name !== 'README.md'
+    ).length;
+  } catch {
+    return 0;
   }
 }
 
@@ -178,19 +193,6 @@ async function promptDestination(): Promise<DestinationType> {
 }
 
 /**
- * Checks if a tool directory contains a unified skill.md file
- * @param toolPath - Path to the tool directory
- * @returns True if skill.md exists in the directory
- */
-function hasUnifiedSkillFile(toolPath: string): boolean {
-  try {
-    return existsSync(join(toolPath, 'skill.md'));
-  } catch {
-    return false;
-  }
-}
-
-/**
  * Installs a skill or prompt from the library to the specified destination.
  * Supports both the new bare skill-id format (e.g., 'code-review-ts') and
  * the legacy type/id format (e.g., 'prompt/code-review-ts') with a deprecation warning.
@@ -291,42 +293,18 @@ export async function installCommand(
       customPath = userPath;
     }
 
-    const installPath = resolveDestinationPath(
-      destination,
-      tool.id,
-      customPath
-    );
+    if (!isClaudeAvailable()) {
+      logWarning('Claude Code integration not available');
+      return;
+    }
+
+    const installDir = resolveDestinationPath(destination, tool.id, customPath);
 
     logNewLine();
     logStep('Installing skill...');
 
-    const isUnified = hasUnifiedSkillFile(tool.path);
-
-    if (isUnified) {
-      const skillMdPath = join(tool.path, 'skill.md');
-      installSkillFile(skillMdPath, installPath);
-    } else if (
-      destination === 'global-command' ||
-      destination === 'project-command'
-    ) {
-      if (!isClaudeAvailable()) {
-        logWarning('Claude Code integration not available');
-        return;
-      }
-
-      const fs = await import('fs');
-      const promptMdPath = join(tool.path, 'prompt.md');
-      const promptYamlPath = join(tool.path, 'prompt.yaml');
-      const promptPath = fs.existsSync(promptMdPath)
-        ? promptMdPath
-        : promptYamlPath;
-
-      createClaudeCommand(promptPath, tool.id);
-    } else {
-      const { copyDirectory } = await import('../utils/file-operations');
-      const destDir = installPath.replace(`/${tool.id}.md`, '');
-      await copyDirectory(tool.path, destDir);
-    }
+    const fileCount = countSkillFiles(tool.path);
+    await copyDirectory(tool.path, installDir);
 
     logStep('Registering installation...');
     registerInstallation({
@@ -334,13 +312,16 @@ export async function installCommand(
       name: tool.name,
       version: tool.version,
       type: tool.type,
-      installedPath: installPath,
+      installedPath: installDir,
       installedAt: new Date().toISOString(),
     });
 
     logNewLine();
     logSuccess(`Successfully installed ${tool.name} (v${tool.version})`);
-    logStep('Installed to: ' + chalk.cyan(installPath));
+    logStep('Installed to: ' + chalk.cyan(installDir));
+    if (fileCount > 1) {
+      logStep(`${fileCount} files copied (skill + supporting files)`);
+    }
 
     logNewLine();
     if (destination === 'global-skill' || destination === 'project-skill') {

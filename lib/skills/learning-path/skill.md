@@ -6,13 +6,7 @@ description: >-
   path", "build a study plan", "plan my career growth", or mentions
   "skill development" or "career progression".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # Personalized Learning Path Generator

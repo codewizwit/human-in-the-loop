@@ -4,13 +4,7 @@ description: >-
   Automated TypeScript code review for your workspace. Use when user asks to
   "review my TypeScript code", "check code quality", or mentions "code review".
 version: 3.0.0
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - AskUserQuestion
-  - EnterPlanMode
+allowed-tools: Read, Glob, Grep, Write, AskUserQuestion, EnterPlanMode
 ---
 
 # TypeScript Code Review
