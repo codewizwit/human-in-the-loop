@@ -2,12 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [3.0.3](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.2...v3.0.3) (2025-12-01)
+## [4.0.0](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.3...v4.0.0) (2026-03-02)
 
+### BREAKING CHANGES
+
+- Old XML prompt format is deprecated. All skills now use a unified `skill.md` format with YAML frontmatter.
+- Skills moved to `lib/skills/` with a standardized directory structure: `skill.md`, `metadata.json`, `README.md`.
+
+### Features
+
+- **Unified Skill Format**: All 25 skills converted to `skill.md` with YAML frontmatter, replacing the legacy XML prompt format
+- **25 Production-Ready Skills**: 1-on-1-prep, angular-legacy, angular-modern, api-design, api-documentation, aws-deployment-strategy, bdd-scenarios, bias-detection, code-review-empathy, code-review-ts, codebase-explainer, context-pack-builder, e2e-strategy, learning-path, nestjs-backend, nx-monorepo, pipeline-optimization, prompt-optimization, responsible-ai-audit, security-review, system-design-review, team-retrospective, test-coverage-analysis, unit-test-generator, user-story-breakdown
+- **Skill Validation**: New `validate-skills.ts` governance check in `src/governance/checks/`
+- **CLI Enhancements**: `hit install <skill-id>` with `--destination` flag; interactive browser when no args provided
+
+### [3.0.3](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.2...v3.0.3) (2025-12-01)
 
 ### Bug Fixes
 
-* use root README for npm package ([e267652](https://github.com/codewizwit/human-in-the-loop/commit/e267652f0690260f74b3f0ab9ddd9eb0071c0dd3))
+- use root README for npm package ([e267652](https://github.com/codewizwit/human-in-the-loop/commit/e267652f0690260f74b3f0ab9ddd9eb0071c0dd3))
 
 ### [3.0.2](https://github.com/codewizwit/human-in-the-loop/compare/v3.0.1...v3.0.2) (2025-12-01)
 

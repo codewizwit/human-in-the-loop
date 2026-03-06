@@ -6,7 +6,7 @@ Thank you for your interest in contributing! This document outlines the process 
 
 ## How to Contribute
 
-> **Note**: As of v3.0.0, all prompts use **pure XML format** (no YAML frontmatter). See the [Pure XML Template Format Guide](./docs/xml-template-migration.md) for details.
+> **Note**: As of v4.0.0, all skills use a **unified `skill.md` format** with YAML frontmatter. The old XML prompt format is deprecated. Each skill lives in `lib/skills/<skill-id>/` and contains `skill.md`, `metadata.json`, and `README.md`.
 
 ### 1. Types of Contributions
 
@@ -25,7 +25,7 @@ We accept the following types of contributions:
 
 1. Check existing issues and PRs to avoid duplication
 2. For major changes, open an issue first to discuss your approach
-3. Read our [Pure XML Template Format Guide](./docs/xml-template-migration.md)
+3. Review an existing skill in `lib/skills/` to understand the unified `skill.md` format
 4. Review [Best Practices](./docs/ai-best-practices.md) guide (if available)
 5. Familiarize yourself with our [Governance](./docs/governance-model.md) model (if available)
 
@@ -64,147 +64,75 @@ git checkout -b fix/prompt-bug
 
 Follow the appropriate guide based on what you're contributing:
 
-#### Contributing a Prompt
+#### Contributing a Skill
 
-1. Create a new directory in `lib/prompts/category/`:
+1. Create a new directory in `lib/skills/`:
 
 ```bash
-mkdir -p lib/prompts/code-review/my-prompt
+mkdir -p lib/skills/my-skill
 ```
 
-2. Create `prompt.md` (Pure XML format):
+2. Create `skill.md` (unified format with YAML frontmatter):
 
-```xml
-<prompt>
-  <metadata>
-    <id>my-prompt</id>
-    <name>My Awesome Prompt</name>
-    <version>1.0.0</version>
-    <description>A clear, concise description of what this prompt does</description>
-    <category>code-review</category>
-    <author>Your Name</author>
-    <license>MIT</license>
-    <tags>
-      <tag>code-review</tag>
-      <tag>quality</tag>
-    </tags>
-    <lastUpdated>2025-01-15</lastUpdated>
-  </metadata>
+```markdown
+---
+id: my-skill
+name: My Awesome Skill
+version: 1.0.0
+description: A clear, concise description of what this skill does
+category: code-review
+author: Your Name
+license: MIT
+tags:
+  - code-review
+  - quality
+lastUpdated: 2026-03-01
+---
 
-  <examples>
-    <example>
-      <description>Review entire workspace</description>
-      <input>
-        <user_message>Please review all code in this project</user_message>
-      </input>
-    </example>
-    <example>
-      <description>Review specific file</description>
-      <input>
-        <user_message>Review src/auth/login.ts for security issues</user_message>
-      </input>
-    </example>
-  </examples>
+You are an expert code reviewer with deep knowledge of software engineering
+best practices, security, and performance optimization.
 
-  <context>
-You are an expert code reviewer with deep knowledge of software engineering best practices, security, and performance optimization.
-  </context>
+## Instructions
 
-  <instructions>
 Review the code in the current workspace and analyze:
 
-1. **Code Quality**
-   - Use Glob tool to find relevant code files
-   - Use Read tool to examine each file
-   - Assess readability and maintainability
+1. **Code Quality** - Assess readability and maintainability
+2. **Security** - Identify potential vulnerabilities
+3. **Performance** - Identify optimization opportunities
 
-2. **Security**
-   - Identify potential vulnerabilities
-   - Check for input validation issues
+## Constraints
 
-3. **Performance**
-   - Identify optimization opportunities
-  </instructions>
-
-  <constraints>
-- Use Read, Grep, and Glob tools to analyze code
 - Focus on critical issues over style preferences
 - Provide specific line references for issues
 - Include code examples for recommendations
-  </constraints>
 
-  <output_format>
-Write your code review to a markdown file in the workspace. Use proper markdown syntax with clear headings and code blocks. Structure your review as follows:
+## Output Format
 
-**Code Quality**
-- [Specific findings with code examples]
-
-**Security**
-- [Specific findings with code examples]
-
-**Performance**
-- [Specific findings with code examples]
-
-For each issue:
-- Explain the problem clearly
-- Provide actionable recommendations
-- Include code examples showing improvements
-- Note severity (Critical, High, Medium, Low)
-  </output_format>
-</prompt>
+Structure your review with clear headings: Code Quality, Security, Performance.
+For each issue, explain the problem, provide actionable recommendations, and note severity.
 ```
 
-3. Create `README.md` in the same directory (185-233 words):
+3. Create `metadata.json` in the same directory:
 
-````markdown
-# My Awesome Prompt
+```json
+{
+  "id": "my-skill",
+  "name": "My Awesome Skill",
+  "version": "1.0.0",
+  "description": "A clear, concise description of what this skill does",
+  "category": "code-review",
+  "author": "Your Name",
+  "tags": ["code-review", "quality"]
+}
+```
 
-A clear, concise description of what this prompt does.
+4. Create `README.md` in the same directory with usage examples and expected output.
 
-## What You'll Be Asked
+5. Install and test locally:
 
-- The prompt automatically analyzes code files in your workspace (no input required)
-- Optionally: Specific focus areas (e.g., "focus on security")
-
-## Usage Examples
-
-### Example 1: Full Workspace Review
-
-Analyze an entire project for code quality, security, and performance issues.
-
-**Expected Output:**
-
-\```markdown
-**Code Quality**
-
-- src/auth/login.ts:45 - Complex function should be split
-  Recommendation: Extract validation logic to separate function
-
-**Security**
-
-- src/api/users.ts:23 - SQL injection vulnerability
-  CRITICAL: Use parameterized queries
-  \```
-
-### Example 2: Focused Security Review
-
-Review specific components for security vulnerabilities.
-
-**Expected Output:**
-
-\```markdown
-**Security**
-
-- Input validation missing on user registration
-  Recommendation: Add validation using [library]
-  \```
-
-## Related Resources
-
-- [Other Related Prompt](../other-prompt) - Description
-- [External Documentation](https://example.com) - Description
-- [Tool/Framework Guide](https://example.com) - Description
-````
+```bash
+hit install my-skill
+```
 
 #### Contributing an Agent
 

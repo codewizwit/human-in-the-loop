@@ -1,0 +1,23 @@
+{
+  "id": "nx-monorepo",
+  "name": "Nx Monorepo Expert",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Applies Nx monorepo best practices including workspace organization, project boundaries, dependency constraints, caching, and task orchestration. Use when user asks to \"set up Nx workspace\", \"configure module boundaries\", or mentions \"Nx monorepo patterns\".",
+  "category": "architecture",
+  "tags": [
+    "nx",
+    "monorepo",
+    "workspace",
+    "module-boundaries",
+    "caching",
+    "ci-cd",
+    "module-federation",
+    "task-orchestration"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

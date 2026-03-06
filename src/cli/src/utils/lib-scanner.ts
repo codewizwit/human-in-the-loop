@@ -1,10 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { parse } from 'yaml';
-import { XMLParser } from 'fast-xml-parser';
 
 /**
- * Represents a tool found in the toolkit
+ * Represents a skill found in the toolkit
  */
 export interface Tool {
   id: string;
@@ -12,13 +11,7 @@ export interface Tool {
   version: string;
   description: string;
   category: string;
-  type:
-    | 'prompt'
-    | 'agent'
-    | 'evaluator'
-    | 'guardrail'
-    | 'context-pack'
-    | 'skill';
+  type: 'skill';
   path: string;
   metadata?: {
     author?: string;
@@ -30,28 +23,20 @@ export interface Tool {
 
 /**
  * Checks if a directory is a valid Human-in-the-Loop lib directory
- * by verifying it has the expected subdirectories
+ * by verifying it has a skills subdirectory
  * @param libPath - Path to check
- * @returns True if it looks like a valid lib directory
+ * @returns True if it contains a skills directory
  */
 function isValidLibDirectory(libPath: string): boolean {
   if (!fs.existsSync(libPath)) {
     return false;
   }
 
-  const expectedDirs = [
-    'prompts',
-    'agents',
-    'evaluators',
-    'guardrails',
-    'context-packs',
-    'skills',
-  ];
-  return expectedDirs.some((dir) => fs.existsSync(path.join(libPath, dir)));
+  return fs.existsSync(path.join(libPath, 'skills'));
 }
 
 /**
- * Gets the default lib directory path by searching multiple locations
+ * Gets the default lib directory path by searching multiple locations.
  * First attempts to find lib in the current working directory (for local development).
  * If not found, searches the package installation directory (for global npm installs).
  * When installed globally via npm, the directory structure is:
@@ -75,50 +60,30 @@ function getDefaultLibPath(): string {
 }
 
 /**
- * Scans the lib directory and returns all available tools
- * @param toolkitPath - The root path to the lib directory containing prompts, agents, etc. Defaults to auto-detected lib directory
- * @returns Array of Tool objects found in the lib directory and its subdirectories
+ * Scans the lib/skills directory and returns all available skills
+ * @param toolkitPath - The root path to the lib directory. Defaults to auto-detected lib directory
+ * @returns Array of Tool objects found in the skills directory
  */
 export function scanToolkit(toolkitPath?: string): Tool[] {
   const libPath = toolkitPath || getDefaultLibPath();
   const tools: Tool[] = [];
+  const skillsPath = path.join(libPath, 'skills');
 
-  const toolTypes: Array<{
-    type: Tool['type'];
-    dir: string;
-  }> = [
-    { type: 'prompt', dir: 'prompts' },
-    { type: 'agent', dir: 'agents' },
-    { type: 'evaluator', dir: 'evaluators' },
-    { type: 'guardrail', dir: 'guardrails' },
-    { type: 'context-pack', dir: 'context-packs' },
-    { type: 'skill', dir: 'skills' },
-  ];
-
-  for (const { type, dir } of toolTypes) {
-    const typePath = path.join(libPath, dir);
-
-    if (!fs.existsSync(typePath)) {
-      continue;
-    }
-
-    scanDirectory(typePath, type, tools);
+  if (!fs.existsSync(skillsPath)) {
+    return tools;
   }
+
+  scanDirectory(skillsPath, tools);
 
   return tools;
 }
 
 /**
- * Recursively scans a directory for tools and adds them to the tools array
+ * Scans a directory for skills and adds them to the tools array
  * @param dirPath - The directory path to scan
- * @param type - The type of tool to register (prompt, agent, evaluator, guardrail, context-pack, skill)
  * @param tools - The array to accumulate found tools into (modified in place)
  */
-function scanDirectory(
-  dirPath: string,
-  type: Tool['type'],
-  tools: Tool[]
-): void {
+function scanDirectory(dirPath: string, tools: Tool[]): void {
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
 
   for (const entry of entries) {
@@ -127,44 +92,15 @@ function scanDirectory(
     }
 
     const fullPath = path.join(dirPath, entry.name);
-    const configFile = findConfigFile(fullPath);
+    const skillFile = path.join(fullPath, 'skill.md');
 
-    if (configFile) {
-      const tool = parseToolConfig(fullPath, configFile, type);
+    if (fs.existsSync(skillFile)) {
+      const tool = parseSkillFile(fullPath, skillFile);
       if (tool) {
         tools.push(tool);
       }
-    } else {
-      scanDirectory(fullPath, type, tools);
     }
   }
-}
-
-/**
- * Finds the configuration file in a tool directory by checking for known config file names
- * @param toolDir - The directory path to search for configuration files
- * @returns The full path to the configuration file if found, null otherwise
- */
-function findConfigFile(toolDir: string): string | null {
-  const possibleFiles = [
-    'prompt.md',
-    'prompt.yaml',
-    'prompt.yml',
-    'agent.yaml',
-    'agent.yml',
-    'config.yaml',
-    'config.yml',
-    'metadata.json',
-  ];
-
-  for (const file of possibleFiles) {
-    const filePath = path.join(toolDir, file);
-    if (fs.existsSync(filePath)) {
-      return filePath;
-    }
-  }
-
-  return null;
 }
 
 /**
@@ -193,121 +129,45 @@ function parseFrontmatter(content: string): {
 }
 
 /**
- * Parses pure XML prompt format and extracts metadata
- * @param content - The XML content starting with <prompt>
- * @returns Object containing metadata if parsing succeeds, null otherwise
+ * Parses a skill.md file and creates a Tool object
+ * @param toolDir - The directory containing the skill
+ * @param skillFile - The full path to the skill.md file
+ * @returns A Tool object if parsing succeeds, null otherwise
  */
-function parseXmlPrompt(content: string): {
-  id: string;
-  name: string;
-  version: string;
-  description?: string;
-  category?: string;
-} | null {
-  if (!content.trim().startsWith('<prompt>')) {
-    return null;
-  }
-
+function parseSkillFile(toolDir: string, skillFile: string): Tool | null {
   try {
-    const parser = new XMLParser({
-      ignoreAttributes: false,
-      preserveOrder: false,
-      trimValues: true,
-    });
+    const content = fs.readFileSync(skillFile, 'utf-8');
+    const parsed = parseFrontmatter(content);
 
-    const parsed = parser.parse(content) as {
-      prompt?: { metadata?: Record<string, unknown> };
-    };
-
-    if (!parsed.prompt?.metadata) {
+    if (!parsed || !parsed.data || typeof parsed.data !== 'object') {
       return null;
     }
 
-    const metadata = parsed.prompt.metadata;
-
-    if (!metadata.id || !metadata.name || !metadata.version) {
-      return null;
-    }
-
-    return {
-      id: typeof metadata.id === 'string' ? metadata.id : '',
-      name: typeof metadata.name === 'string' ? metadata.name : '',
-      version: typeof metadata.version === 'string' ? metadata.version : '',
-      description:
-        typeof metadata.description === 'string'
-          ? metadata.description
-          : undefined,
-      category:
-        typeof metadata.category === 'string' ? metadata.category : undefined,
-    };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Parses a tool configuration file and creates a Tool object
- * @param toolDir - The directory containing the tool
- * @param configFile - The full path to the configuration file (YAML, JSON, or Markdown with frontmatter)
- * @param type - The type of tool being parsed (prompt, agent, evaluator, guardrail, context-pack, skill)
- * @returns A Tool object if parsing succeeds and required fields are present, null otherwise
- */
-function parseToolConfig(
-  toolDir: string,
-  configFile: string,
-  type: Tool['type']
-): Tool | null {
-  try {
-    const content = fs.readFileSync(configFile, 'utf-8');
-
-    let config: unknown;
-
-    if (configFile.endsWith('.json')) {
-      config = JSON.parse(content);
-    } else if (configFile.endsWith('.md')) {
-      const frontmatterParsed = parseFrontmatter(content);
-      if (frontmatterParsed) {
-        config = frontmatterParsed.data;
-      } else {
-        const xmlParsed = parseXmlPrompt(content);
-        if (xmlParsed) {
-          config = xmlParsed;
-        } else {
-          return null;
-        }
-      }
-    } else {
-      config = parse(content);
-    }
-
-    if (
-      !config ||
-      typeof config !== 'object' ||
-      !('id' in config) ||
-      !('name' in config) ||
-      !('version' in config)
-    ) {
-      return null;
-    }
-
-    const typedConfig = config as {
-      id: string;
-      name: string;
-      version: string;
+    const config = parsed.data as {
+      id?: string;
+      name?: string;
+      version?: string;
       description?: string;
       category?: string;
       metadata?: Tool['metadata'];
     };
 
+    if (!config.version || (!config.id && !config.name)) {
+      return null;
+    }
+
+    const toolId = config.id || config.name || '';
+    const toolName = config.name || config.id || '';
+
     return {
-      id: typedConfig.id,
-      name: typedConfig.name,
-      version: typedConfig.version,
-      description: typedConfig.description || '',
-      category: typedConfig.category || 'general',
-      type,
+      id: toolId,
+      name: toolName,
+      version: config.version,
+      description: config.description || '',
+      category: config.category || 'general',
+      type: 'skill',
       path: toolDir,
-      metadata: typedConfig.metadata,
+      metadata: config.metadata,
     };
   } catch {
     return null;
@@ -315,10 +175,10 @@ function parseToolConfig(
 }
 
 /**
- * Searches for tools matching a query string across multiple fields
- * @param query - Optional search query to filter tools by id, name, description, category, or tags. If omitted, returns all tools
- * @param toolkitPath - Optional path to the lib directory. Defaults to 'lib' in current working directory
- * @returns Array of Tool objects matching the query, or all tools if no query provided
+ * Searches for skills matching a query string across multiple fields
+ * @param query - Optional search query to filter by id, name, description, category, or tags. If omitted, returns all skills
+ * @param toolkitPath - Optional path to the lib directory
+ * @returns Array of Tool objects matching the query, or all skills if no query provided
  */
 export function searchTools(query?: string, toolkitPath?: string): Tool[] {
   const allTools = scanToolkit(toolkitPath);
@@ -340,9 +200,9 @@ export function searchTools(query?: string, toolkitPath?: string): Tool[] {
 }
 
 /**
- * Gets a specific tool by its unique identifier
- * @param toolId - The unique ID of the tool to retrieve (e.g., 'code-review-ts', 'api-design')
- * @param toolkitPath - Optional path to the lib directory. Defaults to 'lib' in current working directory
+ * Gets a specific skill by its unique identifier
+ * @param toolId - The unique ID of the skill to retrieve
+ * @param toolkitPath - Optional path to the lib directory
  * @returns The Tool object if found, null otherwise
  */
 export function getTool(toolId: string, toolkitPath?: string): Tool | null {

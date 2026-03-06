@@ -1,326 +1,204 @@
-# 🪄 Human in the Loop
+# Human in the Loop
 
 [![npm version](https://img.shields.io/npm/v/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
-[![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> 🎤 **[View the AI Summit NY Presentation](https://codewizwit.github.io/human-in-the-loop/)** - Responsible AI Engineering in Practice
+> **[View the AI Summit NY Presentation](https://codewizwit.github.io/human-in-the-loop/)** - Responsible AI Engineering in Practice
 
 **AI-assisted development with humans in control.**
 
-A curated prompt library that keeps developers in the loop. Every prompt is designed to enhance your judgment—not replace it. Built on responsible AI principles: transparency, accountability, and human oversight at every step.
-
-- **You stay in control** - Prompts guide AI analysis, you make the decisions
-- **Transparent outputs** - Clear reasoning, no black-box recommendations
-- **Quality gates built-in** - Security reviews, quality checks
-- **Learn as you go** - Prompts explain the "why," not just the "what"
+A curated skill library for Claude Code. Every skill enhances your judgment — not replaces it. Built on responsible AI principles: transparency, accountability, and human oversight.
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ```bash
-# Install globally
 npm install -g @human-in-the-loop/cli
 
-# Or use npx (no install needed)
-npx @human-in-the-loop/cli search "security review"
-```
-
-### 🚀 Try it now
-
-```bash
-# Find what you need
-hit search "code review"
-
-# Install a prompt (creates slash command automatically)
-hit install prompt/security-review
-
-# Use in Claude Code
-/security-review
+hit install code-review-ts          # Install a skill
+hit install                          # Browse all skills interactively
+hit search "testing"                 # Search by keyword
 ```
 
 ---
 
-## 🧰 What's Inside
+## 27 Unified Skills
 
-### 📚 21 Prompts
+All skills use a standardized `skill.md` format with YAML frontmatter. Install any skill with `hit install <id>`.
 
-**Code Quality & Architecture**
+### Code Quality & Architecture
 
-- 🔍 `code-review-ts` - TypeScript review with constructive feedback
-- 🔒 `security-review` - OWASP Top 10, auth flaws, injection detection
-- 🏗️ `api-design` - REST/GraphQL best practices
-- 🎯 `system-design-review` - Architecture & scalability analysis
+| ID                     | Description                                   |
+| ---------------------- | --------------------------------------------- |
+| `code-review-ts`       | TypeScript review with constructive feedback  |
+| `security-review`      | OWASP Top 10, auth flaws, injection detection |
+| `api-design`           | REST/GraphQL best practices                   |
+| `system-design-review` | Architecture and scalability analysis         |
 
-**Testing**
+### Testing
 
-- 🧪 `unit-test-generator` - Generate Jest/Vitest tests with edge cases
-- 🎬 `e2e-strategy` - Playwright/Cypress test planning
-- 🥒 `bdd-scenarios` - Gherkin scenarios from user stories
-- 📊 `test-coverage-analysis` - Coverage gap analysis and risk assessment
+| ID                       | Description                                |
+| ------------------------ | ------------------------------------------ |
+| `unit-test-generator`    | Generate Jest/Vitest tests with edge cases |
+| `e2e-strategy`           | Playwright/Cypress test planning           |
+| `bdd-scenarios`          | Gherkin scenarios from user stories        |
+| `test-coverage-analysis` | Coverage gap analysis and risk assessment  |
 
-**CI/CD & Deployment**
+### CI/CD & Deployment
 
-- ⚡ `pipeline-optimization` - GitHub Actions cost & speed optimization
-- ☁️ `aws-deployment-strategy` - Lambda, ECS, CDK infrastructure patterns
+| ID                        | Description                                |
+| ------------------------- | ------------------------------------------ |
+| `pipeline-optimization`   | GitHub Actions cost and speed optimization |
+| `aws-deployment-strategy` | Lambda, ECS, CDK infrastructure patterns   |
 
-**Documentation**
+### Documentation
 
-- 📖 `api-documentation` - Generate API docs from code
-- 🗺️ `codebase-explainer` - Analyze and document repository architecture
+| ID                   | Description                                  |
+| -------------------- | -------------------------------------------- |
+| `api-documentation`  | Generate API docs from code                  |
+| `codebase-explainer` | Analyze and document repository architecture |
 
-**Planning & Culture**
+### Planning & Culture
 
-- 📋 `user-story-breakdown` - Epic → INVEST stories with acceptance criteria
-- 💬 `1-on-1-prep` - Structured pre-reads for better meetings
-- 💙 `code-review-empathy` - Transform harsh feedback into helpful coaching
-- 🔄 `team-retrospective` - Facilitate effective team retros
-- 🎓 `learning-path` - Personalized learning roadmaps
+| ID                     | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| `user-story-breakdown` | Epic to INVEST stories with acceptance criteria |
+| `1-on-1-prep`          | Structured pre-reads for better meetings        |
+| `code-review-empathy`  | Transform harsh feedback into helpful coaching  |
+| `team-retrospective`   | Facilitate effective team retros                |
+| `learning-path`        | Personalized learning roadmaps                  |
 
-**Governance**
+### Governance
 
-- 🛡️ `responsible-ai-audit` - Audit AI outputs for accuracy, fairness, transparency
-- ⚖️ `bias-detection` - Identify bias in AI-generated content
+| ID                     | Description                                           |
+| ---------------------- | ----------------------------------------------------- |
+| `responsible-ai-audit` | Audit AI outputs for accuracy, fairness, transparency |
+| `bias-detection`       | Identify bias in AI-generated content                 |
 
-**Meta**
+### Framework Skills
 
-- ✨ `prompt-optimization` - Analyze and improve existing prompts
-- 📦 `context-pack-builder` - Generate framework context packs
+| ID               | Description                                     |
+| ---------------- | ----------------------------------------------- |
+| `angular-modern` | Signals, standalone, control flow (Angular 16+) |
+| `angular-legacy` | NgModules, RxJS, lifecycle hooks (pre-16)       |
+| `nestjs-backend` | NestJS patterns and best practices              |
+| `nx-monorepo`    | Nx workspace management and configuration       |
 
-### 🎓 Skills
+### Meta
 
-Skills are persistent context files (not slash commands) that give Claude framework expertise. Copy them to your `.claude/` directory.
-
-- ⚡ **Angular Modern** - Signals, standalone, control flow (16+)
-- 🏛️ **Angular Legacy** - NgModules, RxJS, lifecycle hooks (pre-16)
-
-### 🔜 Coming Soon
-
-- 🤖 **Agent Registry** - Reusable autonomous agents
-- 🎯 **Context Packs** - Domain knowledge bundles
-- ✅ **Evaluators** - Output quality validation
-- 🛡️ **Guardrails** - Safety & compliance enforcement
+| ID                     | Description                                                                   |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| `prompt-optimization`  | Analyze and improve existing prompts                                          |
+| `context-pack-builder` | Generate framework context packs                                              |
+| `skill-scout`          | Analyze a codebase for repetitive patterns and generate skill recommendations |
+| `skill-builder`        | Build custom Claude Code skills following the official specification          |
 
 ---
 
-## 💡 How It Works
-
-### What `hit install` does
-
-1. **Copies files** to `~/.claude/tools/` (prompt.md + README)
-2. **Creates a slash command** at `~/.claude/commands/{id}.md`
-3. **Registers it** in `~/.hit/registry.json` for version tracking
-
-Now you can use `/security-review` directly in Claude Code.
-
----
-
-## 🎨 CLI Commands
+## How It Works
 
 ```bash
-hit search [query]              # Find tools
-hit install <tool>              # Install + create slash command
-hit list                        # Show installed tools
+hit install <skill-id>
+```
+
+1. **Copies `skill.md`** to your chosen destination:
+   - `global-skill` — `~/.claude/skills/` (all projects)
+   - `project-skill` — `.claude/skills/` (current project)
+   - `global-command` — `~/.claude/commands/` (slash command, all projects)
+   - `project-command` — `.claude/commands/` (slash command, current project)
+   - `custom` — any path
+2. **Registers** in `~/.hit/registry.json` for version tracking
+
+Use `--destination` flag for scripting: `hit install code-review-ts --destination global-skill`
+
+---
+
+## CLI Commands
+
+```bash
+hit search [query]              # Find skills by keyword
+hit install [skill-id]          # Install a skill (interactive browser if no id)
+hit list                        # Show installed skills
 hit update                      # Update CLI to latest version
 hit doctor                      # Validate setup
-hit contribute <type> <path>    # Submit new tools
+hit contribute <type> <path>    # Submit new skills
 hit stats                       # Installation info
 ```
 
-**Pro tip:** Use `--no-claude-command` to skip slash command creation if you want manual setup.
-
 ---
 
-## 🛡️ Keeping Humans in the Loop
+## Repository Structure
 
-Every prompt is designed to **augment your expertise, not replace it**. Here are a few examples:
-
-### 🗺️ Understand an Unfamiliar Codebase
-
-```bash
-hit install prompt/codebase-explainer
-/codebase-explainer
-
-# Get architecture diagrams, directory breakdowns,
-# and a getting-started guide—you decide what to explore next
+```
+human-in-the-loop/
+├── lib/
+│   ├── skills/                    # 27 unified skills (skill.md format)
+│   │   ├── 1-on-1-prep/
+│   │   ├── angular-legacy/
+│   │   ├── angular-modern/
+│   │   ├── api-design/
+│   │   ├── api-documentation/
+│   │   ├── aws-deployment-strategy/
+│   │   ├── bdd-scenarios/
+│   │   ├── bias-detection/
+│   │   ├── code-review-empathy/
+│   │   ├── code-review-ts/
+│   │   ├── codebase-explainer/
+│   │   ├── context-pack-builder/
+│   │   ├── e2e-strategy/
+│   │   ├── learning-path/
+│   │   ├── nestjs-backend/
+│   │   ├── nx-monorepo/
+│   │   ├── pipeline-optimization/
+│   │   ├── prompt-optimization/
+│   │   ├── responsible-ai-audit/
+│   │   ├── security-review/
+│   │   ├── skill-builder/
+│   │   ├── skill-scout/
+│   │   ├── system-design-review/
+│   │   ├── team-retrospective/
+│   │   ├── test-coverage-analysis/
+│   │   ├── unit-test-generator/
+│   │   └── user-story-breakdown/
+│   └── prompts/                   # Legacy XML prompts (deprecated)
+├── src/
+│   ├── cli/                       # CLI source (Commander.js)
+│   └── governance/checks/         # Validation scripts
+├── docs/                          # Documentation
+├── scripts/                       # Build and release scripts
+└── planning/                      # Roadmap and scaffolding
 ```
 
-### 💙 Give Better Code Review Feedback
+---
 
-```bash
-hit install prompt/code-review-empathy
-/code-review-empathy
+## Tech Stack
 
-# Transform "This is wrong" into "Consider this approach because..."
-# Keep the technical substance, improve the delivery
-```
-
-### 🛡️ Audit AI-Generated Code
-
-```bash
-hit install prompt/responsible-ai-audit
-/responsible-ai-audit
-
-# Before shipping AI output: check accuracy, bias, security, transparency
-# You validate, you decide, you ship
-```
-
-See our [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) for the full framework.
+**Nx monorepo** · **TypeScript** (strict) · **pnpm** · **Commander.js** · **Jest**
 
 ---
 
-## 🤝 Contributing
+## Documentation
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding prompts, reporting issues, and submitting PRs.
-
----
-
-## 📚 Documentation
-
-- 🚀 [Getting Started](./docs/getting-started.md) - Installation & first prompt
-- 🛡️ [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md) - Developer-first AI principles
-- 🎨 [CLI Reference](./docs/cli-reference.md) - Complete command guide
-- 🏗️ [Architecture](./docs/architecture.md) - System design overview
-- 🤝 [Contributing](./CONTRIBUTING.md) - Detailed contribution workflow
+- [Getting Started](./docs/getting-started.md)
+- [CLI Reference](./docs/cli-reference.md)
+- [Architecture](./docs/architecture.md)
+- [Skill Template](./docs/skill-template.md)
+- [Contributing](./CONTRIBUTING.md)
+- [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md)
 
 ---
 
-## 🏗️ Tech Stack
+## Contributing
 
-- **Build**: Nx monorepo
-- **Language**: TypeScript (strict mode)
-- **Package Manager**: pnpm
-- **CLI**: Commander.js
-- **Testing**: Jest
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 📦 Repository Structure
+## License
 
-<!-- docs:start TREE -->
-```
-human-in-the-loop
-├── docs
-│   ├── assets
-│   │   ├── HITL-DEMO.gif
-│   │   ├── codewizwit-logo.jpg
-│   │   └── hitl-summit-demo.gif
-│   ├── README.md
-│   ├── ai-best-practices.md
-│   ├── architecture.md
-│   ├── cli-reference.md
-│   ├── contributing-guidelines.md
-│   ├── getting-started.md
-│   ├── governance-model.md
-│   ├── index.html
-│   ├── publishing.md
-│   ├── toolkit-usage.md
-│   └── xml-template-migration.md
-├── lib
-│   ├── agents
-│   │   └── README.md
-│   ├── context-packs
-│   │   ├── ci-cd
-│   │   └── README.md
-│   ├── evaluators
-│   │   └── README.md
-│   ├── guardrails
-│   │   ├── pii-filtering
-│   │   └── README.md
-│   ├── prompts
-│   │   ├── architecture
-│   │   ├── ci-cd
-│   │   ├── code-review-ts
-│   │   ├── culture
-│   │   ├── documentation
-│   │   ├── governance
-│   │   ├── mentorship
-│   │   ├── meta
-│   │   ├── planning
-│   │   ├── refactoring
-│   │   ├── testing
-│   │   └── README.md
-│   ├── skills
-│   │   ├── angular-legacy
-│   │   ├── angular-modern
-│   │   ├── nestjs-backend
-│   │   └── README.md
-│   └── README.md
-├── planning
-│   ├── README.md
-│   ├── roadmap.md
-│   ├── scaffold-high-priority.sh
-│   └── scaffold-remaining.sh
-├── scripts
-│   ├── build
-│   │   └── add-shebang.sh
-│   ├── publish
-│   │   └── prepare-release.sh
-│   ├── release
-│   │   └── README.md
-│   ├── setup
-│   │   ├── create-labels.sh
-│   │   └── import-issues.sh
-│   ├── migrate-to-markdown.js
-│   └── test-cli-regression.sh
-├── src
-│   ├── cli
-│   │   ├── __mocks__
-│   │   ├── src
-│   │   ├── README.md
-│   │   ├── jest.config.ts
-│   │   ├── package.json
-│   │   ├── project.json
-│   │   ├── tsconfig.app.json
-│   │   ├── tsconfig.json
-│   │   └── tsconfig.spec.json
-│   ├── governance
-│   │   ├── checks
-│   │   └── README.md
-│   └── README.md
-├── CHANGELOG.md
-├── CLAUDE.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── PLANNING.md
-├── README.md
-├── RESPONSIBLE-AI-PLAYBOOK.md
-├── jest.preset.js
-├── markdown.config.js
-├── nx.json
-├── package.json
-├── pnpm-lock.yaml
-└── tsconfig.base.json
-```
-<!-- docs:end -->
+MIT - see [LICENSE](./LICENSE)
 
 ---
 
-## 🎉 What's New
-
-**v3.0.0** - Pure XML Prompts & Claude Code Integration
-
-- 🔌 Automatic slash command creation on install
-- 🤖 Tool-based workspace analysis (Read/Grep/Glob)
-- ✨ Pure XML prompt format for better structure
-
-See [CHANGELOG.md](./CHANGELOG.md) for full history.
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](./LICENSE)
-
----
-
-## 💙 Built with Care
-
-**Human-in-the-Loop** by [codewizwit](https://github.com/codewizwit)
-
-_Build with care. Ship with purpose._
-
-🐛 Found a bug? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
-💡 Have an idea? [Open an issue](https://github.com/codewizwit/human-in-the-loop/issues)
-⭐ Like what you see? Star the repo!
+**Human-in-the-Loop** by [codewizwit](https://github.com/codewizwit) · _Build with care. Ship with purpose._

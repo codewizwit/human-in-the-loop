@@ -1,27 +1,26 @@
 # Toolkit Usage
 
-Complete guide to using prompts, agents, evaluators, guardrails, and context packs from the Human in the Loop toolkit.
+Complete guide to using skills from the Human in the Loop toolkit. All 25 tools use the unified `skill.md` format.
 
 ---
 
 ## Table of Contents
 
-- [Working with Prompts](#working-with-prompts)
-- [Working with Agents](#working-with-agents)
+- [Working with Skills](#working-with-skills)
+- [Skill Format](#skill-format)
 - [Using Evaluators](#using-evaluators)
 - [Implementing Guardrails](#implementing-guardrails)
-- [Applying Context Packs](#applying-context-packs)
 - [Combining Tools](#combining-tools)
 
 ---
 
-## Working with Prompts
+## Working with Skills
 
-### What are Prompts?
+### What are Skills?
 
-Prompts are reusable templates for common AI tasks like code reviews, documentation generation, test creation, and more.
+Skills are reusable AI productivity tools for common tasks like code reviews, documentation generation, test creation, architecture planning, and more. Each skill is defined in a unified `skill.md` format with YAML frontmatter and a markdown body.
 
-### Finding Prompts
+### Finding Skills
 
 Search the toolkit:
 
@@ -31,220 +30,126 @@ hit search "code review"
 hit search "documentation"
 hit search "testing"
 
-# List all prompts
-hit list --type prompt
+# Browse all 25 skills interactively
+hit install
 ```
 
-### Installing Prompts
+### Installing Skills
 
 ```bash
-# Install specific prompt
-hit install prompt/code-review-ts
+# Install a skill by ID
+hit install code-review-ts
 
-# Install with specific version
-hit install prompt/code-review-ts@1.2.0
+# Install with a specific destination
+hit install code-review-ts --destination global-skill
+
+# Destination options: global-skill, project-skill, global-command, project-command, custom
 ```
 
-### Using Prompts
+### Skill Directory Structure
 
-Prompts are installed to your `.claude/` directory:
-
-```
-.claude/
-└── prompts/
-    └── code-review-ts/
-        ├── prompt.md        # Prompt definition (Markdown with frontmatter)
-        ├── README.md        # Usage instructions
-        └── examples/        # Example outputs
-```
-
-**Using in Claude Code/Desktop:**
-
-Instead of manually pasting code, use these developer-friendly approaches:
-
-**1. File Reference (Recommended for Claude Code)**
+Each skill in `lib/skills/` contains three files:
 
 ```
-User: Use .claude/prompts/code-review-ts/prompt.md
-
-Review the file: src/components/UserProfile.tsx
-Focus on: security, performance
+lib/skills/code-review-ts/
+├── skill.md             # Skill definition (YAML frontmatter + markdown body)
+├── metadata.json        # Machine-readable metadata
+└── README.md            # Usage instructions
 ```
 
-**2. Command Substitution (For CLI workflows)**
-
-```bash
-# Read file content automatically
-hit review --prompt code-review-ts --code "$(cat src/UserProfile.tsx)"
-
-# Or review git changes
-hit review --prompt code-review-ts --code "$(git diff HEAD~1)"
-```
-
-**3. Pipe from stdin**
-
-```bash
-# Pipe file content directly
-cat src/UserProfile.tsx | hit review --prompt code-review-ts
-```
-
-**4. Directory/glob patterns**
-
-```bash
-# Review multiple files
-hit review --prompt code-review-ts src/components/*.tsx
-
-# Review all changed files
-git diff --name-only | xargs -I {} hit review --prompt code-review-ts {}
-```
-
-**5. Git integration**
-
-```bash
-# Review current branch changes
-hit review --prompt code-review-ts --git-diff main...HEAD
-
-# Review uncommitted changes
-hit review --prompt code-review-ts --git-diff
-```
-
-**Manual paste (not recommended):**
+After installation, the skill is copied to your chosen destination:
 
 ```
-User: Use .claude/prompts/code-review-ts/prompt.md
-
-code: |
-  [paste code here if absolutely necessary]
-
-focus_areas: security, performance
+~/.claude/skills/code-review-ts/
+├── skill.md
+├── metadata.json
+└── README.md
 ```
 
-### Customizing Prompts
+### Using Skills in Claude Code
+
+Reference an installed skill directly in Claude Code:
+
+```
+User: Use the code-review-ts skill to review src/components/UserProfile.tsx
+```
+
+Skills are automatically activated based on trigger phrases in their description. For example, `code-review-ts` activates when you mention "review my TypeScript code", "check code quality", or "code review".
+
+### Customizing Skills
 
 Create a custom variant:
 
 ```bash
-# Copy existing prompt
-cp .claude/prompts/code-review-ts/prompt.md ./my-review.md
+# Copy an existing skill
+cp -r ~/.claude/skills/code-review-ts/ ~/.claude/skills/my-custom-review/
 
-# Edit to customize
-# Then use your custom prompt
+# Edit skill.md to customize the YAML frontmatter and instructions
+# Then reference your custom skill
 ```
 
-### Creating Your Own Prompts
+### Creating Your Own Skills
 
-See [Contributing Guidelines](./contributing-guidelines.md) for details on submitting new prompts.
+See [Contributing Guidelines](./contributing-guidelines.md) for details on submitting new skills.
 
 ---
 
-## Working with Agents
+## Skill Format
 
-### What are Agents?
+### Unified skill.md Format
 
-Agents are autonomous AI assistants configured with specific tools, capabilities, and permissions to perform complex, multi-step tasks.
+All skills use a unified format consisting of YAML frontmatter and a markdown body. The old XML prompt format is deprecated.
 
-### Agent vs. Prompt
+### YAML Frontmatter
 
-| Aspect      | Prompt                  | Agent                                 |
-| ----------- | ----------------------- | ------------------------------------- |
-| Interaction | Single request/response | Multi-step conversation               |
-| Tools       | None                    | Can use tools (search, execute, etc.) |
-| Autonomy    | Guided by user          | Self-directed within scope            |
-| Complexity  | Simple tasks            | Complex workflows                     |
-
-### Finding Agents
-
-```bash
-# Search agents
-hit search "test generation"
-hit search "refactoring"
-
-# List all agents
-hit list --type agent
-```
-
-### Installing Agents
-
-```bash
-# Install agent
-hit install agent/test-generator
-
-# View agent capabilities
-hit info agent/test-generator
-```
-
-### Agent Structure
-
-Agents are defined with:
+Required fields in the frontmatter block:
 
 ```yaml
-id: test-generator
-name: Test Generation Agent
-version: 1.0.0
-
-# Model configuration
-model: claude-3-5-sonnet-20241022
-
-# Tools the agent can use
-tools:
-  - file_read
-  - file_write
-  - code_analysis
-
-# Context packs for domain knowledge
-contextPacks:
-  - testing
-  - typescript
-
-# Permissions and constraints
-permissions:
-  - read: '**/*.ts'
-  - write: '**/*.spec.ts'
-  - deny: '**/node_modules/**'
-
-# Evaluation criteria for outputs
-evaluationCriteria:
-  - code_quality
-  - test_coverage
-  - security
+---
+name: code-review-ts
+description: >-
+  Automated TypeScript code review for your workspace. Use when user asks to
+  "review my TypeScript code", "check code quality", or mentions "code review".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - AskUserQuestion
+  - EnterPlanMode
+---
 ```
 
-### Using Agents
+| Field           | Type     | Rules                                       |
+| --------------- | -------- | ------------------------------------------- |
+| `name`          | string   | Must be kebab-case (e.g., `code-review-ts`) |
+| `description`   | string   | Include trigger phrases for activation      |
+| `version`       | string   | Must be valid semver (e.g., `3.0.0`)        |
+| `allowed-tools` | string[] | Array of tools the skill can use            |
 
-Agents run autonomously within defined constraints:
+### Required Markdown Sections
+
+The body must include these `##` sections:
+
+- **When to Activate** - Describes the conditions under which the skill should be triggered
+- **Output Format** (or **Output**) - Defines the expected output structure
+
+### Validation
+
+Skills are validated by `src/governance/checks/validate-skills.ts`, which checks:
+
+- Valid YAML frontmatter delimited by `---` lines
+- All required frontmatter fields present and correctly typed
+- `name` is kebab-case, `version` is valid semver, `allowed-tools` is an array of strings
+- Required `##` sections present in the markdown body
+- No legacy XML `<prompt>` wrapper detected
+
+Run validation locally:
 
 ```bash
-# Start agent
-hit agent test-generator --target src/components/Button.tsx
-
-# The agent will:
-# 1. Read the target file
-# 2. Analyze the code
-# 3. Generate comprehensive tests
-# 4. Write test file
-# 5. Report results
+npx ts-node src/governance/checks/validate-skills.ts
 ```
-
-### Monitoring Agents
-
-Track agent activity:
-
-```bash
-# View agent logs
-hit agent logs test-generator
-
-# View agent metrics
-hit agent stats test-generator
-```
-
-### Agent Safety
-
-Agents are constrained by:
-
-1. **Permissions** - Can only access allowed files/operations
-2. **Guardrails** - Validate all agent actions
-3. **Evaluators** - Check quality of agent outputs
-4. **Audit Logs** - Track all agent activities
 
 ---
 
@@ -283,11 +188,11 @@ Evaluators are automated quality checks that validate AI outputs against defined
 ### Installing Evaluators
 
 ```bash
-# Install evaluator
-hit install evaluator/code-quality
+# Install evaluator (if available as a standalone tool)
+hit install code-quality
 
-# Install multiple evaluators
-hit install evaluator/code-quality evaluator/security
+# Install security review skill
+hit install security-review
 ```
 
 ### Running Evaluators
@@ -391,11 +296,9 @@ Guardrails are safety mechanisms that prevent inappropriate AI usage, enforce po
 ### Installing Guardrails
 
 ```bash
-# Install security guardrail
-hit install guardrail/security-check
-
-# Install PII protection guardrail
-hit install guardrail/pii-protection
+# Install security-related skills
+hit install security-review
+hit install responsible-ai-audit
 ```
 
 ### Configuring Guardrails
@@ -452,82 +355,6 @@ User: "Review this code that uses process.env.API_KEY"
 
 ---
 
-## Applying Context Packs
-
-### What are Context Packs?
-
-Context packs provide framework-specific knowledge, patterns, and best practices to AI without consuming your context window.
-
-### Available Context Packs
-
-```bash
-# List available context packs
-hit list --type context
-
-# Output:
-# - context/angular        # Angular patterns and best practices
-# - context/nestjs         # NestJS backend patterns
-# - context/ci-cd          # CI/CD workflows
-# - context/react          # React patterns
-# - context/testing        # Testing strategies
-```
-
-### Installing Context Packs
-
-```bash
-# Install single context pack
-hit install context/angular
-
-# Install multiple packs
-hit install context/angular context/nestjs context/testing
-```
-
-### Using Context Packs
-
-**Automatically (Recommended):**
-
-Configure in `.hitrc.json`:
-
-```json
-{
-  "defaultContextPacks": ["angular", "testing"],
-  "autoLoadContextPacks": true
-}
-```
-
-Now all prompts and agents automatically understand Angular and testing patterns.
-
-**Explicitly:**
-
-Reference in a prompt:
-
-```yaml
-# prompt.yaml
-contextPacks:
-  - angular
-  - testing
-
-template: |
-  Generate tests for this Angular component:
-  {{code}}
-```
-
-### Context Pack Contents
-
-Each context pack includes:
-
-- **Patterns** - Framework-specific patterns
-- **Best Practices** - Recommended approaches
-- **Anti-Patterns** - Things to avoid
-- **Examples** - Code examples
-- **Documentation** - Framework conventions
-
-### Creating Custom Context Packs
-
-See [Contributing Guidelines](./contributing-guidelines.md#context-packs) for details on creating context packs.
-
----
-
 ## Combining Tools
 
 ### Complete Workflow Example
@@ -539,14 +366,11 @@ Combining prompts, agents, evaluators, guardrails, and context packs:
 **1. Setup**
 
 ```bash
-# Install required tools
-hit install prompt/test-generation
-hit install agent/test-generator
-hit install evaluator/code-quality
-hit install evaluator/test-coverage
-hit install guardrail/security-check
-hit install context/angular
-hit install context/testing
+# Install relevant skills
+hit install unit-test-generator
+hit install test-coverage-analysis
+hit install angular-modern
+hit install security-review
 ```
 
 **2. Configure**
@@ -564,32 +388,28 @@ hit install context/testing
 }
 ```
 
-**3. Generate Tests**
+**3. Use Skills**
 
-```bash
-# Use agent to generate tests
-hit agent test-generator --target src/app/button/button.component.ts
+In Claude Code, skills activate based on trigger phrases in their descriptions:
+
+```
+User: Generate unit tests for src/app/button/button.component.ts
 ```
 
-**4. Automatic Validation**
+The `unit-test-generator` skill activates automatically and uses its allowed tools to analyze the code and produce tests.
 
-The workflow automatically:
+**4. Layer Additional Skills**
 
-- ✅ Applies Angular and testing context
-- ✅ Runs security guardrail on generated code
-- ✅ Evaluates code quality
-- ✅ Checks test coverage
-- ✅ Reports results
+After generating tests, use additional skills for validation:
+
+```
+User: Run a security review on the generated test file
+User: Analyze test coverage for the button component
+```
 
 **5. Review and Iterate**
 
-```bash
-# Review results
-hit agent logs test-generator --last
-
-# If evaluators failed, regenerate with feedback
-hit agent test-generator --target src/app/button/button.component.ts --feedback "Increase test coverage to 90%"
-```
+Skills produce structured output that you can review and refine iteratively.
 
 ### Best Practice: Layered Safety
 

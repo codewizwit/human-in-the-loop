@@ -1,0 +1,24 @@
+{
+  "id": "unit-test-generator",
+  "name": "Unit Test Generator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates comprehensive unit tests for workspace code with coverage for happy paths, edge cases, and error scenarios. Use when user asks to \"generate tests\", \"write unit tests\", or mentions \"test coverage\".",
+  "category": "testing",
+  "tags": [
+    "testing",
+    "unit-tests",
+    "jest",
+    "vitest",
+    "jasmine",
+    "tdd",
+    "test-coverage",
+    "typescript",
+    "mocking"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

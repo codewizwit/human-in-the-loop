@@ -28,7 +28,8 @@ All pull requests trigger automated validation:
 
 All validation scripts located in `src/governance/checks/`:
 
-- `validate-prompts.sh` - XML structure and required metadata
+- `validate-skills.ts` - Unified skill format validation (YAML frontmatter fields, required sections, kebab-case name, semver version, allowed-tools array, no legacy XML format)
+- `validate-prompts.sh` - Legacy XML prompt validation (deprecated)
 - `check-docs.sh` - README presence and completeness
 - `check-inline-comments.sh` - TypeDoc-only enforcement
 - `check-links.sh` - Documentation link validation
@@ -48,7 +49,7 @@ Before submitting a PR, run all governance checks:
 pnpm validate
 
 # Or run individual checks
-./src/governance/checks/validate-prompts.sh
+npx ts-node src/governance/checks/validate-skills.ts
 ./src/governance/checks/check-docs.sh
 ./src/governance/checks/check-inline-comments.sh
 ./src/governance/checks/check-links.sh

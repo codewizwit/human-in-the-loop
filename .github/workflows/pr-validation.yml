@@ -86,7 +86,7 @@ jobs:
           done
           echo "✅ All new features have proper READMEs"
 
-      - name: Validate prompt YAML files
+      - name: Validate prompts and skills
         run: ./src/governance/checks/validate-prompts.sh
 
       - name: Upload coverage to Codecov

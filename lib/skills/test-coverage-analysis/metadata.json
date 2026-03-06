@@ -1,0 +1,23 @@
+{
+  "id": "test-coverage-analysis",
+  "name": "Test Coverage Analysis",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes test coverage reports and codebase to identify gaps and prioritize testing efforts. Use when user asks to \"analyze test coverage\", \"find coverage gaps\", or mentions \"Istanbul coverage report\".",
+  "category": "testing",
+  "tags": [
+    "testing",
+    "coverage",
+    "istanbul",
+    "jest",
+    "quality",
+    "analysis",
+    "angular",
+    "nestjs"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

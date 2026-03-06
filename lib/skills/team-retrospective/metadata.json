@@ -1,0 +1,22 @@
+{
+  "id": "team-retrospective",
+  "name": "Team Retrospective Facilitator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates structured retrospective agendas and facilitates team reflection with actionable improvement plans. Use when user asks to \"run a retro\", \"facilitate a retrospective\", or mentions \"sprint retrospective\".",
+  "category": "culture",
+  "tags": [
+    "culture",
+    "retrospective",
+    "agile",
+    "team-dynamics",
+    "continuous-improvement",
+    "facilitation",
+    "scrum"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}
