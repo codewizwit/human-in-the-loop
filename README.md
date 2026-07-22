@@ -11,6 +11,16 @@ A curated skill library for Claude Code. Every skill enhances your judgment — 
 
 ---
 
+## Why this exists
+
+AI can write the code. It doesn't get to skip the judgment.
+
+I built this repo to test that idea in practice -- could I ship a real tool responsibly _with_ AI, not just hand the work over? So I inverted the usual order. Guardrails first: quality gates, tests, and human review were designed in before a single feature. The skills use progressive disclosure, loading context only when a task needs it, so the model stays focused and the human stays in control.
+
+Claude Code and the GitHub CLI handled the implementation and project management. I drove every design decision, tradeoff, and merge. The name isn't a slogan -- the human in the loop was me, on every commit.
+
+---
+
 ## Quick Start
 
 ```bash
