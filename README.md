@@ -195,7 +195,6 @@ human-in-the-loop/
 - [Architecture](./docs/architecture.md)
 - [Skill Template](./docs/skill-template.md)
 - [Contributing](./CONTRIBUTING.md)
-- [Responsible AI Playbook](./RESPONSIBLE-AI-PLAYBOOK.md)
 
 ---
 
