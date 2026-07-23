@@ -1,0 +1,23 @@
+{
+  "id": "security-review",
+  "name": "Security Review",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Conducts comprehensive security analysis of your codebase covering OWASP Top 10, authentication flaws, injection attacks, and compliance violations. Use when user asks to \"security review\", \"security audit\", or \"find vulnerabilities\".",
+  "category": "governance",
+  "tags": [
+    "security",
+    "vulnerability-scanning",
+    "owasp-top-10",
+    "code-review",
+    "penetration-testing",
+    "security-audit",
+    "compliance",
+    "secure-coding"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

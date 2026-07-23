@@ -1,6 +1,6 @@
 # @human-in-the-loop/cli
 
-> Command-line tool for managing AI prompts, agents, and productivity tools with built-in governance and quality standards.
+> Command-line tool for installing and managing AI skills for Claude Code with built-in governance and quality standards.
 
 [![npm version](https://badge.fury.io/js/@human-in-the-loop%2Fcli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
 [![npm downloads](https://img.shields.io/npm/dm/@human-in-the-loop/cli.svg)](https://www.npmjs.com/package/@human-in-the-loop/cli)
@@ -24,8 +24,8 @@ npx @human-in-the-loop/cli --version
 # Search for tools
 hit search "code review"
 
-# Install a prompt
-hit install prompt/code-review-ts
+# Install a skill by id
+hit install code-review-ts
 
 # List installed tools
 hit list
@@ -39,20 +39,18 @@ hit doctor
 
 ## What is Human in the Loop?
 
-Human in the Loop is a centralized repository and governance system for AI productivity tools. It provides:
+Human in the Loop is a curated skill library for Claude Code with 25 unified skills covering code review, testing, architecture, governance, and more. It provides:
 
-- **Prompt Library**: Production-ready prompts for code review, documentation, testing, and more
-- **Agent Registry**: Autonomous AI agents with defined capabilities and constraints
-- **Context Packs**: Framework-specific knowledge bases (Angular, NestJS, CI/CD)
-- **Evaluators**: Quality assurance tools for validating AI outputs
-- **Guardrails**: Safety mechanisms enforcing responsible AI usage
+- **25 Unified Skills**: Production-ready skills in standardized `skill.md` format
+- **5 Install Destinations**: Global/project skills, global/project commands, or custom paths
+- **Interactive Browser**: Browse and install skills without memorizing IDs
 - **Governance**: Contribution validation and quality control
 
 ## Commands
 
 ### `hit search [query]`
 
-Search for prompts, agents, and other tools by keyword.
+Search for skills by keyword.
 
 ```bash
 # Show all tools
@@ -66,35 +64,45 @@ hit search "angular"
 hit search "security"
 ```
 
-### `hit install <tool>`
+### `hit install [skill-id]`
 
-Install a tool from the library to your local system.
+Install a unified skill from the library to your local system.
+
+When no skill-id is provided, an interactive skill browser launches so you can explore and select from available skills.
+
+```bash
+# Browse all skills interactively
+hit install
+
+# Install a specific skill by id
+hit install code-review-ts
+
+# Install with a specific destination
+hit install code-review-ts --destination project-skill
+
+# Install to a custom path
+hit install code-review-ts --path ~/my-tools/skills
+```
 
 **What does installing mean?**
 
-Installing copies a prompt, agent, or tool from the library to a location where your AI tools can access it. When you install:
+Installing copies the skill's `skill.md` file to a destination where Claude Code can access it. When you install:
 
-1. **Files are copied** - All prompt/agent files (prompt.md, READMEs, etc.) are copied to your chosen location
+1. **The skill file is copied** - The `skill.md` file (not the whole directory) is placed in your chosen destination
 2. **Registration** - The installation is tracked in `~/.hit/registry.json` for easy management
-3. **Ready to use** - AI tools like Claude Code can now access and use the prompt
+3. **Ready to use** - Claude Code can now access and use the skill in your sessions
 
 **Common install locations:**
 
-- `~/.claude/prompts/` - For Claude Code slash commands
-- `~/.claude/tools/` - For general AI tool integration
-- Custom paths for your specific workflow
-
-```bash
-# Interactive install (prompts for path)
-hit install prompt/code-review-ts
-
-# Non-interactive with custom path
-hit install prompt/code-review-ts --path ~/.claude/tools/prompts
-```
+- `~/.claude/skills/` - Global skills, available in all projects
+- `.claude/skills/` - Project-scoped skills, available in the current project
+- `~/.claude/commands/` - Global slash commands, available in all projects
+- `.claude/commands/` - Project-scoped slash commands, available in the current project
 
 **Options:**
 
 - `--path, -p <path>` - Installation path (skips interactive prompt)
+- `--destination, -d <type>` - Destination type: `global-skill`, `project-skill`, `global-command`, `project-command`, or `custom`
 
 ### `hit list`
 
@@ -140,11 +148,8 @@ Checks for:
 Submit a new tool for review and inclusion in the library.
 
 ```bash
-# Contribute a prompt
-hit contribute prompt lib/prompts/my-prompt/prompt.md
-
-# Contribute an agent
-hit contribute agent lib/agents/my-agent/agent.yaml
+# Contribute a skill
+hit contribute skill lib/skills/my-skill/skill.md
 ```
 
 **Types:** `prompt`, `agent`, `evaluator`, `guardrail`, `context-pack`, `skill`
@@ -158,7 +163,7 @@ View usage analytics and metrics.
 hit stats
 
 # Tool-specific stats
-hit stats --tool prompt/code-review-ts
+hit stats --tool code-review-ts
 ```
 
 ## Configuration
@@ -194,7 +199,7 @@ Every tool is evaluated through our [Developer-First Responsible AI Playbook](ht
 
 ### Quality Standards
 
-- All prompts and agents are versioned and reviewed
+- All skills are versioned and reviewed
 - Comprehensive test coverage requirements
 - Documentation standards enforced
 - Security scanning and validation
@@ -214,11 +219,11 @@ The CLI maintains a local registry at `~/.hit/registry.json` to track:
 ### Code Review Workflow
 
 ```bash
-# Install TypeScript code review prompt
-hit install prompt/code-review-ts
+# Install TypeScript code review skill
+hit install code-review-ts
 
 # Install empathy guide for feedback
-hit install prompt/code-review-empathy
+hit install code-review-empathy
 
 # List installed tools
 hit list
@@ -226,14 +231,14 @@ hit list
 
 ### Using with Claude Code
 
-After installing a prompt, it automatically creates a Claude Code slash command:
+After installing a skill, Claude Code can access it in your sessions:
 
 ```bash
-# Install the prompt
-hit install prompt/security-review
+# Install the skill
+hit install security-review
 
-# In Claude Code, use the slash command:
-# /security-review
+# Claude Code now has access to the security review skill
+# Use it by referencing the skill in your conversations
 ```
 
 ## Requirements
@@ -251,11 +256,11 @@ hit install prompt/security-review
 
 ## Contributing
 
-We welcome contributions! To submit a new prompt, agent, or tool:
+We welcome contributions! To submit a new skill:
 
 1. Fork the repository
-2. Create your tool following our templates
-3. Test with `hit contribute <type> <path>`
+2. Create your skill using the [skill template](https://github.com/codewizwit/human-in-the-loop/blob/main/docs/skill-template.md)
+3. Test with `hit contribute skill <path>`
 4. Submit a pull request
 
 See [CONTRIBUTING.md](https://github.com/codewizwit/human-in-the-loop/blob/main/CONTRIBUTING.md) for detailed guidelines.
@@ -269,13 +274,6 @@ See [CONTRIBUTING.md](https://github.com/codewizwit/human-in-the-loop/blob/main/
 
 MIT © [codewizwit](https://github.com/codewizwit)
 
-## Related Packages
-
-- `@human-in-the-loop/prompts` - Prompt library (coming soon)
-- `@human-in-the-loop/agents` - Agent definitions (coming soon)
-- `@human-in-the-loop/evaluators` - Quality evaluators (coming soon)
-
 ---
 
-**Human-in-the-Loop by codewizwit**
-Build with care. Ship with purpose.
+**Human-in-the-Loop by codewizwit** - Build with care. Ship with purpose.

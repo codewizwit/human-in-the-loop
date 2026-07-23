@@ -1,0 +1,21 @@
+{
+  "id": "prompt-optimization",
+  "name": "Prompt Optimization",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes and optimizes existing prompts for clarity, effectiveness, and consistency. Use when user asks to \"optimize my prompt\", \"improve this prompt\", or mentions \"prompt engineering\".",
+  "category": "meta",
+  "tags": [
+    "meta",
+    "prompt-engineering",
+    "optimization",
+    "quality",
+    "best-practices",
+    "llm"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

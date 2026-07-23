@@ -1,0 +1,21 @@
+{
+  "id": "code-review-empathy",
+  "name": "Code Review Empathy Guide",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Transforms harsh or unclear code review feedback into empathetic, constructive comments that balance critique with appreciation. Use when user asks to \"rewrite review feedback\", \"make feedback nicer\", or mentions \"empathetic review\".",
+  "category": "culture",
+  "tags": [
+    "culture",
+    "code-review",
+    "communication",
+    "empathy",
+    "feedback",
+    "team-dynamics"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

@@ -19,7 +19,7 @@ function prevSlide() {
 }
 
 // Copy code on click
-document.querySelectorAll('code').forEach(block => {
+document.querySelectorAll('code').forEach((block) => {
   block.addEventListener('click', async () => {
     await navigator.clipboard.writeText(block.textContent);
     block.classList.add('copied');
@@ -62,7 +62,11 @@ async function copyLinks() {
   }, 1500);
 }
 
-if (linksBox) linksBox.addEventListener('click', (e) => { e.preventDefault(); copyLinks(); });
+if (linksBox)
+  linksBox.addEventListener('click', (e) => {
+    e.preventDefault();
+    copyLinks();
+  });
 if (copyHint) copyHint.addEventListener('click', copyLinks);
 
 document.addEventListener('keydown', (e) => {
@@ -97,7 +101,7 @@ function startAutoScroll() {
   if (!activeSlide) return;
 
   const pres = activeSlide.querySelectorAll('.code-preview pre');
-  pres.forEach(pre => {
+  pres.forEach((pre) => {
     if (pre.scrollHeight <= pre.clientHeight) return;
 
     let scrollingDown = true;
@@ -112,13 +116,19 @@ function startAutoScroll() {
         pre.scrollTop += scrollSpeed;
         if (pre.scrollTop >= pre.scrollHeight - pre.clientHeight) {
           isPaused = true;
-          setTimeout(() => { scrollingDown = false; isPaused = false; }, pauseDuration);
+          setTimeout(() => {
+            scrollingDown = false;
+            isPaused = false;
+          }, pauseDuration);
         }
       } else {
         pre.scrollTop -= scrollSpeed;
         if (pre.scrollTop <= 0) {
           isPaused = true;
-          setTimeout(() => { scrollingDown = true; isPaused = false; }, pauseDuration);
+          setTimeout(() => {
+            scrollingDown = true;
+            isPaused = false;
+          }, pauseDuration);
         }
       }
     };
@@ -129,12 +139,12 @@ function startAutoScroll() {
 }
 
 function stopAutoScroll() {
-  scrollAnimations.forEach(id => clearInterval(id));
+  scrollAnimations.forEach((id) => clearInterval(id));
   scrollAnimations = [];
 }
 
 const originalShowSlide = showSlide;
-showSlide = function(index) {
+showSlide = function (index) {
   originalShowSlide(index);
   setTimeout(startAutoScroll, 500);
 };

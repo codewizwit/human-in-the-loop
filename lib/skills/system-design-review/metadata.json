@@ -1,0 +1,23 @@
+{
+  "id": "system-design-review",
+  "name": "System Design Review",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes system architecture from codebase and documentation for scalability, reliability, security, and operational excellence. Use when user asks to \"review architecture\", \"design system review\", or mentions \"architecture audit\".",
+  "category": "architecture",
+  "tags": [
+    "architecture",
+    "system-design",
+    "scalability",
+    "reliability",
+    "security",
+    "review",
+    "best-practices",
+    "trade-offs"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

@@ -31,7 +31,7 @@ Validation and quality assurance tooling that ensures all contributions meet pro
 
 **Responsibilities:**
 
-- YAML and TypeScript validation
+- Skill validation via `validate-skills.ts` (ensures all skills in `lib/skills/` have valid `skill.md`, `metadata.json`, and `README.md`)
 - Documentation completeness checks
 - Secret detection and security scanning
 - Code formatting and style enforcement

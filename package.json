@@ -1,6 +1,7 @@
 {
   "name": "human-in-the-loop",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "nx test cli",
@@ -33,7 +34,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "@jest/globals": "^30.2.0",

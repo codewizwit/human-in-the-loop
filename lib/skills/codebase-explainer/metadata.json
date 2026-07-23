@@ -1,0 +1,21 @@
+{
+  "id": "codebase-explainer",
+  "name": "Codebase Explainer",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes and explains a codebase's architecture, structure, patterns, and conventions. Use when user asks to \"explain this codebase\", \"document the architecture\", or mentions \"codebase overview\".",
+  "category": "documentation",
+  "tags": [
+    "documentation",
+    "onboarding",
+    "architecture",
+    "codebase",
+    "developer-experience",
+    "exploration"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

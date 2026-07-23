@@ -47,7 +47,7 @@ describe('searchCommand', () => {
         version: '1.2.0',
         description: 'TypeScript code review with best practices',
         category: 'code-quality',
-        type: 'prompt',
+        type: 'skill',
         path: '/lib/prompts/code-review-ts',
         metadata: { tags: ['typescript', 'code-review'] },
       },
@@ -57,7 +57,7 @@ describe('searchCommand', () => {
         version: '1.0.0',
         description: 'Generate comprehensive test suites',
         category: 'testing',
-        type: 'agent',
+        type: 'skill',
         path: '/lib/agents/test-generator',
         metadata: { tags: ['testing', 'automation'] },
       },
@@ -67,7 +67,7 @@ describe('searchCommand', () => {
         version: '2.1.0',
         description: 'Generate API documentation from code',
         category: 'documentation',
-        type: 'prompt',
+        type: 'skill',
         path: '/lib/prompts/api-docs-generator',
         metadata: { tags: ['docs', 'api'] },
       },
@@ -100,9 +100,9 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('prompt/code-review-ts');
-      expect(output).toContain('agent/test-generator');
-      expect(output).toContain('prompt/api-docs-generator');
+      expect(output).toContain('code-review-ts');
+      expect(output).toContain('test-generator');
+      expect(output).toContain('api-docs-generator');
     });
   });
 
@@ -120,7 +120,7 @@ describe('searchCommand', () => {
       const output = consoleMock.getOutput();
 
       expect(output).toContain('Found 3 tools');
-      expect(output).toContain('prompt/code-review-ts');
+      expect(output).toContain('code-review-ts');
     });
   });
 
@@ -130,7 +130,7 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('agent/test-generator');
+      expect(output).toContain('test-generator');
       expect(output).toContain('Generate comprehensive test suites');
       expect(output).toContain('Version: 1.0.0');
     });
@@ -146,7 +146,7 @@ describe('searchCommand', () => {
     it('should show install tip at the end', () => {
       searchCommand();
 
-      expect(consoleMock.contains('hit install <type>/<id>')).toBe(true);
+      expect(consoleMock.contains('hit install <id>')).toBe(true);
     });
 
     it('should number the results', () => {
@@ -212,7 +212,7 @@ describe('searchCommand', () => {
           version: '1.0.0',
           description: 'A single tool',
           category: 'test',
-          type: 'prompt',
+          type: 'skill',
           path: '/lib/prompts/single-tool',
           metadata: {},
         },
@@ -239,7 +239,7 @@ describe('searchCommand', () => {
           version: '1.0.0',
           description: 'A tool without tags',
           category: 'test',
-          type: 'prompt',
+          type: 'skill',
           path: '/lib/prompts/no-tags-tool',
           metadata: {},
         },
@@ -249,7 +249,7 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('prompt/no-tags-tool');
+      expect(output).toContain('no-tags-tool');
       expect(output).not.toContain('Tags:');
     });
 
@@ -261,7 +261,7 @@ describe('searchCommand', () => {
           version: '1.0.0',
           description: 'A tool with empty tags',
           category: 'test',
-          type: 'prompt',
+          type: 'skill',
           path: '/lib/prompts/empty-tags-tool',
           metadata: { tags: [] },
         },
@@ -271,7 +271,7 @@ describe('searchCommand', () => {
 
       const output = consoleMock.getOutput();
 
-      expect(output).toContain('prompt/empty-tags-tool');
+      expect(output).toContain('empty-tags-tool');
       expect(output).not.toContain('Tags:');
     });
   });

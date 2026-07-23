@@ -1,0 +1,11 @@
+{
+  "id": "repo-skills",
+  "name": "Repo Skills Analyzer",
+  "version": "3.0.0",
+  "description": "Analyze repository history to find automation opportunities",
+  "category": "meta",
+  "type": "skill",
+  "author": "Alexandra Kelstrom",
+  "license": "MIT",
+  "tags": ["git", "automation", "skills", "workflow-analysis"]
+}

@@ -4,7 +4,9 @@ import {
   logSuccess,
   logError,
   logNewLine,
+  logTip,
 } from '../utils/logger';
+import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -80,7 +82,12 @@ export async function updateCommand(): Promise<void> {
     logSuccess(
       `Successfully updated CLI from v${currentVersion} to v${latestVersion}`
     );
-    logStep('All bundled tools (prompts, agents, skills) have been updated!');
+    logStep('All bundled skills have been updated in the toolkit!');
+    logTip(
+      'Run ' +
+        chalk.bold('hit upgrade') +
+        ' to refresh any previously installed skills'
+    );
   } catch {
     logNewLine();
     logError('Update failed. Please try manually:');

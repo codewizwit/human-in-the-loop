@@ -1,0 +1,11 @@
+{
+  "id": "skill-builder",
+  "name": "Skill Builder",
+  "version": "3.0.0",
+  "description": "Build production-quality Claude Code custom skills following the official specification and best practices.",
+  "category": "meta",
+  "type": "skill",
+  "author": "codewizwit",
+  "license": "MIT",
+  "tags": ["skills", "scaffolding", "meta", "claude-code", "automation"]
+}

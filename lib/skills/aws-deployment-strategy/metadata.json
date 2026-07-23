@@ -1,0 +1,23 @@
+{
+  "id": "aws-deployment-strategy",
+  "name": "AWS Deployment Strategy",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates comprehensive AWS deployment strategies for serverless and containerized applications. Use when user asks to \"deploy to AWS\", \"create deployment strategy\", or mentions \"AWS infrastructure\".",
+  "category": "ci-cd",
+  "tags": [
+    "aws",
+    "deployment",
+    "serverless",
+    "lambda",
+    "cloudformation",
+    "cdk",
+    "ci-cd",
+    "infrastructure"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

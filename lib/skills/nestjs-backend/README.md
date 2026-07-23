@@ -16,31 +16,33 @@ This skill provides comprehensive guidance for building scalable Node.js backend
 - **Testing** - Unit testing with mocks, E2E testing with supertest
 - **Configuration** - Environment-based config with validation
 
+## Usage Examples
+
+### Scaffold a Feature Module
+
+> "Create a NestJS feature module for user management with CRUD endpoints"
+
+Generates a complete feature module with controller, service, DTOs with validation, and module wiring following NestJS conventions.
+
+### Add Role-Based Authorization
+
+> "Set up role-based access control with guards for the admin endpoints"
+
+Creates a custom `RolesGuard`, role decorator, and applies authorization to controller routes using NestJS guard patterns.
+
+### Write Service Unit Tests
+
+> "Generate unit tests for the OrdersService with mocked dependencies"
+
+Produces a test file using NestJS `Test.createTestingModule` with properly mocked providers, covering happy paths, error scenarios, and edge cases.
+
 ## Installation
 
-### As Claude Code Skill
-
 ```bash
-hit install skill/nestjs-backend --as-skill
+hit install nestjs-backend
 ```
 
-This copies `claude-skill.md` to `.claude/skills/nestjs-backend.md` for automatic activation when working with NestJS code.
-
-### As GitHub Copilot Custom Instruction
-
-```bash
-hit install skill/nestjs-backend --as-copilot
-```
-
-This copies `copilot-instructions.md` to `.github/instructions/nestjs-backend.instructions.md` for GitHub Copilot integration.
-
-### As Documentation
-
-```bash
-hit install skill/nestjs-backend
-```
-
-Installs to `~/.claude/tools/skill/nestjs-backend/` for reference.
+This copies `skill.md` to `.claude/skills/nestjs-backend.md` for automatic activation when working with NestJS code.
 
 ## Key Patterns
 

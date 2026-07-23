@@ -1,0 +1,20 @@
+{
+  "id": "code-review-ts",
+  "name": "TypeScript Code Review",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Automated TypeScript code review for your workspace. Use when user asks to \"review my TypeScript code\", \"check code quality\", or mentions \"code review\".",
+  "category": "code-review",
+  "tags": [
+    "typescript",
+    "code-review",
+    "best-practices",
+    "type-safety",
+    "security"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

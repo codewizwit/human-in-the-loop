@@ -1,0 +1,21 @@
+{
+  "id": "api-design",
+  "name": "API Design Best Practices",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes your API codebase and provides guidance on REST/GraphQL design. Use when user asks to \"review my API design\", \"design a REST API\", \"optimize API endpoints\", or mentions \"API best practices\".",
+  "category": "architecture",
+  "tags": [
+    "architecture",
+    "api-design",
+    "rest",
+    "graphql",
+    "best-practices",
+    "security"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

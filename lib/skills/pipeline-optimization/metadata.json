@@ -1,0 +1,23 @@
+{
+  "id": "pipeline-optimization",
+  "name": "Pipeline Optimization",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes CI/CD pipelines for speed, cost, and reliability. Use when user asks to \"optimize my pipeline\", \"speed up CI\", \"reduce build times\", or mentions \"GitHub Actions optimization\".",
+  "category": "ci-cd",
+  "tags": [
+    "ci-cd",
+    "github-actions",
+    "pipeline",
+    "optimization",
+    "devops",
+    "performance",
+    "cost-reduction",
+    "caching"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

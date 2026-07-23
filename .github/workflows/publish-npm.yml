@@ -46,6 +46,9 @@ jobs:
           pnpm typecheck
           pnpm test
 
+      - name: Validate prompts and skills
+        run: ./src/governance/checks/validate-prompts.sh
+
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"

@@ -47,74 +47,74 @@ This command checks for:
 
 ---
 
-## Your First Prompt
+## Your First Skill
 
-### 1. Search for Prompts
+### 1. Browse Available Skills
 
-Search the library for available prompts:
+Browse or search the library of 25 available skills:
 
 ```bash
+# Launch the interactive browser
+hit install
+
+# Or search by keyword
 hit search "code review"
 ```
 
-You'll see results like:
+Search results look like:
 
 ```
-Found 3 prompts:
+Found 2 skills:
 
-1. prompt/code-review-ts
+1. code-review-ts
    TypeScript code review with best practices
-   Version: 1.2.0
+   Version: 3.0.0
 
-2. prompt/code-review-angular
-   Angular-specific code review
-   Version: 1.0.1
-
-3. prompt/code-review-security
-   Security-focused code review
-   Version: 2.0.0
+2. code-review-empathy
+   Empathy-driven code review feedback
+   Version: 3.0.0
 ```
 
-### 2. Install a Prompt
+### 2. Install a Skill
 
-Install the prompt you want:
+Install a skill by its ID:
 
 ```bash
-hit install prompt/code-review-ts
+hit install code-review-ts
 ```
 
-The CLI will prompt you for an installation location (or use `--path` to specify):
+The CLI will prompt you for an installation destination (or use `--destination` to specify):
 
 ```
-📦 Installing prompt/code-review-ts...
+Installing code-review-ts...
 
-  → Looking up tool...
-  → Copying tool files...
+  → Looking up skill...
+  → Copying skill files...
   → Registering installation...
 
-✓ Successfully installed Code Review TypeScript (v1.2.0)
-  → Installed to: ~/.claude/tools/prompt/code-review-ts
+Successfully installed code-review-ts (v3.0.0)
+  → Installed to: ~/.claude/skills/code-review-ts
 
-💡 Tip: Use hit list to see all installed tools
+Tip: Use hit list to see all installed tools
 ```
 
 **Non-interactive installation:**
 
 ```bash
-hit install prompt/code-review-ts --path ~/.claude/tools/prompt/code-review-ts
+hit install code-review-ts --destination global-skill
 ```
 
-### 3. Use the Prompt
+### 3. Use the Skill
 
-The prompt is now available in your `.claude/` directory:
+The skill is now available in your `.claude/` directory:
 
 ```
 .claude/
-└── prompts/
+└── skills/
     └── code-review-ts/
-        ├── prompt.md
+        ├── skill.md
         ├── metadata.json
-        └── examples/
+        └── README.md
 ```
 
 ---
@@ -123,7 +123,7 @@ The prompt is now available in your `.claude/` directory:
 
 ### `hit search [query]`
 
-Search for prompts and agents by keyword.
+Search for skills by keyword.
 
 **Examples:**
 
@@ -133,26 +133,29 @@ hit search "angular component"
 hit search "api documentation"
 ```
 
-### `hit install [tool]`
+### `hit install [skill-id]`
 
-Install a prompt or agent. Prompts you for installation location unless `--path` is provided.
+Install a skill. When run with no arguments, launches an interactive browser. Use `--destination` to control where the skill is installed.
 
 **Examples:**
 
 ```bash
-# Interactive install (prompts for path)
-hit install prompt/code-review-ts
+# Launch interactive skill browser
+hit install
 
-# Non-interactive install with custom path
-hit install prompt/code-review-ts --path ~/my-tools/prompts/code-review
+# Install a skill (prompts for destination)
+hit install code-review-ts
 
-# Install to default location
-hit install agent/test-generator --path ~/.claude/tools/agent/test-generator
+# Install as a global skill
+hit install code-review-ts --destination global-skill
+
+# Install as a project-level command
+hit install security-review --destination project-command
 ```
 
 **Options:**
 
-- `--path, -p <path>` - Installation path (skips interactive prompt)
+- `--destination, -d <destination>` - Installation destination (`global-skill`, `project-skill`, `global-command`, `project-command`, `custom`)
 
 ### `hit list`
 
@@ -165,24 +168,22 @@ hit list
 **Example output:**
 
 ```
-📚 Installed Tools
+Installed Skills
 
-Prompts:
-  • code-review-ts v1.2.0
-   Installed at: ~/.claude/tools/prompt/code-review-ts
+Skills:
+  * code-review-ts v3.0.0
+   Installed at: ~/.claude/skills/code-review-ts
 
-Agents:
-  • test-generator v1.0.0
-   Installed at: ~/.claude/tools/agent/test-generator
+  * security-review v3.0.0
+   Installed at: ~/.claude/skills/security-review
 ```
 
-### `hit update [tool]`
+### `hit update`
 
-Update an installed tool to the latest version.
+Update the CLI and all bundled skills to the latest version.
 
 ```bash
-hit update prompt/code-review-ts
-hit update --all
+hit update
 ```
 
 ### `hit doctor`
@@ -193,13 +194,12 @@ Validate your local setup and diagnose issues.
 hit doctor
 ```
 
-### `hit contribute [type] [path]`
+### `hit contribute <path>`
 
-Submit a new tool for review.
+Submit a new skill for review.
 
 ```bash
-hit contribute prompt ./my-prompt.md
-hit contribute agent ./my-agent/
+hit contribute lib/skills/my-skill/skill.md
 ```
 
 ### `hit stats`
@@ -208,7 +208,7 @@ View usage analytics and metrics.
 
 ```bash
 hit stats
-hit stats --tool prompt/code-review-ts
+hit stats --tool code-review-ts
 ```
 
 ---
@@ -233,25 +233,24 @@ Create a `.hitrc.json` file in your project root:
 
 ---
 
-## Context Packs
+## Skill Categories
 
-Context packs provide framework-specific knowledge to AI agents.
+All 25 skills in the toolkit use the unified `skill.md` format. Skills span multiple categories:
 
-**Available Packs:**
+- **Code Review** - `code-review-ts`, `code-review-empathy`, `security-review`
+- **Testing** - `unit-test-generator`, `test-coverage-analysis`, `bdd-scenarios`, `e2e-strategy`
+- **Architecture** - `api-design`, `api-documentation`, `system-design-review`
+- **Frameworks** - `angular-modern`, `angular-legacy`, `nestjs-backend`, `nx-monorepo`
+- **DevOps** - `aws-deployment-strategy`, `pipeline-optimization`
+- **AI/Governance** - `responsible-ai-audit`, `bias-detection`, `prompt-optimization`, `context-pack-builder`
+- **Planning** - `user-story-breakdown`, `learning-path`, `codebase-explainer`
+- **Culture** - `1-on-1-prep`, `team-retrospective`
 
-- `angular` - Angular framework patterns
-- `nestjs` - NestJS backend patterns
-- `ci-cd` - CI/CD and DevOps
-- `prompts` - Prompt engineering techniques
-- `agents` - Agent development
-
-**Install a context pack:**
+**Install any skill:**
 
 ```bash
-hit install context/angular
+hit install <skill-id>
 ```
-
-**Configure default context packs** in `.hitrc.json` to automatically load them with every prompt.
 
 ---
 

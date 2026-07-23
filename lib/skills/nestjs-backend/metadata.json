@@ -1,0 +1,21 @@
+{
+  "id": "nestjs-backend",
+  "name": "NestJS Backend",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Apply NestJS best practices for building scalable Node.js backends with dependency injection, modules, microservices, and clean architecture. Use when user asks to \"build a NestJS API\", \"create a NestJS module\", or mentions \"NestJS patterns\".",
+  "category": "framework",
+  "tags": [
+    "nestjs",
+    "nodejs",
+    "backend",
+    "typescript",
+    "dependency-injection",
+    "microservices"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

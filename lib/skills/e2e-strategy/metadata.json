@@ -1,0 +1,21 @@
+{
+  "id": "e2e-strategy",
+  "name": "E2E Testing Strategy Generator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates comprehensive E2E testing strategies for web applications. Use when user asks to \"create E2E tests\", \"generate a testing strategy\", or mentions \"end-to-end testing\".",
+  "category": "testing",
+  "tags": [
+    "testing",
+    "e2e",
+    "playwright",
+    "cypress",
+    "automation",
+    "quality-assurance"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

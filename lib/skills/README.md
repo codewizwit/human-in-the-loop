@@ -1,610 +1,327 @@
 # Skills
 
-Framework-specific expertise modules that provide AI agents with deep technical knowledge for particular programming languages, frameworks, and patterns. Skills are available for both Claude Code and GitHub Copilot integration.
+Framework-specific expertise modules that provide AI agents with deep technical knowledge for particular programming languages, frameworks, and patterns.
 
 ## What Are Skills?
 
-Skills are comprehensive knowledge bases designed to teach AI models the best practices, patterns, and anti-patterns for specific frameworks or technologies. Each skill is tailored for optimal performance on that technology and includes:
+Skills are comprehensive knowledge bases that teach AI models the best practices, patterns, and anti-patterns for specific frameworks or technologies. Each skill follows a unified format and includes:
 
 - **Framework-specific best practices** - Patterns recommended by the framework maintainers
 - **Modern vs. legacy approaches** - Clear guidance on what's current vs. deprecated
 - **Code examples** - Real-world patterns with TypeScript/TypeDoc comments
 - **Testing strategies** - How to test effectively within the framework
 - **Common anti-patterns** - What to avoid and why
-- **Migration guides** - How to upgrade from older versions
-- **Performance tips** - Optimization techniques specific to the framework
+- **Interactive flows** - Step-by-step methodology with user prompts for gathering context
 
 ## How Skills Differ from Context Packs
 
-While context packs and skills both contain framework knowledge, they serve different purposes:
-
-| Aspect          | Skills                                       | Context Packs                       |
-| --------------- | -------------------------------------------- | ----------------------------------- |
-| **Purpose**     | AI model instruction & knowledge             | Additional reference material       |
-| **Format**      | Markdown prompts for Claude/Copilot          | Documentation & guides              |
-| **Integration** | Automatic activation via Claude Code/Copilot | Manual loading when needed          |
-| **Content**     | Do's/don'ts, patterns, best practices        | In-depth guides, API docs, examples |
-| **Use Case**    | Real-time coding assistance                  | Research & learning                 |
-| **Frequency**   | Always used when activated                   | Occasional reference                |
-
-**Example**: The `angular-modern` skill teaches Claude Code to write modern Angular code automatically. The corresponding context pack provides supplementary documentation on Angular architecture.
+| Aspect          | Skills                                   | Context Packs                       |
+| --------------- | ---------------------------------------- | ----------------------------------- |
+| **Purpose**     | AI model instruction & knowledge         | Additional reference material       |
+| **Format**      | Unified `skill.md` with YAML frontmatter | Documentation & guides              |
+| **Integration** | Automatic activation via Claude Code     | Manual loading when needed          |
+| **Content**     | Do's/don'ts, patterns, interactive flows | In-depth guides, API docs, examples |
+| **Use Case**    | Real-time coding assistance              | Research & learning                 |
 
 ## File Structure
 
-Each skill directory contains four files:
+Each skill directory contains three files in the unified format:
 
 ```
 skills/
-├── angular-modern/                  # Angular 16+ with signals, standalone
-│   ├── README.md
+├── 1-on-1-prep/
+│   ├── skill.md                 # Primary skill definition (YAML frontmatter + body)
+│   ├── metadata.json            # Registry metadata for CLI and search
+│   └── README.md                # Usage documentation for humans
+├── angular-modern/
+│   ├── skill.md
 │   ├── metadata.json
-│   ├── claude-skill.md
-│   └── copilot-instructions.md
-├── angular-legacy/                  # Pre-Angular 16 with NgModules, RxJS
-│   ├── README.md
+│   └── README.md
+├── api-design/
+│   ├── skill.md
 │   ├── metadata.json
-│   ├── claude-skill.md
-│   └── copilot-instructions.md
-├── nestjs-backend/                  # NestJS backend patterns
-│   ├── README.md
-│   ├── claude-skill.md
-│   └── copilot-instructions.md
-└── nx-monorepo/                     # Nx monorepo best practices
-    ├── README.md
-    ├── claude-skill.md
-    └── copilot-instructions.md
+│   └── README.md
+├── bdd-scenarios/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── code-review-ts/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── context-pack-builder/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── learning-path/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── responsible-ai-audit/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── security-review/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+├── system-design-review/
+│   ├── skill.md
+│   ├── metadata.json
+│   └── README.md
+└── user-story-breakdown/
+    ├── skill.md
+    ├── metadata.json
+    └── README.md
+```
+
+All 25 skills follow this unified structure.
+
+### skill.md
+
+The primary skill definition file. Contains YAML frontmatter and a structured markdown body.
+
+**YAML Frontmatter** (required fields):
+
+```yaml
+---
+name: code-review-ts
+description: >-
+  Automated TypeScript code review for your workspace. Use when user asks to
+  "review my TypeScript code", "check code quality", or mentions "code review".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - Edit
+  - AskUserQuestion
+  - EnterPlanMode
+---
+```
+
+| Field           | Type     | Required | Format                                 |
+| --------------- | -------- | -------- | -------------------------------------- |
+| `name`          | string   | Yes      | kebab-case (e.g., `code-review-ts`)    |
+| `description`   | string   | Yes      | Must include trigger phrases in quotes |
+| `version`       | string   | Yes      | Semantic versioning (e.g., `3.0.0`)    |
+| `allowed-tools` | string[] | Yes      | Minimum 1 tool from the available set  |
+
+**Required body sections** (in order):
+
+1. When to Activate
+2. Interactive Flow (with `AskUserQuestion` / `EnterPlanMode`)
+3. Output Format
+4. Best Practices
+5. Anti-Patterns
+6. Examples
+
+See the canonical template at [`docs/skill-template.md`](../../docs/skill-template.md).
+
+### metadata.json
+
+Structured metadata for CLI operations and search. Required fields:
+
+```json
+{
+  "id": "code-review-ts",
+  "name": "TypeScript Code Review",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Automated TypeScript code review for your workspace.",
+  "category": "code-review",
+  "tags": ["typescript", "code-review", "best-practices", "type-safety"],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}
 ```
 
 ### README.md
 
-Overview of the skill with:
+Human-readable documentation for the skill, including overview, installation instructions, key patterns, and usage examples.
 
-- What's included
-- Installation instructions (with all three options)
-- Key patterns (3-4 code examples)
-- When to use this skill
-- Prerequisites/version requirements
-- Related skills
-- References
+## Installation
 
-**Example**: `/lib/skills/angular-modern/README.md`
-
-### metadata.json
-
-Structured metadata for the skill. Required fields:
-
-```json
-{
-  "id": "angular-modern",
-  "name": "Angular Modern",
-  "version": "1.0.0",
-  "type": "skill",
-  "description": "Modern Angular development with signals, computed, effect, standalone components, and latest patterns (Angular 16+)",
-  "category": "framework",
-  "tags": [
-    "angular",
-    "signals",
-    "standalone",
-    "modern",
-    "typescript",
-    "frontend"
-  ],
-  "platforms": ["claude-code", "github-copilot"],
-  "metadata": {
-    "author": "Human-in-the-Loop",
-    "license": "MIT",
-    "frameworks": ["angular"]
-  },
-  "minAngularVersion": "16.0.0"
-}
-```
-
-**Field Definitions**:
-
-- `id` - Unique identifier (kebab-case, must be unique across all skills)
-- `name` - Human-readable skill name
-- `version` - Semantic version (MAJOR.MINOR.PATCH)
-- `type` - Always "skill"
-- `description` - 1-2 sentence description of what the skill teaches
-- `category` - Category: "framework", "tool", "methodology", "pattern"
-- `tags` - Array of searchable keywords (7-10 tags recommended)
-- `platforms` - Array of supported platforms: "claude-code", "github-copilot", or both
-- `metadata.author` - Author/organization name
-- `metadata.license` - License type (MIT, Apache-2.0, etc.)
-- `metadata.frameworks` - Primary frameworks covered (if applicable)
-- Additional fields - Version constraints like `minAngularVersion`, `maxNodeVersion`, etc.
-
-### claude-skill.md
-
-Markdown content that teaches Claude Code the skill. Format:
-
-```markdown
----
-name: angular-modern
-description: Apply modern Angular patterns with signals, computed, effect...
----
-
-# Angular Modern Skill
-
-[Comprehensive content covering patterns, best practices, anti-patterns, testing]
-```
-
-**Content Structure**:
-
-1. YAML frontmatter with `name` and `description`
-2. Skill title as H1
-3. Activation triggers (when to use)
-4. Core concepts with examples
-5. Best practices & anti-patterns
-6. Testing patterns
-7. Migration guides (if applicable)
-8. References
-
-**Key Characteristics**:
-
-- ~800-1000 lines of markdown
-- Code examples with `typescript` syntax highlighting
-- Use checkmarks (✅) and X marks (❌) for good/bad patterns
-- Include both positive and negative examples
-- Include at least 5-10 code examples
-- Focus on practical, actionable guidance
-
-### copilot-instructions.md
-
-GitHub Copilot-compatible instructions. Format similar to `claude-skill.md` but optimized for Copilot's instruction format:
-
-```markdown
----
-applyTo: '**/*.ts,**/*.component.ts,**/*.service.ts,**/*.html'
----
-
-# Angular Modern Development (Angular 16+)
-
-[Practical guidelines for Copilot to follow when generating code]
-```
-
-**Key Differences from claude-skill.md**:
-
-- Shorter, more concise
-- Include `applyTo` glob pattern in frontmatter
-- Focus on "do's and don'ts" rather than deep explanations
-- Include brief code examples (2-3 lines)
-- More imperative tone ("DO use signals", "DON'T use @Input")
-
-## Installation Options
-
-### Option 1: As Claude Code Skill
+Install a skill using the skill ID:
 
 ```bash
-hit install skill/angular-modern --as-skill
+hit install code-review-ts
 ```
 
-**Effect**: Copies `claude-skill.md` to `.claude/skills/angular-modern.md`
+### Install Destinations
 
-**Usage**: Claude Code automatically loads and applies the skill when working with Angular code in your project.
+Specify where to install the skill using the `--destination` flag:
 
-**Best for**: Real-time code generation and review assistance in Claude Code
-
-### Option 2: As GitHub Copilot Custom Instruction
+| Destination       | Path                  | Description                           |
+| ----------------- | --------------------- | ------------------------------------- |
+| `global-skill`    | `~/.claude/skills/`   | Available across all projects         |
+| `project-skill`   | `.claude/skills/`     | Scoped to the current project         |
+| `global-command`  | `~/.claude/commands/` | Available as a global slash command   |
+| `project-command` | `.claude/commands/`   | Available as a project-scoped command |
+| `custom`          | User-specified path   | Install to any directory              |
 
 ```bash
-hit install skill/angular-modern --as-copilot
+hit install code-review-ts --destination global-skill
+hit install code-review-ts --destination project-skill
+hit install code-review-ts --destination global-command
+hit install code-review-ts --destination project-command
+hit install code-review-ts --destination custom --path ./my-skills/
 ```
-
-**Effect**: Copies `copilot-instructions.md` to `.github/instructions/angular-modern.instructions.md`
-
-**Usage**: GitHub Copilot reads and applies these instructions when generating code suggestions in VS Code
-
-**Best for**: Real-time code suggestions while writing in your IDE
-
-### Option 3: As Documentation
-
-```bash
-hit install skill/angular-modern
-```
-
-**Effect**: Installs to `~/.claude/tools/skill/angular-modern/`
-
-**Usage**: Accessible as reference material without automatic activation
-
-**Best for**: Learning and research
 
 ## Available Skills
 
-### Angular Modern
+All 25 unified skills are available for installation. Each skill directory contains `skill.md`, `metadata.json`, and `README.md`.
 
-**ID**: `angular-modern`
-**Version**: 1.0.0
-**Minimum**: Angular 16.0.0
-**Platforms**: Claude Code, GitHub Copilot
-
-Framework-specific expertise for **modern Angular 16+** development using signals, computed values, effects, and standalone components. Use this skill when working with current Angular applications using the latest reactive primitives.
-
-**What's Covered**:
-
-- Signals for reactive state management
-- Computed values for derived state
-- Effects for side effects
-- Signal-based inputs and outputs
-- Standalone components (no NgModules)
-- Resource API for data loading (Angular 19+)
-- Control flow syntax (@if, @for, @switch)
-- Service-level state management
-- Component testing patterns
-
-**When to Activate**:
-
-- Building new Angular 16+ applications
-- Working with signals, computed, or effect
-- Using standalone components
-- Implementing signal-based inputs/outputs
-- Migrating from RxJS to signals
-
-**Installation**:
-
-```bash
-hit install skill/angular-modern --as-skill
-hit install skill/angular-modern --as-copilot
-```
-
-**Learn More**: See [Angular Modern README](./angular-modern/README.md)
-
-### Angular Legacy
-
-**ID**: `angular-legacy`
-**Version**: 1.0.0
-**Maximum**: Angular 15.x
-**Platforms**: Claude Code, GitHub Copilot
-
-Framework-specific expertise for **legacy Angular (pre-16)** development using NgModules, lifecycle hooks, decorators, and RxJS observables.
-
-**What's Covered**:
-
-- NgModule structure and organization
-- Lifecycle hooks (ngOnInit, ngOnDestroy, etc.)
-- @Input/@Output decorators
-- Structural directives (*ngIf, *ngFor, \*ngSwitch)
-- RxJS observables for state management
-- Change detection strategies
-- Subscription management patterns
-
-**When to Activate**:
-
-- Maintaining pre-Angular 16 applications
-- Working with NgModule-based architecture
-- Using RxJS observables for state
-- Implementing traditional lifecycle hooks
-- Working with decorator-based inputs/outputs
-
-**Installation**:
-
-```bash
-hit install skill/angular-legacy --as-skill
-hit install skill/angular-legacy --as-copilot
-```
-
-**Learn More**: See [Angular Legacy README](./angular-legacy/README.md)
+| Skill ID                | Description                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1-on-1-prep             | Prepare for one-on-one meetings with structured agendas, talking points, and feedback frameworks       |
+| angular-legacy          | Pre-Angular 16 development with NgModules, lifecycle hooks, decorators, and RxJS observables           |
+| angular-modern          | Modern Angular 16+ with signals, computed values, effects, and standalone components                   |
+| api-design              | REST API design review and generation covering endpoint conventions, schemas, and OpenAPI specs        |
+| api-documentation       | Generate comprehensive API documentation with examples, error codes, and client SDKs                   |
+| aws-deployment-strategy | AWS infrastructure deployment patterns for serverless, containerized, and traditional workloads        |
+| bdd-scenarios           | Behavior-driven development scenario generation with Given-When-Then structure and acceptance criteria |
+| bias-detection          | Analyze AI prompts and systems for bias, fairness issues, and inclusive language patterns              |
+| code-review-empathy     | Empathy-focused code review guidance emphasizing constructive feedback and psychological safety        |
+| code-review-ts          | TypeScript code review analyzing type safety, quality, best practices, performance, and security       |
+| codebase-explainer      | Analyze and explain codebase architecture, module relationships, and key patterns                      |
+| context-pack-builder    | Create reusable context packs for domain-specific knowledge and documentation                          |
+| e2e-strategy            | End-to-end test strategy generation with test plans, scenarios, and framework-specific guidance        |
+| learning-path           | Create personalized learning paths with milestones, resources, and progress tracking                   |
+| nestjs-backend          | NestJS backend development patterns including modules, controllers, services, guards, pipes            |
+| nx-monorepo             | Nx monorepo best practices for workspace configuration, library boundaries, and build optimization     |
+| pipeline-optimization   | CI/CD pipeline analysis and optimization for GitHub Actions, Azure DevOps, and similar platforms       |
+| prompt-optimization     | Improve prompt quality, clarity, and effectiveness through iterative refinement analysis               |
+| responsible-ai-audit    | Responsible AI audit evaluating bias, safety, transparency, and compliance in AI systems               |
+| security-review         | Code security analysis identifying vulnerabilities, OWASP issues, and compliance concerns              |
+| system-design-review    | Evaluate system architecture for scalability, reliability, maintainability, and performance            |
+| team-retrospective      | Facilitate team retrospectives with structured prompts, action items, and psychological safety         |
+| test-coverage-analysis  | Analyze test coverage gaps and recommend test strategies to improve coverage metrics                   |
+| unit-test-generator     | Generate comprehensive unit test suites with proper mocking, assertions, and coverage targets          |
+| user-story-breakdown    | Break down epics and features into well-structured user stories with acceptance criteria               |
 
 ## How to Create a New Skill
 
 ### Step 1: Plan the Skill
 
-Identify:
-
-- **Framework/Technology**: What is this skill for?
-- **Audience**: Junior developers, experienced developers, or both?
-- **Version Range**: What versions does this apply to?
-- **Key Patterns**: What are 5-10 essential patterns for this technology?
-- **Anti-patterns**: What are common mistakes to avoid?
+Identify the framework or methodology, target audience, version range, 5-10 essential patterns, and common anti-patterns.
 
 ### Step 2: Create Directory Structure
 
 ```bash
-mkdir -p lib/skills/my-framework
-cd lib/skills/my-framework
-touch README.md metadata.json claude-skill.md copilot-instructions.md
+mkdir -p lib/skills/my-skill
 ```
 
-### Step 3: Write metadata.json
+Create three files: `skill.md`, `metadata.json`, and `README.md`.
+
+### Step 3: Write skill.md
+
+Follow the unified format defined in [`docs/skill-template.md`](../../docs/skill-template.md). The file must include YAML frontmatter with `name`, `description` (with trigger phrases in quotes), `version`, and `allowed-tools`, followed by all required body sections.
+
+```yaml
+---
+name: my-skill
+description: >-
+  Expert guidance for My Framework. Use when user asks to
+  "build with My Framework", "scaffold a project", or mentions "My Framework".
+version: 3.0.0
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - Edit
+  - AskUserQuestion
+  - EnterPlanMode
+---
+```
+
+Required body sections:
+
+1. **When to Activate** - Trigger conditions
+2. **Interactive Flow** - Step-by-step methodology using `AskUserQuestion` and `EnterPlanMode`
+3. **Output Format** - Structure of the skill's output
+4. **Best Practices** - Guidelines for effective use
+5. **Anti-Patterns** - What to avoid
+6. **Examples** - Input/output scenarios
+
+### Step 4: Write metadata.json
 
 ```json
 {
-  "id": "my-framework",
-  "name": "My Framework",
-  "version": "1.0.0",
+  "id": "my-skill",
+  "name": "My Skill",
+  "version": "3.0.0",
   "type": "skill",
-  "description": "Expert guidance on building applications with My Framework",
+  "description": "Expert guidance for My Framework.",
   "category": "framework",
-  "tags": ["framework", "typescript", "example"],
-  "platforms": ["claude-code", "github-copilot"],
+  "tags": ["framework", "typescript"],
+  "platforms": ["claude-code"],
   "metadata": {
     "author": "Human-in-the-Loop",
-    "license": "MIT",
-    "frameworks": ["my-framework"]
-  },
-  "minVersion": "1.0.0"
+    "license": "MIT"
+  }
 }
 ```
 
-### Step 4: Write README.md
+### Step 5: Write README.md
 
-Structure:
+Include an overview, installation instructions, key patterns with code examples, when to use, and prerequisites.
 
-```markdown
-# My Framework Skill
+### Step 6: Validate
 
-Brief overview (2-3 sentences)
+Validation is handled by `src/governance/checks/validate-skills.ts` and the Zod schema at `src/cli/src/utils/skill-schema.ts`. Run validation before submitting:
 
-## Overview
-
-What's included (bullet points)
-
-## Installation
-
-Show all three installation options:
-
-- As Claude Code Skill
-- As GitHub Copilot Custom Instruction
-- As Documentation
-
-## Key Patterns
-
-Include 3-4 code examples showing essential patterns
-
-## When to Use This Skill
-
-## Prerequisites
-
-## Related Skills
-
-## References
+```bash
+pnpm validate:skills
 ```
 
-**Length**: 200-300 lines
-**Code Examples**: 4-8 examples
-
-### Step 5: Write claude-skill.md
-
-Structure:
-
-```markdown
----
-name: my-framework
-description: Apply My Framework best practices...
----
-
-# My Framework Skill
-
-## When to Activate This Skill
-
-- List activation triggers
-
-## Core Concepts
-
-- Explain 3-5 key concepts
-
-## Essential Patterns
-
-- Detailed examples of 5-10 patterns
-- Include both positive (✅) and negative (❌) examples
-
-## Best Practices Checklist
-
-- Do's and don'ts
-- Common anti-patterns
-
-## Testing Patterns
-
-- How to test effectively
-
-## Migration Guides (if applicable)
-
-- Upgrading between versions
-
-## References
-
-- Links to official docs
-```
-
-**Length**: 800-1200 lines
-**Code Examples**: 15-25 examples
-**Focus**: Comprehensive, educational, thorough
-
-### Step 6: Write copilot-instructions.md
-
-Structure:
-
-```markdown
----
-applyTo: '**/*.ts,**/*.component.ts'
----
-
-# My Framework Development
-
-## Core Principles
-
-1. Principle one
-2. Principle two
-
-## Code Patterns
-
-## Do's and Don'ts
-
-## Testing
-```
-
-**Length**: 200-400 lines
-**Code Examples**: 5-8 small examples
-**Focus**: Concise, actionable, scannable
-
-### Step 7: Add Comprehensive Examples
-
-Each skill should include:
-
-**In claude-skill.md**:
-
-```typescript
-// ✅ CORRECT: Best practice example
-export class MyComponent {
-  // Recommended approach
-}
-
-// ❌ WRONG: Anti-pattern example
-export class MyComponent {
-  // Pattern to avoid and why
-}
-```
-
-**In copilot-instructions.md**:
-
-```typescript
-// ✅ DO use this pattern
-count = signal(0);
-
-// ❌ DON'T use this pattern
-count = 0;
-```
-
-### Step 8: Version and Release
-
-1. Set `version` in `metadata.json` to semantic version (e.g., "1.0.0")
-2. Add appropriate tags for discoverability
-3. Include all frameworks in tags and metadata
-4. Test installations with `hit install`
-
-### Step 9: Submit Pull Request
+### Step 7: Submit Pull Request
 
 Include:
 
-- New skill directory with all 4 files
-- Update to `/lib/skills/README.md` with new skill entry
+- New skill directory with all 3 files (`skill.md`, `metadata.json`, `README.md`)
+- Update to this README with the new skill entry
 - Description of when to use the skill
-- Link to related skills
-
-## Metadata.json Format Reference
-
-### Required Fields
-
-```json
-{
-  "id": "string (kebab-case, unique)",
-  "name": "string (human-readable)",
-  "version": "string (semantic version)",
-  "type": "string (always 'skill')",
-  "description": "string (1-2 sentences)",
-  "category": "string (framework|tool|methodology|pattern)",
-  "tags": ["string array (7-10 tags)"],
-  "platforms": ["string array (claude-code, github-copilot)"],
-  "metadata": {
-    "author": "string",
-    "license": "string",
-    "frameworks": ["string array"]
-  }
-}
-```
-
-### Optional Fields (For Version Constraints)
-
-```json
-{
-  "minVersion": "1.0.0",
-  "maxVersion": "2.0.0",
-  "minAngularVersion": "16.0.0",
-  "maxAngularVersion": "18.x",
-  "minNodeVersion": "18.0.0",
-  "minTypeScriptVersion": "4.9.0"
-}
-```
-
-### Optional Fields (For Additional Metadata)
-
-```json
-{
-  "author": "string (individual name)",
-  "authorEmail": "string",
-  "repository": "string (GitHub URL)",
-  "keywords": ["string array"],
-  "dependencies": {
-    "frameworks": ["string array"],
-    "tools": ["string array"]
-  }
-}
-```
-
-## Best Practices for Skills
-
-1. **Keep skills focused** - One skill per framework/technology, not multiple
-2. **Use real examples** - Show actual code patterns, not theoretical examples
-3. **Include both do's and don'ts** - Use ✅ and ❌ to make it scannable
-4. **Version carefully** - Use semantic versioning (MAJOR.MINOR.PATCH)
-5. **Test with both tools** - Ensure content works with Claude Code and Copilot
-6. **Keep claude-skill.md and copilot-instructions.md in sync** - Same core guidance, different tone
-7. **Include prerequisites** - List version requirements clearly
-8. **Link to originals** - Always reference official documentation
-9. **Make it searchable** - Use descriptive tags for discovery
-10. **Update regularly** - Keep skills current as frameworks evolve
 
 ## Skill Discovery
 
-### Search for Skills
-
 ```bash
 hit search "angular"
-hit search "signals"
-hit search "framework"
-```
-
-### List Installed Skills
-
-```bash
+hit search "code-review"
 hit list skills
+hit show code-review-ts
 ```
 
-### View Skill Details
+## Validation
 
-```bash
-hit show skill/angular-modern
-```
+Skills are validated in CI by two checks:
 
-## Integration with Claude Code
+- **`src/governance/checks/validate-skills.ts`** - Validates skill directory structure and required files
+- **`src/cli/src/utils/skill-schema.ts`** - Zod schema enforcing frontmatter field types and required body sections
 
-When a skill is installed with `--as-skill`, it's automatically activated when Claude Code detects relevant file types or project patterns.
+Validation rules:
 
-**Example**: The `angular-modern` skill activates automatically when Claude Code is used in an Angular 16+ project.
-
-You can also explicitly activate a skill:
-
-```bash
-hit activate skill/angular-modern
-```
-
-## Integration with GitHub Copilot
-
-When a skill is installed with `--as-copilot`, GitHub Copilot reads the instructions file (`.github/instructions/`) and applies them when generating code.
-
-The `applyTo` glob pattern determines when the instructions are active:
-
-```markdown
----
-applyTo: '**/*.ts,**/*.component.ts,**/*.service.ts,**/*.html'
----
-```
+1. `name` must be kebab-case
+2. `description` must include at least one quoted trigger phrase
+3. `version` must follow semantic versioning
+4. `allowed-tools` must contain at least one valid tool name
+5. All six required body sections must be present
 
 ## Contributing
 
-To contribute a new skill or update an existing one:
-
 1. Follow the structure and guidelines in this README
-2. Include all four required files
-3. Test the skill with both Claude Code and GitHub Copilot
-4. Submit a pull request with detailed description
-5. Include links to official framework documentation
+2. Include all three required files per skill
+3. Validate with `pnpm validate:skills`
+4. Submit a pull request with a detailed description
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for full guidelines.
 
 ## Support
-
-For questions about skills or to suggest new ones:
 
 - Open an issue: [GitHub Issues](https://github.com/codewizwit/human-in-the-loop/issues)
 - Visit docs: [Human-in-the-Loop Documentation](https://github.com/codewizwit/human-in-the-loop)

@@ -38,9 +38,7 @@ export function searchCommand(query?: string): void {
     logNewLine();
 
     tools.forEach((tool, index) => {
-      console.log(
-        chalk.green(`${index + 1}. `) + chalk.bold(`${tool.type}/${tool.id}`)
-      );
+      console.log(chalk.green(`${index + 1}. `) + chalk.bold(tool.id));
       console.log(chalk.gray(`   ${tool.description}`));
       console.log(chalk.gray(`   Version: ${tool.version}`));
       if (tool.metadata?.tags && tool.metadata.tags.length > 0) {
@@ -49,9 +47,7 @@ export function searchCommand(query?: string): void {
       logNewLine();
     });
 
-    logTip(
-      'Use ' + chalk.bold('hit install <type>/<id>') + ' to install a tool'
-    );
+    logTip('Use ' + chalk.bold('hit install <id>') + ' to install a skill');
   } catch (error) {
     logWarning(
       'Error scanning toolkit: ' +

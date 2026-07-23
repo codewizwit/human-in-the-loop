@@ -1,0 +1,23 @@
+{
+  "id": "responsible-ai-audit",
+  "name": "Responsible AI Audit",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Comprehensive audit framework for evaluating AI systems against responsible AI principles. Use when user asks to \"audit an AI system\", \"review AI ethics\", or mentions \"responsible AI\".",
+  "category": "governance",
+  "tags": [
+    "governance",
+    "responsible-ai",
+    "accountability",
+    "audit",
+    "ethics",
+    "ai-safety",
+    "transparency",
+    "bias-detection"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

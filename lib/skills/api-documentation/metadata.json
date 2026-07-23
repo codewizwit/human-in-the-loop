@@ -1,0 +1,22 @@
+{
+  "id": "api-documentation",
+  "name": "API Documentation Generator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates comprehensive API documentation from your codebase including OpenAPI specs, endpoint references, and developer guides. Use when user asks to \"generate API docs\", \"document API endpoints\", or \"create OpenAPI spec\".",
+  "category": "documentation",
+  "tags": [
+    "documentation",
+    "api",
+    "openapi",
+    "swagger",
+    "rest",
+    "graphql",
+    "developer-experience"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

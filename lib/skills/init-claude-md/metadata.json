@@ -1,0 +1,14 @@
+{
+  "id": "init-claude-md",
+  "name": "Init CLAUDE.md",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyze a project and generate a tailored CLAUDE.md configuration file.",
+  "category": "meta",
+  "tags": ["claude", "configuration", "project-setup", "CLAUDE.md"],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Alexandra Kelstrom",
+    "license": "MIT"
+  }
+}

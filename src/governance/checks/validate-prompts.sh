@@ -130,3 +130,20 @@ if [ "$has_errors" = true ]; then
 fi
 
 echo "✅ All prompt files validated successfully (pure XML format)"
+
+echo ""
+echo "🔍 Validating skill markdown files..."
+echo ""
+
+skill_files=$(find lib/skills -name "skill.md" 2>/dev/null || echo "")
+
+if [ -n "$skill_files" ]; then
+  if npx ts-node src/governance/checks/validate-skills.ts; then
+    echo "✅ All skill files validated successfully"
+  else
+    echo "❌ Skill validation failed"
+    exit 1
+  fi
+else
+  echo "⚠️  No skill.md files found (skipping skill validation)"
+fi

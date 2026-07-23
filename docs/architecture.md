@@ -14,10 +14,10 @@ System design and technical overview of the Human in the Loop toolkit.
 │  (Discovery, Installation, Execution, Stats)                 │
 ├─────────────────────────────────────────────────────────────┤
 │                      Governance Layer                         │
-│  (Validation, Quality Checks, Security Scanning)             │
+│  (validate-skills.ts, Quality Checks, Security Scanning)     │
 ├─────────────────────────────────────────────────────────────┤
-│                          Toolkit                             │
-│  Prompts │ Agents │ Evaluators │ Guardrails │ Context Packs  │
+│                     Skills (25 unified)                       │
+│  lib/skills/ - Each with skill.md, metadata.json, README.md  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -35,9 +35,35 @@ human-in-the-loop/
 │   └── governance/           # Governance tooling
 │       └── checks/           # Quality and validation scripts
 │
-├── lib/                  # AI productivity tools
-│   ├── prompts/             # Reusable prompts
-│   ├── agents/              # AI agents
+├── lib/                      # AI productivity tools
+│   ├── skills/              # 25 unified skills (skill.md + metadata.json + README.md)
+│   │   ├── 1-on-1-prep/
+│   │   ├── angular-legacy/
+│   │   ├── angular-modern/
+│   │   ├── api-design/
+│   │   ├── api-documentation/
+│   │   ├── aws-deployment-strategy/
+│   │   ├── bdd-scenarios/
+│   │   ├── bias-detection/
+│   │   ├── code-review-empathy/
+│   │   ├── code-review-ts/
+│   │   ├── codebase-explainer/
+│   │   ├── context-pack-builder/
+│   │   ├── e2e-strategy/
+│   │   ├── learning-path/
+│   │   ├── nestjs-backend/
+│   │   ├── nx-monorepo/
+│   │   ├── pipeline-optimization/
+│   │   ├── prompt-optimization/
+│   │   ├── responsible-ai-audit/
+│   │   ├── security-review/
+│   │   ├── system-design-review/
+│   │   ├── team-retrospective/
+│   │   ├── test-coverage-analysis/
+│   │   ├── unit-test-generator/
+│   │   └── user-story-breakdown/
+│   ├── prompts/             # Legacy prompts (deprecated)
+│   ├── agents/              # Legacy agents (deprecated)
 │   ├── evaluators/          # Quality evaluators
 │   ├── guardrails/          # Safety mechanisms
 │   └── context-packs/       # Framework knowledge
@@ -55,11 +81,12 @@ human-in-the-loop/
 
 ```
 CLI (Commander.js)
-├── Search Command → Toolkit Index
-├── Install Command → Package Manager → Local Cache
+├── Search Command → Skills Index (lib/skills/)
+├── Install Command [skill-id] → --destination → Local Install
+│   └── (no args) → Interactive Browser
 ├── List Command → Local Registry
 ├── Doctor Command → Environment Validator
-├── Contribute Command → Submission Handler
+├── Contribute Command → validate-skills.ts → Submission Handler
 └── Stats Command → Metrics Collector
 ```
 
@@ -115,10 +142,10 @@ Pull Request
    ├→ Usage examples
    ├→ TypeDoc comments
    ↓
-[Contribution Validation]
-   ├→ YAML structure
-   ├→ Required metadata
-   ├→ Schema compliance
+[Skill Validation (validate-skills.ts)]
+   ├→ YAML frontmatter (name, description, version, allowed-tools)
+   ├→ Required sections (When to Activate, Output Format)
+   ├→ No legacy XML format
    ↓
 [Security Scan]
    ├→ Secret detection
@@ -136,11 +163,19 @@ Pull Request
 
 Located in `src/governance/checks/`:
 
-**validate-prompts.sh**
+**validate-skills.ts**
 
-- YAML structure validation
+- Unified skill format validation for all 25 skills in `lib/skills/`
+- YAML frontmatter extraction and field validation (`name`, `description`, `version`, `allowed-tools`)
+- Enforces kebab-case naming, semver versioning, and string-array tool lists
+- Checks for required markdown sections: "When to Activate", "Output Format" (or "Output")
+- Detects and rejects legacy XML `<prompt>` format
+
+**validate-prompts.sh** (deprecated)
+
+- Legacy XML structure validation
 - Required metadata fields
-- Schema compliance for prompts
+- Schema compliance for old prompt format
 
 **check-docs.sh**
 
@@ -170,27 +205,38 @@ Located in `src/governance/checks/`:
 
 ## Toolkit Organization
 
-### Prompt Structure
+### Skill Structure (Unified Format)
+
+All 25 skills follow the same structure in `lib/skills/`:
 
 ```
-lib/prompts/[prompt-name]/
-├── prompt.md                # Prompt definition (Markdown with frontmatter)
-├── README.md                # Documentation
-├── examples/                # Usage examples
-│   ├── input-1.md
-│   └── output-1.md
-└── [optional files]
+lib/skills/[skill-name]/
+├── skill.md                 # Skill definition (YAML frontmatter + markdown body)
+├── metadata.json            # Machine-readable metadata
+└── README.md                # Documentation and usage instructions
 ```
 
-### Agent Structure
+**skill.md format:**
 
-```
-lib/agents/[agent-name]/
-├── agent.yaml               # Agent configuration
-├── README.md                # Documentation
-├── tools/                   # Agent-specific tools
-├── evaluators/              # Quality checks
-└── examples/                # Usage examples
+```yaml
+---
+name: skill-name            # kebab-case identifier
+description: >-             # Description with trigger phrases
+  Description text here.
+version: 3.0.0              # semver
+allowed-tools:              # Array of permitted tools
+  - Read
+  - Glob
+  - Grep
+---
+
+# Skill Title
+
+## When to Activate
+(required section)
+
+## Output Format
+(required section)
 ```
 
 ### Data Flow
@@ -200,13 +246,11 @@ User Request
    ↓
 CLI Parser
    ↓
-Load Prompt/Agent Definition
-   ↓
-Apply Context Packs
+Load Skill Definition (skill.md)
    ↓
 Run Guardrails (Input Validation)
    ↓
-Send to AI Model
+Send to AI Model (with allowed-tools)
    ↓
 Run Guardrails (Output Validation)
    ↓
@@ -271,16 +315,21 @@ Return to User
 
 ## Integration Points
 
-### Claude Desktop Integration
+### Claude Code Integration
+
+Skills can be installed to various destinations:
 
 ```
+~/.claude/
+├── skills/               # Global skills (--destination global-skill)
+└── commands/             # Global commands (--destination global-command)
+
 .claude/
-├── prompts/              # Installed prompts
-├── agents/               # Installed agents
-└── config.json           # User configuration
+├── skills/               # Project skills (--destination project-skill)
+└── commands/             # Project commands (--destination project-command)
 ```
 
-Claude Desktop automatically discovers tools in `.claude/` directory.
+Claude Code automatically discovers skills in `.claude/` directories.
 
 ### CI/CD Integration
 

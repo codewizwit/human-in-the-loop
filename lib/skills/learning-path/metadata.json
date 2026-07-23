@@ -1,0 +1,21 @@
+{
+  "id": "learning-path",
+  "name": "Personalized Learning Path Generator",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Creates personalized learning paths for engineers based on current skills, career goals, and time constraints. Use when user asks to \"create a learning path\", \"build a study plan\", or \"plan my career growth\".",
+  "category": "mentorship",
+  "tags": [
+    "mentorship",
+    "learning",
+    "career-development",
+    "skills",
+    "growth",
+    "training"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

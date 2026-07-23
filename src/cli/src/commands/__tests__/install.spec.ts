@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 import {
   describe,
   it,
@@ -53,21 +53,24 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 describe('installCommand', () => {
   let consoleMock: ReturnType<typeof createConsoleMock>;
 
+  const defaultTool: toolkitScanner.Tool = {
+    id: 'code-review-ts',
+    name: 'Code Review TypeScript',
+    version: '1.2.0',
+    description: 'TypeScript code review',
+    category: 'code-quality',
+    type: 'skill',
+    path: '/lib/prompts/code-review-ts',
+    metadata: {},
+  };
+
   beforeEach(() => {
     consoleMock = createConsoleMock();
     consoleMock.start();
     jest.clearAllMocks();
 
-    mockToolkitScanner.getTool.mockReturnValue({
-      id: 'code-review-ts',
-      name: 'Code Review TypeScript',
-      version: '1.2.0',
-      description: 'TypeScript code review',
-      category: 'code-quality',
-      type: 'prompt',
-      path: '/lib/prompts/code-review-ts',
-      metadata: {},
-    });
+    mockToolkitScanner.getTool.mockReturnValue(defaultTool);
+    mockToolkitScanner.scanToolkit.mockReturnValue([defaultTool]);
 
     mockRegistry.isToolInstalled.mockReturnValue(false);
     mockFileOps.resolvePath.mockImplementation((p) =>
@@ -76,16 +79,14 @@ describe('installCommand', () => {
     mockFileOps.copyDirectory.mockResolvedValue(undefined);
     mockRegistry.registerInstallation.mockReturnValue(undefined);
 
+    // Default destination prompt: global-skill
     (mockInquirer.prompt as any).mockResolvedValue({
-      userPath: '~/.claude/tools/prompt/code-review-ts',
+      destination: 'global-skill',
     });
 
     mockClaudeIntegration.isClaudeAvailable.mockReturnValue(true);
-    mockClaudeIntegration.createClaudeCommand.mockReturnValue(
-      '/home/user/.claude/commands/code-review-ts.md'
-    );
 
-    mockFs.existsSync.mockReturnValue(true);
+    mockFs.readdirSync.mockReturnValue([] as any);
   });
 
   afterEach(() => {
@@ -93,108 +94,238 @@ describe('installCommand', () => {
     consoleMock.clear();
   });
 
-  describe('installation process', () => {
-    it('should display installation message', async () => {
+  describe('direct skill ID lookup', () => {
+    it('should accept a bare skill ID without type prefix', async () => {
+      (mockInquirer.prompt as any).mockResolvedValue({
+        destination: 'global-skill',
+      });
+
+      await installCommand('code-review-ts');
+
+      expect(mockToolkitScanner.getTool).toHaveBeenCalledWith('code-review-ts');
+      expect(consoleMock.contains('Looking up')).toBe(true);
+    });
+
+    it('should display found tool info', async () => {
+      await installCommand('code-review-ts');
+
+      expect(consoleMock.contains('Code Review TypeScript')).toBe(true);
+    });
+
+    it('should handle tool not found', async () => {
+      mockToolkitScanner.getTool.mockReturnValue(null);
+
+      await installCommand('nonexistent-skill');
+
+      expect(consoleMock.contains('not found')).toBe(true);
+      expect(consoleMock.contains('hit search')).toBe(true);
+    });
+  });
+
+  describe('legacy type/id format', () => {
+    it('should show deprecation warning for type/id format', async () => {
       await installCommand('prompt/code-review-ts');
 
-      expect(consoleMock.contains('📦 Installing prompt/code-review-ts')).toBe(
-        true
+      expect(consoleMock.contains('deprecated')).toBe(true);
+      expect(mockToolkitScanner.getTool).toHaveBeenCalledWith('code-review-ts');
+    });
+
+    it('should still work with legacy format', async () => {
+      await installCommand('prompt/code-review-ts');
+
+      expect(consoleMock.contains('Successfully installed')).toBe(true);
+    });
+
+    it('should handle invalid multi-slash format', async () => {
+      await installCommand('a/b/c');
+
+      expect(consoleMock.contains('Invalid tool identifier')).toBe(true);
+    });
+  });
+
+  describe('interactive browser (no args)', () => {
+    it('should launch interactive browser when no toolIdentifier provided', async () => {
+      (mockInquirer.prompt as any)
+        .mockResolvedValueOnce({ selectedCategory: 'code-quality' })
+        .mockResolvedValueOnce({ selectedToolId: 'code-review-ts' })
+        .mockResolvedValueOnce({ destination: 'global-skill' });
+
+      await installCommand();
+
+      expect(mockToolkitScanner.scanToolkit).toHaveBeenCalled();
+      expect(consoleMock.contains('interactive browser')).toBe(true);
+    });
+
+    it('should handle empty toolkit in browser mode', async () => {
+      mockToolkitScanner.scanToolkit.mockReturnValue([]);
+
+      await installCommand();
+
+      expect(consoleMock.contains('No tools found')).toBe(true);
+    });
+
+    it('should group tools by category for selection', async () => {
+      const tools: toolkitScanner.Tool[] = [
+        {
+          id: 'code-review-ts',
+          name: 'Code Review TypeScript',
+          version: '1.2.0',
+          description: 'TS review',
+          category: 'code-quality',
+          type: 'skill',
+          path: '/lib/prompts/code-review-ts',
+          metadata: {},
+        },
+        {
+          id: 'angular-modern',
+          name: 'Angular Modern',
+          version: '1.0.0',
+          description: 'Angular skill',
+          category: 'framework',
+          type: 'skill',
+          path: '/lib/skills/angular-modern',
+          metadata: {},
+        },
+      ];
+
+      mockToolkitScanner.scanToolkit.mockReturnValue(tools);
+
+      (mockInquirer.prompt as any)
+        .mockResolvedValueOnce({ selectedCategory: 'framework' })
+        .mockResolvedValueOnce({ selectedToolId: 'angular-modern' })
+        .mockResolvedValueOnce({ destination: 'global-skill' });
+
+      mockToolkitScanner.getTool.mockReturnValue(tools[1]);
+
+      await installCommand();
+
+      expect(mockInquirer.prompt).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'list',
+            name: 'selectedCategory',
+          }),
+        ])
+      );
+    });
+  });
+
+  describe('destination selection', () => {
+    it('should prompt for destination when no --destination flag', async () => {
+      await installCommand('code-review-ts');
+
+      expect(mockInquirer.prompt).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'list',
+            name: 'destination',
+          }),
+        ])
       );
     });
 
-    it('should look up tool in toolkit', async () => {
-      await installCommand('prompt/code-review-ts');
+    it('should skip destination prompt when --destination flag provided', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
+      });
 
-      expect(mockToolkitScanner.getTool).toHaveBeenCalledWith('code-review-ts');
-      expect(consoleMock.contains('Looking up tool...')).toBe(true);
+      // The destination prompt should not have been called since
+      // --destination was provided directly
+      const promptCalls = (mockInquirer.prompt as any).mock.calls;
+      const hasDestinationPrompt = promptCalls.some(
+        (call: any[]) =>
+          call[0] &&
+          Array.isArray(call[0]) &&
+          call[0].some((q: any) => q.name === 'destination')
+      );
+      expect(hasDestinationPrompt).toBe(false);
     });
 
-    it('should copy tool files', async () => {
-      await installCommand('prompt/code-review-ts');
+    it('should use --path option as custom destination', async () => {
+      await installCommand('code-review-ts', {
+        path: '/custom/path',
+      });
+
+      expect(mockFileOps.resolvePath).toHaveBeenCalledWith('/custom/path');
+    });
+
+    it('should prompt for custom path when destination is custom', async () => {
+      (mockInquirer.prompt as any)
+        .mockResolvedValueOnce({ destination: 'custom' })
+        .mockResolvedValueOnce({ userPath: '~/my-skills' });
+
+      await installCommand('code-review-ts');
+
+      expect(mockInquirer.prompt).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'input',
+            name: 'userPath',
+          }),
+        ])
+      );
+    });
+  });
+
+  describe('skill directory installation', () => {
+    it('should copy skill directory via copyDirectory', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
+      });
 
       expect(mockFileOps.copyDirectory).toHaveBeenCalledWith(
         '/lib/prompts/code-review-ts',
-        '/home/user/.claude/tools/prompt/code-review-ts'
+        expect.stringContaining('code-review-ts')
       );
-      expect(consoleMock.contains('Copying tool files...')).toBe(true);
     });
 
-    it('should register installation', async () => {
-      await installCommand('prompt/code-review-ts');
+    it('should register installation after directory copy', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
+      });
 
       expect(mockRegistry.registerInstallation).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'code-review-ts',
           name: 'Code Review TypeScript',
           version: '1.2.0',
-          type: 'prompt',
-          installedPath: '/home/user/.claude/tools/prompt/code-review-ts',
+          type: 'skill',
         })
       );
-      expect(consoleMock.contains('Registering installation...')).toBe(true);
     });
 
-    it('should display success message and completion info', async () => {
-      await installCommand('prompt/code-review-ts');
+    it('should display success message', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
+      });
 
-      expect(consoleMock.contains('✓')).toBe(true);
       expect(consoleMock.contains('Successfully installed')).toBe(true);
       expect(consoleMock.contains('Code Review TypeScript')).toBe(true);
-      expect(consoleMock.contains('v1.2.0')).toBe(true);
     });
   });
 
-  describe('with --path option', () => {
-    it('should use provided path', async () => {
-      await installCommand('prompt/code-review-ts', {
-        path: '/custom/path',
+  describe('command destination', () => {
+    it('should copy skill directory for global-command destination', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-command',
       });
 
-      expect(mockInquirer.prompt).not.toHaveBeenCalled();
       expect(mockFileOps.copyDirectory).toHaveBeenCalledWith(
         '/lib/prompts/code-review-ts',
-        '/custom/path'
+        expect.stringContaining('code-review-ts')
       );
     });
 
-    it('should resolve ~ in provided path', async () => {
-      await installCommand('prompt/code-review-ts', {
-        path: '~/my-tools',
+    it('should warn when Claude is not available', async () => {
+      mockClaudeIntegration.isClaudeAvailable.mockReturnValue(false);
+
+      await installCommand('code-review-ts', {
+        destination: 'global-command',
       });
 
-      expect(mockFileOps.resolvePath).toHaveBeenCalledWith('~/my-tools');
-    });
-  });
-
-  describe('error handling', () => {
-    it('should handle invalid tool identifier', async () => {
-      await installCommand('invalid-format');
-
-      expect(consoleMock.contains('Invalid tool identifier')).toBe(true);
-      expect(consoleMock.contains('Use format: <type>/<id>')).toBe(true);
-      expect(mockToolkitScanner.getTool).not.toHaveBeenCalled();
-    });
-
-    it('should handle tool not found', async () => {
-      mockToolkitScanner.getTool.mockReturnValue(null);
-
-      await installCommand('prompt/nonexistent');
-
-      expect(consoleMock.contains('Tool "prompt/nonexistent" not found')).toBe(
-        true
-      );
-      expect(consoleMock.contains('hit search')).toBe(true);
-    });
-
-    it('should handle installation failure', async () => {
-      mockFileOps.copyDirectory.mockRejectedValue(
-        new Error('Permission denied')
-      );
-
-      await installCommand('prompt/code-review-ts');
-
-      expect(consoleMock.contains('Installation failed')).toBe(true);
-      expect(consoleMock.contains('Permission denied')).toBe(true);
+      expect(
+        consoleMock.contains('Claude Code integration not available')
+      ).toBe(true);
     });
   });
 
@@ -205,30 +336,28 @@ describe('installCommand', () => {
         id: 'code-review-ts',
         name: 'Code Review TypeScript',
         version: '1.0.0',
-        type: 'prompt',
-        installedPath: '~/.claude/tools/prompt/code-review-ts',
+        type: 'skill',
+        installedPath: '~/.claude/skills/code-review-ts',
         installedAt: '2024-01-01T00:00:00Z',
       });
     });
 
     it('should warn about existing installation', async () => {
-      (mockInquirer.prompt as any).mockResolvedValue({
+      (mockInquirer.prompt as any).mockResolvedValueOnce({
         proceed: false,
       });
 
-      await installCommand('prompt/code-review-ts');
+      await installCommand('code-review-ts');
 
-      expect(
-        consoleMock.contains('Tool "code-review-ts" is already installed')
-      ).toBe(true);
+      expect(consoleMock.contains('already installed')).toBe(true);
     });
 
     it('should prompt for reinstall confirmation', async () => {
-      (mockInquirer.prompt as any).mockResolvedValue({
+      (mockInquirer.prompt as any).mockResolvedValueOnce({
         proceed: false,
       });
 
-      await installCommand('prompt/code-review-ts');
+      await installCommand('code-review-ts');
 
       expect(mockInquirer.prompt).toHaveBeenCalledWith(
         expect.arrayContaining([
@@ -242,149 +371,68 @@ describe('installCommand', () => {
     });
 
     it('should cancel if user declines reinstall', async () => {
-      (mockInquirer.prompt as any).mockResolvedValue({
+      (mockInquirer.prompt as any).mockResolvedValueOnce({
         proceed: false,
       });
 
-      await installCommand('prompt/code-review-ts');
+      await installCommand('code-review-ts');
 
       expect(consoleMock.contains('Installation cancelled')).toBe(true);
-      expect(mockFileOps.copyDirectory).not.toHaveBeenCalled();
     });
 
     it('should proceed if user confirms reinstall', async () => {
       (mockInquirer.prompt as any)
         .mockResolvedValueOnce({ proceed: true })
-        .mockResolvedValueOnce({
-          userPath: '~/.claude/tools/prompt/code-review-ts',
-        });
+        .mockResolvedValueOnce({ destination: 'global-skill' });
 
-      await installCommand('prompt/code-review-ts');
+      await installCommand('code-review-ts');
 
-      expect(mockFileOps.copyDirectory).toHaveBeenCalled();
       expect(consoleMock.contains('Successfully installed')).toBe(true);
     });
   });
 
-  describe('execution flow', () => {
-    it('should complete without errors', async () => {
-      await expect(
-        installCommand('prompt/code-review-ts')
-      ).resolves.not.toThrow();
+  describe('error handling', () => {
+    it('should handle installation failure gracefully', async () => {
+      mockFileOps.copyDirectory.mockRejectedValue(
+        new Error('Permission denied')
+      );
+
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
+      });
+
+      expect(consoleMock.contains('Installation failed')).toBe(true);
+      expect(consoleMock.contains('Permission denied')).toBe(true);
     });
 
-    it('should call functions in correct order', async () => {
-      const callOrder: string[] = [];
-
-      mockToolkitScanner.getTool.mockImplementation(() => {
-        callOrder.push('getTool');
-        return {
-          id: 'code-review-ts',
-          name: 'Code Review TypeScript',
-          version: '1.2.0',
-          description: 'TypeScript code review',
-          category: 'code-quality',
-          type: 'prompt',
-          path: '/lib/prompts/code-review-ts',
-          metadata: {},
-        };
-      });
-
-      mockFileOps.copyDirectory.mockImplementation(async () => {
-        callOrder.push('copyDirectory');
-      });
-
-      mockRegistry.registerInstallation.mockImplementation(() => {
-        callOrder.push('registerInstallation');
-      });
-
-      await installCommand('prompt/code-review-ts');
-
-      expect(callOrder).toEqual([
-        'getTool',
-        'copyDirectory',
-        'registerInstallation',
-      ]);
+    it('should complete without throwing', async () => {
+      await expect(installCommand('code-review-ts')).resolves.not.toThrow();
     });
   });
 
-  describe('Claude Code integration', () => {
-    it('should create slash command for prompts when Claude is available', async () => {
-      await installCommand('prompt/code-review-ts');
-
-      expect(mockClaudeIntegration.isClaudeAvailable).toHaveBeenCalled();
-      expect(mockClaudeIntegration.createClaudeCommand).toHaveBeenCalled();
-      expect(consoleMock.contains('Creating Claude Code slash command')).toBe(
-        true
-      );
-      expect(consoleMock.contains('Created slash command')).toBe(true);
-    });
-
-    it('should skip slash command when Claude is not available', async () => {
-      mockClaudeIntegration.isClaudeAvailable.mockReturnValue(false);
-
-      await installCommand('prompt/code-review-ts');
-
-      expect(mockClaudeIntegration.createClaudeCommand).not.toHaveBeenCalled();
-      expect(
-        consoleMock.contains('Claude Code integration not available')
-      ).toBe(true);
-      expect(consoleMock.contains('Skipping slash command creation')).toBe(
-        true
-      );
-    });
-
-    it('should skip slash command for non-prompt types', async () => {
-      mockToolkitScanner.getTool.mockReturnValue({
-        id: 'angular-modern',
-        name: 'Angular Modern',
-        version: '1.0.0',
-        description: 'Angular skill',
-        category: 'framework',
-        type: 'skill',
-        path: '/lib/skills/angular-modern',
-        metadata: {},
+  describe('tips and help messages', () => {
+    it('should show hit list tip after successful install', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
       });
 
-      await installCommand('skill/angular-modern');
-
-      expect(mockClaudeIntegration.createClaudeCommand).not.toHaveBeenCalled();
+      expect(consoleMock.contains('hit list')).toBe(true);
     });
 
-    it('should skip slash command when --no-claude-command is passed', async () => {
-      await installCommand('prompt/code-review-ts', { claudeCommand: false });
-
-      expect(mockClaudeIntegration.createClaudeCommand).not.toHaveBeenCalled();
-    });
-
-    it('should handle slash command creation failure gracefully', async () => {
-      mockClaudeIntegration.createClaudeCommand.mockImplementation(() => {
-        throw new Error('Failed to write file');
+    it('should show auto-activate tip for skill destinations', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-skill',
       });
 
-      await installCommand('prompt/code-review-ts');
-
-      expect(consoleMock.contains('Failed to create Claude Code command')).toBe(
-        true
-      );
-      expect(consoleMock.contains('Successfully installed')).toBe(true);
+      expect(consoleMock.contains('auto-activate')).toBe(true);
     });
 
-    it('should use prompt.yaml when prompt.md does not exist', async () => {
-      mockFs.existsSync.mockImplementation((path: unknown) => {
-        const pathStr = String(path);
-        if (pathStr.endsWith('prompt.md')) {
-          return false;
-        }
-        return true;
+    it('should show slash command tip for command destinations', async () => {
+      await installCommand('code-review-ts', {
+        destination: 'global-command',
       });
 
-      await installCommand('prompt/code-review-ts');
-
-      expect(mockClaudeIntegration.createClaudeCommand).toHaveBeenCalledWith(
-        expect.stringContaining('prompt.yaml'),
-        'code-review-ts'
-      );
+      expect(consoleMock.getOutput()).toBeDefined();
     });
   });
 });

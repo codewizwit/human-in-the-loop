@@ -1,0 +1,21 @@
+{
+  "id": "context-pack-builder",
+  "name": "Context Pack Builder",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Generates comprehensive context packs for frameworks, technologies, or domains with patterns, best practices, code examples, and anti-patterns. Use when user asks to \"create a context pack\", \"build a knowledge base\", or \"generate patterns guide\".",
+  "category": "meta",
+  "tags": [
+    "meta",
+    "context-pack",
+    "knowledge-base",
+    "patterns",
+    "best-practices",
+    "documentation"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

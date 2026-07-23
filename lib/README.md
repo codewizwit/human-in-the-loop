@@ -40,11 +40,11 @@ Safety mechanisms that enforce responsible AI usage, including input validation,
 
 **Examples**: Secret detection, rate limiting, permission enforcement
 
-### 🎓 Skills
+### 🎓 Skills (25 unified skills)
 
-Framework-specific expertise for Claude Code and GitHub Copilot. Each skill includes platform-native formats for automatic activation.
+Production-ready skills using the unified `skill.md` format with YAML frontmatter. Each skill directory contains `skill.md`, `metadata.json`, and `README.md`.
 
-**Examples**: Angular Modern (signals, standalone), Angular Legacy (NgModules, RxJS)
+**Available skills**: 1-on-1-prep, angular-legacy, angular-modern, api-design, api-documentation, aws-deployment-strategy, bdd-scenarios, bias-detection, code-review-empathy, code-review-ts, codebase-explainer, context-pack-builder, e2e-strategy, learning-path, nestjs-backend, nx-monorepo, pipeline-optimization, prompt-optimization, responsible-ai-audit, security-review, system-design-review, team-retrospective, test-coverage-analysis, unit-test-generator, user-story-breakdown
 
 ### 🎯 Context Packs
 
@@ -60,8 +60,11 @@ Install tools using the CLI:
 
 ```bash
 hit search "code review"
-hit install prompt/code-review-ts
+hit install code-review-ts
+hit install code-review-ts --destination ./my-project
 ```
+
+Run `hit install` with no arguments to launch the interactive skill browser.
 
 ## Contributing
 

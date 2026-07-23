@@ -15,31 +15,33 @@ This skill provides comprehensive guidance for building Angular applications usi
 - **Resource API** - Declarative data loading (Angular 19+)
 - **Modern Testing** - Testing signals and computed values
 
+## Usage Examples
+
+### Build a Signals-Based Component
+
+> "Create a product list component using Angular signals and modern control flow"
+
+Generates a standalone component with `signal()` for state, `computed()` for derived values, and `@for`/`@if` template syntax.
+
+### Migrate a Legacy Component
+
+> "Convert this NgModule-based component to standalone with signals"
+
+Refactors legacy `@Input()`/`@Output()` decorators to `input()`/`output()` functions, replaces structural directives with control flow syntax, and removes NgModule dependencies.
+
+### Add Reactive Data Loading
+
+> "Set up data loading with the resource API for this dashboard page"
+
+Creates a component using the Angular 19+ `resource()` API for declarative async data fetching with loading and error states.
+
 ## Installation
 
-### As Claude Code Skill
-
 ```bash
-hit install skill/angular-modern --as-skill
+hit install angular-modern
 ```
 
 This copies `skill.md` to `.claude/skills/angular-modern.md` for automatic activation when working with Angular code.
-
-### As GitHub Copilot Custom Instruction
-
-```bash
-hit install skill/angular-modern --as-copilot
-```
-
-This copies `copilot.md` to `.github/instructions/angular-modern.instructions.md` for GitHub Copilot integration.
-
-### As Documentation
-
-```bash
-hit install skill/angular-modern
-```
-
-Installs to `~/.claude/tools/skill/angular-modern/` for reference.
 
 ## Key Patterns
 

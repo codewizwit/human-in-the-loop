@@ -1,0 +1,21 @@
+{
+  "id": "bias-detection",
+  "name": "Bias Detection Analyzer",
+  "version": "3.0.0",
+  "type": "skill",
+  "description": "Analyzes AI-generated content and code for potential bias across protected characteristics. Use when user asks to \"check for bias\", \"detect bias\", or \"review for fairness\".",
+  "category": "governance",
+  "tags": [
+    "governance",
+    "bias-detection",
+    "fairness",
+    "ai-ethics",
+    "responsible-ai",
+    "inclusivity"
+  ],
+  "platforms": ["claude-code"],
+  "metadata": {
+    "author": "Human-in-the-Loop",
+    "license": "MIT"
+  }
+}

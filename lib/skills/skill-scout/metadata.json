@@ -1,0 +1,11 @@
+{
+  "id": "skill-scout",
+  "name": "Skill Scout",
+  "version": "3.0.0",
+  "description": "Analyze a codebase and session workflow for repetitive patterns, then generate concrete Claude Code skill recommendations with draft SKILL.md files.",
+  "category": "meta",
+  "type": "skill",
+  "author": "codewizwit",
+  "license": "MIT",
+  "tags": ["automation", "skills", "analysis", "meta", "claude-code"]
+}

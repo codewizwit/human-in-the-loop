@@ -1,16 +1,23 @@
 {
   "id": "angular-legacy",
   "name": "Angular Legacy",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "type": "skill",
-  "description": "Legacy Angular patterns (pre-16) with NgModules, lifecycle hooks, RxJS observables, and traditional change detection",
+  "description": "Applies traditional Angular patterns with NgModules, lifecycle hooks, decorators, structural directives, and RxJS observables. Use when user asks to \"maintain legacy Angular\", \"work with NgModules\", or mentions \"pre-Angular 16 patterns\".",
   "category": "framework",
-  "tags": ["angular", "typescript", "frontend", "rxjs", "ngrx", "legacy"],
-  "platforms": ["claude-code", "github-copilot"],
+  "tags": [
+    "angular",
+    "typescript",
+    "frontend",
+    "rxjs",
+    "ngrx",
+    "legacy",
+    "ngmodule",
+    "lifecycle-hooks"
+  ],
+  "platforms": ["claude-code"],
   "metadata": {
     "author": "Human-in-the-Loop",
-    "license": "MIT",
-    "frameworks": ["angular"]
-  },
-  "maxAngularVersion": "15.x"
+    "license": "MIT"
+  }
 }
